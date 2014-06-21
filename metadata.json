@@ -1,10 +1,10 @@
 {
   "author": "Edwin Biemond",
   "checksums": {
+    "Rakefile": "ac8049b75e27b40d47d3ecc48ee36a1c",
     "Gemfile": "76d0dbef618c4710acabc53e94fe3e3c",
     "manifests/install.pp": "08056b4a2848f06b5078169e733bdef8",
-    "README": "47028b25d29d921ee5225f71b0b91a7b",
-    "Modulefile": "d980c5d4322dea8a72990c08e9dd6fe2",
+    "Modulefile": "2eeeefa7f6b49b429b340ad109e63687",
     ".travis.yml": "6a2d67943b7b13baefae21bcced9f677",
     "templates/wildfly-init-redhat.sh.erb": "acc789866b386c69807a0b17341667d9",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
@@ -14,7 +14,8 @@
     "manifests/init.pp": "fa120499bc19fe9112834df5acd4df4b",
     "templates/wildfly.conf.erb": "126afee131deeff33b1867e251a67216",
     "templates/wildfly-init-debian.sh.erb": "fc14c20a9802c50ded67867d60628492",
-    ".pydevproject": "672bd9110588bad7c7fa27ccb50f7c33"
+    ".pydevproject": "672bd9110588bad7c7fa27ccb50f7c33",
+    "README.md": "47028b25d29d921ee5225f71b0b91a7b"
   },
   "dependencies": [],
   "description": "downloads, installs and configures jboss wildfly 8.X",
@@ -23,6 +24,74 @@
   "project_page": "",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "20"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11 SP1"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "10.04",
+        "12.04",
+        "14.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    }
+  ],
   "types": [],
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
