@@ -5,12 +5,12 @@ class wildfly::install(
   $install_source  = undef,
   $install_file    = undef,
   $java_home       = undef,
-  $group           = $wildfly::params::wildfly_group,
-  $user            = $wildfly::params::wildfly_user,
-  $dirname         = $wildfly::params::wildfly_dirname,
-  $service_file    = $wildfly::params::wildfly_service_file,
-  $mode            = $wildfly::params::wildfly_mode,
-  $config          = $wildfly::params::wildfly_config,
+  $group           = $wildfly::params::group,
+  $user            = $wildfly::params::user,
+  $dirname         = $wildfly::params::dirname,
+  $service_file    = $wildfly::params::service_file,
+  $mode            = $wildfly::params::mode,
+  $config          = $wildfly::params::config,
 ) inherits wildfly::params  {
 
   group { $group :
@@ -76,7 +76,6 @@ class wildfly::install(
     content    => template("wildfly/${service_file}"),
   }
 
-
   file{'/etc/default/wildfly.conf':
     ensure     => present,
     mode       => '0755',
@@ -85,5 +84,13 @@ class wildfly::install(
     content    => template("wildfly/wildfly.conf.erb"),
   }
 
+  service { "wildfly":
+    name       => "wildfly",
+    enable     => true,
+    ensure     => true,
+    require    => [File['/etc/init.d/wildfly'],
+                   File['/etc/default/wildfly.conf'],
+                   Exec["tar ${install_file} in /var/tmp"],]
+  }
 
 }

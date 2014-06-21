@@ -3,7 +3,7 @@
   "checksums": {
     "Rakefile": "ac8049b75e27b40d47d3ecc48ee36a1c",
     "Gemfile": "76d0dbef618c4710acabc53e94fe3e3c",
-    "manifests/install.pp": "08056b4a2848f06b5078169e733bdef8",
+    "manifests/install.pp": "4f895dc6e58e6ad75c162b4a64c5270e",
     "Modulefile": "2eeeefa7f6b49b429b340ad109e63687",
     ".travis.yml": "6a2d67943b7b13baefae21bcced9f677",
     "templates/wildfly-init-redhat.sh.erb": "acc789866b386c69807a0b17341667d9",
@@ -24,74 +24,6 @@
   "project_page": "",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "operatingsystem_support": [
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "5",
-        "6",
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "Fedora",
-      "operatingsystemrelease": [
-        "20"
-      ]
-    },
-    {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "5",
-        "6"
-      ]
-    },
-    {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
-        "5",
-        "6"
-      ]
-    },
-    {
-      "operatingsystem": "Scientific",
-      "operatingsystemrelease": [
-        "5",
-        "6"
-      ]
-    },
-    {
-      "operatingsystem": "SLES",
-      "operatingsystemrelease": [
-        "11 SP1"
-      ]
-    },
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "6",
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "10.04",
-        "12.04",
-        "14.04"
-      ]
-    }
-  ],
-  "requirements": [
-    {
-      "name": "pe",
-      "version_requirement": "3.x"
-    },
-    {
-      "name": "puppet",
-      "version_requirement": "3.x"
-    }
-  ],
   "types": [],
   "version": "0.1.1"
 }
