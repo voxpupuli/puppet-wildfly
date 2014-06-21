@@ -1,30 +1,41 @@
 #
 #
-class wildfly::install() inherits wildfly {
+class wildfly::install(  
+   $version         = '8.1.0',
+   $install_source  = undef,
+   $install_file    = undef,
+   $java_home       = undef,
+   $group           = $wildfly::params::wildfly_group,
+   $user            = $wildfly::params::wildfly_user,
+   $dirname         = $wildfly::params::wildfly_dirname,
+   $service_file    = $wildfly::params::wildfly_service_file,
+   $mode            = $wildfly::params::wildfly_mode,
+   $config          = $wildfly::params::wildfly_config,
+) inherits wildfly::params  {
 
-  group { $wildfly::wildfly_group :
+  group { $group :
     ensure => present,
   }
 
   # http://raftaman.net/?p=1311 for generating password
   # password = wildfly
-  user { $wildfly::wildfly_user :
+  user { $user :
     ensure     => present,
-    groups     => $wildfly::wildfly_group,
+    groups     => $group,
     shell      => '/bin/bash',
     password   => '$1$d0AuSVPS$WhuUjhtX3ejUHxQQImEkk/',
-    home       => "/home/${wildfly::wildfly_user}",
-    comment    => "${wildfly::wildfly_user} user created by Puppet",
+    home       => "/home/${user}",
+    comment    => "$user} user created by Puppet",
     managehome => true,
-    require    => Group[$wildfly::wildfly_group],
+    require    => Group[$group],
   }
 
-  file{$wildfly::wildfly_dirname :
+  file{$dirname :
     ensure     => directory,
-    owner      => $wildfly::wildfly_user,
-    group      => $wildfly::wildfly_group,
+    owner      => $user,
+    group      => $group,
     mode       => '0755',
-    require    => User[$wildfly::wildfly_user],
+    require    => User[$user],
   }
 
   if !defined(Package['libaio']) {
@@ -35,42 +46,36 @@ class wildfly::install() inherits wildfly {
   if !defined(Package['wget']) {
     package { 'wget':
       ensure  => present,
-      before  => Exec["Retrieve ${wildfly::source} in /var/tmp"],  
+      before  => Exec["Retrieve ${install_source} in /var/tmp"],  
     }
   }
 
-  exec { "Retrieve ${wildfly::source} in /var/tmp":
+  exec { "Retrieve ${install_source} in /var/tmp":
     cwd         => '/var/tmp',
-    command     => "wget  -c --no-cookies --no-check-certificate \"${wildfly::install_source}\" -O ${wildfly::install_file}",
-    creates     => "/var/tmp/${wildfly::install_file}",
+    command     => "wget  -c --no-cookies --no-check-certificate \"${install_source}\" -O ${install_file}",
+    creates     => "/var/tmp/${install_file}",
     path        => '/bin:/sbin:/usr/bin:/usr/sbin',
   }
 
-  exec { "tar ${wildfly::install_file} in /var/tmp":
+  exec { "tar ${install_file} in /var/tmp":
     cwd         => '/var/tmp',
-    command     => "tar xzf ${wildfly::install_file} -C ${wildfly::wildfly_dirname} --strip 1",
+    command     => "tar xzf ${install_file} -C ${dirname} --strip 1",
     path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-    require     => [Exec["Retrieve ${wildfly::source} in /var/tmp"],
-                    File[$wildfly::wildfly_dirname],],
-    creates     => "${wildfly::wildfly_dirname}/jboss-modules.jar",                
-    user        => $wildfly::wildfly_user,
-    group       => $wildfly::wildfly_group,
+    require     => [Exec["Retrieve ${install_source} in /var/tmp"],
+                    File[$dirname],],
+    creates     => "${dirname}/jboss-modules.jar",                
+    user        => $user,
+    group       => $group,
   }
 
-  file{'/etc/init.d/wildfly-init.sh':
+  file{'/etc/init.d/wildfly':
     ensure     => present,
     mode       => '0755',
     owner      => 'root',
     group      => 'root',
-    content    => template("wildfly/${wildfly::wildfly_service_file}"),
+    content    => template("wildfly/${service_file}"),
   }
 
-  $java_home       = $wildfly::java_home
-  $wildfly_group   = $wildfly::wildfly_group
-  $wildfly_user    = $wildfly::wildfly_user
-  $wildfly_dirname = $wildfly::wildfly_dirname
-  $wildfly_mode    = $wildfly::wildfly_mode
-  $wildfly_config  = $wildfly::wildfly_config
 
   file{'/etc/default/wildfly.conf':
     ensure     => present,

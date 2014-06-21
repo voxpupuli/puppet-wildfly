@@ -102,16 +102,12 @@ start() {
   #$CMD_PREFIX JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT 2>&1 >> $JBOSS_CONSOLE_LOG &
   #$CMD_PREFIX JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT &
 
-  echo "1 ${JBOSS_USER}" 
 
   if [ ! -z "$JBOSS_USER" ]; then
     if [ "$JBOSS_MODE" = "standalone" ]; then
-      echo "1"
       if [ -r /etc/rc.d/init.d/functions ]; then
-        echo "2"
         daemon --user $JBOSS_USER LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT -c $JBOSS_CONFIG >> $JBOSS_CONSOLE_LOG 2>&1 &
       else
-        echo "3"
         su - $JBOSS_USER -c "LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT -c $JBOSS_CONFIG" >> $JBOSS_CONSOLE_LOG 2>&1 &
       fi
     else

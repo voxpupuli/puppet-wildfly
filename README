@@ -10,7 +10,7 @@ Should work on every Redhat or Debian family member and tested it with Wildfly 8
 ##Usage
 
 
-    class { 'wildfly':
+    class { 'wildfly::install':
       version        => '8.1.0',
       install_source => 'http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz',
       install_file   => 'wildfly-8.1.0.Final.tar.gz',
@@ -19,9 +19,22 @@ Should work on every Redhat or Debian family member and tested it with Wildfly 8
 
 or 
 
-    class { 'wildfly':
+    class { 'wildfly::install':
       version        => '8.0.0',
       install_source => 'http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz',
       install_file   => 'wildfly-8.0.0.Final.tar.gz',
       java_home      => '/opt/jdk-8',
     }
+
+or 
+
+    class { 'wildfly::install':
+      version        => '8.0.0',
+      install_source => 'http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz',
+      install_file   => 'wildfly-8.0.0.Final.tar.gz',
+      java_home      => '/opt/jdk-8',
+      group           = 'wildfly',
+      user            = 'wildfly',
+      dirname         = '/opt/wildfly',
+    }
+    

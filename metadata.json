@@ -1,0 +1,28 @@
+{
+  "author": "Edwin Biemond",
+  "checksums": {
+    "Gemfile": "76d0dbef618c4710acabc53e94fe3e3c",
+    "manifests/install.pp": "08056b4a2848f06b5078169e733bdef8",
+    "README": "47028b25d29d921ee5225f71b0b91a7b",
+    "Modulefile": "d980c5d4322dea8a72990c08e9dd6fe2",
+    ".travis.yml": "6a2d67943b7b13baefae21bcced9f677",
+    "templates/wildfly-init-redhat.sh.erb": "acc789866b386c69807a0b17341667d9",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "spec/spec_helper.rb": "33e15d1250229a0b2b5aabd121ed73d4",
+    ".fixtures.yml": "ab18829c01b0300ae4def780e625cd85",
+    "manifests/params.pp": "6d42966546e586df3e937e8ed71d0a80",
+    "manifests/init.pp": "fa120499bc19fe9112834df5acd4df4b",
+    "templates/wildfly.conf.erb": "126afee131deeff33b1867e251a67216",
+    "templates/wildfly-init-debian.sh.erb": "fc14c20a9802c50ded67867d60628492",
+    ".pydevproject": "672bd9110588bad7c7fa27ccb50f7c33"
+  },
+  "dependencies": [],
+  "description": "downloads, installs and configures jboss wildfly 8.X",
+  "license": "Apache License, Version 2.0",
+  "name": "biemond-wildfly",
+  "project_page": "",
+  "source": "https://github.com/biemond/biemond-wildfly",
+  "summary": "JBoss Wildfly puppet module",
+  "types": [],
+  "version": "0.1.0"
+}

@@ -9,7 +9,8 @@ class wildfly::params {
   $wildfly_service_file  = $::osfamily? {
     Debian => 'wildfly-init-debian.sh.erb',
     RedHat => 'wildfly-init-redhat.sh.erb',
-  }
+    default => 'wildfly-init-redhat.sh.erb',
+  } 
 
   # => Wildfly Deployment Type (standalone or domain)
   $wildfly_mode = 'standalone'
