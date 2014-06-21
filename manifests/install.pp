@@ -1,16 +1,16 @@
 #
 #
 class wildfly::install(  
-   $version         = '8.1.0',
-   $install_source  = undef,
-   $install_file    = undef,
-   $java_home       = undef,
-   $group           = $wildfly::params::wildfly_group,
-   $user            = $wildfly::params::wildfly_user,
-   $dirname         = $wildfly::params::wildfly_dirname,
-   $service_file    = $wildfly::params::wildfly_service_file,
-   $mode            = $wildfly::params::wildfly_mode,
-   $config          = $wildfly::params::wildfly_config,
+  $version         = '8.1.0',
+  $install_source  = undef,
+  $install_file    = undef,
+  $java_home       = undef,
+  $group           = $wildfly::params::wildfly_group,
+  $user            = $wildfly::params::wildfly_user,
+  $dirname         = $wildfly::params::wildfly_dirname,
+  $service_file    = $wildfly::params::wildfly_service_file,
+  $mode            = $wildfly::params::wildfly_mode,
+  $config          = $wildfly::params::wildfly_config,
 ) inherits wildfly::params  {
 
   group { $group :
@@ -25,7 +25,7 @@ class wildfly::install(
     shell      => '/bin/bash',
     password   => '$1$d0AuSVPS$WhuUjhtX3ejUHxQQImEkk/',
     home       => "/home/${user}",
-    comment    => "$user} user created by Puppet",
+    comment    => "${user} user created by Puppet",
     managehome => true,
     require    => Group[$group],
   }
