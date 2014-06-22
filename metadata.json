@@ -4,7 +4,7 @@
     "Rakefile": "ac8049b75e27b40d47d3ecc48ee36a1c",
     "Gemfile": "76d0dbef618c4710acabc53e94fe3e3c",
     "manifests/install.pp": "d84e373bed6071fbb783d4c54c78af5b",
-    "Modulefile": "bb4cb05e86ee65818d22a6f8dcc2a6b4",
+    "Modulefile": "9d9e544b7561f5bbd9257184e7d40ec7",
     ".travis.yml": "6a2d67943b7b13baefae21bcced9f677",
     "templates/wildfly-init-redhat.sh.erb": "acc789866b386c69807a0b17341667d9",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
@@ -16,7 +16,7 @@
     "templates/mgmt-users.properties.erb": "9ddae5e52c7d7d933a18fa5c435c8995",
     "templates/wildfly-init-debian.sh.erb": "fc14c20a9802c50ded67867d60628492",
     ".pydevproject": "672bd9110588bad7c7fa27ccb50f7c33",
-    "README.md": "09dc19d7959c9376c8599ce7990ea143"
+    "README.md": "83d5fa27837c543aed76a597383b7934"
   },
   "dependencies": [],
   "description": "downloads, installs and configures jboss wildfly 8.X",
@@ -26,5 +26,5 @@
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
   "types": [],
-  "version": "0.1.2"
+  "version": "0.1.3"
 }
