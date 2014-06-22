@@ -23,11 +23,10 @@ class wildfly::params {
   $public_http_port  = '8080'
   $public_https_port = '8443'
 
-  $wsdl_bind         = '0.0.0.0'
   $ajp_port          = '8009'
 
   $java_xmx          = '512m'
-  $java_xms          = '64m'
+  $java_xms          = '128m'
   $java_maxpermsize  = '256m'
 
   $users_mgmt = { 
