@@ -66,6 +66,7 @@ class wildfly::install(
     command     => "wget  -c --no-cookies --no-check-certificate \"${install_source}\" -O ${install_file}",
     creates     => "/var/tmp/${install_file}",
     path        => '/bin:/sbin:/usr/bin:/usr/sbin',
+    timeout     => 600,
   }
 
   exec { "tar ${install_file} in /var/tmp":
