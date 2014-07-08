@@ -1,5 +1,5 @@
 name    'biemond-wildfly'
-version '0.1.3'
+version '0.1.4'
 source 'https://github.com/biemond/biemond-wildfly'
 author 'Edwin Biemond'
 license 'Apache License, Version 2.0'

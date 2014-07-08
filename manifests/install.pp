@@ -49,8 +49,14 @@ class wildfly::install(
     require    => User[$user],
   }
 
-  if !defined(Package['libaio1']) {
-    package { 'libaio1':
+  $libaiopackage  = $::osfamily ? { 
+    'RedHat' => "libaio",
+    'Debian' => "libaio1",
+    default  => "libaio",
+  }
+
+  if !defined(Package[$libaiopackage]) {
+    package { $libaiopackage:
       ensure  => present,
     }
   }
@@ -66,7 +72,7 @@ class wildfly::install(
     command     => "wget  -c --no-cookies --no-check-certificate \"${install_source}\" -O ${install_file}",
     creates     => "/var/tmp/${install_file}",
     path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-    timeout     => 600,
+    timeout     => 900,
   }
 
   exec { "tar ${install_file} in /var/tmp":
