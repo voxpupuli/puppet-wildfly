@@ -1,6 +1,6 @@
 #
 #
-class wildfly::install(  
+class wildfly::install(
   $version           = '8.1.0',
   $install_source    = undef,
   $install_file      = undef,
@@ -49,15 +49,15 @@ class wildfly::install(
     require    => User[$user],
   }
 
-  if !defined(Package['libaio']) {
-    package { 'libaio':
+  if !defined(Package['libaio1']) {
+    package { 'libaio1':
       ensure  => present,
     }
   }
   if !defined(Package['wget']) {
     package { 'wget':
       ensure  => present,
-      before  => Exec["Retrieve ${install_source} in /var/tmp"],  
+      before  => Exec["Retrieve ${install_source} in /var/tmp"],
     }
   }
 
@@ -75,12 +75,12 @@ class wildfly::install(
     path        => '/bin:/sbin:/usr/bin:/usr/sbin',
     require     => [Exec["Retrieve ${install_source} in /var/tmp"],
                     File[$dirname],],
-    creates     => "${dirname}/jboss-modules.jar",                
+    creates     => "${dirname}/jboss-modules.jar",
     user        => $user,
     group       => $group,
   }
 
-  # file /opt/wildfly/bin/standalone.conf 
+  # file /opt/wildfly/bin/standalone.conf
   # default JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m
   exec { "replace memory parameters":
     command => "sed -i -e's/\\-Xms64m \\-Xmx512m \\-XX:MaxPermSize=256m/\\-Xms${java_xms} \\-Xmx${java_xmx} \\-XX:MaxPermSize=${java_maxpermsize}/g' ${dirname}/bin/standalone.conf",
@@ -90,12 +90,12 @@ class wildfly::install(
     before  => Service["wildfly"],
   }
 
-  Exec["replace management bind"] -> 
+  Exec["replace management bind"] ->
     Exec["replace public bind"] ->
       Exec["replace management http port"] ->
         Exec["replace management https port"] ->
           Exec["replace http port"] ->
-            Exec["replace https port"] -> 
+            Exec["replace https port"] ->
               Exec["replace ajp port"]
 
   exec { "replace management bind":
