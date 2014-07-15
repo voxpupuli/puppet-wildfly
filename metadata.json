@@ -1,30 +1,78 @@
 {
   "author": "Edwin Biemond",
-  "checksums": {
-    "Rakefile": "ac8049b75e27b40d47d3ecc48ee36a1c",
-    "Gemfile": "76d0dbef618c4710acabc53e94fe3e3c",
-    "manifests/install.pp": "0083ba1fcb12dc8040638b274de13208",
-    "Modulefile": "ffc4d71a221f894a69c0e203ebac7ab5",
-    ".travis.yml": "6a2d67943b7b13baefae21bcced9f677",
-    "templates/wildfly-init-redhat.sh.erb": "acc789866b386c69807a0b17341667d9",
-    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
-    "spec/spec_helper.rb": "33e15d1250229a0b2b5aabd121ed73d4",
-    ".fixtures.yml": "ab18829c01b0300ae4def780e625cd85",
-    "manifests/params.pp": "7bbc2a8d97920ac3bc6c1aacef448df1",
-    "manifests/init.pp": "fa120499bc19fe9112834df5acd4df4b",
-    "templates/wildfly.conf.erb": "126afee131deeff33b1867e251a67216",
-    "templates/mgmt-users.properties.erb": "9ddae5e52c7d7d933a18fa5c435c8995",
-    "templates/wildfly-init-debian.sh.erb": "fc14c20a9802c50ded67867d60628492",
-    ".pydevproject": "672bd9110588bad7c7fa27ccb50f7c33",
-    "README.md": "83d5fa27837c543aed76a597383b7934"
-  },
   "dependencies": [],
   "description": "downloads, installs and configures jboss wildfly 8.X",
   "license": "Apache License, Version 2.0",
   "name": "biemond-wildfly",
-  "project_page": "",
+  "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "types": [],
-  "version": "0.1.4"
+  "version": "0.1.5",
+  "tags": ["jboss", "jdk8", "wildfly","java", "jdk7"],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "4",
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "4",
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11 SP1"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "10.04",
+        "12.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": ">=2.7.20"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": ">=2.7.20"
+    }
+  ]   
 }
