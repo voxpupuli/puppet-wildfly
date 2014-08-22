@@ -7,6 +7,9 @@ created by Edwin Biemond email biemond at gmail dot com
 
 Should work on every Redhat or Debian family member and tested it with Wildfly 8.1.0 & 8.0.0
 
+##Dependency
+This module requires a JVM ( should already be there )
+
 ## module defaults
 - group             wildfly
 - user              wildfly
