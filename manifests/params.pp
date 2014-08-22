@@ -10,7 +10,7 @@ class wildfly::params {
     Debian  => 'wildfly-init-debian.sh.erb',
     RedHat  => 'wildfly-init-redhat.sh.erb',
     default => 'wildfly-init-redhat.sh.erb',
-  } 
+  }
 
   $mode              = 'standalone'
   $config            = 'standalone-full.xml'
@@ -29,9 +29,9 @@ class wildfly::params {
   $java_xms          = '128m'
   $java_maxpermsize  = '256m'
 
-  $users_mgmt = { 
-    'wildfly' => { 
-      username => 'wildfly', 
+  $users_mgmt = {
+    'wildfly' => {
+      username => 'wildfly',
       password => '2c6368f4996288fcc621c5355d3e39b7',
     },
   }
