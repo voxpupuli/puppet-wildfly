@@ -42,11 +42,11 @@ class wildfly::install(
   }
 
   file{$dirname :
-    ensure     => directory,
-    owner      => $user,
-    group      => $group,
-    mode       => '0755',
-    require    => User[$user],
+    ensure  => directory,
+    owner   => $user,
+    group   => $group,
+    mode    => '0755',
+    require => User[$user],
   }
 
   $libaiopackage  = $::osfamily ? {
@@ -57,33 +57,32 @@ class wildfly::install(
 
   if !defined(Package[$libaiopackage]) {
     package { $libaiopackage:
-      ensure  => present,
+      ensure => present,
     }
   }
   if !defined(Package['wget']) {
     package { 'wget':
-      ensure  => present,
-      before  => Exec["Retrieve ${install_source} in /var/tmp"],
+      ensure => present,
+      before => Exec["Retrieve ${install_source} in /var/tmp"],
     }
   }
 
   exec { "Retrieve ${install_source} in /var/tmp":
-    cwd         => '/var/tmp',
-    command     => "wget  -c --no-cookies --no-check-certificate \"${install_source}\" -O ${install_file}",
-    creates     => "/var/tmp/${install_file}",
-    path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-    timeout     => 900,
+    cwd     => '/var/tmp',
+    command => "wget  -c --no-cookies --no-check-certificate \"${install_source}\" -O ${install_file}",
+    creates => "/var/tmp/${install_file}",
+    path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+    timeout => 900,
   }
 
   exec { "tar ${install_file} in /var/tmp":
-    cwd         => '/var/tmp',
-    command     => "tar xzf ${install_file} -C ${dirname} --strip 1",
-    path        => '/bin:/sbin:/usr/bin:/usr/sbin',
-    require     => [Exec["Retrieve ${install_source} in /var/tmp"],
-                    File[$dirname],],
-    creates     => "${dirname}/jboss-modules.jar",
-    user        => $user,
-    group       => $group,
+    cwd     => '/var/tmp',
+    command => "tar xzf ${install_file} -C ${dirname} --strip 1",
+    path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+    require => [Exec["Retrieve ${install_source} in /var/tmp"],File[$dirname],],
+    creates => "${dirname}/jboss-modules.jar",
+    user    => $user,
+    group   => $group,
   }
 
   # file /opt/wildfly/bin/standalone.conf
@@ -161,35 +160,35 @@ class wildfly::install(
   }
 
   file{"${dirname}/standalone/configuration/mgmt-users.properties":
-    ensure     => present,
-    mode       => '0755',
-    owner      => $user,
-    group      => $group,
-    content    => template('wildfly/mgmt-users.properties.erb'),
-    before     => Service['wildfly'],
+    ensure  => present,
+    mode    => '0755',
+    owner   => $user,
+    group   => $group,
+    content => template('wildfly/mgmt-users.properties.erb'),
+    before  => Service['wildfly'],
   }
 
   file{'/etc/init.d/wildfly':
-    ensure     => present,
-    mode       => '0755',
-    owner      => 'root',
-    group      => 'root',
-    content    => template("wildfly/${service_file}"),
+    ensure  => present,
+    mode    => '0755',
+    owner   => 'root',
+    group   => 'root',
+    content => template("wildfly/${service_file}"),
   }
 
-  file{'/etc/default/wildfly.conf':
-    ensure     => present,
-    mode       => '0755',
-    owner      => 'root',
-    group      => 'root',
-    content    => template('wildfly/wildfly.conf.erb'),
+  file{'/etc/default/wildfly':
+    ensure  => present,
+    mode    => '0755',
+    owner   => 'root',
+    group   => 'root',
+    content => template('wildfly/wildfly.conf.erb'),
   }
 
   service { 'wildfly':
-    ensure     => true,
-    name       => 'wildfly',
-    enable     => true,
-    require    => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly.conf'],Exec["tar ${install_file} in /var/tmp"],]
+    ensure  => true,
+    name    => 'wildfly',
+    enable  => true,
+    require => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly'],Exec["tar ${install_file} in /var/tmp"],]
   }
 
 }
