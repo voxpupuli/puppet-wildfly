@@ -6,7 +6,7 @@
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "tags": ["jboss", "jdk8", "wildfly","java", "jdk7"],
   "operatingsystem_support": [
     {
@@ -73,5 +73,5 @@
       "name": "puppet",
       "version_requirement": ">=2.7.20"
     }
-  ]   
+  ]
 }

@@ -3,13 +3,13 @@ require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet-lint/tasks/puppet-lint'
 require 'puppet-syntax/tasks/puppet-syntax'
 require 'pathname'
+require 'ci/reporter/rake/rspec'
 
 desc "Run the tests"
 RSpec::Core::RakeTask.new(:test) do |t|
   t.rspec_opts = ['--color', '-f d']
   t.pattern = 'spec/*/*_spec.rb'
 end
-
 
 PuppetLint.configuration.send("disable_80chars")
 # PuppetLint.configuration.send("disable_right_to_left_relationship")
@@ -25,7 +25,7 @@ PuppetLint.configuration.send("disable_variable_scope")
 # PuppetLint.configuration.send("disable_selector_inside_resource")
 PuppetLint.configuration.send("disable_case_without_default")
 # PuppetLint.configuration.send("disable_documentation")
-PuppetLint.configuration.send("disable_double_quoted_strings")
+# PuppetLint.configuration.send("disable_double_quoted_strings")
 # PuppetLint.configuration.send("disable_only_variable_string")
 # PuppetLint.configuration.send("disable_variables_not_enclosed")
 # PuppetLint.configuration.send("disable_single_quote_string_with_variables")
@@ -33,7 +33,7 @@ PuppetLint.configuration.send("disable_double_quoted_strings")
 #--no-puppet_url_without_modules
 # PuppetLint.configuration.send("disable_variable_contains_dash")
 # PuppetLint.configuration.send("disable_hard_tabs")
-PuppetLint.configuration.send("disable_trailing_whitespace")
+# PuppetLint.configuration.send("disable_trailing_whitespace")
 # PuppetLint.configuration.send("disable_2sp_soft_tabs")
 # PuppetLint.configuration.send("disable_arrow_alignment")
 # PuppetLint.configuration.send("disable_unquoted_resource_title")

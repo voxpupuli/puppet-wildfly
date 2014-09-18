@@ -165,6 +165,7 @@ class wildfly::install(
     owner   => $user,
     group   => $group,
     content => template('wildfly/mgmt-users.properties.erb'),
+    require => Exec["tar ${install_file} in /var/tmp"],
     before  => Service['wildfly'],
   }
 
@@ -188,7 +189,8 @@ class wildfly::install(
     ensure  => true,
     name    => 'wildfly',
     enable  => true,
-    require => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly'],Exec["tar ${install_file} in /var/tmp"],]
+    require => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly'],
+                Exec["tar ${install_file} in /var/tmp"],]
   }
 
 }

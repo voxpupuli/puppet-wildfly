@@ -1,9 +1,9 @@
 #Wildfly JBoss puppet module
 [![Build Status](https://travis-ci.org/biemond/biemond-wildfly.png)](https://travis-ci.org/biemond/biemond-wildfly)
 
-created by Edwin Biemond email biemond at gmail dot com   
-[biemond.blogspot.com](http://biemond.blogspot.com)    
-[Github homepage](https://github.com/biemond/biemond-wildfly)  
+created by Edwin Biemond email biemond at gmail dot com
+[biemond.blogspot.com](http://biemond.blogspot.com)
+[Github homepage](https://github.com/biemond/biemond-wildfly)
 
 Should work on every Redhat or Debian family member and tested it with Wildfly 8.1.0 & 8.0.0
 
@@ -68,4 +68,3 @@ or you can override a paramater
       users_mgmt        => { 'wildfly' => { username => 'wildfly', password => '2c6368f4996288fcc621c5355d3e39b7'}},
     }
 
-    
