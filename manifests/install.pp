@@ -28,13 +28,10 @@ class wildfly::install(
     ensure => present,
   }
 
-  # http://raftaman.net/?p=1311 for generating password
-  # password = wildfly
   user { $user :
     ensure     => present,
     groups     => $group,
     shell      => '/bin/bash',
-    password   => '$1$d0AuSVPS$WhuUjhtX3ejUHxQQImEkk/',
     home       => "/home/${user}",
     comment    => "${user} user created by Puppet",
     managehome => true,
