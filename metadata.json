@@ -8,7 +8,7 @@
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "tags": [
     "jboss",
     "jdk8",
