@@ -5,7 +5,7 @@ created by Edwin Biemond email biemond at gmail dot com
 [biemond.blogspot.com](http://biemond.blogspot.com)
 [Github homepage](https://github.com/biemond/biemond-wildfly)
 
-Should work on every Redhat or Debian family member and tested it with Wildfly 8.1.0 & 8.0.0
+Should work on every Redhat or Debian family member, tested it with Wildfly 8.2, 8.1 & 8.0
 
 ##Dependency
 This module requires a JVM ( should already be there )
@@ -28,6 +28,15 @@ This module requires a JVM ( should already be there )
 
 
 ##Usage
+
+    class { 'wildfly::install':
+      version        => '8.2.0',
+      install_source => 'http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz',
+      install_file   => 'wildfly-8.2.0.Final.tar.gz',
+      java_home      => '/opt/jdk-8',
+    }
+
+or for wildfly 8.1.0
 
     class { 'wildfly::install':
       version        => '8.1.0',
