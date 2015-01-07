@@ -1,7 +1,7 @@
 #
 #
 class wildfly::install(
-  $version           = '8.1.0',
+  $version           = '8.2.0',
   $install_source    = undef,
   $install_file      = undef,
   $java_home         = undef,
