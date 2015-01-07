@@ -3,7 +3,7 @@
   "dependencies": [
 
   ],
-  "license": "Apache License, Version 2.0",
+  "license": "Apache-2.0",
   "name": "biemond-wildfly",
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
