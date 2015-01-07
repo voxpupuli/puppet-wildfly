@@ -8,9 +8,12 @@ platform :ruby_19, :ruby_20 do
 end
 gem 'puppet-lint'
 gem 'puppet', puppetversion
-gem 'rspec-puppet', :github =>'rodjek/rspec-puppet'
+gem 'rspec-puppet', :git =>'https://github.com/rodjek/rspec-puppet'
 gem 'rspec-system-puppet'
 gem 'puppetlabs_spec_helper'
 gem 'puppet-syntax'
 gem 'facter', '>= 1.6.10'
 gem 'ci_reporter_rspec'
+gem 'rubocop', :git => 'https://github.com/bbatsov/rubocop',  :require => false
+gem 'puppet-blacksmith'
+

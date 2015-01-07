@@ -1,13 +1,21 @@
 {
   "author": "Edwin Biemond",
-  "dependencies": [],
+  "dependencies": [
+
+  ],
   "license": "Apache License, Version 2.0",
   "name": "biemond-wildfly",
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
   "version": "0.1.8",
-  "tags": ["jboss", "jdk8", "wildfly","java", "jdk7"],
+  "tags": [
+    "jboss",
+    "jdk8",
+    "wildfly",
+    "java",
+    "jdk7"
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
