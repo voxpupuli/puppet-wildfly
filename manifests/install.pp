@@ -85,9 +85,9 @@ class wildfly::install(
   # file /opt/wildfly/bin/standalone.conf
   # default JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m
   exec { 'replace memory parameters':
-    command => "sed -i -e's/\\-Xms64m \\-Xmx512m \\-XX:MaxPermSize=256m/\\-Xms${java_xms} \\-Xmx${java_xmx} \\-XX:MaxPermSize=${java_maxpermsize}/g' ${dirname}/bin/standalone.conf",
+    command => "sed -i -e's/\\-Xms.*m \\-Xmx.*m \\-XX:MaxPermSize=.*m/\\-Xms${java_xms} \\-Xmx${java_xmx} \\-XX:MaxPermSize=${java_maxpermsize}/g' ${dirname}/bin/standalone.conf",
     path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-    onlyif  => "grep '\\-Xms64m \\-Xmx512m \\-XX:MaxPermSize=256m' ${dirname}/bin/standalone.conf",
+    unless  => "grep '\\-Xms${java_xms} \\-Xmx${java_xmx} \\-XX:MaxPermSize=${java_maxpermsize}' ${dirname}/bin/standalone.conf",
     require => Exec["tar ${install_file} in /var/tmp"],
     before  => Service['wildfly'],
   }
@@ -119,7 +119,7 @@ class wildfly::install(
   exec { 'replace management http port':
     command => "sed -i -e's/jboss.management.http.port:9990/jboss.management.http.port:${mgmt_http_port}/g' ${dirname}/standalone/configuration/${config}",
     path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-    onlyif  => "grep 'jboss.management.http.port:9990' ${dirname}/standalone/configuration/${config}",
+    unless  => "grep 'jboss.management.http.port:${mgmt_http_port}' ${dirname}/standalone/configuration/${config}",
     require => Exec["tar ${install_file} in /var/tmp"],
     before  => Service['wildfly'],
   }
@@ -127,7 +127,7 @@ class wildfly::install(
   exec { 'replace management https port':
     command => "sed -i -e's/jboss.management.https.port:9993/jboss.management.https.port:${mgmt_https_port}/g' ${dirname}/standalone/configuration/${config}",
     path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-    onlyif  => "grep 'jboss.management.https.port:9993' ${dirname}/standalone/configuration/${config}",
+    unless  => "grep 'jboss.management.https.port:${mgmt_https_port}' ${dirname}/standalone/configuration/${config}",
     require => Exec["tar ${install_file} in /var/tmp"],
     before  => Service['wildfly'],
   }
@@ -135,7 +135,7 @@ class wildfly::install(
   exec { 'replace http port':
     command => "sed -i -e's/jboss.http.port:8080/jboss.http.port:${public_http_port}/g' ${dirname}/standalone/configuration/${config}",
     path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-    onlyif  => "grep 'jboss.http.port:8080' ${dirname}/standalone/configuration/${config}",
+    unless  => "grep 'jboss.http.port:${public_http_port}' ${dirname}/standalone/configuration/${config}",
     require => Exec["tar ${install_file} in /var/tmp"],
     before  => Service['wildfly'],
   }
@@ -143,7 +143,7 @@ class wildfly::install(
   exec { 'replace https port':
     command => "sed -i -e's/jboss.https.port:8443/jboss.https.port:${public_https_port}/g' ${dirname}/standalone/configuration/${config}",
     path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-    onlyif  => "grep 'jboss.https.port:8443' ${dirname}/standalone/configuration/${config}",
+    unless  => "grep 'jboss.https.port:${public_https_port}' ${dirname}/standalone/configuration/${config}",
     require => Exec["tar ${install_file} in /var/tmp"],
     before  => Service['wildfly'],
   }
@@ -151,7 +151,7 @@ class wildfly::install(
   exec { 'replace ajp port':
     command => "sed -i -e's/jboss.ajp.port:8009/jboss.ajp.port:${ajp_port}/g' ${dirname}/standalone/configuration/${config}",
     path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-    onlyif  => "grep 'jboss.ajp.port:8009' ${dirname}/standalone/configuration/${config}",
+    unless  => "grep 'jboss.ajp.port:${ajp_port}' ${dirname}/standalone/configuration/${config}",
     require => Exec["tar ${install_file} in /var/tmp"],
     before  => Service['wildfly'],
   }
