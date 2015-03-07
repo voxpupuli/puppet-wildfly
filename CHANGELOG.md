@@ -1,5 +1,8 @@
 # History
 
+## 0.1.9
+- some exec executed on every puppet run
+
 ## 0.1.8
 - Added license
 - Support for Wildfly 8.2
