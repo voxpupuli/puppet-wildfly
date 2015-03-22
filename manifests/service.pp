@@ -1,3 +1,6 @@
+#
+# Wildfly startup service class
+#
 class wildfly::service {
 
   file{ '/etc/default/wildfly.conf':
@@ -9,11 +12,11 @@ class wildfly::service {
   }
 
   file{ '/etc/init.d/wildfly':
-    ensure  => present,
-    mode    => '0755',
-    owner   => 'root',
-    group   => 'root',
-    source  => "${wildfly::dirname}/bin/init.d/${wildfly::service_file}",
+    ensure => present,
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'root',
+    source => "${wildfly::dirname}/bin/init.d/${wildfly::service_file}",
   }
 
   service { 'wildfly':

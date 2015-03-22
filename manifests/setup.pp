@@ -1,3 +1,6 @@
+#
+# Wildfly setup class
+#
 class wildfly::setup {
 
   create_resources(wildfly::config::add_mgmt_user, $wildfly::users_mgmt)

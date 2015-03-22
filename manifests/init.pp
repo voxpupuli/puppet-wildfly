@@ -1,3 +1,6 @@
+#
+# wildfly module class
+#
 class wildfly(
   $version           = '8.2.0',
   $install_source    = undef,
