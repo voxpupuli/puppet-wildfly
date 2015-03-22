@@ -13,6 +13,10 @@ class wildfly::params {
   $mode              = 'standalone'
   $config            = 'standalone-full.xml'
 
+  $config_file_path  = "${dirname}/${mode}/configuration/${config}"
+
+  #use a hash definition
+
   $mgmt_bind         = '0.0.0.0'
   $mgmt_http_port    = '9990'
   $mgmt_https_port   = '9993'
