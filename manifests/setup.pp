@@ -1,13 +1,12 @@
 class wildfly::setup {
 
   create_resources(wildfly::config::add_mgmt_user, $wildfly::users_mgmt)
-
-  # file /opt/wildfly/bin/standalone.conf
+  
   # default JAVA_OPTS="-Xms64m -Xmx512m -XX:MaxPermSize=256m
   exec { 'replace memory parameters':
-    command => "sed -i -e's/\\-Xms.*m \\-Xmx.*m \\-XX:MaxPermSize=.*m/\\-Xms${wildfly::java_xms} \\-Xmx${wildfly::java_xmx} \\-XX:MaxPermSize=${wildfly::java_maxpermsize}/g' ${wildfly::dirname}/bin/standalone.conf",
+    command => "sed -i -e's/\\-Xms.*m \\-Xmx.*m \\-XX:MaxPermSize=.*m/\\-Xms${wildfly::java_xms} \\-Xmx${wildfly::java_xmx} \\-XX:MaxPermSize=${wildfly::java_maxpermsize}/g' ${wildfly::dirname}/bin/${wildfly::mode}.conf",
     path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-    unless  => "grep '\\-Xms${wildfly::java_xms} \\-Xmx${wildfly::java_xmx} \\-XX:MaxPermSize=${wildfly::java_maxpermsize}' ${wildfly::dirname}/bin/standalone.conf"
+    unless  => "grep '\\-Xms${wildfly::java_xms} \\-Xmx${wildfly::java_xmx} \\-XX:MaxPermSize=${wildfly::java_maxpermsize}' ${wildfly::dirname}/bin/${wildfly::mode}.conf"
   }
 
   Exec['replace management bind'] ->
