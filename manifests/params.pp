@@ -1,3 +1,6 @@
+#
+# Wildfly default params class
+#
 class wildfly::params {
 
   $group   = 'wildfly'

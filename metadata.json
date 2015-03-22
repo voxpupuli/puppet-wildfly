@@ -1,14 +1,21 @@
 {
   "author": "Edwin Biemond",
   "dependencies": [
-
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    },
+    {
+      "name": "maestrodev/wget",
+      "version_requirement": ">=1.5.0"
+    }
   ],
   "license": "Apache-2.0",
   "name": "biemond-wildfly",
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "tags": [
     "jboss",
     "jdk8",

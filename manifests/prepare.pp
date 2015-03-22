@@ -1,3 +1,6 @@
+#
+# Wildlfy prepare class
+#
 class wildfly::prepare {
 
   ## extract user prepare
