@@ -1,4 +1,9 @@
-define wildfly::config::socket_binding($port = undef) {
+#
+# Change wildfly sockets configuration
+#
+define wildfly::config::socket_binding(
+  $port = undef
+) {
 
   augeas { $title:
     lens    => 'Xml.lns',
@@ -8,4 +13,3 @@ define wildfly::config::socket_binding($port = undef) {
   }
 
 }
-

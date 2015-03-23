@@ -1,5 +1,8 @@
 # History
 
+## 0.2.1
+- All port & interface sed actions has been replaced by augeas
+
 ## 0.2.0
 - Major re-factoring by Jairo Junior
 - Extracted some resources to new manifests in order to avoid excessive relationships (require, notify, before, after, etc).
