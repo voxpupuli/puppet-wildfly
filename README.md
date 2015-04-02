@@ -74,3 +74,28 @@ or you can override a paramater
       users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
     }
 
+## User management
+
+You can add App and Management users (requires server restart).
+
+    wildfly::config::add_app_user { 'Adding mgmtuser':
+      username => 'mgmtuser',
+      password => 'mgmtuser'
+    }
+
+    wildfly::config::add_app_user { 'Adding appuser':
+      username => 'appuser',
+      password => 'appuser'
+    }
+
+And associate groups or roles to them (requires server restart)
+
+    wildfly::config::associate_groups_to_user { 'Associate groups to mgmtuser':
+      username => 'mgmtuser',
+      groups   => 'admin,mygroup'
+    }
+
+    wildfly::config::associate_roles_to_user { 'Associate roles to app user':
+      username => 'appuser',
+      roles   => 'guest,ejb'
+    }
