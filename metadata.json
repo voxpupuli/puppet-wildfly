@@ -8,10 +8,6 @@
     {
       "name": "maestrodev/wget",
       "version_requirement": ">=1.4.4"
-    },
-    {
-      "name": "cescoffier/puppet-nexus",
-      "version_requirement": ">=1.0.0"
     }
   ],
   "license": "Apache-2.0",
