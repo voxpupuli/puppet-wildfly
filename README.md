@@ -211,6 +211,59 @@ And associate groups or roles to them (requires server restart)
 
     More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
 
+## HTTPS/SSL
+
+    wildfly::standalone::web::connector { 'HTTPS':
+      name           => 'https',
+      scheme         => 'https',
+      protocol       => 'HTTP/1.1',
+      socket_binding => 'https',
+      enable_lookups => false,
+      secure         => true
+    }
+    ->
+    wildfly::standalone::web::ssl { 'SSL':
+      connector            => 'https',
+      name                 => 'ssl',
+      password             => 'changeit',
+      key_alias            => 'demo',
+      certificate_key_file => '/opt/identitystore.jks'
+    }
+
+**Identity Store sample Configuration:**
+
+    file { '/opt/demo.pub.crt':
+      ensure  => file,
+      owner   => 'wildfly',
+      group   => 'wildfly',
+      content => file('demo/demo.pub.crt'),
+      mode    => '0755',
+    }
+    ->
+    file { '/opt/demo.private.pem':
+      ensure  => file,
+      owner   => 'wildfly',
+      group   => 'wildfly',
+      content => file('demo/demo.private.pem'),
+      mode    => '0755',
+    }
+    ->
+    file { '/opt/identitystore.jks':
+      ensure  => file,
+      owner   => 'wildfly',
+      group   => 'wildfly',
+      content => file('demo/identitystore.jks'),
+      mode    => '0755',
+    }
+    ->
+    java_ks { 'demo:/opt/identitystore.jks':
+      ensure      => latest,
+      certificate => '/opt/demo.pub.crt',
+      private_key => '/opt/demo.private.pem',
+      path        => '/usr/java/jdk1.7.0_75/bin/',
+      password    => 'changeit',
+    }
+
 ## Messaging (Only for full profile)
 
     wildfly::standalone::messaging::queue { 'DemoQueue':
