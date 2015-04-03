@@ -189,6 +189,17 @@ And associate groups or roles to them (requires server restart)
 
     More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
 
+## Messaging (Only for full profile)
+
+    wildfly::standalone::messaging::queue { 'DemoQueue':
+      durable => true,
+      entries => ['java:/jms/queue/DemoQueue'],
+      selector => "MessageType = 'AddRequest'"
+    }
+
+    wildfly::standalone::messaging::topic { 'DemoTopic':
+      entries => ['java:/jms/topic/DemoTopic']
+    }
 
 ## Instructions for Developers
 
