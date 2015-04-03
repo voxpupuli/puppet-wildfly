@@ -107,3 +107,12 @@ And associate groups or roles to them (requires server restart)
     wildfly::config::module { 'org.postgresql':
       file_uri => http://localhost:8080/postgresql-9.3-1102-jdbc4-module.tar.gz
     }
+
+## Instructions for Developers
+
+    There are two abstractions built on top of JBoss-CLI:
+
+    (1) wildfly::util::exec_cli which is built on top of exec
+    (2) wildfly::util::cli which is built on top of: https://github.com/jairojunior/wildfly-cli-wrapper
+
+    Check wildfly::standalone::datasources::datasource to learn how to use them to build anything that is possible using JBoss-CLI

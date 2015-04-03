@@ -21,4 +21,14 @@ class wildfly::install  {
     user    => $wildfly::user,
     group   => $wildfly::group,
   }
+
+  file { "${wildfly::dirname}/bin/client/wildfly-cli-wrapper.jar":
+    ensure  => file,
+    owner   => $wildfly::user,
+    group   => $wildfly::group,
+    content => file('wildfly/wildfly-cli-wrapper-0.0.1.jar'),
+    mode    => '0755',
+    require => Exec["tar ${install_file} in /var/tmp"]
+  }
+
 }
