@@ -74,6 +74,28 @@ or you can override a paramater
       users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
     }
 
+## Deploy
+
+**From a URL:**
+
+    wildfly::standalone::deploy_from_url { 'http://localhost:8080/mod_cluster-demo-server-1.3.0.Final.war': }
+
+**From Nexus:**
+
+    class { 'nexus':
+      url      => 'https://repository.jboss.org/nexus',
+      username => 'user',
+      password => '******'
+    }
+
+    Class['nexus'] ->
+    jboss::standalone::deploy { 'demo.war':
+      gav       => 'org.jboss.mod_cluster:mod_cluster-demo-server:1.3.0.Final',
+      packaging => 'war',
+      repository => 'public'
+    }
+
+
 ## User management
 
 You can add App and Management users (requires server restart).

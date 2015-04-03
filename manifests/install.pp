@@ -31,4 +31,13 @@ class wildfly::install  {
     require => Exec["tar ${install_file} in /var/tmp"]
   }
 
+  file { "${wildfly::dirname}/bin/deploy.rb":
+    ensure  => file,
+    owner   => $wildfly::user,
+    group   => $wildfly::group,
+    content => file('wildfly/deploy.rb'),
+    mode    => '0755',
+    require => Exec["tar ${install_file} in /var/tmp"]
+  }
+
 }
