@@ -124,7 +124,7 @@ And associate groups or roles to them (requires server restart)
 
 ## Module instalation
 
-    Install a module from a remote file system. Sample module package: https://www.dropbox.com/s/q9agidgzt8pxmkk/postgresql-9.3-1102-jdbc4-module.tar.gz?dl=0
+Install a module from a remote file system. Sample module package: https://www.dropbox.com/s/q9agidgzt8pxmkk/postgresql-9.3-1102-jdbc4-module.tar.gz?dl=0
 
     wildfly::config::module { 'org.postgresql':
       file_uri => http://localhost:8080/postgresql-9.3-1102-jdbc4-module.tar.gz
