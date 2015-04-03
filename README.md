@@ -151,7 +151,7 @@ And associate groups or roles to them (requires server restart)
       }
     }
 
-    Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name, i.e.:
+Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name, i.e.:
 
     allocation-retry-wait-millis         
     allocation-retry                     
@@ -209,7 +209,7 @@ And associate groups or roles to them (requires server restart)
     validate-on-match
 
 
-    More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
+More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
 
 ## HTTPS/SSL
 
@@ -287,9 +287,10 @@ And associate groups or roles to them (requires server restart)
 
 ## Instructions for Developers
 
-    There are two abstractions built on top of JBoss-CLI:
+There are two abstractions built on top of JBoss-CLI:
 
-    (1) wildfly::util::exec_cli which is built on top of exec
-    (2) wildfly::util::cli which is built on top of: https://github.com/jairojunior/wildfly-cli-wrapper
+* (1) wildfly::util::exec_cli which is built on top of exec
 
-    Check wildfly::standalone::datasources::datasource to learn how to use them to build anything that is possible using JBoss-CLI
+* (2) wildfly::util::cli which is built on top of: https://github.com/jairojunior/wildfly-cli-wrapper
+
+Check wildfly::standalone::datasources::datasource to learn how to use them to build anything that is possible using JBoss-CLI
