@@ -201,6 +201,15 @@ And associate groups or roles to them (requires server restart)
       entries => ['java:/jms/topic/DemoTopic']
     }
 
+## Modcluster (Only for HA profiles)
+
+    wildfly::standalone::modcluster::config { "Modcluster mybalancer":
+      balancer => 'mybalancer',
+      load_balancing_group => 'demolb',
+      proxy_url => '/',
+      proxy_list => '127.0.0.1:6666'
+    }
+
 ## Instructions for Developers
 
     There are two abstractions built on top of JBoss-CLI:
