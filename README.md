@@ -108,6 +108,88 @@ And associate groups or roles to them (requires server restart)
       file_uri => http://localhost:8080/postgresql-9.3-1102-jdbc4-module.tar.gz
     }
 
+## Datasources
+
+    Setup a driver a datasource:
+
+    wildfly::standalone::datasources::driver { 'Driver postgresql':
+      driver_name                     => 'postgresql',
+      driver_module_name              => 'org.postgresql',
+      driver_xa_datasource_class_name => 'org.postgresql.xa.PGXADataSource'
+    }
+    ->
+    wildfly::standalone::datasources::datasource { 'Demo datasource':
+      name           => 'DemoDS',
+      config         => {
+        'driver-name' => 'postgresql',
+        'connection-url' => 'jdbc:postgresql://localhost/postgres',
+        'jndi-name' => 'java:jboss/datasources/DemoDS',
+        'user-name' => 'postgres',
+        'password' => 'postgres'
+      }
+    }
+
+    Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name, i.e.:
+
+    allocation-retry-wait-millis         
+    allocation-retry                     
+    allow-multiple-users                 
+    background-validation-millis         
+    background-validation                
+    blocking-timeout-wait-millis         
+    capacity-decrementer-class           
+    capacity-decrementer-properties      
+    capacity-incrementer-class           
+    capacity-incrementer-properties      
+    check-valid-connection-sql           
+    connection-listener-class            
+    connection-listener-property         
+    connection-properties                
+    connection-url                       
+    datasource-class                     
+    driver-class                         
+    driver-name                          
+    enabled                              
+    exception-sorter-class-name          
+    exception-sorter-properties          
+    flush-strategy                       
+    idle-timeout-minutes                 
+    initial-pool-size                    
+    jndi-name                            
+    jta                                  
+    max-pool-size                        
+    min-pool-size                        
+    new-connection-sql                   
+    password                             
+    pool-prefill                         
+    pool-use-strict-min                  
+    prepared-statements-cache-size       
+    query-timeout                        
+    reauth-plugin-class-name             
+    reauth-plugin-properties             
+    security-domain                      
+    set-tx-query-timeout                 
+    share-prepared-statements            
+    spy                                  
+    stale-connection-checker-class-name  
+    stale-connection-checker-properties  
+    track-statements                     
+    transaction-isolation                
+    url-delimiter                        
+    url-selector-strategy-class-name     
+    use-ccm                              
+    use-fast-fail                        
+    use-java-context                     
+    use-try-lock                         
+    user-name                            
+    valid-connection-checker-class-name  
+    valid-connection-checker-properties  
+    validate-on-match
+
+
+    More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
+
+
 ## Instructions for Developers
 
     There are two abstractions built on top of JBoss-CLI:
