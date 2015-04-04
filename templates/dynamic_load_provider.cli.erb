@@ -1,4 +1,0 @@
-if (outcome != success) of /subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration:read-resource \
-    /subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration:add() \
-end-if \
-/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=<%= @type %>:add(type=<%= @type %>)

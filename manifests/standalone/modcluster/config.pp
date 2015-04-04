@@ -17,10 +17,15 @@ define wildfly::standalone::modcluster::config($advertise_socket = 'modcluster',
     path => "/subsystem=modcluster/mod-cluster-config=configuration"
   }
   ->
+  wildfly::util::exec_cli { "Create dynamic load provider":
+    action_command => "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration:add()",
+    verify_command => "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration:read-resource",
+  }
+  ->
   wildfly::util::exec_cli { "Set load-metric: ${type}":
-    action_command => template('wildfly/dynamic_load_provider.cli.erb'),
+    action_command => "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}:add(type=${type})",
     verify_command => "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}:read-resource",
-    post_exec_command => 'service jboss restart'
+    post_exec_command => 'service wildfly restart'
   }
 
 }
