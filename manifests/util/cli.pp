@@ -3,7 +3,8 @@
 #
 define wildfly::util::cli($content = undef, $path = undef) {
 
-  $json_content = to_unescaped_json($content)
+  $cleaned_content = delete_undef_values($content)
+  $json_content = to_unescaped_json($cleaned_content)
 
   exec { $title:
     command => "java -jar ${wildfly::dirname}/bin/client/wildfly-cli-wrapper.jar \"${path}\" ${json_content}",
