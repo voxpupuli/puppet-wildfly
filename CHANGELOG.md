@@ -1,5 +1,14 @@
 # History
 
+## 0.2.2
+- Deployment option
+- User management
+- Module installation
+- Datasource configuration
+- HTTPS/SSL & Identity store
+- Modcluster (Only for HA profiles)
+- Messaging Queue or Topics
+
 ## 0.2.1
 - All port & interface sed actions has been replaced by augeas
 

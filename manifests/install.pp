@@ -26,7 +26,7 @@ class wildfly::install  {
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    content => file('wildfly/wildfly-cli-wrapper-0.0.1.jar'),
+    source  => 'puppet:///modules/wildfly/wildfly-cli-wrapper-0.0.1.jar',
     mode    => '0755',
     require => Exec["tar ${install_file} in /var/tmp"]
   }
@@ -35,7 +35,7 @@ class wildfly::install  {
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    content => file('wildfly/deploy.rb'),
+    source  => 'puppet:///modules/wildfly/deploy.rb',
     mode    => '0755',
     require => Exec["tar ${install_file} in /var/tmp"]
   }
