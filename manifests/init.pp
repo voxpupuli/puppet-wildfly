@@ -3,13 +3,13 @@
 #
 class wildfly(
   $version           = '8.2.0',
-  $install_source    = undef,
-  $java_home         = undef,
+  $install_source    = 'http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz',
+  $java_home         = $wildfly::params::java_home,
   $group             = $wildfly::params::group,
   $user              = $wildfly::params::user,
-  $dirname           = $wildfly::params::dirname, #jboss_home
-  $mode              = $wildfly::params::mode, #jboss_mode
-  $config            = $wildfly::params::config, #jboss_config
+  $dirname           = $wildfly::params::dirname,
+  $mode              = $wildfly::params::mode,
+  $config            = $wildfly::params::config,
   $java_xmx          = $wildfly::params::java_xmx,
   $java_xms          = $wildfly::params::java_xms,
   $java_maxpermsize  = $wildfly::params::java_maxpermsize,

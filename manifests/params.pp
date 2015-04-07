@@ -13,6 +13,8 @@ class wildfly::params {
     default => 'wildfly-init-redhat.sh',
   }
 
+  $java_home         = '/usr/java/jdk1.7.0_75/'
+
   $mode              = 'standalone'
   $config            = 'standalone-full.xml'
 
