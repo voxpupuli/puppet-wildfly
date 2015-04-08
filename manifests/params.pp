@@ -19,6 +19,7 @@ class wildfly::params {
   $config            = 'standalone-full.xml'
 
   $config_file_path  = "${dirname}/${mode}/configuration/${config}"
+  $console_log       = '/var/log/wildfly/console.log'
 
   #use a hash definition
 
