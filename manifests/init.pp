@@ -10,6 +10,7 @@ class wildfly(
   $dirname           = $wildfly::params::dirname,
   $mode              = $wildfly::params::mode,
   $config            = $wildfly::params::config,
+  $console_log       = $wildfly::params::console_log,
   $java_xmx          = $wildfly::params::java_xmx,
   $java_xms          = $wildfly::params::java_xms,
   $java_maxpermsize  = $wildfly::params::java_maxpermsize,
