@@ -8,6 +8,7 @@ define wildfly::util::cli($content = undef, $path = undef) {
 
   exec { $title:
     command => "java -jar ${wildfly::dirname}/bin/client/wildfly-cli-wrapper.jar \"${path}\" ${json_content}",
+    unless  => "java -jar ${wildfly::dirname}/bin/client/wildfly-cli-wrapper.jar \"${path}\" ${json_content} --verify-only",
     path    => ['/usr/bin', '/usr/sbin', '/bin', '/sbin', "${wildfly::java_home}/bin"],
     require => Service['wildfly']
   }
