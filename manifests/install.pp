@@ -26,7 +26,7 @@ class wildfly::install  {
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    source  => 'puppet:///modules/wildfly/wildfly-cli-wrapper-0.0.1.jar',
+    source  => 'puppet:///modules/wildfly/wildfly-cli-wrapper-0.0.2.jar',
     mode    => '0755',
     require => Exec["tar ${install_file} in /var/tmp"]
   }
