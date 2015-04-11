@@ -3,7 +3,7 @@
 #
 define wildfly::config::module($file_uri = undef, $dependencies = []) {
 
-  $file_name = file_name_from_uril($file_uri)
+  $file_name = file_name_from_url($file_uri)
 
   wget::fetch { "Downloading module ${title}":
     source      => $file_uri,
@@ -30,12 +30,12 @@ define wildfly::config::module($file_uri = undef, $dependencies = []) {
   }
 
   file { $dir_path:
-     ensure  => directory,
+    ensure  => directory,
   }
 
   file { "${dir_path}/${file_name}":
-     ensure => file,
-     source => "/opt/${file_name}"
+    ensure => file,
+    source => "/opt/${file_name}"
   }
 
   file { "${dir_path}/module.xml":
