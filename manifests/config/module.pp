@@ -1,9 +1,7 @@
 #
-# Install a module from a tar.gz package.
-# The package should contain the structured module.
-# For PostgreSQL module: org/postgresl/main directory with module.xml and its jars
+# Module installation
 #
-define wildfly::config::module($file_uri = undef) {
+define wildfly::config::module($file_uri = undef, $dependencies = []) {
 
   $file_name = file_name_from_url($file_uri)
 
@@ -12,18 +10,37 @@ define wildfly::config::module($file_uri = undef) {
     destination => "/opt/${file_name}",
     cache_dir   => '/var/cache/wget',
     cache_file  => $file_name,
-    notify      => Exec["Extract module ${title}"]
+    notify      => Exec["Create Parent Directories: ${title}"]
   }
 
-  $module_path = regsubst($title, '[.]', '/', 'G')
+  $namespace_path = regsubst($title, '[.]', '/', 'G')
 
-  exec { "Extract module ${title}":
-    command => "tar -xzf /opt/${file_name}",
-    cwd     => "${wildfly::dirname}/modules/system/layers/base",
-    creates => "${wildfly::dirname}/modules/system/layers/base/${module_path}/main/module.xml",
-    group   => $wildfly::group,
-    user    => $wildfly::user,
-    path    => ['/usr/bin', '/usr/sbin', '/bin', '/sbin']
+  File {
+    owner => $wildfly::user,
+    group => $wildfly::group
+  }
+
+  $dir_path = "${wildfly::dirname}/modules/system/layers/base/${namespace_path}/main"
+
+  exec { "Create Parent Directories: ${title}":
+    path    => ['/bin','/usr/bin', '/sbin'],
+    command => "/bin/mkdir -p ${dir_path}",
+    unless  => "test -d ${dir_path}",
+    before  => [File[$dir_path]],
+  }
+
+  file { $dir_path:
+    ensure  => directory,
+  }
+
+  file { "${dir_path}/${file_name}":
+    ensure => file,
+    source => "/opt/${file_name}"
+  }
+
+  file { "${dir_path}/module.xml":
+    ensure  => file,
+    content => template('wildfly/module.xml.erb')
   }
 
 }

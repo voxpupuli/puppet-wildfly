@@ -3,7 +3,7 @@ def deploy_status(artifact_name)
 end
 
 def extract_current_content_sha1(result)
-  bytes_regex = /bytes {(.*) }/m
+  bytes_regex = /bytes \{(.*) \}/m
 
   match_data = bytes_regex.match(result)
 
@@ -35,18 +35,28 @@ artifact_name = ARGV[0]
 
 current_content_sha1 = extract_current_content_sha1(deploy_status(artifact_name))
 
-if current_content_sha1.nil?
-  puts deploy(artifact_name)
-  exit($?.exitstatus)
-elsif current_content_sha1 != new_content_sha1(artifact_name)
-  puts undeploy(artifact_name)
-  undeploy_exit_code = $?
+if ARGV[1].nil?
 
-  if undeploy_exit_code == 0
+  if current_content_sha1.nil?
     puts deploy(artifact_name)
     exit($?.exitstatus)
-  else
-    exit(undeploy_exit_code.exitstatus)
+  elsif current_content_sha1 != new_content_sha1(artifact_name)
+    puts undeploy(artifact_name)
+    undeploy_exit_code = $?
+
+    if undeploy_exit_code == 0
+      puts deploy(artifact_name)
+      exit($?.exitstatus)
+    else
+      exit(undeploy_exit_code.exitstatus)
+    end
+
+  end
+
+elsif ARGV[1] == '--verify-only'
+  if current_content_sha1.nil? || current_content_sha1 != new_content_sha1(artifact_name)
+    exit(1)
   end
 
 end
+
