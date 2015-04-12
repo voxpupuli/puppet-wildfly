@@ -9,6 +9,8 @@ Big thanks to Jairo Junior for his contributions
 
 Should work on every Redhat or Debian family member, tested it with Wildfly 8.2, 8.1 & 8.0
 
+[Vagrant fedora example](https://github.com/biemond/vagrant-fedora20-puppet) with wildfly and apache ajp, postgress db
+
 ## Dependency
 This module requires a JVM ( should already be there )
 

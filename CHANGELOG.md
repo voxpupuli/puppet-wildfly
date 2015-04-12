@@ -1,6 +1,7 @@
 # History
 
 ## 0.2.2
+- Configure wildfly log with console_log parameter
 - Deployment option
 - User management
 - Module installation
