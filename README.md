@@ -80,9 +80,9 @@ or you can override a paramater
 
 ## Deploy
 
-**From a URL:**
+**From an URL:**
 
-    wildfly::standalone::deploy_from_url { 'http://localhost:8080/mod_cluster-demo-server-1.3.0.Final.war': }
+    wildfly::standalone::deploy_from_url { 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war': }
     
 **From Nexus:**
 
@@ -93,8 +93,8 @@ or you can override a paramater
     }
 
     Class['nexus'] ->
-    wildfly::standalone::deploy_from_nexus { 'demo.war':
-      gav       => 'org.jboss.mod_cluster:mod_cluster-demo-server:1.3.0.Final',
+    wildfly::standalone::deploy_from_nexus { 'hawtio.war':
+      gav       => 'io.hawt:hawtio-web:1.4.48',
       packaging => 'war',
       repository => 'public'
     }
@@ -134,10 +134,10 @@ Install a JAR module from a remote file system.
       file_uri     => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
     }
-
+    
 ## Datasources
 
-    Setup a driver a datasource:
+Setup a driver and a datasource:
 
     wildfly::standalone::datasources::driver { 'Driver postgresql':
       driver_name                     => 'postgresql',
@@ -149,6 +149,21 @@ Install a JAR module from a remote file system.
       name           => 'DemoDS',
       config         => {
         'driver-name' => 'postgresql',
+        'connection-url' => 'jdbc:postgresql://localhost/postgres',
+        'jndi-name' => 'java:jboss/datasources/DemoDS',
+        'user-name' => 'postgres',
+        'password' => 'postgres'
+      }
+    }
+    
+Alternatively, you can install a JDBC driver and module using deploy_from_url if your driver is JDBC4 compliant:
+
+    wildfly::standalone::deploy_from_url { 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar': }
+    ->
+    wildfly::standalone::datasources::datasource { 'Demo datasource':
+      name           => 'DemoDS',
+      config         => {
+        'driver-name' => 'postgresql-9.3-1103-jdbc4.jar',
         'connection-url' => 'jdbc:postgresql://localhost/postgres',
         'jndi-name' => 'java:jboss/datasources/DemoDS',
         'user-name' => 'postgres',
@@ -269,7 +284,7 @@ More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configura
       password    => 'changeit',
     }
 
-## Messaging (Only for full profile)
+## Messaging (Only for full profiles)
 
     wildfly::standalone::messaging::queue { 'DemoQueue':
       durable => true,
@@ -292,7 +307,7 @@ More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configura
 
 ## Instructions for Developers
 
-There are two abstractions built on top of JBoss-CLI:
+There are two abstractions built on top of JBoss-CL:I
 
 * (1) wildfly::util::exec_cli which is built on top of exec
 
