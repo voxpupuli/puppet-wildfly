@@ -307,7 +307,7 @@ More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configura
 
 ## Instructions for Developers
 
-There are two abstractions built on top of JBoss-CL:I
+There are two abstractions built on top of JBoss-CLI:
 
 * (1) wildfly::util::exec_cli which is built on top of exec
 
