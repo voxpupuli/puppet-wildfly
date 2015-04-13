@@ -11,6 +11,8 @@ Should work on every Redhat or Debian family member, tested it with Wildfly 8.2,
 
 [Vagrant fedora example](https://github.com/biemond/vagrant-fedora20-puppet) with wildfly and apache ajp, postgress db
 
+[Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + mdocluster)
+
 ## Dependency
 This module requires a JVM ( should already be there )
 
@@ -81,13 +83,28 @@ or you can override a paramater
 **From a URL:**
 
     wildfly::standalone::deploy_from_url { 'http://localhost:8080/mod_cluster-demo-server-1.3.0.Final.war': }
+    
+**From Nexus:**
+
+    class { 'nexus':
+      url      => 'http://mynexus.mydomain',
+      username => 'user',
+      password => '*****'
+    }
+
+    Class['nexus'] ->
+    wildfly::standalone::deploy_from_nexus { 'demo.war':
+      gav       => 'org.jboss.mod_cluster:mod_cluster-demo-server:1.3.0.Final',
+      packaging => 'war',
+      repository => 'public'
+    }
 
 
 ## User management
 
 You can add App and Management users (requires server restart).
 
-    wildfly::config::add_app_user { 'Adding mgmtuser':
+    wildfly::config::add_mgmt_user { 'Adding mgmtuser':
       username => 'mgmtuser',
       password => 'mgmtuser'
     }
@@ -218,7 +235,7 @@ More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configura
       certificate_key_file => '/opt/identitystore.jks'
     }
 
-** Identity Store sample Configuration:**
+**Identity Store sample Configuration:**
 
     file { '/opt/demo.pub.crt':
       ensure  => file,
