@@ -1,5 +1,8 @@
 # History
 
+## 0.2.3
+- update readme
+
 ## 0.2.2
 - Configure wildfly log with console_log parameter
 - Deployment option

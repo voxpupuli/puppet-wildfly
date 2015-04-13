@@ -83,7 +83,7 @@ or you can override a paramater
 **From a URL:**
 
     wildfly::standalone::deploy_from_url { 'http://localhost:8080/mod_cluster-demo-server-1.3.0.Final.war': }
-    
+
 **From Nexus:**
 
     class { 'nexus':
@@ -123,7 +123,7 @@ And associate groups or roles to them (requires server restart)
 
     wildfly::config::associate_roles_to_user { 'Associate roles to app user':
       username => 'appuser',
-      roles   => 'guest,ejb'
+      roles    => 'guest,ejb'
     }
 
 ## Module installation
@@ -158,59 +158,59 @@ Install a JAR module from a remote file system.
 
 Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name, i.e.:
 
-    allocation-retry-wait-millis         
-    allocation-retry                     
-    allow-multiple-users                 
-    background-validation-millis         
-    background-validation                
-    blocking-timeout-wait-millis         
-    capacity-decrementer-class           
-    capacity-decrementer-properties      
-    capacity-incrementer-class           
-    capacity-incrementer-properties      
-    check-valid-connection-sql           
-    connection-listener-class            
-    connection-listener-property         
-    connection-properties                
-    connection-url                       
-    datasource-class                     
-    driver-class                         
-    driver-name                          
-    enabled                              
-    exception-sorter-class-name          
-    exception-sorter-properties          
-    flush-strategy                       
-    idle-timeout-minutes                 
-    initial-pool-size                    
-    jndi-name                            
-    jta                                  
-    max-pool-size                        
-    min-pool-size                        
-    new-connection-sql                   
-    password                             
-    pool-prefill                         
-    pool-use-strict-min                  
-    prepared-statements-cache-size       
-    query-timeout                        
-    reauth-plugin-class-name             
-    reauth-plugin-properties             
-    security-domain                      
-    set-tx-query-timeout                 
-    share-prepared-statements            
-    spy                                  
-    stale-connection-checker-class-name  
-    stale-connection-checker-properties  
-    track-statements                     
-    transaction-isolation                
-    url-delimiter                        
-    url-selector-strategy-class-name     
-    use-ccm                              
-    use-fast-fail                        
-    use-java-context                     
-    use-try-lock                         
-    user-name                            
-    valid-connection-checker-class-name  
-    valid-connection-checker-properties  
+    allocation-retry-wait-millis
+    allocation-retry
+    allow-multiple-users
+    background-validation-millis
+    background-validation
+    blocking-timeout-wait-millis
+    capacity-decrementer-class
+    capacity-decrementer-properties
+    capacity-incrementer-class
+    capacity-incrementer-properties
+    check-valid-connection-sql
+    connection-listener-class
+    connection-listener-property
+    connection-properties
+    connection-url
+    datasource-class
+    driver-class
+    driver-name
+    enabled
+    exception-sorter-class-name
+    exception-sorter-properties
+    flush-strategy
+    idle-timeout-minutes
+    initial-pool-size
+    jndi-name
+    jta
+    max-pool-size
+    min-pool-size
+    new-connection-sql
+    password
+    pool-prefill
+    pool-use-strict-min
+    prepared-statements-cache-size
+    query-timeout
+    reauth-plugin-class-name
+    reauth-plugin-properties
+    security-domain
+    set-tx-query-timeout
+    share-prepared-statements
+    spy
+    stale-connection-checker-class-name
+    stale-connection-checker-properties
+    track-statements
+    transaction-isolation
+    url-delimiter
+    url-selector-strategy-class-name
+    use-ccm
+    use-fast-fail
+    use-java-context
+    use-try-lock
+    user-name
+    valid-connection-checker-class-name
+    valid-connection-checker-properties
     validate-on-match
 
 
