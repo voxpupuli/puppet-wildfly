@@ -8,9 +8,9 @@ class wildfly::params {
   $dirname = '/opt/wildfly'
 
   $service_file  = $::osfamily? {
-    Debian  => 'wildfly-init-debian.sh',
-    RedHat  => 'wildfly-init-redhat.sh',
-    default => 'wildfly-init-redhat.sh',
+    'Debian' => 'wildfly-init-debian.sh',
+    'RedHat' => 'wildfly-init-redhat.sh',
+    default  => 'wildfly-init-redhat.sh',
   }
 
   $java_home         = '/usr/java/jdk1.7.0_75/'

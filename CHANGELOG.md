@@ -1,5 +1,8 @@
 # History
 
+## 0.2.4
+- Debian fix so wildfly-init-debian.sh will be used instead of redhat
+
 ## 0.2.3
 - update readme
 
