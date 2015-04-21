@@ -40,7 +40,7 @@ class Puppet::Util::WildflyCLI
         :operation => 'read-resource'
     }
 
-    response = send(body)
+    response = send(body, :ignore_outcome => true)
     response['outcome'] == 'success'
   end
 
@@ -50,8 +50,49 @@ class Puppet::Util::WildflyCLI
         :operation => 'read-resource'
     }
 
-    response = send(body)
+    response = send(body, :ignore_outcome => true)
     response['outcome'] == 'success' ? response['result'] : {}
+  end
+
+  def deploy(name, source)
+    add = {
+        :address => {:deployment => name},
+        :operation => :add,
+        :content => [:url => source]
+    }
+
+    deploy = {
+        :address => {:deployment => name},
+        :operation => :deploy
+    }
+
+    composite = {
+        :address => [],
+        :operation => :composite,
+        :steps => [add, deploy]
+    }
+
+    send(composite)
+  end
+
+  def undeploy(name)
+    remove = {
+        :address => {:deployment => name},
+        :operation => :remove
+    }
+
+    undeploy = {
+        :address => {:deployment => name},
+        :operation => :undeploy
+    }
+
+    composite = {
+        :address => [],
+        :operation => :composite,
+        :steps => [undeploy, remove]
+    }
+
+    send(composite)
   end
 
   private
@@ -62,11 +103,11 @@ class Puppet::Util::WildflyCLI
     resource.split('/').each do |token|
       values = token.split('=')
       if !values.empty?
-        address << { values[0] => values[1] }
+        address << {values[0] => values[1]}
       end
     end
 
-    address
+    return address
   end
 
   def authz_header
@@ -76,15 +117,21 @@ class Puppet::Util::WildflyCLI
     digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
   end
 
-  def send(body)
-    request = Net::HTTP::Post.new @uri.request_uri
-    request.add_field 'Content-type', 'application/json'
-    request.add_field 'Authorization', authz_header
-    request.body = body.to_json
+  def send(body, ignore_outcome = false)
+    http_request = Net::HTTP::Post.new @uri.request_uri
+    http_request.add_field 'Content-type', 'application/json'
+    http_request.add_field 'Authorization', authz_header
+    http_request.body = body.to_json
 
-    response = @http_client.request request
+    http_response = @http_client.request http_request
 
-    JSON.parse(response.body)
+    response = JSON.parse(http_response.body)
+
+    unless response['outcome'] == 'success' || ignore_outcome
+        fail response['failure-description'].to_s
+    end
+
+    return response
   end
 
 end
