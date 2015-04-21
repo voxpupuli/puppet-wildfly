@@ -1,0 +1,90 @@
+require 'uri'
+require 'net/http'
+require 'puppet/external/net/http/digest_auth'
+require 'cgi'
+require 'json'
+
+class Puppet::Util::WildflyCLI
+
+  def initialize(address, port, user, password)
+    @uri = URI.parse "http://#{address}:#{port}/management"
+    @uri.user = CGI.escape(user)
+    @uri.password = CGI.escape(password)
+
+    @http_client = Net::HTTP.new @uri.host, @uri.port
+  end
+
+  def add(resource, state)
+    body = {
+        :address => assemble_address(resource),
+        :operation => :add
+    }
+
+    body_with_state = body.merge(state)
+
+    send(body_with_state)
+  end
+
+  def remove(resource)
+    body = {
+        :address => assemble_address(resource),
+        :operation => :remove
+    }
+
+    send(body)
+  end
+
+  def exists?(resource)
+    body = {
+        :address => assemble_address(resource),
+        :operation => 'read-resource'
+    }
+
+    response = send(body)
+    response['outcome'] == 'success'
+  end
+
+  def read(resource)
+    body = {
+        :address => assemble_address(resource),
+        :operation => 'read-resource'
+    }
+
+    response = send(body)
+    response['outcome'] == 'success' ? response['result'] : {}
+  end
+
+  private
+
+  def assemble_address(resource)
+    address = []
+
+    resource.split('/').each do |token|
+      values = token.split('=')
+      if !values.empty?
+        address << { values[0] => values[1] }
+      end
+    end
+
+    address
+  end
+
+  def authz_header
+    digest_auth = Net::HTTP::DigestAuth.new
+    request = Net::HTTP::Get.new @uri.request_uri
+    response = @http_client.request request
+    digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
+  end
+
+  def send(body)
+    request = Net::HTTP::Post.new @uri.request_uri
+    request.add_field 'Content-type', 'application/json'
+    request.add_field 'Authorization', authz_header
+    request.body = body.to_json
+
+    response = @http_client.request request
+
+    JSON.parse(response.body)
+  end
+
+end
