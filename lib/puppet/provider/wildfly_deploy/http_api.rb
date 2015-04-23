@@ -5,18 +5,21 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
 
   # need to improve this
   def cli
-    Puppet::Util::WildflyCLI.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+    Puppet::Util::WildflyCli.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
 
   def create
+    debug "Deploying #{@resource[:name]} from source #{@resource[:source]}"
     cli.deploy(@resource[:name], @resource[:source])
   end
 
   def destroy
+    debug "Undeploying #{@resource[:name]}"
     cli.undeploy(@resource[:name])
   end
 
   def exists?
+    debug "Exists? #{@resource[:name]}"
     cli.exists?("/deployment=#{@resource['name']}")
   end
 
@@ -25,10 +28,15 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
     bytes_value = response['content'].first['hash']['BYTES_VALUE']
     decoded = Base64.decode64(bytes_value)
 
-    decoded.unpack('H*').first
+    content_sha1_sum = decoded.unpack('H*').first
+
+    debug "Current content SHA1: #{content_sha1_sum}"
+
+    return content_sha1_sum
   end
 
   def content=(value)
+    debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
     cli.undeploy(@resource[:name])
     cli.deploy(@resource[:name], @resource[:source])
   end

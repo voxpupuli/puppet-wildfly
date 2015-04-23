@@ -12,9 +12,8 @@ define wildfly::standalone::web::connector($name = undef, $scheme = undef, $prot
     'secure' => $secure
   }
 
-  wildfly::util::cli { $title:
-    content => $params,
-    path    => "/subsystem=web/connector=${name}"
+  wildfly::util::cli { "/subsystem=web/connector=${name}":
+    content => $params
   }
 
 }

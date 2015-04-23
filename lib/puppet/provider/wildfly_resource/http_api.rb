@@ -4,28 +4,32 @@ Puppet::Type.type(:wildfly_resource).provide(:http_api) do
 
   # need to improve this
   def cli
-    Puppet::Util::WildflyCLI.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+    Puppet::Util::WildflyCli.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
 
   def create
+    debug "Creating #{@resource[:path]} with state #{@resource[:state].inspect}"
     cli.add(@resource[:path], @resource[:state])
   end
 
   def destroy
+    debug "Destroying #{@resource[:path]}"
     cli.remove(@resource[:path])
   end
 
   def exists?
+    debug "Exists? #{@resource[:path]}"
     cli.exists?(@resource[:path])
   end
 
   def state
+    debug "Retrieve state: #{@resource[:path].inspect}"
     cli.read(@resource[:path])
   end
 
   def state=(value)
-    cli.remove(@resource[:path])
-    cli.add(@resource[:path], value)
+    "Updating state for: #{@resource[:path]} with #{@resource[:state].inspect}"
+    cli.update(@resource[:path], value)
   end
 
 end

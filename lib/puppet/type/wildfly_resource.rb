@@ -31,7 +31,8 @@ Puppet::Type.newtype(:wildfly_resource) do
 
     def insync?(is)
       current_without_unused_keys = is.delete_if {|key, value| !should.keys.include? key }
-      should.to_a == current_without_unused_keys.to_a
+      debug "Should: #{should.inspect} Is: #{current_without_unused_keys.inspect}"
+      should.to_a.sort == current_without_unused_keys.to_a.sort
     end
 
     def change_to_s(current_value, new_value)

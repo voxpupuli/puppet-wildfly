@@ -27,7 +27,6 @@ Puppet::Type.newtype(:wildfly_deploy) do
     defaultto 9990
   end
 
-  # never used property... is this OK?
   newproperty(:content) do
 
     defaultto ''

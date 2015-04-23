@@ -11,9 +11,8 @@ define wildfly::standalone::web::ssl($connector = undef, $name = undef, $passwor
     'ceritificate-key-file' => $certificate_key_file
   }
 
-  wildfly::util::cli { $title:
-    content => $params,
-    path    => "/subsystem=web/connector=${connector}/ssl=configuration"
+  wildfly::util::cli { "/subsystem=web/connector=${connector}/ssl=configuration":
+    content => $params
   }
 
 }

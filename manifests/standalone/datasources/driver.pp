@@ -9,9 +9,8 @@ define wildfly::standalone::datasources::driver($driver_name = undef, $driver_mo
     'driver-xa-datasource-class-name' => $driver_xa_datasource_class_name
   }
 
-  wildfly::util::cli { $title:
-    content => $params,
-    path    => "/subsystem=datasources/jdbc-driver=${driver_name}"
+  wildfly::util::cli { "/subsystem=datasources/jdbc-driver=${driver_name}":
+    content => $params
   }
 
 }

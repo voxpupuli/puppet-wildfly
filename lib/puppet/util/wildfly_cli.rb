@@ -3,8 +3,11 @@ require 'net/http'
 require 'puppet/external/net/http/digest_auth'
 require 'cgi'
 require 'json'
+require 'puppet/util/wildfly_cli_assembler'
 
-class Puppet::Util::WildflyCLI
+class Puppet::Util::WildflyCli
+
+  include WildflyCliAssembler
 
   def initialize(address, port, user, password)
     @uri = URI.parse "http://#{address}:#{port}/management"
@@ -54,6 +57,31 @@ class Puppet::Util::WildflyCLI
     response['outcome'] == 'success' ? response['result'] : {}
   end
 
+  def update(resource, state)
+    remove = {
+        :address => assemble_address(resource),
+        :operation => :remove
+    }
+
+    add = {
+        :address => assemble_address(resource),
+        :operation => :add
+    }
+
+    composite = {
+        :address => [],
+        :operation => :composite,
+        :steps => [remove, add]
+    }
+
+    send(composite)
+  end
+
+  def exec(command)
+    body = assemble_command(command)
+    send(body)
+  end
+
   def deploy(name, source)
     add = {
         :address => {:deployment => name},
@@ -97,19 +125,6 @@ class Puppet::Util::WildflyCLI
 
   private
 
-  def assemble_address(resource)
-    address = []
-
-    resource.split('/').each do |token|
-      values = token.split('=')
-      if !values.empty?
-        address << {values[0] => values[1]}
-      end
-    end
-
-    return address
-  end
-
   def authz_header
     digest_auth = Net::HTTP::DigestAuth.new
     request = Net::HTTP::Get.new @uri.request_uri
@@ -131,7 +146,7 @@ class Puppet::Util::WildflyCLI
         fail response['failure-description'].to_s
     end
 
-    return response
+    response
   end
 
 end

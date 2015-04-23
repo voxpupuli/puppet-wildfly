@@ -3,9 +3,9 @@
 #
 define wildfly::config::module($file_uri = undef, $dependencies = []) {
 
-  $file_name = file_name_from_url($file_uri)
+  $file_name = inline_template('<%= require \'uri\'; File.basename(URI::parse(@file_uri).path) %>')
 
-  wget::fetch { "Downloading module ${title}":
+  wget::fetch { "Downloading module ${name}":
     source      => $file_uri,
     destination => "/opt/${file_name}",
     cache_dir   => '/var/cache/wget',
@@ -13,7 +13,7 @@ define wildfly::config::module($file_uri = undef, $dependencies = []) {
     notify      => Exec["Create Parent Directories: ${title}"]
   }
 
-  $namespace_path = regsubst($title, '[.]', '/', 'G')
+  $namespace_path = regsubst($name, '[.]', '/', 'G')
 
   File {
     owner => $wildfly::user,
@@ -22,7 +22,7 @@ define wildfly::config::module($file_uri = undef, $dependencies = []) {
 
   $dir_path = "${wildfly::dirname}/modules/system/layers/base/${namespace_path}/main"
 
-  exec { "Create Parent Directories: ${title}":
+  exec { "Create Parent Directories: ${name}":
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "/bin/mkdir -p ${dir_path}",
     unless  => "test -d ${dir_path}",

@@ -3,7 +3,7 @@
 #
 class wildfly::install  {
 
-  $install_file = file_name_from_url($wildfly::install_source)
+  $install_file = inline_template('<%= require \'uri\'; File.basename(URI::parse(@install_source).path) %>')
 
   wget::fetch { "Retrieve ${wildfly::install_source} in /var/tmp":
     source      => $wildfly::install_source,
@@ -20,24 +20,6 @@ class wildfly::install  {
     creates => "${wildfly::dirname}/jboss-modules.jar",
     user    => $wildfly::user,
     group   => $wildfly::group,
-  }
-
-  file { "${wildfly::dirname}/bin/client/wildfly-cli-wrapper.jar":
-    ensure  => file,
-    owner   => $wildfly::user,
-    group   => $wildfly::group,
-    source  => 'puppet:///modules/wildfly/wildfly-cli-wrapper-0.0.2.jar',
-    mode    => '0755',
-    require => Exec["tar ${install_file} in /var/tmp"]
-  }
-
-  file { "${wildfly::dirname}/bin/deploy.rb":
-    ensure  => file,
-    owner   => $wildfly::user,
-    group   => $wildfly::group,
-    source  => 'puppet:///modules/wildfly/deploy.rb',
-    mode    => '0755',
-    require => Exec["tar ${install_file} in /var/tmp"]
   }
 
 }

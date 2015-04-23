@@ -8,7 +8,7 @@ define wildfly::config::add_user(
   $realm     = undef
 )
 {
-  $password_hash = password_hash($username, $password, $realm)
+  $password_hash = inline_template('<%= require \'digest/md5\'; Digest::MD5.hexdigest("#{@username}:#{@realm}:#{@password}") %>')
 
   file_line { "${username}:${realm}":
     path  => "${wildfly::dirname}/${wildfly::mode}/configuration/${file_name}",
