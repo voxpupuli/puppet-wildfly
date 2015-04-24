@@ -3,16 +3,6 @@
 #
 define wildfly::config::module($file_uri = undef, $dependencies = []) {
 
-  $file_name = inline_template('<%= require \'uri\'; File.basename(URI::parse(@file_uri).path) %>')
-
-  wget::fetch { "Downloading module ${name}":
-    source      => $file_uri,
-    destination => "/opt/${file_name}",
-    cache_dir   => '/var/cache/wget',
-    cache_file  => $file_name,
-    notify      => Exec["Create Parent Directories: ${title}"]
-  }
-
   $namespace_path = regsubst($name, '[.]', '/', 'G')
 
   File {
@@ -33,9 +23,10 @@ define wildfly::config::module($file_uri = undef, $dependencies = []) {
     ensure  => directory,
   }
 
-  file { "${dir_path}/${file_name}":
-    ensure => file,
-    source => "/opt/${file_name}"
+  $file_name = inline_template('<%= File.basename(URI::parse(@file_uri).path) %>')
+
+  archive { "${dir_path}/${file_name}":
+    source        => $file_uri,
   }
 
   file { "${dir_path}/module.xml":

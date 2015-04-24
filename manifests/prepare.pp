@@ -40,5 +40,4 @@ class wildfly::prepare {
     }
   }
 
-  ## wget, nexus and stdlib
 }

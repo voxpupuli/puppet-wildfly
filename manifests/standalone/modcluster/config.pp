@@ -17,6 +17,7 @@ define wildfly::standalone::modcluster::config($advertise_socket = 'modcluster',
   }
   ->
   wildfly::util::cli { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
+    content => {}
   }
   ->
   wildfly::util::cli { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":

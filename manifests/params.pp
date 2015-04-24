@@ -21,7 +21,7 @@ class wildfly::params {
   $config_file_path  = "${dirname}/${mode}/configuration/${config}"
   $console_log       = '/var/log/wildfly/console.log'
 
-  #use a hash definition
+#use a hash definition
 
   $mgmt_bind         = '0.0.0.0'
   $mgmt_http_port    = '9990'
