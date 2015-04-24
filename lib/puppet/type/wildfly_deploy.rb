@@ -41,7 +41,9 @@ Puppet::Type.newtype(:wildfly_deploy) do
 
     def sha1sum(source)
       source_path = source.sub('file:', '')
-      Digest::SHA1.hexdigest(File.read(source_path))
+      if File.exists?(source_path)
+        return Digest::SHA1.hexdigest(File.read(source_path))
+      end
     end
 
   end

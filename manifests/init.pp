@@ -24,14 +24,15 @@ class wildfly(
   $users_mgmt        = $wildfly::params::users_mgmt,
 ) inherits wildfly::params {
 
+  include archive
   include wildfly::install
   include wildfly::prepare
   include wildfly::setup
   include wildfly::service
 
-  Class['wildfly::prepare'] ->
-    Class['wildfly::install'] ->
-      Class['wildfly::setup'] ->
-        Class['wildfly::service']
-
+  Class['archive'] ->
+    Class['wildfly::prepare'] ->
+      Class['wildfly::install'] ->
+        Class['wildfly::setup'] ->
+          Class['wildfly::service']
 }

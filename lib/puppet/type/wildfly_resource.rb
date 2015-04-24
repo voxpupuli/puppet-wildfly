@@ -54,4 +54,8 @@ Puppet::Type.newtype(:wildfly_resource) do
     end
   end
 
+  autorequire(:service) do
+    ['wildfly']
+  end
+
 end

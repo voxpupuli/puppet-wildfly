@@ -1,5 +1,5 @@
 #
-# Uses Wildfly CLI Wrapper to ensure configuration state
+# Uses wildfly_resource to ensure configuration state
 #
 define wildfly::util::cli($content = undef) {
 
