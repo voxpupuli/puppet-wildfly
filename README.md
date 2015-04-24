@@ -144,14 +144,13 @@ Setup a driver and a datasource:
       }
     }
     
-Alternatively, you can install a JDBC driver and module using deploy_from_url if your driver is JDBC4 compliant:
+Alternatively, you can install a JDBC driver and module using deploy if your driver is JDBC4 compliant:
 
     wildfly::standalone::deploy { 'postgresql-9.3-1103-jdbc4.jar':
       source => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar'
     }
     ->
-    wildfly::standalone::datasources::datasource { 'Demo datasource':
-      name           => 'DemoDS',
+    wildfly::standalone::datasources::datasource { 'DemoDS':
       config         => {
         'driver-name' => 'postgresql-9.3-1103-jdbc4.jar',
         'connection-url' => 'jdbc:postgresql://localhost/postgres',
