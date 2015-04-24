@@ -2,9 +2,8 @@ require 'puppet/util/wildfly_cli'
 
 Puppet::Type.type(:wildfly_resource).provide(:http_api) do
 
-  # need to improve this
   def cli
-    Puppet::Util::WildflyCli.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+    Puppet::Util::WildflyCli.instance(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
 
   def create
@@ -23,7 +22,7 @@ Puppet::Type.type(:wildfly_resource).provide(:http_api) do
   end
 
   def state
-    debug "Retrieve state: #{@resource[:path].inspect}"
+    debug "Retrieve state: #{@resource[:path]}"
     cli.read(@resource[:path])
   end
 

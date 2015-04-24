@@ -2,15 +2,14 @@ require 'puppet/util/wildfly_cli'
 
 Puppet::Type.type(:wildfly_cli).provide(:http_api) do
 
-  # need to improve this
   def cli
-    Puppet::Util::WildflyCli.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+    Puppet::Util::WildflyCli.instance(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
 
   def exec(command)
 
-    debug "Running: #{@resource[:command]}"
-    cli.exec(@resource[:command])
+    debug "Running: #{command}"
+    cli.exec(command)
 
   end
 

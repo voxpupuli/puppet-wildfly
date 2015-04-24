@@ -1,8 +1,16 @@
+require 'puppet/util/wildfly_cli'
+
 Puppet::Type.newtype(:wildfly_resource) do
 
   ensurable do
     defaultvalues
     defaultto :present
+  end
+
+  newparam(:path, :namevar => true) do
+    validate do |value|
+      fail("Invalid resource path #{value}") unless value =~ /(\/[\w\-]+=[\w\-]+)/
+    end
   end
   
   newparam(:username) do
@@ -11,15 +19,16 @@ Puppet::Type.newtype(:wildfly_resource) do
   newparam(:password) do
   end
 
-  newparam(:path, :namevar => true) do
-  end
-
   newparam(:host) do
     defaultto '127.0.0.1'
   end
 
   newparam(:port) do
     defaultto 9990
+  end
+
+  newparam(:reload_if_necessary) do
+    defaultto false
   end
 
   newproperty(:state) do

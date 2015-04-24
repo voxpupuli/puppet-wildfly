@@ -15,6 +15,18 @@ Puppet::Type.newtype(:wildfly_cli) do
   newparam(:name) do
   end
 
+  newparam(:host) do
+    defaultto '127.0.0.1'
+  end
+
+  newparam(:port) do
+    defaultto 9990
+  end
+
+  newparam(:reload_if_necessary) do
+    defaultto false
+  end
+
   newproperty(:executed) do
 
     defaultto true
@@ -27,14 +39,6 @@ Puppet::Type.newtype(:wildfly_cli) do
       provider.exec(@resource[:command])
     end
 
-  end
-
-  newparam(:host) do
-    defaultto '127.0.0.1'
-  end
-
-  newparam(:port) do
-    defaultto 9990
   end
 
   autorequire(:service) do

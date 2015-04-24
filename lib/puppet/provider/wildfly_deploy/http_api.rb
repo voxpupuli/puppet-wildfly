@@ -3,9 +3,8 @@ require 'puppet/util/wildfly_cli'
 
 Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
 
-  # need to improve this
   def cli
-    Puppet::Util::WildflyCli.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+    Puppet::Util::WildflyCli.instance(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
 
   def create
@@ -32,11 +31,12 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
 
     debug "Current content SHA1: #{content_sha1_sum}"
 
-    return content_sha1_sum
+    content_sha1_sum
   end
 
   def content=(value)
     debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
+    #TODO: Use composite
     cli.undeploy(@resource[:name])
     cli.deploy(@resource[:name], @resource[:source])
   end

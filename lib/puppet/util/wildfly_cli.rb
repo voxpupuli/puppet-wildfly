@@ -9,12 +9,22 @@ class Puppet::Util::WildflyCli
 
   include WildflyCliAssembler
 
+  @@instance = nil
+
   def initialize(address, port, user, password)
     @uri = URI.parse "http://#{address}:#{port}/management"
     @uri.user = CGI.escape(user)
     @uri.password = CGI.escape(password)
 
     @http_client = Net::HTTP.new @uri.host, @uri.port
+  end
+
+  def self.instance(address, port, user, password)
+    if @@instance.nil?
+      @@instance = new(address, port, user, password)
+    end
+
+    @@instance
   end
 
   def add(resource, state)
@@ -26,6 +36,12 @@ class Puppet::Util::WildflyCli
     body_with_state = body.merge(state)
 
     send(body_with_state)
+    #
+    # if response['response-headers']['operation-requires-reload']
+    #   reload
+    # end
+    #
+    # response
   end
 
   def remove(resource)
@@ -71,7 +87,7 @@ class Puppet::Util::WildflyCli
     composite = {
         :address => [],
         :operation => :composite,
-        :steps => [remove, add]
+        :steps => [remove, add.merge(state)]
     }
 
     send(composite)
@@ -127,8 +143,8 @@ class Puppet::Util::WildflyCli
 
   def authz_header
     digest_auth = Net::HTTP::DigestAuth.new
-    request = Net::HTTP::Get.new @uri.request_uri
-    response = @http_client.request request
+    authz_request = Net::HTTP::Get.new @uri.request_uri
+    response = @http_client.request authz_request
     digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
   end
 
@@ -137,6 +153,8 @@ class Puppet::Util::WildflyCli
     http_request.add_field 'Content-type', 'application/json'
     http_request.add_field 'Authorization', authz_header
     http_request.body = body.to_json
+
+    puts "Sending request: #{body.to_json}"
 
     http_response = @http_client.request http_request
 
