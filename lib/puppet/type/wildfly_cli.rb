@@ -1,5 +1,4 @@
 Puppet::Type.newtype(:wildfly_cli) do
-
   newparam(:command) do
   end
 
@@ -28,7 +27,6 @@ Puppet::Type.newtype(:wildfly_cli) do
   end
 
   newproperty(:executed) do
-
     defaultto true
 
     def retrieve
@@ -38,11 +36,9 @@ Puppet::Type.newtype(:wildfly_cli) do
     def sync
       provider.exec(@resource[:command])
     end
-
   end
 
   autorequire(:service) do
     ['wildfly']
   end
-
 end

@@ -1,7 +1,6 @@
 require 'puppet/util/wildfly_cli'
 
 Puppet::Type.type(:wildfly_resource).provide(:http_api) do
-
   def cli
     Puppet::Util::WildflyCli.instance(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
@@ -27,8 +26,7 @@ Puppet::Type.type(:wildfly_resource).provide(:http_api) do
   end
 
   def state=(value)
-    "Updating state for: #{@resource[:path]} with #{@resource[:state].inspect}"
+    # "Updating state for: #{@resource[:path]} with #{@resource[:state].inspect}"
     cli.update(@resource[:path], value)
   end
-
 end

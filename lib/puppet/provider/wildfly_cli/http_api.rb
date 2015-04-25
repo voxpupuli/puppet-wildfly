@@ -1,16 +1,13 @@
 require 'puppet/util/wildfly_cli'
 
 Puppet::Type.type(:wildfly_cli).provide(:http_api) do
-
   def cli
     Puppet::Util::WildflyCli.instance(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
 
   def exec(command)
-
     debug "Running: #{command}"
     cli.exec(command)
-
   end
 
   def should_execute?
@@ -26,5 +23,4 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
 
     not eval(condition)
   end
-
 end

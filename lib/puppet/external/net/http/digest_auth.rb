@@ -3,6 +3,7 @@ require 'digest'
 require 'monitor'
 require 'net/http'
 require 'securerandom'
+# rubocop:disable all
 
 ##
 # An implementation of RFC 2617 Digest Access Authentication.
@@ -168,6 +169,5 @@ class Net::HTTP::DigestAuth
       @nonce_count += 1
     end
   end
-
 end
-
+# rubocop:enable all

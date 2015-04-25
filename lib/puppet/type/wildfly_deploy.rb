@@ -1,7 +1,6 @@
 require 'digest'
 
 Puppet::Type.newtype(:wildfly_deploy) do
-
   ensurable do
     defaultvalues
     defaultto :present
@@ -28,7 +27,6 @@ Puppet::Type.newtype(:wildfly_deploy) do
   end
 
   newproperty(:content) do
-
     defaultto ''
 
     munge do |value|
@@ -41,15 +39,13 @@ Puppet::Type.newtype(:wildfly_deploy) do
 
     def sha1sum(source)
       source_path = source.sub('file:', '')
-      if File.exists?(source_path)
+      if File.exist?(source_path)
         return Digest::SHA1.hexdigest(File.read(source_path))
       end
     end
-
   end
 
   autorequire(:service) do
     ['wildfly']
   end
-
 end

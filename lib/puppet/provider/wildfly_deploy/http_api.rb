@@ -2,7 +2,6 @@ require 'base64'
 require 'puppet/util/wildfly_cli'
 
 Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
-
   def cli
     Puppet::Util::WildflyCli.instance(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
   end
@@ -36,9 +35,8 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
 
   def content=(value)
     debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
-    #TODO: Use composite
+    # TODO: Use composite
     cli.undeploy(@resource[:name])
     cli.deploy(@resource[:name], @resource[:source])
   end
-
 end

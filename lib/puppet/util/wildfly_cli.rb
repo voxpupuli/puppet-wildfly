@@ -6,7 +6,6 @@ require 'json'
 require 'puppet/util/wildfly_cli_assembler'
 
 class Puppet::Util::WildflyCli
-
   include WildflyCliAssembler
 
   @@instance = nil
@@ -29,8 +28,8 @@ class Puppet::Util::WildflyCli
 
   def add(resource, state)
     body = {
-        :address => assemble_address(resource),
-        :operation => :add
+      :address => assemble_address(resource),
+      :operation => :add
     }
 
     body_with_state = body.merge(state)
@@ -46,8 +45,8 @@ class Puppet::Util::WildflyCli
 
   def remove(resource)
     body = {
-        :address => assemble_address(resource),
-        :operation => :remove
+      :address => assemble_address(resource),
+      :operation => :remove
     }
 
     send(body)
@@ -55,8 +54,8 @@ class Puppet::Util::WildflyCli
 
   def exists?(resource)
     body = {
-        :address => assemble_address(resource),
-        :operation => 'read-resource'
+      :address => assemble_address(resource),
+      :operation => 'read-resource'
     }
 
     response = send(body, :ignore_outcome => true)
@@ -65,8 +64,8 @@ class Puppet::Util::WildflyCli
 
   def read(resource)
     body = {
-        :address => assemble_address(resource),
-        :operation => 'read-resource'
+      :address => assemble_address(resource),
+      :operation => 'read-resource'
     }
 
     response = send(body, :ignore_outcome => true)
@@ -75,19 +74,19 @@ class Puppet::Util::WildflyCli
 
   def update(resource, state)
     remove = {
-        :address => assemble_address(resource),
-        :operation => :remove
+      :address => assemble_address(resource),
+      :operation => :remove
     }
 
     add = {
-        :address => assemble_address(resource),
-        :operation => :add
+      :address => assemble_address(resource),
+      :operation => :add
     }
 
     composite = {
-        :address => [],
-        :operation => :composite,
-        :steps => [remove, add.merge(state)]
+      :address => [],
+      :operation => :composite,
+      :steps => [remove, add.merge(state)]
     }
 
     send(composite)
@@ -100,20 +99,20 @@ class Puppet::Util::WildflyCli
 
   def deploy(name, source)
     add = {
-        :address => {:deployment => name},
-        :operation => :add,
-        :content => [:url => source]
+      :address => { :deployment => name },
+      :operation => :add,
+      :content => [:url => source]
     }
 
     deploy = {
-        :address => {:deployment => name},
-        :operation => :deploy
+      :address => { :deployment => name },
+      :operation => :deploy
     }
 
     composite = {
-        :address => [],
-        :operation => :composite,
-        :steps => [add, deploy]
+      :address => [],
+      :operation => :composite,
+      :steps => [add, deploy]
     }
 
     send(composite)
@@ -121,19 +120,19 @@ class Puppet::Util::WildflyCli
 
   def undeploy(name)
     remove = {
-        :address => {:deployment => name},
-        :operation => :remove
+      :address => { :deployment => name },
+      :operation => :remove
     }
 
     undeploy = {
-        :address => {:deployment => name},
-        :operation => :undeploy
+      :address => { :deployment => name },
+      :operation => :undeploy
     }
 
     composite = {
-        :address => [],
-        :operation => :composite,
-        :steps => [undeploy, remove]
+      :address => [],
+      :operation => :composite,
+      :steps => [undeploy, remove]
     }
 
     send(composite)
@@ -161,10 +160,9 @@ class Puppet::Util::WildflyCli
     response = JSON.parse(http_response.body)
 
     unless response['outcome'] == 'success' || ignore_outcome
-        fail response['failure-description'].to_s
+      fail response['failure-description'].to_s
     end
 
     response
   end
-
 end
