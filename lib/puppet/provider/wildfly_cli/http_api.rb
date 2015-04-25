@@ -27,7 +27,6 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
 
   def evaluate_command(command)
     condition, command = command.split(/\sof\s/)
-
     variable, operator, value = condition.sub('(', '').sub(')', '').split(/\s/)
 
     debug "Executing: #{command} to verify: (#{condition})"
