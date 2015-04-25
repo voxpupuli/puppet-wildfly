@@ -1,16 +1,12 @@
 #
-# Uses Wildfly CLI Wrapper to ensure configuration state
+# Uses wildfly_resource to ensure configuration state
 #
-define wildfly::util::cli($content = undef, $path = undef) {
+define wildfly::util::cli($content = undef) {
 
-  $cleaned_content = delete_undef_values($content)
-  $json_content = to_unescaped_json($cleaned_content)
-
-  exec { $title:
-    command => "java -jar ${wildfly::dirname}/bin/client/wildfly-cli-wrapper.jar \"${path}\" ${json_content}",
-    unless  => "java -jar ${wildfly::dirname}/bin/client/wildfly-cli-wrapper.jar \"${path}\" ${json_content} --verify-only",
-    path    => ['/usr/bin', '/usr/sbin', '/bin', '/sbin', "${wildfly::java_home}/bin"],
-    require => Service['wildfly']
+  wildfly_resource { $name:
+    username => $::wildfly::users_mgmt['wildfly']['username'],
+    password => $::wildfly::users_mgmt['wildfly']['password'],
+    state    => $content
   }
 
 }

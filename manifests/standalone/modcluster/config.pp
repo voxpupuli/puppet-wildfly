@@ -12,20 +12,16 @@ define wildfly::standalone::modcluster::config($advertise_socket = 'modcluster',
     'proxy-list' => $proxy_list
   }
 
-  wildfly::util::cli { "Update mod-cluster-config: ${title}":
-    content => $config,
-    path    => '/subsystem=modcluster/mod-cluster-config=configuration'
+  wildfly::util::cli { '/subsystem=modcluster/mod-cluster-config=configuration':
+    content => $config
   }
   ->
-  wildfly::util::exec_cli { 'Create dynamic load provider':
-    action_command => '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration:add()',
-    verify_command => '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration:read-resource',
+  wildfly::util::cli { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
+    content => {}
   }
   ->
-  wildfly::util::exec_cli { "Set load-metric: ${type}":
-    action_command    => "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}:add(type=${type})",
-    verify_command    => "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}:read-resource",
-    post_exec_command => 'reload'
+  wildfly::util::cli { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
+    content => { 'type' => $type }
   }
 
 }

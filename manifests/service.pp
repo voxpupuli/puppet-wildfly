@@ -20,10 +20,11 @@ class wildfly::service {
   }
 
   service { 'wildfly':
-    ensure  => true,
-    name    => 'wildfly',
-    enable  => true,
-    require => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly.conf']]
+    ensure     => true,
+    enable     => true,
+    hasrestart => true,
+    hasstatus  => true,
+    require    => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly.conf']]
   }
 
 }
