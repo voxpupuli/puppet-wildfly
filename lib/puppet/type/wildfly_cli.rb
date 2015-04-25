@@ -5,6 +5,9 @@ Puppet::Type.newtype(:wildfly_cli) do
   newparam(:unless) do
   end
 
+  newparam(:onlyif) do
+  end
+
   newparam(:username) do
   end
 
