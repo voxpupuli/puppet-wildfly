@@ -12,15 +12,15 @@ define wildfly::standalone::modcluster::config($advertise_socket = 'modcluster',
     'proxy-list' => $proxy_list
   }
 
-  wildfly::util::cli { '/subsystem=modcluster/mod-cluster-config=configuration':
+  wildfly::util::resource { '/subsystem=modcluster/mod-cluster-config=configuration':
     content => $config
   }
   ->
-  wildfly::util::cli { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
+  wildfly::util::resource { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
     content => {}
   }
   ->
-  wildfly::util::cli { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
+  wildfly::util::resource { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
     content => { 'type' => $type }
   }
 

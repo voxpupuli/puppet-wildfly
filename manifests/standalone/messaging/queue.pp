@@ -9,7 +9,7 @@ define wildfly::standalone::messaging::queue($durable = undef, $entries = undef,
     'selector' => $selector
   }
 
-  wildfly::util::cli { "/subsystem=messaging/hornetq-server=default/jms-queue=${name}":
+  wildfly::util::resource { "/subsystem=messaging/hornetq-server=default/jms-queue=${name}":
     content => $params
   }
 

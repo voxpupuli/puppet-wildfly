@@ -4,7 +4,7 @@ module WildflyCliAssembler
 
     resource.split('/').each do |token|
       values = token.split('=')
-      if !values.empty?
+      unless values.empty?
         address << { values[0] => values[1] }
       end
     end
@@ -23,7 +23,7 @@ module WildflyCliAssembler
   end
 
   def assemble_operation(operation)
-    dummy, operation, another_dummy, attribute = /([\w\-]+)\(([\w\-]+)=(.+)\)/.match(operation).to_a
+    _, operation, _, attribute = /([\w\-]+)\(([\w\-]+)=(.+)\)/.match(operation).to_a
 
     { :operation => operation, :name => attribute }
   end

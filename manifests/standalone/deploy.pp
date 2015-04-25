@@ -15,6 +15,8 @@ define wildfly::standalone::deploy($ensure = present, $source = undef) {
     ensure   => $ensure,
     username => $::wildfly::users_mgmt['wildfly']['username'],
     password => $::wildfly::users_mgmt['wildfly']['password'],
+    host     => $::wildfly::mgmt_bind,
+    port     => $::wildfly::mgmt_http_port,
     source   => "file:${local_source}"
   }
 
