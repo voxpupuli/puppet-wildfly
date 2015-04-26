@@ -11,16 +11,33 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
   end
 
   def should_execute?
-    condition, command = @resource[:unless].split /\sof\s/
+    unless_eval = true
+    onlyif_eval = false
 
-    variable, operator, value = condition.sub('(', '').sub(')', '').split /\s/
+    unless @resource[:unless].nil?
+      unless_eval = evaluate_command(@resource[:unless])
+    end
+
+    unless @resource[:onlyif].nil?
+      onlyif_eval = evaluate_command(@resource[:onlyif])
+    end
+
+    onlyif_eval || !unless_eval
+  end
+
+  def evaluate_command(command)
+    condition, command = command.split(/\sof\s/)
+
+    variable, operator, value = condition.sub('(', '').sub(')', '').split(/\s/)
 
     debug "Executing: #{command} to verify: (#{condition})"
 
     response = cli.exec(command)
 
-    condition = "#{response[variable]} #{operator} #{value}"
+    condition = "'#{response[variable]}' #{operator} '#{value}'"
 
-    not eval(condition)
+    debug "Condition (#{condition})"
+
+    eval(condition)
   end
 end

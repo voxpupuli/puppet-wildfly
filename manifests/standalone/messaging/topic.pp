@@ -7,7 +7,7 @@ define wildfly::standalone::messaging::topic($entries = undef) {
     'entries' => $entries
   }
 
-  wildfly::util::cli { "/subsystem=messaging/hornetq-server=default/jms-topic=${name}":
+  wildfly::util::resource { "/subsystem=messaging/hornetq-server=default/jms-topic=${name}":
     content => $params
   }
 

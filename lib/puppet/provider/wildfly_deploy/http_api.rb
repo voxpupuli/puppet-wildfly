@@ -35,8 +35,6 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
 
   def content=(value)
     debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
-    # TODO: Use composite
-    cli.undeploy(@resource[:name])
-    cli.deploy(@resource[:name], @resource[:source])
+    cli.update_deploy(@resource[:name], @resource[:source])
   end
 end
