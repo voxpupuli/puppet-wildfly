@@ -3,9 +3,9 @@ module WildflyCliAssembler
     address = []
 
     resource.split('/').each do |token|
-      values = token.split('=')
-      unless values.empty?
-        address << { values[0] => values[1] }
+      node_type, node_name = token.split('=')
+      unless node_type.nil? && node_name.nil?
+        address << { node_type => node_name }
       end
     end
 
@@ -13,14 +13,14 @@ module WildflyCliAssembler
   end
 
   def assemble_attributes(params)
-    attributes = []
+    attributes = {}
 
     params.split(',').each do |token|
-      values = token.split('=')
-      attributes << { values[0].strip => values[1].strip }
+      attribute, value = token.split('=')
+      attributes[attribute.strip] = value.strip
     end
 
-    attributes.reduce Hash.new, :merge
+    attributes
   end
 
   def assemble_command(command)

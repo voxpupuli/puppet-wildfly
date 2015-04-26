@@ -8,13 +8,13 @@ Puppet::Type.newtype(:wildfly_cli) do
   newparam(:onlyif) do
   end
 
+  newparam(:name) do
+  end
+
   newparam(:username) do
   end
 
   newparam(:password) do
-  end
-
-  newparam(:name) do
   end
 
   newparam(:host) do
@@ -23,10 +23,6 @@ Puppet::Type.newtype(:wildfly_cli) do
 
   newparam(:port) do
     defaultto 9990
-  end
-
-  newparam(:reload_if_necessary) do
-    defaultto false
   end
 
   newproperty(:executed) do

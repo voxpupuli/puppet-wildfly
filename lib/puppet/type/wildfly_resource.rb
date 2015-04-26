@@ -26,10 +26,6 @@ Puppet::Type.newtype(:wildfly_resource) do
     defaultto 9990
   end
 
-  newparam(:reload_if_necessary) do
-    defaultto false
-  end
-
   newproperty(:state) do
     defaultto {}
 

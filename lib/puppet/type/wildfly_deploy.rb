@@ -29,15 +29,13 @@ Puppet::Type.newtype(:wildfly_deploy) do
   newproperty(:content) do
     defaultto ''
 
-    munge do |value|
-      sha1sum(@resource[:source])
-    end
-
     def insync?(is)
+      should = sha1sum?(@resource[:source])
+      debug "Should SHA1: #{should} IS SHA1: #{is}"
       should == is
     end
 
-    def sha1sum(source)
+    def sha1sum?(source)
       source_path = source.sub('file:', '')
       if File.exist?(source_path)
         return Digest::SHA1.hexdigest(File.read(source_path))

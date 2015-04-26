@@ -1,7 +1,7 @@
 #
 # Module installation
 #
-define wildfly::config::module($file_uri = undef, $dependencies = []) {
+define wildfly::config::module($source = undef, $dependencies = []) {
 
   $namespace_path = regsubst($name, '[.]', '/', 'G')
 
@@ -23,10 +23,16 @@ define wildfly::config::module($file_uri = undef, $dependencies = []) {
     ensure  => directory,
   }
 
-  $file_name = inline_template('<%= File.basename(URI::parse(@file_uri).path) %>')
+  $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
 
   archive { "${dir_path}/${file_name}":
-    source        => $file_uri,
+    source        => $source,
+  }
+  ->
+  file { "${dir_path}/${file_name}":
+    owner => $::wildfly::user,
+    group => $::wildfly::group,
+    mode  => '0755'
   }
 
   file { "${dir_path}/module.xml":
