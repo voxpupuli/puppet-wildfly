@@ -1,5 +1,8 @@
 # History
 
+## 0.3.1
+- Code quality improvement and support for onlyif in wildfly_cli
+
 ## 0.3.0
 - Introducing custom types/providers in replacement of cli-wrapper and jboss-cli.sh. These custom types/providers use HTTP API instead of JBoss-CLI. It maks it 5-10x faster and easier to maintain. More info here: cpitman/puppet-jboss_admin#68
 - Using archive in replacement of wget cause it's faster and incredible simple.
