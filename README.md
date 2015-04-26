@@ -206,6 +206,15 @@ Datasource configuration uses a hash with elements that match JBoss-CLI datasour
       password    => 'changeit',
     }
 
+## Server Reload
+
+Some configurations like SSL and Modcluster requires a server reload, it can be achieve with the following define:
+
+    wildfly::util::exec_cli { 'Reload if necessary':
+      command => 'reload',
+      onlyif  => '(result == reload-required) of read-attribute server-state'
+    }
+
 ## Messaging (Only for full profiles)
 
     wildfly::standalone::messaging::queue { 'DemoQueue':

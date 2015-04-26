@@ -11,6 +11,9 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
   end
 
   def should_execute?
+    unless_eval = true
+    onlyif_eval = false
+
     unless @resource[:unless].nil?
       unless_eval = evaluate_command(@resource[:unless])
     end
@@ -23,7 +26,7 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
   end
 
   def evaluate_command(command)
-    condition, command = command.split /\sof\s/
+    condition, command = command.split(/\sof\s/)
 
     variable, operator, value = condition.sub('(', '').sub(')', '').split(/\s/)
 
@@ -31,7 +34,9 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
 
     response = cli.exec(command)
 
-    condition = "#{response[variable]} #{operator} #{value}"
+    condition = "'#{response[variable]}' #{operator} '#{value}'"
+
+    debug "Condition (#{condition})"
 
     eval(condition)
   end
