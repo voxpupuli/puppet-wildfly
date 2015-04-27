@@ -85,8 +85,9 @@ or you can override a paramater
 Source supports: http://, ftp://, file:// 
 
     wildfly::standalone::deploy { 'hawtio.war':
-     source => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war'
-    }
+     source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+     checksum => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1
+    } 
     
 ## User management
 
@@ -119,7 +120,7 @@ And associate groups or roles to them (requires server restart)
 Install a JAR module from a remote file system.
 
     wildfly::config::module { 'org.postgresql':
-      file_uri     => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+      source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
     }
     
@@ -208,7 +209,7 @@ Datasource configuration uses a hash with elements that match JBoss-CLI datasour
 
 ## Server Reload
 
-Some configurations like SSL and Modcluster requires a server reload, it can be achieve with the following define:
+Some configurations like SSL and modcluster requires a server reload, it can be achieved with the following define:
 
     wildfly::util::exec_cli { 'Reload if necessary':
       command => 'reload',
@@ -261,4 +262,4 @@ This module is based on three custom types:
 
 They all require a management username, password, host and port params, as it uses Wildfly HTTP API. *Host defaults to 127.0.0.1 and port to 9990*    
     
-You can do virtually any Wildfly configuration using these custom types. Also this modules provides some defines in wildfly::standalone namespace are based in these custom types that are intended to enforce good practices, syntax sugar or sample implementations.
+You can do virtually any Wildfly configuration using these custom types. Also this modules provides some defines in wildfly::standalone namespace which are built on top of these custom types. They are intended to enforce good practices, syntax sugar or serve as examples.
