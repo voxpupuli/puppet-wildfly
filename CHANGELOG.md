@@ -1,5 +1,8 @@
 # History
 
+## 0.3.2
+- More improvements
+
 ## 0.3.1
 - Code quality improvement and support for onlyif in wildfly_cli
 
