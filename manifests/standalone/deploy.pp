@@ -6,17 +6,24 @@ define wildfly::standalone::deploy($ensure = present, $source = undef, $checksum
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
   $local_source = "/tmp/${file_name}"
 
-  archive { $local_source:
-    source        => $source,
-    checksum      => $checksum,
-    checksum_type => 'sha1'
+  if ( $checksum == undef ) {
+    archive { $local_source:
+      source => $source
+    }
+  } else {
+    archive { $local_source:
+      source        => $source,
+      checksum      => $checksum,
+      checksum_type => 'sha1'
+    }
   }
-  ->
+
   file { $local_source:
-    owner  => $::wildfly::user,
-    group  => $::wildfly::group,
-    mode   => '0755',
-    notify => Wildfly_deploy[$name]
+    owner   => $::wildfly::user,
+    group   => $::wildfly::group,
+    mode    => '0755',
+    require => Archive[$local_source],
+    notify  => Wildfly_deploy[$name]
   }
 
   wildfly_deploy { $name:
