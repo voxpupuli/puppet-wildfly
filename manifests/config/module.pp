@@ -3,6 +3,8 @@
 #
 define wildfly::config::module($source = undef, $dependencies = []) {
 
+  require jboss::install
+
   $namespace_path = regsubst($name, '[.]', '/', 'G')
 
   File {
