@@ -3,7 +3,7 @@
 #
 class wildfly::service {
 
-  file{ '/etc/default/wildfly.conf':
+  file { '/etc/default/wildfly.conf':
     ensure  => present,
     mode    => '0755',
     owner   => 'root',
@@ -11,7 +11,7 @@ class wildfly::service {
     content => template('wildfly/wildfly.conf.erb'),
   }
 
-  file{ '/etc/init.d/wildfly':
+  file { '/etc/init.d/wildfly':
     ensure => present,
     mode   => '0755',
     owner  => 'root',

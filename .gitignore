@@ -1,5 +1,6 @@
 pkg
 .bundle/config
 .idea
+/log
 
 *.lock

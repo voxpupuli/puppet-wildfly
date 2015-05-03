@@ -19,7 +19,7 @@ class wildfly::prepare {
   }
 
   # extract dir
-  file{ $wildfly::dirname :
+  file { $wildfly::dirname :
     ensure  => directory,
     owner   => $wildfly::user,
     group   => $wildfly::group,

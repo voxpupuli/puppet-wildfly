@@ -16,4 +16,7 @@ gem 'facter', '>= 1.6.10'
 gem 'ci_reporter_rspec'
 gem 'rubocop', :git => 'https://github.com/bbatsov/rubocop',  :require => false
 gem 'puppet-blacksmith'
+gem 'beaker'
+gem 'beaker-rspec'
+gem 'serverspec'
 
