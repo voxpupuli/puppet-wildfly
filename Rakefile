@@ -13,8 +13,10 @@ RSpec::Core::RakeTask.new(:acceptance) do |t|
   t.pattern = 'spec/acceptance'
 end
 
+#task :spec => :test
+
 desc "Run the tests"
-RSpec::Core::RakeTask.new(:test) do |t|
+RSpec::Core::RakeTask.new do |t|
   t.rspec_opts = ['--color', '-f d']
   t.pattern = 'spec/classes/*_spec.rb'
 end
@@ -31,17 +33,6 @@ exclude_paths = [
 ]
 PuppetLint.configuration.ignore_paths = exclude_paths
 PuppetSyntax.exclude_paths = exclude_paths
-
-task :spec => :test
-
-desc "Run syntax, lint, and spec tests."
-task :default => [
-	:spec_prep,
-	:syntax,
-	:test,
-	:lint,
-	:spec_clean
-]
 
 begin
   require 'rubocop/rake_task'
