@@ -1,6 +1,11 @@
 require 'beaker-rspec/spec_helper'
 require 'beaker-rspec/helpers/serverspec'
 
+# hosts.each do |host|
+#   # Install Puppet
+#   on host, install_puppet
+# end
+
 RSpec.configure do |c|
   project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
@@ -11,7 +16,7 @@ RSpec.configure do |c|
     hosts.each do |host|
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '3.2.0'), :acceptable_exit_codes => [0, 1]
       on host, puppet('module', 'install', 'nanliu/archive', '--version', '0.3.0'), :acceptable_exit_codes => [0, 1]
-      on host, puppet('module','install','puppetlabs-java'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module','install','puppetlabs-java'), { :acceptable_exit_codes => [0, 1] }
     end
   end
 end

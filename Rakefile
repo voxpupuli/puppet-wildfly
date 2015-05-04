@@ -6,6 +6,11 @@ require 'pathname'
 require 'ci/reporter/rake/rspec'
 require 'puppet_blacksmith/rake_tasks'
 
+desc "Run acceptance tests"
+RSpec::Core::RakeTask.new(:acceptance) do |t|
+  t.pattern = 'spec/acceptance'
+end
+
 desc "Run the tests"
 RSpec::Core::RakeTask.new(:test) do |t|
   t.rspec_opts = ['--color', '-f d']

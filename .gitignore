@@ -4,3 +4,8 @@ pkg
 /log
 
 *.lock
+.vagrant
+
+spec/fixtures/*
+
+spec/reports/*
