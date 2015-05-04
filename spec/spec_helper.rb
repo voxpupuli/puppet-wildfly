@@ -1,13 +1,13 @@
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
 
-begin
-  require 'coveralls'
-  Coveralls.wear!
+# begin
+#   require 'coveralls'
+#   Coveralls.wear!
 
-rescue LoadError
-  puts "No Coveralls support"
-end
+# rescue LoadError
+#   puts "No Coveralls support"
+# end
 
 fixture_path = File.expand_path(File.join(__FILE__, '..', 'fixtures'))
 # include common helpers

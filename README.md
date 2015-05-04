@@ -274,7 +274,7 @@ You can do virtually any Wildfly configuration using these custom types. Also th
     bundle exec rake lint
     bundle exec rubocop
 
-    bundle exec rake ci:setup:rspec spec
+    bundle exec rake spec
     bundle exec rspec spec/acceptance # default centos-66-x64
     BEAKER_set=centos-70-x64 bundle exec rspec spec/acceptance
     BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
