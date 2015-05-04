@@ -16,7 +16,7 @@ end
 desc "Run the tests"
 RSpec::Core::RakeTask.new(:test) do |t|
   t.rspec_opts = ['--color', '-f d']
-  t.pattern = 'spec/*/*_spec.rb'
+  t.pattern = 'spec/classes/*_spec.rb'
 end
 
 PuppetLint.configuration.send("disable_80chars")
