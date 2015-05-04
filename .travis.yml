@@ -8,11 +8,11 @@ before_install:
 script:
   - bundle exec rake syntax
   - bundle exec rake lint
-  - bundle exec rake ci:setup:rspec spec
+  - bundle exec rake spec
 notifications:
   email:
     - biemond@gmail.com
 env:
   - PUPPET_VERSION=3.3.2
   - PUPPET_VERSION=3.4.3
-  - PUPPET_VERSION=3.6.2
+  - PUPPET_VERSION=3.7.5

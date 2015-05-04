@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['>= 3.0']
+puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['= 3.7.5']
 
 platform :ruby_19, :ruby_20 do
   gem 'coveralls', :require => false
@@ -13,7 +13,7 @@ gem 'rspec-system-puppet'
 gem 'puppetlabs_spec_helper'
 gem 'puppet-syntax'
 gem 'facter', '>= 1.6.10'
-gem 'ci_reporter_rspec'
+# gem 'ci_reporter_rspec'
 gem 'rubocop', :git => 'https://github.com/bbatsov/rubocop',  :require => false
 gem 'puppet-blacksmith'
 gem 'fog', '>= 1.25.0'

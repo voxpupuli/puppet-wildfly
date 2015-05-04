@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'wildfly' do
+describe 'wildfly', :type => :class do
   context 'with defaults for all parameters' do
     it { should contain_class('wildfly') }
     it { should contain_class('archive').that_comes_before('wildfly::prepare') }
