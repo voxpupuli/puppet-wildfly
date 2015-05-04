@@ -8,7 +8,8 @@ platform :ruby_19, :ruby_20 do
 end
 gem 'puppet-lint'
 gem 'puppet', puppetversion
-gem 'rspec-puppet', :git =>'https://github.com/rodjek/rspec-puppet'
+gem 'rspec', '>= 3.2.0'
+gem 'rspec-puppet', '>= 2.1.0'
 gem 'rspec-system-puppet'
 gem 'puppetlabs_spec_helper'
 gem 'puppet-syntax'
