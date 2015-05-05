@@ -16,7 +16,7 @@ end
 #task :spec => :test
 
 desc "Run the tests"
-RSpec::Core::RakeTask.new do |t|
+RSpec::Core::RakeTask.new(:test) do |t|
   t.rspec_opts = ['--color', '-f d']
   t.pattern = 'spec/classes/*_spec.rb'
 end
