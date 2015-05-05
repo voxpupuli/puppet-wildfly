@@ -3,7 +3,7 @@
 #
 class wildfly::service {
 
-  file { '/etc/default/wildfly.conf':
+  file { '/etc/default/wildfly':
     ensure  => present,
     mode    => '0755',
     owner   => 'root',
@@ -24,7 +24,7 @@ class wildfly::service {
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
-    require    => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly.conf']]
+    require    => [File['/etc/init.d/wildfly'],File['/etc/default/wildfly']]
   }
 
 }
