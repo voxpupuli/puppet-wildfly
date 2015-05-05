@@ -83,4 +83,4 @@ bundle exec rubocop
 
 bundle exec rspec spec/acceptance
 BEAKER_set=centos-70-x64 bundle exec rspec spec/acceptance
-BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
+BEAKER_destroy=onpass BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance

@@ -5,6 +5,13 @@ describe 'Acceptance case one' do
   context 'Initial install Wildfly and verification' do
     it 'Should apply the manifest without error' do
 
+      # update augeas on debian
+      # echo 'deb     http://pkg.camptocamp.net/apt wheezy/stable sysadmin' | sudo tee -a /etc/apt/sources.list
+      # curl -s http://pkg.camptocamp.net/packages-c2c-key.gpg | sudo apt-key add -
+      # apt-get update
+      # sudo apt-get install augeas-tools=1.\* augeas-lenses=1.\* augeas-doc=1.\* libaugeas0=1.\*
+      # dpkg -l '*augeas*'
+
       pp = <<-EOS
 
           $java_home = $::osfamily ? {
