@@ -1,11 +1,11 @@
 require 'uri'
 require 'net/http'
-require 'puppet/external/net/http/digest_auth'
 require 'cgi'
 require 'json'
-require 'puppet/util/wildfly_cli_assembler'
+require 'puppet_x/util/wildfly_cli_assembler'
+require 'puppet_x/util/digest_auth'
 
-module Puppet
+module PuppetX
   module Util
     class WildflyCli
       include WildflyCliAssembler
@@ -176,7 +176,7 @@ module Puppet
         response = JSON.parse(http_response.body)
 
         unless response['outcome'] == 'success' || ignore_outcome
-          fail response['failure-description'].to_s
+          fail "Failed with: #{response['failure-description']} for #{body.to_json}"
         end
 
         response
