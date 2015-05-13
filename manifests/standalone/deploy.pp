@@ -1,29 +1,60 @@
 #
-# Deploy $source to Wildfly
+# Deploy $source or nexus artifact ($gav, $nexus_url, $repository) to Wildfly
 #
-define wildfly::standalone::deploy($ensure = present, $source = undef, $checksum = undef) {
+define wildfly::standalone::deploy(
+  $ensure            = present,
+  $package_temp_path = '/tmp',
+  $packaging         = 'jar',
+  $checksum_type     = 'sha1',
+  $checksum          = undef,
+  $classifier        = undef,
+  $extension         = undef,
+  $source            = undef,
+  $nexus_url         = undef,
+  $gav               = undef,
+  $repository        = undef) {
 
-  $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
-  $local_source = "/tmp/${file_name}"
+  if ( $source == undef) {
 
-  if ( $checksum == undef ) {
-    archive { $local_source:
-      source => $source
+    $artifact_id = values_at(split($gav,  ':'), 1)
+    $local_source = "${package_temp_path}/${artifact_id}.${packaging}"
+
+    archive::nexus { $local_source:
+      ensure     => present,
+      url        => $nexus_url,
+      gav        => $gav,
+      repository => $repository,
+      packaging  => $packaging,
+      owner      => $::wildfly::user,
+      group      => $::wildfly::group,
+      notify     => Wildfly_deploy[$name]
     }
+
   } else {
-    archive { $local_source:
-      source        => $source,
-      checksum      => $checksum,
-      checksum_type => 'sha1'
-    }
-  }
 
-  file { $local_source:
-    owner   => $::wildfly::user,
-    group   => $::wildfly::group,
-    mode    => '0755',
-    require => Archive[$local_source],
-    notify  => Wildfly_deploy[$name]
+    $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
+    $local_source = "${package_temp_path}/${file_name}"
+
+    if ( $checksum == undef ) {
+      archive { $local_source:
+        source => $source
+      }
+    } else {
+      archive { $local_source:
+        source        => $source,
+        checksum      => $checksum,
+        checksum_type => $checksum_type
+      }
+    }
+
+    file { $local_source:
+      owner   => $::wildfly::user,
+      group   => $::wildfly::group,
+      mode    => '0755',
+      require => Archive[$local_source],
+      notify  => Wildfly_deploy[$name]
+    }
+
   }
 
   wildfly_deploy { $name:

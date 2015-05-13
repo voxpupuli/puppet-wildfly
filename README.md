@@ -88,6 +88,16 @@ Source supports: http://, ftp://, file://
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
      checksum => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1
     }
+    
+**From Nexus:**
+
+    wildfly::standalone::deploy { 'hawtio.war':
+      ensure     => present,
+      nexus_url  => 'https://oss.sonatype.org',
+      gav        => 'io.hawt:hawtio-web:1.4.36',
+      repository => 'releases',
+      packaging  => 'war',
+    }
 
 ## User management
 
@@ -134,8 +144,7 @@ Setup a driver and a datasource:
       driver_xa_datasource_class_name => 'org.postgresql.xa.PGXADataSource'
     }
     ->
-    wildfly::standalone::datasources::datasource { 'Demo datasource':
-      name           => 'DemoDS',
+    wildfly::standalone::datasources::datasource { 'DemoDS':
       config         => {
         'driver-name' => 'postgresql',
         'connection-url' => 'jdbc:postgresql://localhost/postgres',
@@ -209,7 +218,7 @@ Datasource configuration uses a hash with elements that match JBoss-CLI datasour
 
 ## Server Reload
 
-Some configurations like SSL and modcluster requires a server reload, it can be achieved with the following define:
+Some configurations like SSL and modcluster requires a server reload, it can be achieved with the following snippet:
 
     wildfly::util::exec_cli { 'Reload if necessary':
       command => 'reload',
