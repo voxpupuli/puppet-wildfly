@@ -3,7 +3,6 @@ require 'digest'
 require 'monitor'
 require 'net/http'
 require 'securerandom'
-# rubocop:disable all
 
 ##
 # An implementation of RFC 2617 Digest Access Authentication.
@@ -39,7 +38,6 @@ require 'securerandom'
 #   res = h.request req
 
 class Net::HTTP::DigestAuth
-
   include MonitorMixin
 
   ##
@@ -55,7 +53,7 @@ class Net::HTTP::DigestAuth
   ##
   # Creates a new DigestAuth header creator.
 
-  def initialize ignored = :ignored
+  def initialize(ignored = :ignored)
     mon_initialize
     @nonce_count = -1
   end
@@ -74,7 +72,7 @@ class Net::HTTP::DigestAuth
   # IIS servers handle the "qop" parameter of digest authentication
   # differently so you may need to set +iis+ to true for such servers.
 
-  def auth_header uri, www_authenticate, method, iis = false
+  def auth_header(uri, www_authenticate, method, iis = false)
     nonce_count = next_nonce
 
     user     = CGI.unescape uri.user
@@ -82,36 +80,36 @@ class Net::HTTP::DigestAuth
 
     www_authenticate =~ /^(\w+) (.*)/
 
-    challenge = $2
+    challenge = Regexp.last_match(2)
 
     params = {}
-    challenge.gsub(/(\w+)="(.*?)"/) { params[$1] = $2 }
+    challenge.gsub(/(\w+)="(.*?)"/) { params[Regexp.last_match(1)] = Regexp.last_match(2) }
 
     challenge =~ /algorithm="?(.*?)"?([, ]|$)/
 
-    params['algorithm'] = $1 || 'MD5'
+    params['algorithm'] = Regexp.last_match(1) || 'MD5'
 
     if params['algorithm'] =~ /(.*?)(-sess)?$/
-      algorithm = case $1
-                  when 'MD5'    then Digest::MD5
-                  when 'SHA1'   then Digest::SHA1
-                  when 'SHA2'   then Digest::SHA2
-                  when 'SHA256' then Digest::SHA256
-                  when 'SHA384' then Digest::SHA384
-                  when 'SHA512' then Digest::SHA512
-                  when 'RMD160' then Digest::RMD160
-                  else raise Error, "unknown algorithm \"#{$1}\""
+      algorithm = case Regexp.last_match(1)
+                    when 'MD5'    then Digest::MD5
+                    when 'SHA1'   then Digest::SHA1
+                    when 'SHA2'   then Digest::SHA2
+                    when 'SHA256' then Digest::SHA256
+                    when 'SHA384' then Digest::SHA384
+                    when 'SHA512' then Digest::SHA512
+                    when 'RMD160' then Digest::RMD160
+                    else fail Error, "unknown algorithm \"#{Regexp.last_match(1)}\""
                   end
-      sess = $2
+      sess = Regexp.last_match(2)
     end
 
     qop = params['qop']
-    cnonce = make_cnonce if qop or sess
+    cnonce = make_cnonce if qop || sess
 
-    a1 = if sess then
-           [ algorithm.hexdigest("#{user}:#{params['realm']}:#{password}"),
-             params['nonce'],
-             cnonce,
+    a1 = if sess
+           [algorithm.hexdigest("#{user}:#{params['realm']}:#{password}"),
+            params['nonce'],
+            cnonce
            ].join ':'
          else
            "#{user}:#{params['realm']}:#{password}"
@@ -129,22 +127,22 @@ class Net::HTTP::DigestAuth
       "Digest username=\"#{user}\"",
       "realm=\"#{params['realm']}\"",
       "algorithm=#{params['algorithm']}",
-      if qop.nil? then
-      elsif iis then
+      if qop.nil?
+      elsif iis
         "qop=\"#{qop}\""
       else
         "qop=#{qop}"
       end,
       "uri=\"#{uri.request_uri}\"",
       "nonce=\"#{params['nonce']}\"",
-      if qop then
+      if qop
         [
           "nc=#{'%08x' % @nonce_count}",
-          "cnonce=\"#{cnonce}\"",
+          "cnonce=\"#{cnonce}\""
         ]
       end,
       "response=\"#{algorithm.hexdigest(request_digest)[0, 32]}\"",
-      if params.key? 'opaque' then
+      if params.key? 'opaque'
         "opaque=\"#{params['opaque']}\""
       end
     ].compact
@@ -159,8 +157,8 @@ class Net::HTTP::DigestAuth
   def make_cnonce
     Digest::MD5.hexdigest [
       Time.now.to_i,
-      $$,
-      SecureRandom.random_number(2**32),
+      $PROCESS_ID,
+      SecureRandom.random_number(2**32)
     ].join ':'
   end
 
@@ -170,4 +168,3 @@ class Net::HTTP::DigestAuth
     end
   end
 end
-# rubocop:enable all
