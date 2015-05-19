@@ -1,32 +1,42 @@
 require 'digest'
 
 Puppet::Type.newtype(:wildfly_deploy) do
+
+  @doc = 'Manages JBoss deploy'
+
   ensurable do
     defaultvalues
     defaultto :present
   end
 
   newparam(:name, :namevar => true) do
+    desc 'Deployable name'
   end
 
   newparam(:source) do
+    desc 'Deployable source using http://, ftp://, or file://'
   end
 
   newparam(:username) do
+    desc 'JBoss Management User'
   end
 
   newparam(:password) do
+    desc 'JBoss Management User Password'
   end
 
   newparam(:host) do
+    desc 'Host of Management API. Defaults to 127.0.0.1'
     defaultto '127.0.0.1'
   end
 
   newparam(:port) do
+    desc 'Management port. Defaults to 127.0.0.1'
     defaultto 9990
   end
 
   newproperty(:content) do
+    desc 'SHA1 of deployed content'
     defaultto ''
 
     def insync?(is)
