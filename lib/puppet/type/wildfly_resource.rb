@@ -1,30 +1,40 @@
 Puppet::Type.newtype(:wildfly_resource) do
+
+  @doc = 'Manages JBoss resources like datasources, messaging, ssl, modcluster, etc'
+
   ensurable do
     defaultvalues
     defaultto :present
   end
 
   newparam(:path, :namevar => true) do
+    desc 'JBoss Resource Path'
+
     validate do |value|
       fail("Invalid resource path #{value}") unless value =~ %r{(\/[\w\-]+=[\w\-]+)}
     end
   end
 
   newparam(:username) do
+    desc 'JBoss Management User'
   end
 
   newparam(:password) do
+    desc 'JBoss Management User Password'
   end
 
   newparam(:host) do
+    desc 'Host of Management API. Defaults to 127.0.0.1'
     defaultto '127.0.0.1'
   end
 
   newparam(:port) do
+    desc 'Management port. Defaults to 127.0.0.1'
     defaultto 9990
   end
 
   newproperty(:state) do
+    desc 'Resource state'
     defaultto {}
 
     validate do |value|
