@@ -3,9 +3,10 @@
 #
 class wildfly::params {
 
-  $group   = 'wildfly'
-  $user    = 'wildfly'
-  $dirname = '/opt/wildfly'
+  $manage_user = true
+  $group       = 'wildfly'
+  $user        = 'wildfly'
+  $dirname     = '/opt/wildfly'
 
   $service_file  = $::osfamily? {
     'Debian' => 'wildfly-init-debian.sh',

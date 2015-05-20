@@ -20,6 +20,7 @@ This module requires a JVM ( should already be there )
 - version           8.2.0
 - install_source    http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz
 - java_home         /usr/java/jdk1.7.0_75/ (default dir for oracle official rpm)
+- manage_user       true
 - group             wildfly
 - user              wildfly
 - dirname           /opt/wildfly
