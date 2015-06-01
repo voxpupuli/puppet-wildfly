@@ -36,7 +36,7 @@ module PuppetX
 
         all_resources = split_resources(resource, state)
 
-        steps = split_resources.map({|(name, state)| add_body(resource_state)})
+        steps = split_resources.map {|(name, state)| add_body(resource_state)}
 
         body_with_steps = body.merge({:steps => steps})
 
