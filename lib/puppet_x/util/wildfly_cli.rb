@@ -36,7 +36,7 @@ module PuppetX
 
         all_resources = split_resources(resource, state)
 
-        steps = split_resources.map {|(name, state)| add_body(state)}
+        steps = split_resources.map {|(name, state)| add_body(name, state)}
 
         body_with_steps = body.merge({:steps => steps})
 
@@ -44,7 +44,7 @@ module PuppetX
       end
 
       def add(resource, state)
-        body_with_state = add_body(state)
+        body_with_state = add_body(resource, state)
 
         send(body_with_state)
       end
@@ -87,7 +87,7 @@ module PuppetX
 
         all_resources = split_resources(resource, state)
 
-        steps = split_resources.map {|(name, state)| add_body(state)}
+        steps = split_resources.map {|(name, state)| add_body(name, state)}
 
         composite = {
           :address => [],
