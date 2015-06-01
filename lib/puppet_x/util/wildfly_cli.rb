@@ -31,7 +31,7 @@ module PuppetX
       def add_recursive(resource, state)
         body = {
           :address => [],
-          :operation => composite
+          :operation => :composite
         }
 
         all_resources = split_resources(resource, state)
