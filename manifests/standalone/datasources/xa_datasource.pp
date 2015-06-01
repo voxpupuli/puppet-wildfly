@@ -4,7 +4,7 @@
 define wildfly::standalone::datasources::xa_datasource($config = undef) {
 
   wildfly::util::resource { "/subsystem=datasources/xa-data-source=${name}":
-    content => $config,
+    content   => $config,
     recursive => true
   }
   ->
