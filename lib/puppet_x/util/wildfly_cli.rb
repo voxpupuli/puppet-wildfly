@@ -153,9 +153,10 @@ module PuppetX
       private
 
       def split_resources(name, state)
-        child_hashes = state.filter {|k,v| v.is_a?(Hash)}
+        # Ruby 1.8.7 Hash doesn't have filter
+        child_hashes = state.reject {|k,v| not v.is_a?(Hash)}
         child_resources = child_hashes.reduce({|resources, (k,v)| resources.concat(v.reduce({|r2,(k2,v2)| r2.concat(split_resources("#{name}/#{k}=#{k2}", v2))}))})
-        base_state = [name, state.filter {|k,v| v.is_a?(Hash)}]
+        base_state = [name, state.reject {|k,v| v.is_a?(Hash)}]
         [base_state].concat(child_resources)
       end
 
