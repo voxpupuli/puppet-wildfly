@@ -31,12 +31,12 @@ module PuppetX
       def add_recursive(resource, state)
         body = {
           :address => [],
-          :operation => composite
+          :operation => :composite
         }
 
         all_resources = split_resources(resource, state)
 
-        steps = split_resources.map({|(name, state)| add_body(resource_state)})
+        steps = split_resources.map {|(name, state)| add_body(name, state)}
 
         body_with_steps = body.merge({:steps => steps})
 
@@ -44,7 +44,7 @@ module PuppetX
       end
 
       def add(resource, state)
-        body_with_state = add_body(resource_state)
+        body_with_state = add_body(resource, state)
 
         send(body_with_state)
       end
@@ -87,7 +87,7 @@ module PuppetX
 
         all_resources = split_resources(resource, state)
 
-        steps = split_resources.map({|(name, state)| add_body(resource_state)})
+        steps = split_resources.map {|(name, state)| add_body(name, state)}
 
         composite = {
           :address => [],
@@ -155,7 +155,7 @@ module PuppetX
       def split_resources(name, state)
         # Ruby 1.8.7 Hash doesn't have filter
         child_hashes = state.reject {|k,v| not v.is_a?(Hash)}
-        child_resources = child_hashes.reduce({|resources, (k,v)| resources.concat(v.reduce({|r2,(k2,v2)| r2.concat(split_resources("#{name}/#{k}=#{k2}", v2))}))})
+        child_resources = child_hashes.reduce {|resources, (k,v)| resources.concat(v.reduce {|r2,(k2,v2)| r2.concat(split_resources("#{name}/#{k}=#{k2}", v2))})}
         base_state = [name, state.reject {|k,v| v.is_a?(Hash)}]
         [base_state].concat(child_resources)
       end
