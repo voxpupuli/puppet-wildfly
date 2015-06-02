@@ -10,7 +10,11 @@ Puppet::Type.type(:wildfly_resource).provide(:http_api) do
 
   def create
     debug "Creating #{@resource[:path]} with state #{@resource[:state].inspect}"
-    cli.add(@resource[:path], @resource[:state])
+    if @resource[:recursive]
+      cli.add_recursive(@resource[:path], @resource[:state])
+    else
+      cli.add(@resource[:path], @resource[:state])
+    end
   end
 
   def destroy
@@ -25,11 +29,15 @@ Puppet::Type.type(:wildfly_resource).provide(:http_api) do
 
   def state
     debug "Retrieve state: #{@resource[:path]}"
-    cli.read(@resource[:path])
+    cli.read(@resource[:path], @resource[:recursive])
   end
 
   def state=(value)
     debug "Updating state for: #{@resource[:path]} with #{@resource[:state].inspect}"
-    cli.update(@resource[:path], value)
+    if @resource[:recursive]
+      cli.update_recursive(@resource[:path], value)
+    else
+      cli.update(@resource[:path], value)
+    end
   end
 end

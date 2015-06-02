@@ -33,6 +33,11 @@ Puppet::Type.newtype(:wildfly_resource) do
     defaultto 9990
   end
 
+  newparam(:recursive) do
+    desc 'Recursively manage resource. Defaults to false'
+    defaultto false
+  end
+
   newproperty(:state) do
     desc 'Resource state'
     defaultto {}

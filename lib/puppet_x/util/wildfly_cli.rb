@@ -28,13 +28,23 @@ module PuppetX
         @@instance
       end
 
-      def add(resource, state)
+      def add_recursive(resource, state)
         body = {
-          :address => assemble_address(resource),
-          :operation => :add
+          :address => [],
+          :operation => :composite
         }
 
-        body_with_state = body.merge(state)
+        all_resources = split_resources(resource, state)
+
+        steps = all_resources.map {|(name, state)| add_body(name, state)}
+
+        body_with_steps = body.merge({:steps => steps})
+
+        send(body_with_steps)
+      end
+
+      def add(resource, state)
+        body_with_state = add_body(resource, state)
 
         send(body_with_state)
       end
@@ -58,14 +68,34 @@ module PuppetX
         response['outcome'] == 'success'
       end
 
-      def read(resource)
+      def read(resource, recursive=false)
         body = {
           :address => assemble_address(resource),
-          :operation => 'read-resource'
+          :operation => 'read-resource',
+          :recursive => recursive
         }
 
         response = send(body, :ignore_outcome => true)
         response['outcome'] == 'success' ? response['result'] : {}
+      end
+
+      def update_recursive(resource, state)
+        remove = {
+          :address => assemble_address(resource),
+          :operation => :remove
+        }
+
+        all_resources = split_resources(resource, state)
+
+        steps = all_resources.map {|(name, state)| add_body(name, state)}
+
+        composite = {
+          :address => [],
+          :operation => :composite,
+          :steps => [remove].concat(steps)
+        }
+
+        send(composite)
       end
 
       def update(resource, state)
@@ -74,15 +104,12 @@ module PuppetX
           :operation => :remove
         }
 
-        add = {
-          :address => assemble_address(resource),
-          :operation => :add
-        }
+        add = add_body(resource, state)
 
         composite = {
           :address => [],
           :operation => :composite,
-          :steps => [remove, add.merge(state)]
+          :steps => [remove, add]
         }
 
         send(composite)
@@ -124,6 +151,23 @@ module PuppetX
       end
 
       private
+
+      def split_resources(name, state)
+        # Ruby 1.8.7 Hash doesn't have filter
+        child_hashes = state.reject {|k,v| not v.is_a?(Hash)}
+        child_resources = child_hashes.reduce([]) {|resources, (k,v)| resources.concat(v.reduce([]) {|r2,(k2,v2)| r2.concat(split_resources("#{name}/#{k}=#{k2}", v2))})}
+        base_state = [name, state.reject {|k,v| v.is_a?(Hash)}]
+        [base_state].concat(child_resources)
+      end
+
+      def add_body(resource, state)
+        body = {
+          :address => assemble_address(resource),
+          :operation => :add
+        }
+
+        body.merge(state)
+      end
 
       def add_content(name, source)
         add = {
