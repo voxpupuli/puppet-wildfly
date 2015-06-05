@@ -3,6 +3,13 @@
 #
 class wildfly::service {
 
+  $java_home = $wildfly::java_home
+  $dirname = $wildfly::dirname
+  $user= $wildfly::user
+  $mode= $wildfly::mode
+  $config= $wildfly::config
+  $console_log=$wildfly::console_log
+
   case $::osfamily {
     'RedHat': {
       $wildfly_conf_file = '/etc/default/wildfly.conf'
