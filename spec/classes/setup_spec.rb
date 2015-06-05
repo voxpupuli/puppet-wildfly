@@ -6,7 +6,7 @@ describe 'wildfly::setup' do
   end
 
   context 'with default params' do
-    it { should contain_exec('replace memory parameters') }
+    it { should contain_file('/opt/wildfly/bin/standalone.conf') }
     it { should contain_wildfly__config__interfaces('public') }
     it { should contain_wildfly__config__interfaces('management') }
     it { should contain_wildfly__config__socket_binding('management-http') }

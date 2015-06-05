@@ -1,7 +1,7 @@
 #
 # Wildfly setup class
 #
-class wildfly::setup(
+class wildfly::setup (
   $java_xms = $wildfly::java_xms,
   $java_xmx = $wildfly::java_xmx,
   $java_maxpermsize = $wildfly::java_maxpermsize,
