@@ -3,6 +3,8 @@
 #
 class wildfly::install  {
 
+  $install_source = $wildfly::install_source
+
   $install_file = inline_template('<%=File.basename(URI::parse(@install_source).path)%>')
 
   archive { "/tmp/${install_file}":
