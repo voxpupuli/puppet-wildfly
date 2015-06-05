@@ -15,6 +15,7 @@ class wildfly(
   $java_xmx          = $wildfly::params::java_xmx,
   $java_xms          = $wildfly::params::java_xms,
   $java_maxpermsize  = $wildfly::params::java_maxpermsize,
+  $java_opts         = $wildfly::params::java_opts,
   $mgmt_bind         = $wildfly::params::mgmt_bind,
   $public_bind       = $wildfly::params::public_bind,
   $mgmt_http_port    = $wildfly::params::mgmt_http_port,
