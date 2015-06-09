@@ -2,8 +2,8 @@
 # Wildfly startup service class
 #
 class wildfly::service (
-	$custom_wildfly_conf_file = undef, # can be set by hiera to override the default conf file location
-	$service_name = "wildfly"
+    $custom_wildfly_conf_file = undef, # can be set by hiera to override the default conf file location
+    $service_name = 'wildfly'
 ){
 
   $java_home = $wildfly::java_home
@@ -14,7 +14,7 @@ class wildfly::service (
   $console_log=$wildfly::console_log
 
   if $custom_wildfly_conf_file != undef {
-	$wildfly_conf_file = $custom_wildfly_conf_file
+    $wildfly_conf_file = $custom_wildfly_conf_file
   }
   else {
     case $::osfamily {

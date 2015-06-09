@@ -11,7 +11,7 @@ class wildfly::params (
   $dirname     = '/opt/wildfly'
 
   if $custom_service_file != undef {
-	$service_file = $custom_service_file
+    $service_file = $custom_service_file
   }
   else {
     $service_file  = $::osfamily? {
