@@ -1,17 +1,24 @@
 #
 # Wildfly default params class
 #
-class wildfly::params {
+class wildfly::params (
+  $custom_service_file = undef # can be set by hiera to override the default service file location
+) {
 
   $manage_user = true
   $group       = 'wildfly'
   $user        = 'wildfly'
   $dirname     = '/opt/wildfly'
 
-  $service_file  = $::osfamily? {
-    'Debian' => 'wildfly-init-debian.sh',
-    'RedHat' => 'wildfly-init-redhat.sh',
-    default  => 'wildfly-init-redhat.sh',
+  if $custom_service_file != undef {
+	$service_file = $custom_service_file
+  }
+  else {
+    $service_file  = $::osfamily? {
+      'Debian' => 'wildfly-init-debian.sh',
+      'RedHat' => 'wildfly-init-redhat.sh',
+      default  => 'wildfly-init-redhat.sh',
+    }
   }
 
   $java_home         = '/usr/java/jdk1.7.0_75/'
