@@ -15,7 +15,7 @@
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "tags": [
     "jboss",
     "EAP",
