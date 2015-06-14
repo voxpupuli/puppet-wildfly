@@ -1,5 +1,11 @@
 # History
 
+## 0.3.5
+- Changes to allow wildfly module to deploy jboss EAP
+- java_opts parameters which will override the default
+- puppet 4 templates path fix
+- XA datasource support
+
 ## 0.3.4
 - deploy from nexus
 - manage_user parameter for controling the default creation of the wildfly user/group

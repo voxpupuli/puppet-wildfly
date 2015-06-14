@@ -9,6 +9,15 @@ Big thanks to Jairo Junior for his contributions
 
 Should work on every Redhat or Debian family member, tested it with Wildfly 8.2, 8.1 & 8.0
 
+Can also work JBoss EAP ( tested on 6.1/6.2/6.3), it may change in the future and probably is not supported on Debian
+
+    # hiera example
+    wildfly::service::service_name: jboss-as
+    wildfly::service::custom_wildfly_conf_file: /etc/jboss-as/jboss-as.conf
+    wildfly::params::custom_service_file: jboss-as-standalone.sh
+    wildfly::install_source: http://mywebserver/jboss-eap-6.1.tar.gz
+
+
 [Vagrant fedora example](https://github.com/biemond/vagrant-fedora20-puppet) with wildfly and apache ajp, postgress db
 
 [Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + mdocluster)
@@ -78,6 +87,27 @@ or you can override a paramater
       ajp_port          => '8009',
       users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
     }
+
+or with java_opts instead of java_xmx, java_xms, java_maxpermsize
+
+    class { 'wildfly':
+      version           => '8.1.0',
+      install_source    => 'http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz',
+      java_home         => '/opt/jdk-8',
+      group             => 'wildfly',
+      user              => 'wildfly',
+      dirname           => '/opt/wildfly',
+      mode              => 'standalone',
+      config            => 'standalone-full.xml',
+      java_opts         => '-Xms64m -Xmx512m -XX:MaxPermSize=256m',
+      mgmt_http_port    => '9990',
+      mgmt_https_port   => '9993',
+      public_http_port  => '8080',
+      public_https_port => '8443',
+      ajp_port          => '8009',
+      users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
+    }
+
 
 ## Deploy
 
