@@ -13,7 +13,8 @@ class wildfly::setup (
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    content => template('wildfly/standalone.conf.erb')
+    content => template('wildfly/standalone.conf.erb'),
+    notify  => Class['wildfly::service']
   }
 
   # interfaces
