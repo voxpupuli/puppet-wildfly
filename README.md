@@ -35,6 +35,8 @@ This module requires a JVM ( should already be there )
 - dirname           /opt/wildfly
 - mode              standalone
 - config            standalone-full.xml
+- domain_config     domain.xml
+- host_config       host-master.xml
 - java_xmx          512m
 - java_xms          128m
 - java_maxpermsize  256m
