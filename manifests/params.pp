@@ -25,11 +25,13 @@ class wildfly::params (
 
   $mode              = 'standalone'
   $config            = 'standalone-full.xml'
+  $domain_config     = 'domain.xml'
+  $host_config       = 'host-master.xml'
 
   $config_file_path  = "${dirname}/${mode}/configuration/${config}"
   $console_log       = '/var/log/wildfly/console.log'
 
-#use a hash definition
+  #use a hash definition
 
   $mgmt_bind         = '0.0.0.0'
   $mgmt_http_port    = '9990'
