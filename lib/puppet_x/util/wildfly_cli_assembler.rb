@@ -2,10 +2,13 @@ module WildflyCliAssembler
   def assemble_address(resource)
     address = []
 
-    resource.split('/').each do |token|
+    escaped_slash = "__ESCAPED__"
+    escaped_resource = resource.gsub(/\\\//, escaped_slash)
+
+    escaped_resource.split('/').each do |token|
       node_type, node_name = token.split('=')
       unless node_type.nil? && node_name.nil?
-        address << { node_type => node_name }
+        address << { node_type => (node_name.nil? ? nil : node_name.gsub(escaped_slash, "/")) }
       end
     end
 
