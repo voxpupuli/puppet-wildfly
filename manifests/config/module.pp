@@ -1,16 +1,14 @@
 #
 # Module installation
 #
-define wildfly::config::module($source = undef, $dependencies = [], $system = true) {
+define wildfly::config::module($system = true, $source = undef, $dependencies = []) {
 
   require wildfly::install
 
   $namespace_path = regsubst($name, '[.]', '/', 'G')
+
   if $system {
-    $module_dir = "system/layers/base"
-  }
-  else {
-    $module_dir = ""
+    $module_dir = 'system/layers/base'
   }
 
   File {
@@ -34,7 +32,7 @@ define wildfly::config::module($source = undef, $dependencies = [], $system = tr
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
 
   archive { "${dir_path}/${file_name}":
-    source        => $source,
+    source => $source,
   }
   ->
   file { "${dir_path}/${file_name}":
