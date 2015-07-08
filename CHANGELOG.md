@@ -1,5 +1,14 @@
 # History
 
+## 0.3.6
+- Service needs to restart if we change anything in the standalone.conf
+- Several fixes for domain mode
+- Support escaped slashes in resource names 
+- Support ensure parameter in resource util
+- Support installing non-system modules
+- Update definitions optional parameters.
+- CLI, Support for 'has' operator to check if item is in array
+
 ## 0.3.5
 - Changes to allow wildfly module to deploy jboss EAP
 - java_opts parameters which will override the default
