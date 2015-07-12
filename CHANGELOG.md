@@ -1,5 +1,9 @@
 # History
 
+## 0.3.7
+- Update README.md content and format to follow recommended guidelines
+- Add acceptance test for Wildfly 9
+
 ## 0.3.6
 - Service needs to restart if we change anything in the standalone.conf
 - Several fixes for domain mode
