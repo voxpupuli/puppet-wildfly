@@ -24,9 +24,9 @@ class wildfly::params (
   $java_home         = '/usr/java/jdk1.7.0_75/'
 
   $mode              = 'standalone'
-  $config            = 'standalone-full.xml'
+  $config            = 'standalone.xml'
   $domain_config     = 'domain.xml'
-  $host_config       = 'host-master.xml'
+  $host_config       = 'host.xml'
 
   $config_file_path  = "${dirname}/${mode}/configuration/${config}"
   $console_log       = '/var/log/wildfly/console.log'
