@@ -1,7 +1,6 @@
 require 'digest'
 
 Puppet::Type.newtype(:wildfly_deploy) do
-
   @doc = 'Manages JBoss deploy'
 
   ensurable do

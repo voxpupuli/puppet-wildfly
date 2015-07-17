@@ -1,5 +1,4 @@
 Puppet::Type.newtype(:wildfly_resource) do
-
   @doc = 'Manages JBoss resources like datasources, messaging, ssl, modcluster, etc'
 
   ensurable do

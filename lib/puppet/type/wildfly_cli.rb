@@ -1,5 +1,4 @@
 Puppet::Type.newtype(:wildfly_cli) do
-
   @doc = 'Executes JBoss-CLI commmands'
 
   newparam(:command, :namevar => true) do

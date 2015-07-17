@@ -36,9 +36,9 @@ module PuppetX
 
         all_resources = split_resources(resource, state)
 
-        steps = all_resources.map {|(name, state)| add_body(name, state)}
+        steps = all_resources.map { |(name, state)| add_body(name, state) }
 
-        body_with_steps = body.merge({:steps => steps})
+        body_with_steps = body.merge(:steps => steps)
 
         send(body_with_steps)
       end
@@ -68,7 +68,7 @@ module PuppetX
         response['outcome'] == 'success'
       end
 
-      def read(resource, recursive=false)
+      def read(resource, recursive = false)
         body = {
           :address => assemble_address(resource),
           :operation => 'read-resource',
@@ -87,7 +87,7 @@ module PuppetX
 
         all_resources = split_resources(resource, state)
 
-        steps = all_resources.map {|(name, state)| add_body(name, state)}
+        steps = all_resources.map { |(name, state)| add_body(name, state) }
 
         composite = {
           :address => [],
@@ -122,15 +122,15 @@ module PuppetX
 
       def deploy(name, source, server_group)
         composite = {
-            :address => [],
-            :operation => :composite,
-            :steps => [add_content(name, source), deploy_operation(name, server_group)]
+          :address => [],
+          :operation => :composite,
+          :steps => [add_content(name, source), deploy_operation(name, server_group)]
         }
 
         unless server_group.nil?
           add = {
-              :address => [{'server-group' => server_group}, { :deployment => name }],
-              :operation => :add,
+            :address => [{ 'server-group' => server_group }, { :deployment => name }],
+            :operation => :add
           }
           composite[:steps].insert(1, add)
         end
@@ -147,8 +147,8 @@ module PuppetX
 
         unless server_group.nil?
           remove = {
-              :address => [{'server-group' => server_group}, { :deployment => name }],
-              :operation => :remove,
+            :address => [{ 'server-group' => server_group }, { :deployment => name }],
+            :operation => :remove
           }
           composite[:steps].insert(1, remove)
         end
@@ -165,14 +165,14 @@ module PuppetX
 
         unless server_group.nil?
           remove = {
-              :address => [{'server-group' => server_group}, { :deployment => name }],
-              :operation => :remove,
+            :address => [{ 'server-group' => server_group }, { :deployment => name }],
+            :operation => :remove
           }
           composite[:steps].insert(1, remove)
 
           add = {
-              :address => [{'server-group' => server_group}, { :deployment => name }],
-              :operation => :add,
+            :address => [{ 'server-group' => server_group }, { :deployment => name }],
+            :operation => :add
           }
           composite[:steps].insert(4, add)
 
@@ -185,9 +185,9 @@ module PuppetX
 
       def split_resources(name, state)
         # Ruby 1.8.7 Hash doesn't have filter
-        child_hashes = state.reject {|k,v| not v.is_a?(Hash)}
-        child_resources = child_hashes.reduce([]) {|resources, (k,v)| resources.concat(v.reduce([]) {|r2,(k2,v2)| r2.concat(split_resources("#{name}/#{k}=#{k2}", v2))})}
-        base_state = [name, state.reject {|k,v| v.is_a?(Hash)}]
+        child_hashes = state.reject { |k, v| !v.is_a?(Hash) }
+        child_resources = child_hashes.reduce([]) { |resources, (k, v)| resources.concat(v.reduce([]) { |r2, (k2, v2)| r2.concat(split_resources("#{name}/#{k}=#{k2}", v2)) }) }
+        base_state = [name, state.reject { |k, v| v.is_a?(Hash) }]
         [base_state].concat(child_resources)
       end
 
@@ -222,7 +222,7 @@ module PuppetX
         }
 
         unless server_group.nil?
-          deploy[:address] = [ { 'server-group' => server_group}, deploy[:address]]
+          deploy[:address] = [{ 'server-group' => server_group }, deploy[:address]]
         end
 
         deploy
@@ -235,7 +235,7 @@ module PuppetX
         }
 
         unless server_group.nil?
-          undeploy[:address] = [ { 'server-group' => server_group}, undeploy[:address]]
+          undeploy[:address] = [{ 'server-group' => server_group }, undeploy[:address]]
         end
 
         undeploy
