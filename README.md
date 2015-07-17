@@ -65,9 +65,9 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 - user              wildfly
 - dirname           /opt/wildfly
 - mode              standalone
-- config            standalone-full.xml
+- config            standalone.xml
 - domain_config     domain.xml
-- host_config       host-master.xml
+- host_config       host.xml
 - java_xmx          512m
 - java_xms          128m
 - java_maxpermsize  256m
