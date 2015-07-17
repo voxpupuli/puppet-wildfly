@@ -1,5 +1,8 @@
 # History
 
+## 0.4.0
+- Unified deploy for domain/standalone modes (wildfly::deploy)
+
 ## 0.3.7
 - Update README.md content and format to follow recommended guidelines
 - Add acceptance test for Wildfly 9
