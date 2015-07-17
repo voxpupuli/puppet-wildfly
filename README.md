@@ -155,19 +155,30 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
 
 Source supports: http://, ftp://, file://
 
-    wildfly::standalone::deploy { 'hawtio.war':
+    wildfly::deploy { 'hawtio.war':
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
      checksum => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1
     }
     
 **From Nexus:**
 
-    wildfly::standalone::deploy { 'hawtio.war':
+    wildfly::deploy { 'hawtio.war':
       ensure     => present,
       nexus_url  => 'https://oss.sonatype.org',
       gav        => 'io.hawt:hawtio-web:1.4.36',
       repository => 'releases',
       packaging  => 'war',
+    }
+    
+**From Nexus to a server-group (domain mode):**
+
+    wildfly::deploy { 'hawtio.war':
+      ensure       => present,
+      nexus_url    => 'https://oss.sonatype.org',
+      gav          => 'io.hawt:hawtio-web:1.4.36',
+      repository   => 'releases',
+      packaging    => 'war',
+      server_group => 'main-server-group',
     }
 
 ## User management

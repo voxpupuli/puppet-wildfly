@@ -1,11 +1,12 @@
 #
 # Deploy $source or nexus artifact ($gav, $nexus_url, $repository) to Wildfly
 #
-define wildfly::standalone::deploy(
+define wildfly::deploy(
   $ensure            = present,
   $package_temp_path = '/tmp',
   $packaging         = 'jar',
   $checksum_type     = 'sha1',
+  $server_group      = undef,
   $checksum          = undef,
   $classifier        = undef,
   $extension         = undef,
@@ -58,12 +59,13 @@ define wildfly::standalone::deploy(
   }
 
   wildfly_deploy { $name:
-    ensure   => $ensure,
-    username => $::wildfly::users_mgmt['wildfly']['username'],
-    password => $::wildfly::users_mgmt['wildfly']['password'],
-    host     => $::wildfly::mgmt_bind,
-    port     => $::wildfly::mgmt_http_port,
-    source   => "file:${local_source}"
+    ensure       => $ensure,
+    server_group => $server_group,
+    username     => $::wildfly::users_mgmt['wildfly']['username'],
+    password     => $::wildfly::users_mgmt['wildfly']['password'],
+    host         => $::wildfly::mgmt_bind,
+    port         => $::wildfly::mgmt_http_port,
+    source       => "file:${local_source}"
   }
 
 }
