@@ -120,32 +120,63 @@ module PuppetX
         send(body)
       end
 
-      def deploy(name, source)
+      def deploy(name, source, server_group)
         composite = {
-          :address => [],
-          :operation => :composite,
-          :steps => [add_content(name, source), deploy_operation(name)]
+            :address => [],
+            :operation => :composite,
+            :steps => [add_content(name, source), deploy_operation(name, server_group)]
         }
+
+        unless server_group.nil?
+          add = {
+              :address => [{'server-group' => server_group}, { :deployment => name }],
+              :operation => :add,
+          }
+          composite[:steps].insert(1, add)
+        end
 
         send(composite)
       end
 
-      def undeploy(name)
+      def undeploy(name, server_group)
         composite = {
           :address => [],
           :operation => :composite,
-          :steps => [undeploy_operation(name), remove_content(name)]
+          :steps => [undeploy_operation(name, server_group), remove_content(name)]
         }
+
+        unless server_group.nil?
+          remove = {
+              :address => [{'server-group' => server_group}, { :deployment => name }],
+              :operation => :remove,
+          }
+          composite[:steps].insert(1, remove)
+        end
 
         send(composite)
       end
 
-      def update_deploy(name, source)
+      def update_deploy(name, source, server_group)
         composite = {
           :address => [],
           :operation => :composite,
-          :steps => [undeploy_operation(name), remove_content(name), add_content(name, source), deploy_operation(name)]
+          :steps => [undeploy_operation(name, server_group), remove_content(name), add_content(name, source), deploy_operation(name, server_group)]
         }
+
+        unless server_group.nil?
+          remove = {
+              :address => [{'server-group' => server_group}, { :deployment => name }],
+              :operation => :remove,
+          }
+          composite[:steps].insert(1, remove)
+
+          add = {
+              :address => [{'server-group' => server_group}, { :deployment => name }],
+              :operation => :add,
+          }
+          composite[:steps].insert(4, add)
+
+        end
 
         send(composite)
       end
@@ -170,35 +201,43 @@ module PuppetX
       end
 
       def add_content(name, source)
-        add = {
+        {
           :address => { :deployment => name },
           :operation => :add,
           :content => [:url => source]
         }
-        add
       end
 
       def remove_content(name)
-        remove = {
+        {
           :address => { :deployment => name },
           :operation => :remove
         }
-        remove
       end
 
-      def deploy_operation(name)
+      def deploy_operation(name, server_group)
         deploy = {
           :address => { :deployment => name },
           :operation => :deploy
         }
+
+        unless server_group.nil?
+          deploy[:address] = [ { 'server-group' => server_group}, deploy[:address]]
+        end
+
         deploy
       end
 
-      def undeploy_operation(name)
+      def undeploy_operation(name, server_group)
         undeploy = {
           :address => { :deployment => name },
           :operation => :undeploy
         }
+
+        unless server_group.nil?
+          undeploy[:address] = [ { 'server-group' => server_group}, undeploy[:address]]
+        end
+
         undeploy
       end
 

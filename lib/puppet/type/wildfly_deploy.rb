@@ -14,7 +14,11 @@ Puppet::Type.newtype(:wildfly_deploy) do
   end
 
   newparam(:source) do
-    desc 'Deployable source using http://, ftp://, or file://'
+    desc 'Deployment source in URL format. (e.g. file:/tmp/file.war)'
+  end
+
+  newparam(:server_group) do
+    desc 'Deployment target server-group. Domain mode only.'
   end
 
   newparam(:username) do

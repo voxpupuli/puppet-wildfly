@@ -11,21 +11,21 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
 
   def create
     debug "Deploying #{@resource[:name]} from source #{@resource[:source]}"
-    cli.deploy(@resource[:name], @resource[:source])
+    cli.deploy(@resource[:name], @resource[:source], @resource[:server_group])
   end
 
   def destroy
     debug "Undeploying #{@resource[:name]}"
-    cli.undeploy(@resource[:name])
+    cli.undeploy(@resource[:name], @resource[:server_group])
   end
 
   def exists?
     debug "Exists? #{@resource[:name]}"
-    cli.exists?("/deployment=#{@resource['name']}")
+    cli.exists?("#{server_group_address}/deployment=#{@resource[:name]}")
   end
 
   def content
-    response = cli.read("/deployment=#{@resource['name']}")
+    response = cli.read("/deployment=#{@resource[:name]}")
     bytes_value = response['content'].first['hash']['BYTES_VALUE']
     decoded = Base64.decode64(bytes_value)
 
@@ -38,6 +38,14 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
 
   def content=(value)
     debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
-    cli.update_deploy(@resource[:name], @resource[:source])
+    cli.update_deploy(@resource[:name], @resource[:source], @resource[:server_group])
+  end
+
+  private
+
+  def server_group_address
+    unless @resource[:server_group].nil?
+      "/server-group=#{@resource[:server_group]}"
+    end
   end
 end
