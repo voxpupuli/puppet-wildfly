@@ -1,12 +1,7 @@
 #
 # Wildfly setup class
 #
-class wildfly::setup (
-  $java_xms = $wildfly::java_xms,
-  $java_xmx = $wildfly::java_xmx,
-  $java_maxpermsize = $wildfly::java_maxpermsize,
-  $java_opts = $wildfly::java_opts
-) {
+class wildfly::setup {
 
   create_resources(wildfly::config::add_mgmt_user, $wildfly::users_mgmt)
 
@@ -19,7 +14,7 @@ class wildfly::setup (
   }
 
   if ($wildfly::mode == 'standalone') {
-  # interfaces
+
     wildfly::config::interfaces { 'public':
       inet_address_value => "\${jboss.bind.address:${wildfly::public_bind}}"
     }
@@ -28,7 +23,6 @@ class wildfly::setup (
       inet_address_value => "\${jboss.bind.address.management:${wildfly::mgmt_bind}}"
     }
 
-  # socket binding, replace with create_resources and a hash
     wildfly::config::socket_binding { 'management-http':
       port => "\${jboss.management.http.port:${wildfly::mgmt_http_port}}"
     }

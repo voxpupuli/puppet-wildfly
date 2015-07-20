@@ -4,7 +4,7 @@
 class wildfly::prepare {
 
   if $wildfly::manage_user {
-    ## extract user prepare
+
     group { $wildfly::group :
       ensure => present,
     }
@@ -20,7 +20,6 @@ class wildfly::prepare {
     }
   }
 
-  # extract dir
   file { $wildfly::dirname :
     ensure  => directory,
     owner   => $wildfly::user,
@@ -29,7 +28,6 @@ class wildfly::prepare {
     require => User[$wildfly::user],
   }
 
-  ## extract dependencies
   $libaiopackage  = $::osfamily ? {
     'RedHat' => 'libaio',
     'Debian' => 'libaio1',
