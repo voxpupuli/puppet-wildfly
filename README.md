@@ -218,15 +218,15 @@ Install a JAR module from a remote file system.
 
 ## Datasources
 
-Setup a driver and a datasource:
+Setup a driver and a datasource (for domain mode you need to set target_profile parameter):
 
-    wildfly::standalone::datasources::driver { 'Driver postgresql':
+    wildfly::datasources::driver { 'Driver postgresql':
       driver_name                     => 'postgresql',
       driver_module_name              => 'org.postgresql',
       driver_xa_datasource_class_name => 'org.postgresql.xa.PGXADataSource'
     }
     ->
-    wildfly::standalone::datasources::datasource { 'DemoDS':
+    wildfly::datasources::datasource { 'DemoDS':
       config         => {
         'driver-name' => 'postgresql',
         'connection-url' => 'jdbc:postgresql://localhost/postgres',
@@ -238,11 +238,11 @@ Setup a driver and a datasource:
 
 Alternatively, you can install a JDBC driver and module using deploy if your driver is JDBC4 compliant:
 
-    wildfly::standalone::deploy { 'postgresql-9.3-1103-jdbc4.jar':
+    wildfly::deploy { 'postgresql-9.3-1103-jdbc4.jar':
       source => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar'
     }
     ->
-    wildfly::standalone::datasources::datasource { 'DemoDS':
+    wildfly::datasources::datasource { 'DemoDS':
       config         => {
         'driver-name' => 'postgresql-9.3-1103-jdbc4.jar',
         'connection-url' => 'jdbc:postgresql://localhost/postgres',
@@ -256,7 +256,7 @@ Datasource configuration uses a hash with elements that match JBoss-CLI datasour
 
 ## HTTPS/SSL
 
-    wildfly::standalone::undertow::https { 'https':
+    wildfly::undertow::https { 'https':
       socket_binding    => 'https',
       keystore_path     => '/vagrant/identitystore.jks',
       keystore_password => 'changeit',
@@ -266,30 +266,6 @@ Datasource configuration uses a hash with elements that match JBoss-CLI datasour
 
 **Identity Store sample Configuration:**
 
-    file { '/opt/demo.pub.crt':
-      ensure  => file,
-      owner   => 'wildfly',
-      group   => 'wildfly',
-      content => file('demo/demo.pub.crt'),
-      mode    => '0755',
-    }
-    ->
-    file { '/opt/demo.private.pem':
-      ensure  => file,
-      owner   => 'wildfly',
-      group   => 'wildfly',
-      content => file('demo/demo.private.pem'),
-      mode    => '0755',
-    }
-    ->
-    file { '/opt/identitystore.jks':
-      ensure  => file,
-      owner   => 'wildfly',
-      group   => 'wildfly',
-      content => file('demo/identitystore.jks'),
-      mode    => '0755',
-    }
-    ->
     java_ks { 'demo:/opt/identitystore.jks':
       ensure      => latest,
       certificate => '/opt/demo.pub.crt',
@@ -307,21 +283,21 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       onlyif  => '(result == reload-required) of read-attribute server-state'
     }
 
-## Messaging (Only for full profiles)
+## Messaging (Only for full profiles) (for domain mode you need to set target_profile parameter)
 
-    wildfly::standalone::messaging::queue { 'DemoQueue':
+    wildfly::messaging::queue { 'DemoQueue':
       durable => true,
       entries => ['java:/jms/queue/DemoQueue'],
       selector => "MessageType = 'AddRequest'"
     }
 
-    wildfly::standalone::messaging::topic { 'DemoTopic':
+    wildfly::messaging::topic { 'DemoTopic':
       entries => ['java:/jms/topic/DemoTopic']
     }
 
-## Modcluster (Only for HA profiles)
+## Modcluster (Only for HA profiles) (for domain mode you need to set target_profile parameter)
 
-    wildfly::standalone::modcluster::config { "Modcluster mybalancer":
+    wildfly::modcluster::config { "Modcluster mybalancer":
       balancer => 'mybalancer',
       load_balancing_group => 'demolb',
       proxy_url => '/',
@@ -358,7 +334,7 @@ Check types tab for more info about custom types/providers.
 
 ##Limitations
 
-wildfly::standalone defitions which are intended to enforce good practices, syntax sugar or serve as examples are built for Wildfly 8.x and may not work with other versions. (Check Issue #27 for more details)
+wildfly definitions (datasources, messaging, undertow, etc) which are intended to enforce good practices, syntax sugar or serve as examples are built for Wildfly 8.x and may not work with other versions. (Check Issue #27 for more details)
 
 JBoss AS7/EAP 6 support is limited due to the above limitation and to the fact that service scripts are a little different. (Don't support debian and have only one script for both standalone/domain modes)
 This bug might also be a problem for standalone-full-ha users in JBoss EAP: https://bugzilla.redhat.com/show_bug.cgi?id=1224170
@@ -380,7 +356,7 @@ This module uses puppet-lint, rubocop, rspec, beaker and travis-ci. Try to use t
     BEAKER_set=centos-70-x64 bundle exec rspec spec/acceptance
     BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
     
-JBoss/Wildfly management is based on three custom types and you can do virtually any JBoss/Wildfly configuration using them. So, before build your awesome definition to manage a resource (anything in configurations XML's) or deploy an artifact from my_internal_protocol://, check wildfly::standalone namespace for guidance. 
+JBoss/Wildfly management is based on three custom types and you can do virtually any JBoss/Wildfly configuration using them. So, before build your awesome definition to manage a resource (anything in configurations XML's) or deploy an artifact from my_internal_protocol://, check wildfly::deploy or wildfly::datasources namespace for guidance. 
 
     
 *Examples*:
