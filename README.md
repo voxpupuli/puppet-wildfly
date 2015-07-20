@@ -28,9 +28,9 @@ Should work on every Redhat or Debian family member, tested it with Wildfly 9.0,
 Can also work with JBoss EAP ( tested on 6.1/6.2/6.3), it may change in the future and probably is not supported on Debian
 
     # hiera example
-    wildfly::service::service_name: jboss-as
-    wildfly::service::custom_wildfly_conf_file: /etc/jboss-as/jboss-as.conf
-    wildfly::params::custom_service_file: jboss-as-standalone.sh
+    wildfly::service_name: jboss-as
+    wildfly::conf_file: /etc/jboss-as/jboss-as.conf
+    wildfly::service_file: jboss-as-standalone.sh
     wildfly::install_source: http://mywebserver/jboss-eap-6.1.tar.gz
 
 

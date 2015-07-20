@@ -26,6 +26,9 @@ class wildfly(
   $public_https_port = $wildfly::params::public_https_port,
   $ajp_port          = $wildfly::params::ajp_port,
   $users_mgmt        = $wildfly::params::users_mgmt,
+  $conf_file         = $wildfly::params::conf_file,
+  $service_file      = $wildfly::params::service_file,
+  $service_name      = $wildfly::params::service_name,
 ) inherits wildfly::params {
 
   include archive
