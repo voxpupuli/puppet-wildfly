@@ -2,6 +2,8 @@
 
 ## 0.4.0
 - Unified deploy for domain/standalone modes (wildfly::deploy)
+- Removed wildfly::standalone namespace since domain and standalone configurations share the same defitions
+- Fix wildfly service to detect profile changes
 
 ## 0.3.7
 - Update README.md content and format to follow recommended guidelines
