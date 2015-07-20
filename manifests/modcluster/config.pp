@@ -23,7 +23,7 @@ define wildfly::modcluster::config($advertise_socket = 'modcluster', $connector 
   }
   ->
   wildfly::util::resource { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
-    content => { 'type' => $type },
+    content => { 'type'    => $type },
     profile => $target_profile,
   }
 
