@@ -36,6 +36,7 @@ class wildfly::service (
     owner   => 'root',
     group   => 'root',
     content => template('wildfly/wildfly.conf.erb'),
+    notify  => Service[$service_name]
   }
 
   file { "/etc/init.d/${service_name}":
