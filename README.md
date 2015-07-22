@@ -78,6 +78,8 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 - ajp_port          8009
 - users_mgmt        user 'wildfly' with wildfly as password
 
+##Usage
+
 
     class { 'wildfly': }
     
@@ -146,8 +148,6 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       ajp_port          => '8009',
       users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
     }
-
-##Usage
 
 ## Deploy
 
