@@ -34,9 +34,9 @@ Puppet::Type.type(:wildfly_resource).provide(:http_api) do
   def state=(value)
     debug "Updating state for: #{@resource[:path]} with #{@resource[:state].inspect}"
     if @resource[:recursive]
-      cli.update_recursive(@resource[:path], value)
+      cli.update_recursive(@resource[:path], value, @resource[:merge_on_update])
     else
-      cli.update(@resource[:path], value)
+      cli.update(@resource[:path], value, @resource[:merge_on_update])
     end
   end
 end

@@ -6,9 +6,10 @@ define wildfly::datasources::xa_datasource($config = undef, $target_profile = un
   $profile_path = profile_path($target_profile)
 
   wildfly::util::resource { "/subsystem=datasources/xa-data-source=${name}":
-    content   => $config,
-    recursive => true,
-    profile   => $target_profile,
+    content         => $config,
+    recursive       => true,
+    merge_on_update => true,
+    profile         => $target_profile,
   }
   ->
   wildfly::util::exec_cli { "Enable ${name}":
