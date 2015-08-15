@@ -4,28 +4,28 @@
 
 # Location of JDK	
 #
-JAVA_HOME=<%= @java_home %>
+JAVA_HOME=<%= scope['wildfly::java_home'] %>
 
 # Location of WildFly
 #
-JBOSS_HOME=<%= @dirname %>
+JBOSS_HOME=<%= scope['wildfly::dirname'] %>
 
 # The username who should own the process.
 #
-JBOSS_USER=<%= @user %>
+JBOSS_USER=<%= scope['wildfly::user'] %>
 
 # The mode WildFly should start, standalone or domain
 #
-JBOSS_MODE=<%= @mode %>
+JBOSS_MODE=<%= scope['wildfly::mode'] %>
 
 # Configuration for standalone mode
 #
-JBOSS_CONFIG=<%= @config %>
+JBOSS_CONFIG=<%= scope['wildfly::config'] %>
 
 # Configuration for domain mode
 #
-JBOSS_DOMAIN_CONFIG=<%= @domain_config %>
-JBOSS_HOST_CONFIG=<%= @host_config %>
+JBOSS_DOMAIN_CONFIG=<%= scope['wildfly::domain_config'] %>
+JBOSS_HOST_CONFIG=<%= scope['wildfly::host_config'] %>
 
 # The amount of time to wait for startup
 #
@@ -37,5 +37,5 @@ SHUTDOWN_WAIT=30
 
 # Location to keep the console log
 #
-JBOSS_CONSOLE_LOG=<%= @console_log %>
+JBOSS_CONSOLE_LOG=<%= scope['wildfly::console_log'] %>
 
