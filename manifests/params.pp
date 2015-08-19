@@ -44,7 +44,7 @@ class wildfly::params {
   $java_xmx          = '512m'
   $java_xms          = '128m'
   $java_maxpermsize  = '256m'
-  $java_opts         = undef
+  $java_opts         = ''
 
   $users_mgmt = {
     'wildfly' => {
