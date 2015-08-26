@@ -7,7 +7,7 @@ class wildfly::install  {
 
   $install_file = inline_template('<%=File.basename(URI::parse(@install_source).path)%>')
 
-  archive { "/{wildfly::dirname}/${install_file}":
+  archive { "/${wildfly::dirname}/${install_file}":
     source        => $wildfly::install_source,
     extract       => true,
     extract_path  => $wildfly::dirname,
