@@ -8,7 +8,7 @@ describe 'wildfly::install' do
   context 'install wildfly' do
     it { should contain_class('wildfly::install') }
     it do
-      should contain_archive('/tmp/wildfly-8.2.0.Final.tar.gz').with(
+      should contain_archive('/opt/wildfly/wildfly-8.2.0.Final.tar.gz').with(
         'extract' => true,
         'extract_path' => '/opt/wildfly',
         'creates' => '/opt/wildfly/wildfly-8.2.0.Final.tar.gz',
