@@ -11,7 +11,8 @@ describe 'wildfly::install' do
       should contain_archive('/tmp/wildfly-8.2.0.Final.tar.gz').with(
         'extract' => true,
         'extract_path' => '/opt/wildfly',
-        'creates' => '/opt/wildfly/jboss-modules.jar',
+        'creates' => '/opt/wildfly/wildfly-8.2.0.Final.tar.gz',
+        'cleanup' => false,
         'user' => 'wildfly',
         'group' => 'wildfly',
         'extract_flags' => '--strip-components=1 -zxf'
