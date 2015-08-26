@@ -7,11 +7,12 @@ class wildfly::install  {
 
   $install_file = inline_template('<%=File.basename(URI::parse(@install_source).path)%>')
 
-  archive { "/tmp/${install_file}":
+  archive { "/{wildfly::dirname}/${install_file}":
     source        => $wildfly::install_source,
     extract       => true,
     extract_path  => $wildfly::dirname,
-    creates       => "${wildfly::dirname}/jboss-modules.jar",
+    creates       => "${wildfly::dirname}/${install_file}",
+    cleanup       => false,
     user          => $wildfly::user,
     group         => $wildfly::group,
     extract_flags => '--strip-components=1 -zxf'
