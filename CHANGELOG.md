@@ -1,5 +1,9 @@
 # History
 
+## 0.4.1
+- Template fixes so it also works for puppet 4.2.1
+- Standalone mode also works with an empty java_opts
+
 ## 0.4.0
 - Unified deploy for domain/standalone modes (wildfly::deploy)
 - Removed wildfly::standalone namespace since domain and standalone configurations share the same defitions

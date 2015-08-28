@@ -34,13 +34,13 @@ Can also work with JBoss EAP ( tested on 6.1/6.2/6.3), it may change in the futu
     wildfly::install_source: http://mywebserver/jboss-eap-6.1.tar.gz
 
 
-[Vagrant fedora example](https://github.com/biemond/vagrant-fedora20-puppet) with wildfly and apache ajp, postgress db
+[Vagrant Fedora 20, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db
 
-[Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + modcluster)       
+[Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + modcluster)
 
 ##Module Description
 
-The wildfly module can install, configure and manage (using its HTTP API) Wildfly (8/9) and JBoss AS7/EAP6 (with limitations). 
+The wildfly module can install, configure and manage (using its HTTP API) Wildfly (8/9) and JBoss AS7/EAP6 (with limitations).
 
 ##Setup
 
@@ -53,8 +53,8 @@ The wildfly module can install, configure and manage (using its HTTP API) Wildfl
 This module requires a JVM ( should already be there ).
 
 Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
-	
-###Beginning with wildlfy	
+
+###Beginning with wildlfy
 
 ## Module defaults
 - version           8.2.0
@@ -82,7 +82,7 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
 
     class { 'wildfly': }
-    
+
 or for wildfly 9.0.0
 
     class { 'wildfly':
@@ -159,7 +159,7 @@ Source supports: http://, ftp://, file://
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
      checksum => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1
     }
-    
+
 **From Nexus:**
 
     wildfly::deploy { 'hawtio.war':
@@ -169,7 +169,7 @@ Source supports: http://, ftp://, file://
       repository => 'releases',
       packaging  => 'war',
     }
-    
+
 **From Nexus to a server-group (domain mode):**
 
     wildfly::deploy { 'hawtio.war':
@@ -302,7 +302,7 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       load_balancing_group => 'demolb',
       proxy_url => '/',
       proxy_list => '127.0.0.1:6666'
-    } 
+    }
 
 ##Reference
 
@@ -355,17 +355,17 @@ This module uses puppet-lint, rubocop, rspec, beaker and travis-ci. Try to use t
     bundle exec rspec spec/acceptance # default centos-66-x64
     BEAKER_set=centos-70-x64 bundle exec rspec spec/acceptance
     BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
-    
-JBoss/Wildfly management is based on three custom types and you can do virtually any JBoss/Wildfly configuration using them. So, before build your awesome definition to manage a resource (anything in configurations XML's) or deploy an artifact from my_internal_protocol://, check wildfly::deploy or wildfly::datasources namespace for guidance. 
 
-    
+JBoss/Wildfly management is based on three custom types and you can do virtually any JBoss/Wildfly configuration using them. So, before build your awesome definition to manage a resource (anything in configurations XML's) or deploy an artifact from my_internal_protocol://, check wildfly::deploy or wildfly::datasources namespace for guidance.
+
+
 *Examples*:
 
         wildfly_cli { 'Enable ExampleDS'
           command => '/subsystem=datasources/data-source=ExampleDS:enable',
           unless  => '(result == true) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)'
         }
-    
+
         wildfly_resource { '/subsystem=datasources/data-source=ExampleDS':
           state => {
                    'driver-name' => 'postgresql',
@@ -375,13 +375,13 @@ JBoss/Wildfly management is based on three custom types and you can do virtually
                    'password' => 'postgres'
                    }
         }
-    
+
         wildfly_deploy { 'sample.war':
           source => 'file:/vagrant/sample.war'
         }
-    
+
     They all require a management username, password, host and port params, as it uses Wildfly HTTP API. *Host defaults to 127.0.0.1 and port to 9990*
 
 ##Contributors
 
-The list of contributors can be found at: https://github.com/biemond/biemond-wildfly/graphs/contributors 
+The list of contributors can be found at: https://github.com/biemond/biemond-wildfly/graphs/contributors

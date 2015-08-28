@@ -15,7 +15,7 @@
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "version": "0.3.7",
+  "version": "0.4.2",
   "tags": [
     "jboss",
     "EAP",
@@ -84,11 +84,11 @@
   "requirements": [
     {
       "name": "pe",
-      "version_requirement": ">=2.7.20"
+      "version_requirement": ">=2.7.20 < 2015.3.0"
     },
     {
       "name": "puppet",
-      "version_requirement": ">=2.7.20"
+      "version_requirement": ">=2.7.20 < 5.0.0"
     }
   ]
 }
