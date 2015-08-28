@@ -5,7 +5,7 @@ Puppet::Type.type(:wildfly_deploy).provide(:http_api) do
   desc 'Uses JBoss HTTP API to perfom deploy'
 
   def cli
-    PuppetX::Util::WildflyCli.instance(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+    PuppetX::Util::WildflyCli.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password], @resource[:timeout])
   end
 
   def create
