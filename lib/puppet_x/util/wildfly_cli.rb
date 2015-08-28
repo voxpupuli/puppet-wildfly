@@ -10,22 +10,13 @@ module PuppetX
     class WildflyCli
       include WildflyCliAssembler
 
-      @@instance = nil
-
-      def initialize(address, port, user, password)
+      def initialize(address, port, user, password, timeout = 60)
         @uri = URI.parse "http://#{address}:#{port}/management"
         @uri.user = CGI.escape(user)
         @uri.password = CGI.escape(password)
 
         @http_client = Net::HTTP.new @uri.host, @uri.port
-      end
-
-      def self.instance(address, port, user, password)
-        if @@instance.nil?
-          @@instance = new(address, port, user, password)
-        end
-
-        @@instance
+        @http_client.read_timeout = timeout
       end
 
       def add_recursive(resource, state)
