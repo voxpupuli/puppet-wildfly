@@ -380,8 +380,11 @@ JBoss/Wildfly management is based on three custom types and you can do virtually
           source => 'file:/vagrant/sample.war'
         }
 
-    They all require a management username, password, host and port params, as it uses Wildfly HTTP API. *Host defaults to 127.0.0.1 and port to 9990*
+They all require a management username, password, host and port params, as it uses Wildfly HTTP API. *Host defaults to 127.0.0.1 and port to 9990*
 
-##Contributors
+##Author/Contributors
 
-The list of contributors can be found at: https://github.com/biemond/biemond-wildfly/graphs/contributors
+- Edwin Biemond (biemond at gmail dot com)
+- Jairo Junior (junior.jairo1 at gmail dot com)
+
+More: https://github.com/biemond/biemond-wildfly/graphs/contributors
