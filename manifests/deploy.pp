@@ -6,6 +6,7 @@ define wildfly::deploy(
   $package_temp_path = '/tmp',
   $packaging         = 'jar',
   $checksum_type     = 'sha1',
+  $timeout           = undef,
   $server_group      = undef,
   $checksum          = undef,
   $classifier        = undef,
@@ -65,6 +66,7 @@ define wildfly::deploy(
     password     => $::wildfly::users_mgmt['wildfly']['password'],
     host         => $::wildfly::mgmt_bind,
     port         => $::wildfly::mgmt_http_port,
+    timeout      => $timeout,
     source       => "file:${local_source}"
   }
 

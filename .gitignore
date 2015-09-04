@@ -10,3 +10,4 @@ pkg
 spec/fixtures/*
 spec/reports/*
 coverage/*
+.DS_Store
