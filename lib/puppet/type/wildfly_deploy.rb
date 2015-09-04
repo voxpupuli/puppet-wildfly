@@ -41,6 +41,10 @@ Puppet::Type.newtype(:wildfly_deploy) do
   newparam(:timeout) do
     desc 'Operation timeout. Defaults to 120'
     defaultto 120
+
+    munge do |value|
+      value.to_i
+    end
   end
 
   newproperty(:content) do
