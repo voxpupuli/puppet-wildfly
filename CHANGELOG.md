@@ -1,5 +1,8 @@
 # History
 
+## 0.4.2
+- Adds timeout parameter for wildfly_deploy custom type.
+
 ## 0.4.1
 - Template fixes so it also works for puppet 4.2.1
 - Standalone mode also works with an empty java_opts
