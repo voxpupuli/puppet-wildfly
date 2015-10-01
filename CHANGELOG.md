@@ -1,5 +1,8 @@
 # History
 
+## 0.4.3
+- Allow setting the uid/gid for the wildfly user and group
+
 ## 0.4.2
 - Adds timeout parameter for wildfly_deploy custom type.
 
