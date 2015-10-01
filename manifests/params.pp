@@ -4,6 +4,8 @@
 class wildfly::params {
 
   $manage_user  = true
+  $uid          = undef
+  $gid          = undef
   $group        = 'wildfly'
   $user         = 'wildfly'
   $dirname      = '/opt/wildfly'
