@@ -18,6 +18,7 @@ gem 'facter', '>= 1.6.10'
 gem 'rubocop', :git => 'https://github.com/bbatsov/rubocop',  :require => false
 gem 'puppet-blacksmith'
 gem 'fog', '>= 1.25.0'
+gem 'fog-google', '= 0.1.0'
 gem 'beaker', '>= 2.0.0'
 gem 'beaker-rspec', '>= 5.0.0'
 gem 'serverspec', '>= 2.0.0'
