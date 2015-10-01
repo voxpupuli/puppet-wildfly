@@ -6,6 +6,8 @@ class wildfly(
   $install_source    = 'http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz',
   $java_home         = $wildfly::params::java_home,
   $manage_user       = $wildfly::params::manage_user,
+  $uid               = $wildfly::params::uid,
+  $gid               = $wildfly::params::gid,
   $group             = $wildfly::params::group,
   $user              = $wildfly::params::user,
   $dirname           = $wildfly::params::dirname,
