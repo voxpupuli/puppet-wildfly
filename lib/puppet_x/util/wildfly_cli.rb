@@ -70,7 +70,12 @@ module PuppetX
         response['outcome'] == 'success' ? response['result'] : {}
       end
 
-      def update_recursive(resource, state)
+      def update_recursive(resource, state, merge = false)
+        if merge
+          old_state = read(resource, true)
+          state = recursive_merge_state(old_state, state)
+        end
+
         remove = {
           :address => assemble_address(resource),
           :operation => :remove
@@ -89,7 +94,11 @@ module PuppetX
         send(composite)
       end
 
-      def update(resource, state)
+      def update(resource, state, merge = false)
+        if merge
+           state = read(resource).merge(state)
+        end
+
         remove = {
           :address => assemble_address(resource),
           :operation => :remove
@@ -173,6 +182,17 @@ module PuppetX
       end
 
       private
+
+      def recursive_merge_state(old_state, new_state)
+        map_list = new_state.map do |k,v|
+          if v.is_a?(Hash) and old_state.fetch(k, nil).is_a?(Hash)
+            { k => recursive_merge_state(old_state[k], v) }
+          else
+            { k => v }
+          end
+        end
+        old_state.reject {|k,v| v == nil}.merge(Hash[map_list])
+      end
 
       def split_resources(name, state)
         # Ruby 1.8.7 Hash doesn't have filter

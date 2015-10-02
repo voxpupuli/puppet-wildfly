@@ -37,6 +37,11 @@ Puppet::Type.newtype(:wildfly_resource) do
     defaultto false
   end
 
+  newparam(:merge_on_update) do
+    desc 'Merge properties on update. Defaults to false'
+    defaultto false
+  end
+
   newproperty(:state) do
     desc 'Resource state'
     defaultto {}
