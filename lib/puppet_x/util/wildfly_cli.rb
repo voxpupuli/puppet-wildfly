@@ -71,36 +71,25 @@ module PuppetX
       end
 
       def update_recursive(resource, state)
-        remove = {
-          :address => assemble_address(resource),
-          :operation => :remove
-        }
-
         all_resources = split_resources(resource, state)
 
-        steps = all_resources.map { |(name, state)| add_body(name, state) }
+        steps = all_resources.map { |(name, state)| attrs_to_update(name, state).map {|(k, v)| write_attr_body(name, k, v)}}.flatten(1)
 
         composite = {
           :address => [],
           :operation => :composite,
-          :steps => [remove].concat(steps)
+          :steps => steps
         }
 
         send(composite)
       end
 
       def update(resource, state)
-        remove = {
-          :address => assemble_address(resource),
-          :operation => :remove
-        }
-
-        add = add_body(resource, state)
-
+        updates = attrs_to_update(resource, state).map {|(k, v)| write_attr_body(resource, k, v)}
         composite = {
           :address => [],
           :operation => :composite,
-          :steps => [remove, add]
+          :steps => updates
         }
 
         send(composite)
@@ -182,6 +171,11 @@ module PuppetX
         [base_state].concat(child_resources)
       end
 
+      def attrs_to_update(resource, state)
+        current_state = read(resource)
+        state.select { |k,v| current_state[k] != v }
+      end
+
       def add_body(resource, state)
         body = {
           :address => assemble_address(resource),
@@ -189,6 +183,15 @@ module PuppetX
         }
 
         body.merge(state)
+      end
+
+      def write_attr_body(resource, name, value)
+        {
+          :address => assemble_address(resource),
+          :operation => 'write-attribute',
+          :name => name,
+          :value => value
+        }
       end
 
       def add_content(name, source)
