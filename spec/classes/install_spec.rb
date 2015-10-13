@@ -8,10 +8,11 @@ describe 'wildfly::install' do
   context 'install wildfly' do
     it { should contain_class('wildfly::install') }
     it do
-      should contain_archive('/tmp/wildfly-8.2.0.Final.tar.gz').with(
+      should contain_archive('/opt/wildfly/wildfly-8.2.0.Final.tar.gz').with(
         'extract' => true,
         'extract_path' => '/opt/wildfly',
-        'creates' => '/opt/wildfly/jboss-modules.jar',
+        'creates' => '/opt/wildfly/wildfly-8.2.0.Final.tar.gz',
+        'cleanup' => false,
         'user' => 'wildfly',
         'group' => 'wildfly',
         'extract_flags' => '--strip-components=1 -zxf'
