@@ -152,7 +152,7 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
 
 ## Domain Mode
 
-# Domain Master
+### Domain Master
 
     class { 'wildfly':
       mode        => 'domain',
@@ -163,7 +163,7 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       password => 'wildfly',
     }
 
-# Domain Slave
+### Domain Slave
 
     class { 'wildfly':
         mode        => 'domain',
