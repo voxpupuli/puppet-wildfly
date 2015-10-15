@@ -2,8 +2,8 @@
 # wildfly module class
 #
 class wildfly(
-  $version           = '8.2.0',
-  $install_source    = 'http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz',
+  $version           = '8.2.1',
+  $install_source    = 'http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz',
   $java_home         = $wildfly::params::java_home,
   $manage_user       = $wildfly::params::manage_user,
   $uid               = $wildfly::params::uid,
@@ -31,6 +31,7 @@ class wildfly(
   $conf_file         = $wildfly::params::conf_file,
   $service_file      = $wildfly::params::service_file,
   $service_name      = $wildfly::params::service_name,
+  $domain_slave      = $wildfly::params::domain_slave,
 ) inherits wildfly::params {
 
   include archive

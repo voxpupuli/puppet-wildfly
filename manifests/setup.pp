@@ -13,4 +13,13 @@ class wildfly::setup {
     notify  => Class['wildfly::service']
   }
 
+  if !empty($wildfly::domain_slave) {
+
+    wildfly::domain::slave { $wildfly::domain_slave['host_name']:
+      secret                => $wildfly::domain_slave['secret'],
+      domain_master_address => $wildfly::domain_slave['domain_master_address'],
+    }
+
+  }
+
 }
