@@ -7,12 +7,5 @@ describe 'wildfly::setup' do
 
   context 'with default params' do
     it { should contain_file('/opt/wildfly/bin/standalone.conf') }
-    it { should contain_wildfly__config__interfaces('public') }
-    it { should contain_wildfly__config__interfaces('management') }
-    it { should contain_wildfly__config__socket_binding('management-http') }
-    it { should contain_wildfly__config__socket_binding('management-https') }
-    it { should contain_wildfly__config__socket_binding('http') }
-    it { should contain_wildfly__config__socket_binding('https') }
-    it { should contain_wildfly__config__socket_binding('ajp') }
   end
 end
