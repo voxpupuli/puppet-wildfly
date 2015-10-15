@@ -57,8 +57,8 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 ###Beginning with wildlfy
 
 ## Module defaults
-- version           8.2.0
-- install_source    http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz
+- version           8.2.1
+- install_source    http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz
 - java_home         /usr/java/jdk1.7.0_75/ (default dir for oracle official rpm)
 - manage_user       true
 - group             wildfly
@@ -149,6 +149,32 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
     }
 
+
+## Domain Mode
+
+# Domain Master
+
+    class { 'wildfly':
+      mode        => 'domain',
+      host_config => 'host-master.xml'
+    }
+    
+    wildfly::config::mgmt_user { 'slave1':
+      password => 'wildfly',
+    }
+
+# Domain Slave
+
+    class { 'wildfly':
+        mode        => 'domain',
+        host_config => 'host-slave.xml',
+        domain_slave => {
+          host_name => 'slave1',
+          secret    => 'd2lsZGZseQ==', #base64(password)
+          domain_master_address => 'DomainBindAddress',
+        }
+    }
+
 ## Deploy
 
 **From a source:**
@@ -185,25 +211,21 @@ Source supports: http://, ftp://, file://
 
 You can add App and Management users (requires server restart).
 
-    wildfly::config::add_mgmt_user { 'Adding mgmtuser':
-      username => 'mgmtuser',
+    wildfly::config::mgmt_user { 'mgmtuser':
       password => 'mgmtuser'
     }
 
-    wildfly::config::add_app_user { 'Adding appuser':
-      username => 'appuser',
+    wildfly::config::app_user { 'appuser':
       password => 'appuser'
     }
 
 And associate groups or roles to them (requires server restart)
 
-    wildfly::config::associate_groups_to_user { 'Associate groups to mgmtuser':
-      username => 'mgmtuser',
+    wildfly::config::user_groups { 'mgmtuser':
       groups   => 'admin,mygroup'
     }
 
-    wildfly::config::associate_roles_to_user { 'Associate roles to app user':
-      username => 'appuser',
+    wildfly::config::user_roles { 'appuser':
       roles    => 'guest,ejb'
     }
 
@@ -321,14 +343,14 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
 
 ###Resources
 
-* [wildfly::config::add_app_user]
-* [wildfly::config::add_mgmt_user]
-* [wildfly::config::associate_groups_to_user]
-* [wildfly::config::associate_roles_to_user]
+* [wildfly::config::app_user]
+* [wildfly::config::mgmt_user]
+* [wildfly::config::user_groups]
+* [wildfly::config::user_roles]
 * [wildfly::config::module]
 * [wildfly::util::resource]
 * [wildfly::util::exec_cli]
-* [wildfly::util::standalone::*]
+* [wildfly::*]
 
 Check types tab for more info about custom types/providers.
 
