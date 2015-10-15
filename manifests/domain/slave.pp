@@ -1,6 +1,6 @@
 define wildfly::domain::slave($secret, $domain_master_address) {
 
-  augeas { "${name}":
+  augeas { $name:
     lens    => 'Xml.lns',
     incl    => "${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::host_config}",
     changes => "set host/#attribute/name ${name}",
