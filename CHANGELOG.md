@@ -2,6 +2,10 @@
 
 ## 0.4.3
 - Allow setting the uid/gid for the wildfly user and group
+- Uses JBOSS_OPTS to configure socket binding and bind address. (Operation mode independent)
+- Improve Domain mode support. (Easy master/slave setup)
+- User management defined types name refactor. (Breaking change)
+- Non destructive update initial support.
 
 ## 0.4.2
 - Adds timeout parameter for wildfly_deploy custom type.
