@@ -1,7 +1,7 @@
 #
 # Add wildfly app user
 #
-define wildfly::config::add_app_user($username, $password) {
+define wildfly::config::app_user($username, $password) {
 
   wildfly::config::user { $name:
     username  => $username,
