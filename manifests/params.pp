@@ -55,4 +55,6 @@ class wildfly::params {
     },
   }
 
+  $domain_slave = {}
+
 }

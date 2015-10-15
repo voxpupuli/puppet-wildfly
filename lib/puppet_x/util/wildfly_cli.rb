@@ -73,7 +73,7 @@ module PuppetX
       def update_recursive(resource, state)
         all_resources = split_resources(resource, state)
 
-        steps = all_resources.map { |(name, state)| attrs_to_update(name, state).map {|(k, v)| write_attr_body(name, k, v)}}.flatten(1)
+        steps = all_resources.flat_map { |(name, state)| attrs_to_update(name, state).map { |(k, v)| write_attr_body(name, k, v) } }
 
         composite = {
           :address => [],
@@ -85,7 +85,7 @@ module PuppetX
       end
 
       def update(resource, state)
-        updates = attrs_to_update(resource, state).map {|(k, v)| write_attr_body(resource, k, v)}
+        updates = attrs_to_update(resource, state).map { |(k, v)| write_attr_body(resource, k, v) }
         composite = {
           :address => [],
           :operation => :composite,
@@ -173,7 +173,7 @@ module PuppetX
 
       def attrs_to_update(resource, state)
         current_state = read(resource)
-        state.select { |k,v| current_state[k] != v }
+        state.select { |k, v| current_state[k] != v }
       end
 
       def add_body(resource, state)
