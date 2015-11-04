@@ -34,9 +34,13 @@ Can also work with JBoss EAP ( tested on 6.1/6.2/6.3), it may change in the futu
     wildfly::install_source: http://mywebserver/jboss-eap-6.1.tar.gz
 
 
-[Vagrant Fedora 20, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db
+[Vagrant Fedora 20, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db.
 
-[Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + modcluster)
+[Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + modcluster).
+
+[Vagrant CentOS Domain Mode](https://github.com/jairojunior/wildfly-domain-vagrant-puppet) with two nodes (Domain master and slave).
+
+[MCollective JBoss Agent Plugin](https://github.com/jairojunior/mcollective-jboss-agent) might be useful if you want to make consistent large scale changes.
 
 ##Module Description
 
@@ -383,24 +387,24 @@ JBoss/Wildfly management is based on three custom types and you can do virtually
 
 *Examples*:
 
-        wildfly_cli { 'Enable ExampleDS'
-          command => '/subsystem=datasources/data-source=ExampleDS:enable',
-          unless  => '(result == true) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)'
-        }
+    wildfly_cli { 'Enable ExampleDS'
+      command => '/subsystem=datasources/data-source=ExampleDS:enable',
+      unless  => '(result == true) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)'
+    }
 
-        wildfly_resource { '/subsystem=datasources/data-source=ExampleDS':
-          state => {
-                   'driver-name' => 'postgresql',
-                   'connection-url' => 'jdbc:postgresql://localhost/example',
-                   'jndi-name' => 'java:jboss/datasources/ExampleDS',
-                   'user-name' => 'postgres',
-                   'password' => 'postgres'
-                   }
-        }
+    wildfly_resource { '/subsystem=datasources/data-source=ExampleDS':
+      state => {
+               'driver-name' => 'postgresql',
+               'connection-url' => 'jdbc:postgresql://localhost/example',
+               'jndi-name' => 'java:jboss/datasources/ExampleDS',
+               'user-name' => 'postgres',
+               'password' => 'postgres'
+               }
+    }
 
-        wildfly_deploy { 'sample.war':
-          source => 'file:/vagrant/sample.war'
-        }
+    wildfly_deploy { 'sample.war':
+      source => 'file:/vagrant/sample.war'
+    }
 
 They all require a management username, password, host and port params, as it uses Wildfly HTTP API. *Host defaults to 127.0.0.1 and port to 9990*
 
