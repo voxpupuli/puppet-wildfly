@@ -12,7 +12,7 @@ define wildfly::util::resource($ensure = 'present', $content = undef, $recursive
     host      => $::wildfly::mgmt_bind,
     port      => $::wildfly::mgmt_http_port,
     recursive => $recursive,
-    state     => $content,
+    state     => delete_undef_values($content),
   }
 
 }
