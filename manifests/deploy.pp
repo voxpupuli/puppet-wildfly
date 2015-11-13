@@ -21,7 +21,7 @@ define wildfly::deploy(
     $artifact_id = values_at(split($gav,  ':'), 1)
     $local_source = "${package_temp_path}/${artifact_id}.${packaging}"
 
-    archive::nexus { $local_source:
+    puppetarchive::nexus { $local_source:
       ensure     => present,
       url        => $nexus_url,
       gav        => $gav,
@@ -38,11 +38,11 @@ define wildfly::deploy(
     $local_source = "${package_temp_path}/${file_name}"
 
     if ( $checksum == undef ) {
-      archive { $local_source:
+      puppetarchive { $local_source:
         source => $source
       }
     } else {
-      archive { $local_source:
+      puppetarchive { $local_source:
         source        => $source,
         checksum      => $checksum,
         checksum_type => $checksum_type
@@ -53,7 +53,7 @@ define wildfly::deploy(
       owner   => $::wildfly::user,
       group   => $::wildfly::group,
       mode    => '0755',
-      require => Archive[$local_source],
+      require => Puppetarchive[$local_source],
       notify  => Wildfly_deploy[$name]
     }
 
