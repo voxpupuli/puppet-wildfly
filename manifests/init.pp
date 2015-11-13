@@ -34,13 +34,13 @@ class wildfly(
   $domain_slave      = $wildfly::params::domain_slave,
 ) inherits wildfly::params {
 
-  include archive
+  include puppetarchive
   include wildfly::install
   include wildfly::prepare
   include wildfly::setup
   include wildfly::service
 
-  Class['archive'] ->
+  Class['puppetarchive'] ->
     Class['wildfly::prepare'] ->
       Class['wildfly::install'] ->
         Class['wildfly::setup'] ->

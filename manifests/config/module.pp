@@ -31,7 +31,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
 
-  archive { "${dir_path}/${file_name}":
+  puppetarchive { "${dir_path}/${file_name}":
     source => $source,
   }
   ->
