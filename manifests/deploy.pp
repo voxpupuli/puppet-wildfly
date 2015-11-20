@@ -38,7 +38,7 @@ define wildfly::deploy(
     $local_source = "${package_temp_path}/${file_name}"
     package {'curl': ensure => present, }
     exec {"curl ${source}":
-      command  => "curl -s -S -L -o ${local_source} '${source}'",
+      command  => "/usr/bin/curl -s -S -L -o ${local_source} '${source}'",
       path     => $::path,
       loglevel => 'notice',
       creates  => $local_source,

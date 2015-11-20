@@ -32,7 +32,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
 
   exec {"curl ${source}":
-    command  => "curl -s -S -L -o ${dir_path}/${file_name} '${source}'",
+    command  => "/usr/bin/curl -s -S -L -o ${dir_path}/${file_name} '${source}'",
     path     => $::path,
     loglevel => 'notice',
     creates  => "${dir_path}/${file_name}",

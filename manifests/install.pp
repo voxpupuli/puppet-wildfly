@@ -9,7 +9,7 @@ class wildfly::install  {
 
   # Download Wildfly from jboss.org
   exec {"curl ${install_source}":
-    command  => "curl -s -S -L -o /tmp/${install_file} '${install_source}'",
+    command  => "/usr/bin/curl -s -S -L -o /tmp/${install_file} '${install_source}'",
     path     => $::path,
     loglevel => 'notice',
     creates  => $local_source,
