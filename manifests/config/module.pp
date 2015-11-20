@@ -21,7 +21,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
   exec { "Create Parent Directories: ${name}":
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "/bin/mkdir -p ${dir_path}",
-    unless  => "/bin/ls -d ${dir_path}",
+    unless  => "test -d ${dir_path}",
     before  => [File[$dir_path]],
   }
 
@@ -33,7 +33,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
 
   exec {"curl ${source}":
     command  => "/usr/bin/curl -s -S -L -o ${dir_path}/${file_name} '${source}'",
-    path     => $::path,
+    path     => ['/bin','/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => "${dir_path}/${file_name}",
     require  => [ Package[curl], File[$wildfly::dirname] ],

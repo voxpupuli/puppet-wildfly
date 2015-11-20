@@ -8,13 +8,9 @@ describe 'wildfly::install' do
   context 'install wildfly' do
     it { should contain_class('wildfly::install') }
     it do
-      should contain_archive('/tmp/wildfly-8.2.1.Final.tar.gz').with(
-        'extract' => true,
-        'extract_path' => '/opt/wildfly',
+      should contain_exec('curl http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz').with(
+        'command'  => "/usr/bin/curl -s -S -L -o /tmp/${install_file} '${install_source}'",
         'creates' => '/opt/wildfly/jboss-modules.jar',
-        'user' => 'wildfly',
-        'group' => 'wildfly',
-        'extract_flags' => '--strip-components=1 -zxf'
       )
     end
   end

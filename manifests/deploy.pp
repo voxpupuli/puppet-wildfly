@@ -39,7 +39,7 @@ define wildfly::deploy(
     package {'curl': ensure => present, }
     exec {"curl ${source}":
       command  => "/usr/bin/curl -s -S -L -o ${local_source} '${source}'",
-      path     => $::path,
+      path     => ['/bin','/usr/bin', '/sbin'],
       loglevel => 'notice',
       creates  => $local_source,
       require  => Package[curl],

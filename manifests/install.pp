@@ -10,20 +10,19 @@ class wildfly::install  {
   # Download Wildfly from jboss.org
   exec {"curl ${install_source}":
     command  => "/usr/bin/curl -s -S -L -o /tmp/${install_file} '${install_source}'",
-    path     => $::path,
+    path     => ['/bin','/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => $local_source,
-    unless   => "/bin/ls ${wildfly::dirname}/jboss-modules.jar",
+    unless   => "test -f ${wildfly::dirname}/jboss-modules.jar",
     require  => [ Package[curl], File[$wildfly::dirname] ],
   }
   # Gunzip+Untar wildfly.tar.gz if curl was successful.
   exec {"untar ${install_file}":
     command  => "tar --no-same-owner --no-same-permissions --strip-components=1 -C ${wildfly::dirname} -zxvf /tmp/${install_file}",
-    path     => $::path,
+    path     => ['/bin','/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => "${wildfly::dirname}/jboss-modules.jar",
     require  => Exec["curl ${install_source}"],
-    # --owner=${} --group=${wildfly::group}
     user     => $wildfly::user,
     group    => $wildfly::group,
   }
