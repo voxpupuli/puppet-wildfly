@@ -40,9 +40,9 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
   }
 
   file { "${dir_path}/${file_name}":
-    owner => $::wildfly::user,
-    group => $::wildfly::group,
-    mode  => '0755',
+    owner   => $::wildfly::user,
+    group   => $::wildfly::group,
+    mode    => '0755',
     require => Exec["curl ${source}"],
   }
 

@@ -28,7 +28,7 @@ class wildfly::install  {
   }
   # Remove wildfly.tar.gz file if extraction was successful.
   file {"/tmp/${install_file}":
-    ensure => absent,
+    ensure  => absent,
     require => Exec["untar ${install_file}"],
   }
 
