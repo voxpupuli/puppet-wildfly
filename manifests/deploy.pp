@@ -36,7 +36,7 @@ define wildfly::deploy(
 
     $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
     $local_source = "${package_temp_path}/${file_name}"
-    package {'curl': ensure => present, }
+    
     exec {"curl ${source}":
       command  => "/usr/bin/curl -s -S -L -o ${local_source} '${source}'",
       path     => ['/bin','/usr/bin', '/sbin'],

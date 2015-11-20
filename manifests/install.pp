@@ -12,7 +12,7 @@ class wildfly::install  {
     command  => "/usr/bin/curl -s -S -L -o /tmp/${install_file} '${install_source}'",
     path     => ['/bin','/usr/bin', '/sbin'],
     loglevel => 'notice',
-    creates  => $local_source,
+    creates  => "/tmp/${install_file}",
     unless   => "test -f ${wildfly::dirname}/jboss-modules.jar",
     require  => [ Package[curl], File[$wildfly::dirname] ],
   }
