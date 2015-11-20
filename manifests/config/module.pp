@@ -21,7 +21,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
   exec { "Create Parent Directories: ${name}":
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "/bin/mkdir -p ${dir_path}",
-    unless  => "test -d ${dir_path}",
+    unless  => "/bin/ls -d ${dir_path}",
     before  => [File[$dir_path]],
   }
 

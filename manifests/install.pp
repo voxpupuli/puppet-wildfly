@@ -13,7 +13,7 @@ class wildfly::install  {
     path     => $::path,
     loglevel => 'notice',
     creates  => $local_source,
-    unless   => "test -f ${wildfly::dirname}/jboss-modules.jar",
+    unless   => "/bin/ls ${wildfly::dirname}/jboss-modules.jar",
     require  => [ Package[curl], File[$wildfly::dirname] ],
   }
   # Gunzip+Untar wildfly.tar.gz if curl was successful.
