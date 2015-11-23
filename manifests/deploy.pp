@@ -17,7 +17,7 @@ define wildfly::deploy(
   $repository        = undef) {
 
   if ( $source == undef) {
-    fail('deploy.pp:20 - No nexus support in this version.')
+    fail('deploy.pp:20 - No nexus support in this version. https://github.com/biemond/biemond-wildfly/issues/40')
     # $artifact_id = values_at(split($gav,  ':'), 1)
     # $local_source = "${package_temp_path}/${artifact_id}.${packaging}"
     #
@@ -36,10 +36,10 @@ define wildfly::deploy(
 
     $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
     $local_source = "${package_temp_path}/${file_name}"
-    
+
     exec {"curl ${source}":
-      command  => "/usr/bin/curl -s -S -L -o ${local_source} '${source}'",
-      path     => ['/bin','/usr/bin', '/sbin'],
+      command  => "curl -s -S -L -o ${local_source} '${source}'",
+      path     => ['/bin', '/usr/bin', '/sbin'],
       loglevel => 'notice',
       creates  => $local_source,
       require  => Package[curl],
