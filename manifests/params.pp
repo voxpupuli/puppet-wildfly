@@ -3,6 +3,7 @@
 #
 class wildfly::params {
 
+  $install_curl = true
   $manage_user  = true
   $uid          = undef
   $gid          = undef
