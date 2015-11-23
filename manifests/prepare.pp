@@ -2,7 +2,7 @@
 # Wildlfy prepare class
 #
 class wildfly::prepare {
-  package {'curl': ensure => present, }
+  ensure_resource('package', 'curl', {'ensure' => 'present'})
   
   if $wildfly::manage_user {
 
