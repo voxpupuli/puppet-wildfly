@@ -17,43 +17,38 @@ define wildfly::deploy(
   $repository        = undef) {
 
   if ( $source == undef) {
-
-    $artifact_id = values_at(split($gav,  ':'), 1)
-    $local_source = "${package_temp_path}/${artifact_id}.${packaging}"
-
-    archive::nexus { $local_source:
-      ensure     => present,
-      url        => $nexus_url,
-      gav        => $gav,
-      repository => $repository,
-      packaging  => $packaging,
-      owner      => $::wildfly::user,
-      group      => $::wildfly::group,
-      notify     => Wildfly_deploy[$name]
-    }
+    fail('deploy.pp:20 - No nexus support in this version. https://github.com/biemond/biemond-wildfly/issues/40')
+    # $artifact_id = values_at(split($gav,  ':'), 1)
+    # $local_source = "${package_temp_path}/${artifact_id}.${packaging}"
+    #
+    # archive::nexus { $local_source:
+    #   ensure     => present,
+    #   url        => $nexus_url,
+    #   gav        => $gav,
+    #   repository => $repository,
+    #   packaging  => $packaging,
+    #   owner      => $::wildfly::user,
+    #   group      => $::wildfly::group,
+    #   notify     => Wildfly_deploy[$name]
+    # }
 
   } else {
 
     $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
     $local_source = "${package_temp_path}/${file_name}"
 
-    if ( $checksum == undef ) {
-      archive { $local_source:
-        source => $source
-      }
-    } else {
-      archive { $local_source:
-        source        => $source,
-        checksum      => $checksum,
-        checksum_type => $checksum_type
-      }
+    exec {"curl ${source}":
+      command  => "curl -s -S -L -o ${local_source} '${source}'",
+      path     => ['/bin', '/usr/bin', '/sbin'],
+      loglevel => 'notice',
+      creates  => $local_source,
+      require  => Package[curl],
     }
-
     file { $local_source:
       owner   => $::wildfly::user,
       group   => $::wildfly::group,
       mode    => '0755',
-      require => Archive[$local_source],
+      require => Exec["curl ${source}"],
       notify  => Wildfly_deploy[$name]
     }
 

@@ -15,7 +15,6 @@ RSpec.configure do |c|
     puppet_module_install(:source => project_root, :module_name => 'wildfly')
     hosts.each do |host|
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '3.2.0'), :acceptable_exit_codes => [0, 1]
-      on host, puppet('module', 'install', 'nanliu/archive', '--version', '0.3.0'), :acceptable_exit_codes => [0, 1]
       on host, puppet('module','install','puppetlabs-java'), { :acceptable_exit_codes => [0, 1] }
     end
   end
