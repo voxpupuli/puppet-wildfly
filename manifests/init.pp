@@ -4,6 +4,7 @@
 class wildfly(
   $version           = '8.2.1',
   $install_source    = 'http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz',
+  $install_curl      = $wildfly::params::install_curl,
   $java_home         = $wildfly::params::java_home,
   $manage_user       = $wildfly::params::manage_user,
   $uid               = $wildfly::params::uid,

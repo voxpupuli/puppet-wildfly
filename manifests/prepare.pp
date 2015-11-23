@@ -43,7 +43,7 @@ class wildfly::prepare {
     }
   }
 
-  if !defined(Package['curl']) {
+  if $wildfly::install_curl {
     package { 'curl':
       ensure => present,
     }

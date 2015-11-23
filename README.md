@@ -63,6 +63,7 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 ## Module defaults
 - version           8.2.1
 - install_source    http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz
+- install_curl      true
 - java_home         /usr/java/jdk1.7.0_75/ (default dir for oracle official rpm)
 - manage_user       true
 - group             wildfly
