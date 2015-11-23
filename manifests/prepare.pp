@@ -2,8 +2,7 @@
 # Wildlfy prepare class
 #
 class wildfly::prepare {
-  package {'curl': ensure => present, }
-  
+
   if $wildfly::manage_user {
 
     group { $wildfly::group :
@@ -40,6 +39,12 @@ class wildfly::prepare {
 
   if !defined(Package[$libaiopackage]) {
     package { $libaiopackage:
+      ensure => present,
+    }
+  }
+
+  if !defined(Package['curl']) {
+    package { 'curl':
       ensure => present,
     }
   }
