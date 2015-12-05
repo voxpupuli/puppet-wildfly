@@ -2,8 +2,7 @@
 # Wildlfy prepare class
 #
 class wildfly::prepare {
-  ensure_resource('package', 'curl', {'ensure' => 'present'})
-  
+
   if $wildfly::manage_user {
 
     group { $wildfly::group :
@@ -38,10 +37,7 @@ class wildfly::prepare {
     default  => 'libaio',
   }
 
-  if !defined(Package[$libaiopackage]) {
-    package { $libaiopackage:
-      ensure => present,
-    }
-  }
+  ensure_resource('package', $libaiopackage, {'ensure' => 'present'})
+  ensure_resource('package', 'wget', {'ensure' => 'present'})
 
 }
