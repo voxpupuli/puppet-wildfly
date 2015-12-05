@@ -11,17 +11,17 @@ define wildfly::deployment(
   $local_source = "/tmp/${file_name}"
 
   exec { "download deployable from ${source}":
-    command  => "/usr/bin/wget -N -P /tmp ${source} --max-redirect=5",
+    command  => "wget -N -P /tmp ${source} --max-redirect=5",
     path     => ['/bin', '/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => $local_source,
   }
   ->
   file { $local_source:
-    ensure  => 'present',
-    owner   => $::wildfly::user,
-    group   => $::wildfly::group,
-    mode    => '0755',
+    ensure => 'present',
+    owner  => $::wildfly::user,
+    group  => $::wildfly::group,
+    mode   => '0755',
   }
   ~>
   wildfly_deployment { $name:

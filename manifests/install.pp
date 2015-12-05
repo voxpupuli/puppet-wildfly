@@ -9,7 +9,7 @@ class wildfly::install  {
 
   # Download Wildfly from jboss.org
   exec { "Download wildfly from ${install_source}":
-    command  => "/usr/bin/wget -N -P /var/cache/wget ${install_source} --max-redirect=5",
+    command  => "wget -N -P /var/cache/wget ${install_source} --max-redirect=5",
     path     => ['/bin', '/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => "/var/cache/wget/${install_file}",

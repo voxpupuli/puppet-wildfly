@@ -36,20 +36,5 @@ describe 'wildfly::prepare' do
     end
     it { should contain_package('libaio1') }
   end
-
-  context 'dont install dependencies when already defined' do
-    let :pre_condition do
-      <<-EOS
-        package { 'libaio': }
-        ->
-        class { 'wildfly': }
-      EOS
-    end
-    let :facts do
-      {
-        osfamily: 'Redhat'
-      }
-    end
-    it { should compile }
-  end
+  
 end
