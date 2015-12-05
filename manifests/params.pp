@@ -50,7 +50,6 @@ class wildfly::params {
 
   $users_mgmt = {
     'wildfly' => {
-      username => 'wildfly',
       password => 'wildfly',
     },
   }
