@@ -162,7 +162,7 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       mode        => 'domain',
       host_config => 'host-master.xml'
     }
-    
+
     wildfly::config::mgmt_user { 'slave1':
       password => 'wildfly',
     }
@@ -179,37 +179,28 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
         }
     }
 
-## Deploy
+## Deployment
 
 **From a source:**
 
-Source supports: http://, ftp://, file://
+Source supports: http:// and ftp://
 
-    wildfly::deploy { 'hawtio.war':
+    wildfly::deployment { 'hawtio.war':
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
      checksum => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1
     }
 
-**From Nexus:**
+**To a server-group (domain mode):**
 
-    wildfly::deploy { 'hawtio.war':
-      ensure     => present,
-      nexus_url  => 'https://oss.sonatype.org',
-      gav        => 'io.hawt:hawtio-web:1.4.36',
-      repository => 'releases',
-      packaging  => 'war',
+    wildfly::deployment { 'hawtio.war':
+     source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+     checksum     => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1,
+     server_group => 'main-server-group',
     }
 
-**From Nexus to a server-group (domain mode):**
+**Deploy from nexus: **
 
-    wildfly::deploy { 'hawtio.war':
-      ensure       => present,
-      nexus_url    => 'https://oss.sonatype.org',
-      gav          => 'io.hawt:hawtio-web:1.4.36',
-      repository   => 'releases',
-      packaging    => 'war',
-      server_group => 'main-server-group',
-    }
+This feature was removed to avoid 'archive' name collision, but you can still use archive::nexus to download an artifact and use as an input for wildfly::deploy
 
 ## User management
 
@@ -354,7 +345,7 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
 * [wildfly::config::module]
 * [wildfly::util::resource]
 * [wildfly::util::exec_cli]
-* [wildfly::*]
+* [wildfly::deployment]
 
 Check types tab for more info about custom types/providers.
 
@@ -402,7 +393,7 @@ JBoss/Wildfly management is based on three custom types and you can do virtually
                }
     }
 
-    wildfly_deploy { 'sample.war':
+    wildfly_deployment { 'sample.war':
       source => 'file:/vagrant/sample.war'
     }
 
