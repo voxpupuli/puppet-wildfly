@@ -1,5 +1,11 @@
 # History
 
+## 0.5
+- Removed nanliu-archive dependency
+- Removed nexus deployment support
+- Rename deploy to deployment
+- Simplify user management
+
 ## 0.4.3
 - Allow setting the uid/gid for the wildfly user and group
 - Uses JBOSS_OPTS to configure socket binding and bind address. (Operation mode independent)
