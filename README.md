@@ -255,7 +255,7 @@ Setup a driver and a datasource (for domain mode you need to set target_profile 
 
 Alternatively, you can install a JDBC driver and module using deploy if your driver is JDBC4 compliant:
 
-    wildfly::deploy { 'postgresql-9.3-1103-jdbc4.jar':
+    wildfly::deployment { 'postgresql-9.3-1103-jdbc4.jar':
       source => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar'
     }
     ->
