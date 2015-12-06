@@ -187,14 +187,12 @@ Source supports: http:// and ftp://
 
     wildfly::deployment { 'hawtio.war':
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
-     checksum => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1
     }
 
 **To a server-group (domain mode):**
 
     wildfly::deployment { 'hawtio.war':
      source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
-     checksum     => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1,
      server_group => 'main-server-group',
     }
 
