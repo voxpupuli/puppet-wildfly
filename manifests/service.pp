@@ -15,10 +15,10 @@ class wildfly::service {
   if $::wildfly::custom_init {
     # Pass custom initd script template for starting wildfly
     file { "/etc/init.d/${::wildfly::service_name}":
-      ensure => present,
-      mode   => '0755',
-      owner  => 'root',
-      group  => 'root',
+      ensure  => present,
+      mode    => '0755',
+      owner   => 'root',
+      group   => 'root',
       content => template($::wildfly::custom_init),
     }
   } else {
