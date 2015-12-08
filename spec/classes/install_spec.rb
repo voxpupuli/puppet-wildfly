@@ -8,9 +8,9 @@ describe 'wildfly::install' do
   context 'install wildfly' do
     it { should contain_class('wildfly::install') }
     it do
-      should contain_exec('curl http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz').with(
-        'command'  => "/usr/bin/curl -s -S -L -o /tmp/wildfly-8.2.1.Final.tar.gz 'http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz'",
-        'creates'  => "/tmp/wildfly-8.2.1.Final.tar.gz",
+      should contain_exec('Download wildfly from http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz').with(
+        'command'  => 'wget -N -P /var/cache/wget http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz --max-redirect=5',
+        'creates'  => '/var/cache/wget/wildfly-8.2.1.Final.tar.gz',
       )
     end
   end

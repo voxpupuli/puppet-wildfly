@@ -1,10 +1,10 @@
 #
 # Add wildfly app user
 #
-define wildfly::config::app_user($username, $password) {
+define wildfly::config::app_user($password) {
 
   wildfly::config::user { $name:
-    username  => $username,
+    username  => $name,
     password  => $password,
     file_name => 'application-users.properties',
     realm     => 'ApplicationRealm'
