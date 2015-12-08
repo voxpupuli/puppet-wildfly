@@ -36,7 +36,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
     path     => ['/bin','/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => "${dir_path}/${file_name}",
-    require  => [ Package[curl], File[$wildfly::dirname] ],
+    require  => [ File[$wildfly::dirname] ],
   }
 
   file { "${dir_path}/${file_name}":
