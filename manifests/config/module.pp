@@ -31,19 +31,19 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
 
-  exec {"curl ${source}":
-    command  => "curl -s -S -L -o ${dir_path}/${file_name} '${source}'",
+  exec { "download module from ${source}":
+    command  => "wget -N -P ${dir_path}/${file_name} ${source} --max-redirect=5",
     path     => ['/bin','/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => "${dir_path}/${file_name}",
-    require  => [ Package[curl], File[$wildfly::dirname] ],
+    require  => File[$wildfly::dirname],
   }
 
   file { "${dir_path}/${file_name}":
     owner   => $::wildfly::user,
     group   => $::wildfly::group,
     mode    => '0755',
-    require => Exec["curl ${source}"],
+    require => Exec["download module from ${source}"],
   }
 
   file { "${dir_path}/module.xml":
