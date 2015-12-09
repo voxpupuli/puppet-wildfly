@@ -3,13 +3,15 @@
 #
 class wildfly::params {
 
-  $manage_user  = true
-  $uid          = undef
-  $gid          = undef
-  $group        = 'wildfly'
-  $user         = 'wildfly'
-  $dirname      = '/opt/wildfly'
-  $service_name = 'wildfly'
+  $manage_user    = true
+  $uid            = undef
+  $gid            = undef
+  $group          = 'wildfly'
+  $user           = 'wildfly'
+  $dirname        = '/opt/wildfly'
+  $service_name   = 'wildfly'
+  $service_ensure = true
+  $service_enable = true
 
   $service_file  = $::osfamily? {
     'Debian' => 'wildfly-init-debian.sh',
@@ -55,5 +57,6 @@ class wildfly::params {
   }
 
   $domain_slave = {}
+  $custom_init  = undef
 
 }

@@ -31,7 +31,10 @@ class wildfly(
   $conf_file         = $wildfly::params::conf_file,
   $service_file      = $wildfly::params::service_file,
   $service_name      = $wildfly::params::service_name,
+  $service_ensure    = $wildfly::params::service_ensure,
+  $service_enable    = $wildfly::params::service_enable,
   $domain_slave      = $wildfly::params::domain_slave,
+  $custom_init       = $wildfly::params::custom_init,
 ) inherits wildfly::params {
 
   include wildfly::install
