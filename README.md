@@ -267,6 +267,13 @@ Alternatively, you can install a JDBC driver and module using deploy if your dri
       }
     }
 
+Configure Database Property
+
+    wildfly::datasources::db_property { 'DemoDbProperty':
+     value => 'demovalue',
+     database => 'ExampleDS',
+    }
+
 Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name. More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
 
 ## HTTPS/SSL
@@ -308,6 +315,20 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
 
     wildfly::messaging::topic { 'DemoTopic':
       entries => ['java:/jms/topic/DemoTopic']
+    }
+
+## Looging (Only for full profiles) (for domain mode you need to set target_profile parameter)
+ 
+    wildfly::logging::category { 'DemoCategory':
+      level => 'DEBUG',
+      use_parent_handlers => false,
+      handlers =>  ['DemoHandler']
+    }
+
+## System Property (Only for full profiles) (for domain mode you need to set target_profile parameter)
+
+    wildfly::system::property { 'DemoSysProperty':
+     value    => 'demovalue'
     }
 
 ## Modcluster (Only for HA profiles) (for domain mode you need to set target_profile parameter)
