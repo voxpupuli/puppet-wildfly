@@ -1,6 +1,13 @@
 # History
 
-## 0.5
+## 0.5.1
+- Support datasource database properties
+- Support logging::category, only for full profiles
+- Support system property, only for full profiles
+- Be able to provide your own service wildfly initd script
+- Wildfy Service enable & ensure parameters
+
+## 0.5.0
 - Removed nanliu-archive dependency
 - Removed nexus deployment support
 - Rename deploy to deployment

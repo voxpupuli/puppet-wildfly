@@ -317,8 +317,8 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       entries => ['java:/jms/topic/DemoTopic']
     }
 
-## Looging (Only for full profiles) (for domain mode you need to set target_profile parameter)
- 
+## Logging (Only for full profiles) (for domain mode you need to set target_profile parameter)
+
     wildfly::logging::category { 'DemoCategory':
       level => 'DEBUG',
       use_parent_handlers => false,
