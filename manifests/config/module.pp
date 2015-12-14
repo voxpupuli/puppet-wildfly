@@ -32,7 +32,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
 
   exec { "download module from ${source}":
-    command  => "wget -N -P ${dir_path}/${file_name} ${source} --max-redirect=5",
+    command  => "wget -N -P ${dir_path} ${source} --max-redirect=5",
     path     => ['/bin','/usr/bin', '/sbin'],
     loglevel => 'notice',
     creates  => "${dir_path}/${file_name}",
