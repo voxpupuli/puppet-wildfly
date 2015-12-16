@@ -6,6 +6,7 @@
 - Support system property, only for full profiles
 - Be able to provide your own service wildfly initd script
 - Wildfy Service enable & ensure parameters
+- Fix module installation
 
 ## 0.5.0
 - Removed nanliu-archive dependency
