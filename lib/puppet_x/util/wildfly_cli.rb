@@ -15,7 +15,7 @@ module PuppetX
         @uri.user = CGI.escape(user)
         @uri.password = CGI.escape(password)
 
-        @http_client = Net::HTTP.new @uri.host, @uri.port
+        @http_client = Net::HTTP.new @uri.host, @uri.port, nil
         @http_client.read_timeout = timeout
       end
 
