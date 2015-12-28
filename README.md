@@ -305,7 +305,8 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       onlyif  => '(result == reload-required) of read-attribute server-state'
     }
 
-## Messaging (Only for full profiles) (for domain mode you need to set target_profile parameter)
+## Messaging (Only for full profiles)
+for domain mode you need to set target_profile parameter
 
     wildfly::messaging::queue { 'DemoQueue':
       durable => true,
@@ -317,7 +318,8 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       entries => ['java:/jms/topic/DemoTopic']
     }
 
-## Logging (Only for full profiles) (for domain mode you need to set target_profile parameter)
+## Logging (Only for full profiles)
+for domain mode you need to set target_profile parameter
 
     wildfly::logging::category { 'DemoCategory':
       level => 'DEBUG',
@@ -325,13 +327,15 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       handlers =>  ['DemoHandler']
     }
 
-## System Property (Only for full profiles) (for domain mode you need to set target_profile parameter)
+## System Property (Only for full profiles)
+for domain mode you need to set target_profile parameter
 
     wildfly::system::property { 'DemoSysProperty':
      value    => 'demovalue'
     }
 
-## Modcluster (Only for HA profiles) (for domain mode you need to set target_profile parameter)
+## Modcluster (Only for HA profiles)
+for domain mode you need to set target_profile parameter
 
     wildfly::modcluster::config { "Modcluster mybalancer":
       balancer => 'mybalancer',
