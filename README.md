@@ -34,7 +34,7 @@ Can also work with JBoss EAP ( tested on 6.1/6.2/6.3), it may change in the futu
     wildfly::install_source: http://mywebserver/jboss-eap-6.1.tar.gz
 
 
-[Vagrant Fedora 20, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db.
+[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db.
 
 [Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + modcluster).
 
@@ -61,8 +61,8 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 ###Beginning with wildlfy
 
 ## Module defaults
-- version           8.2.1
-- install_source    http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz
+- version           9.0.2
+- install_source    http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz
 - java_home         /usr/java/jdk1.7.0_75/ (default dir for oracle official rpm)
 - manage_user       true
 - group             wildfly
@@ -100,6 +100,14 @@ or for wildfly 9.0.0
     class { 'wildfly':
       version        => '9.0.0',
       install_source => 'http://download.jboss.org/wildfly/9.0.0.Final/wildfly-9.0.0.Final.tar.gz',
+      java_home      => '/opt/jdk-8',
+    }
+
+or for wildfly 8.2.0
+
+    class { 'wildfly':
+      version        => '8.2.0',
+      install_source => 'http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz',
       java_home      => '/opt/jdk-8',
     }
 
@@ -275,7 +283,45 @@ Alternatively, you can install a JDBC driver and module using deploy if your dri
       }
     }
 
-Configure Database Property
+A postgresql normal & XA datasource example
+
+    wildfly::config::module { 'org.postgresql':
+      source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api'],
+      require      => Class['wildfly'],
+    } ->
+
+    wildfly::datasources::driver { 'Driver postgresql':
+      driver_name                     => 'postgresql',
+      driver_module_name              => 'org.postgresql',
+      driver_xa_datasource_class_name => 'org.postgresql.xa.PGXADataSource'
+    } ->
+
+    wildfly::datasources::datasource { 'petshop datasource':
+      name           => 'petshopDS',
+      config         => { 'driver-name'    => 'postgresql',
+                          'connection-url' => 'jdbc:postgresql://10.10.10.10/petshop',
+                          'jndi-name'      => 'java:jboss/datasources/petshopDS',
+                          'user-name'      => 'petshop',
+                          'password'       => 'password'
+                        }
+    } ->
+
+    wildfly::datasources::xa_datasource { 'petshop xa datasource':
+      name            => 'petshopDSXa',
+      config          => {  'driver-name'              => 'postgresql',
+                            'jndi-name'                => 'java:jboss/datasources/petshopDSXa',
+                            'user-name'                => 'petshop',
+                            'password'                 => 'password',
+                            'xa-datasource-class'      => 'org.postgresql.xa.PGXADataSource',
+                            'xa-datasource-properties' => {
+                                  'url' => {'value' => 'jdbc:postgresql://10.10.10.10/petshop'}
+                            },
+      }
+    }
+
+
+Configure Database Property, only works for normal datasources
 
     wildfly::datasources::db_property { 'DemoDbProperty':
      value => 'demovalue',
