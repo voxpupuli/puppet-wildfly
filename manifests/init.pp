@@ -2,8 +2,8 @@
 # wildfly module class
 #
 class wildfly(
-  $version           = '8.2.1',
-  $install_source    = 'http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz',
+  $version           = '9.0.2',
+  $install_source    = 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
   $java_home         = $wildfly::params::java_home,
   $manage_user       = $wildfly::params::manage_user,
   $uid               = $wildfly::params::uid,

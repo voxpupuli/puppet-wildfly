@@ -87,6 +87,14 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
     class { 'wildfly': }
 
+or for wildfly 9.0.2
+
+    class { 'wildfly':
+      version        => '9.0.2',
+      install_source => 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
+      java_home      => '/opt/jdk-8',
+    }
+
 or for wildfly 9.0.0
 
     class { 'wildfly':
@@ -130,7 +138,7 @@ or you can override a paramater
       public_http_port  => '8080',
       public_https_port => '8443',
       ajp_port          => '8009',
-      users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
+      users_mgmt        => { 'wildfly' => { password => 'wildfly'}},
     }
 
 or with java_opts instead of java_xmx, java_xms, java_maxpermsize
@@ -150,7 +158,7 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       public_http_port  => '8080',
       public_https_port => '8443',
       ajp_port          => '8009',
-      users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
+      users_mgmt        => { 'wildfly' => { password => 'wildfly'}},
     }
 
 
