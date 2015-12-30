@@ -32,12 +32,21 @@ class wildfly::service {
     }
   }
 
-  service { $::wildfly::service_name:
-    ensure     => $::wildfly::service_ensure,
-    enable     => $::wildfly::service_enable,
-    hasrestart => true,
-    hasstatus  => true,
-    require    => [File["/etc/init.d/${::wildfly::service_name}"], File[$::wildfly::conf_file]]
+  if ( $::operatingsystem in ['CentOS', 'RedHat', 'OracleLinux'] and $::operatingsystemmajrelease == '7') {
+    # enabled is not yet implemented
+    service { $::wildfly::service_name:
+      ensure     => $::wildfly::service_ensure,
+      hasrestart => true,
+      hasstatus  => true,
+      require    => [File["/etc/init.d/${::wildfly::service_name}"], File[$::wildfly::conf_file]]
+    }
+  } else {
+    service { $::wildfly::service_name:
+      ensure     => $::wildfly::service_ensure,
+      enable     => $::wildfly::service_enable,
+      hasrestart => true,
+      hasstatus  => true,
+      require    => [File["/etc/init.d/${::wildfly::service_name}"], File[$::wildfly::conf_file]]
+    }
   }
-
 }
