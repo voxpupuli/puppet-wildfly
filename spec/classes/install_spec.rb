@@ -6,6 +6,11 @@ describe 'wildfly::install' do
   end
 
   context 'install wildfly' do
+    let(:facts) {{ :operatingsystem           => 'CentOS' ,
+                   :kernel                    => 'Linux',
+                   :osfamily                  => 'RedHat',
+                   :operatingsystemmajrelease => 7 }}
+
     it { should contain_class('wildfly::install') }
     it do
       should contain_exec('Download wildfly from http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz').with(
