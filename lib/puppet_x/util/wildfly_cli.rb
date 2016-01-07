@@ -11,6 +11,9 @@ module PuppetX
       include WildflyCliAssembler
 
       def initialize(address, port, user, password, timeout = 60)
+        @username = user
+        @password = password
+
         @uri = URI.parse "http://#{address}:#{port}/management"
         @uri.user = CGI.escape(user)
         @uri.password = CGI.escape(password)
@@ -239,13 +242,22 @@ module PuppetX
         digest_auth = Net::HTTP::DigestAuth.new
         authz_request = Net::HTTP::Get.new @uri.request_uri
         response = @http_client.request authz_request
-        digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
+        if response['www-authenticate'] =~ /digest/i
+          digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
+        else
+          response['www-authenticate']
+        end
       end
 
       def send(body, ignore_outcome = false)
         http_request = Net::HTTP::Post.new @uri.request_uri
         http_request.add_field 'Content-type', 'application/json'
-        http_request.add_field 'Authorization', authz_header
+        authz = authz_header
+        if authz =~ /digest/i
+          http_request.add_field 'Authorization', authz
+        else
+          http_request.basic_auth @username, @password
+        end
         http_request.body = body.to_json
 
         http_response = @http_client.request http_request
