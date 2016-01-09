@@ -24,10 +24,12 @@ class wildfly::params {
     'Debian' => "/etc/default/${service_name}",
     default => "/etc/default/${service_name}.conf",
   }
+  $conf_template     = "wildfly/${service_name}.conf.erb"
 
   $java_home         = '/usr/java/jdk1.7.0_75/'
 
   $mode              = 'standalone'
+  $mode_template     = "wildfly/${mode}.conf.erb"
   $config            = 'standalone.xml'
   $domain_config     = 'domain.xml'
   $host_config       = 'host.xml'
@@ -56,7 +58,11 @@ class wildfly::params {
     },
   }
 
-  $domain_slave = {}
-  $custom_init  = undef
+  $domain_slave      = {}
+  $custom_init       = undef
+  $remote_debug      = false
+  $remote_debug_port = '8787'
+  $startup_wait      = '30'
+  $shutdown_wait     = '30'
 
 }

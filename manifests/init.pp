@@ -12,6 +12,7 @@ class wildfly(
   $user              = $wildfly::params::user,
   $dirname           = $wildfly::params::dirname,
   $mode              = $wildfly::params::mode,
+  $mode_template     = $wildfly::params::mode_template,
   $config            = $wildfly::params::config,
   $domain_config     = $wildfly::params::domain_config,
   $host_config       = $wildfly::params::host_config,
@@ -29,12 +30,17 @@ class wildfly(
   $ajp_port          = $wildfly::params::ajp_port,
   $users_mgmt        = $wildfly::params::users_mgmt,
   $conf_file         = $wildfly::params::conf_file,
+  $conf_template     = $wildfly::params::conf_template,
   $service_file      = $wildfly::params::service_file,
   $service_name      = $wildfly::params::service_name,
   $service_ensure    = $wildfly::params::service_ensure,
   $service_enable    = $wildfly::params::service_enable,
   $domain_slave      = $wildfly::params::domain_slave,
   $custom_init       = $wildfly::params::custom_init,
+  $remote_debug      = $wildfly::params::remote_debug,
+  $remote_debug_port = $wildfly::params::remote_debug_port,
+  $startup_wait      = $wildfly::params::startup_wait,
+  $shutdown_wait     = $wildfly::params::shutdown_wait,
 ) inherits wildfly::params {
 
   include wildfly::install
