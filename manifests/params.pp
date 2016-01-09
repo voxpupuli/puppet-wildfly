@@ -58,5 +58,5 @@ class wildfly::params {
 
   $domain_slave = {}
   $custom_init  = undef
-
+  $install_cache_dir = '/var/cache/wget'
 }
