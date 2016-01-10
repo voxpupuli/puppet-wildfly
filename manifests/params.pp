@@ -66,4 +66,5 @@ class wildfly::params {
   $startup_wait      = '30'
   $shutdown_wait     = '30'
 
+  $domain_controller_only = false
 }

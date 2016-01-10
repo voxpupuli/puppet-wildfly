@@ -17,6 +17,7 @@ class wildfly(
   $config            = $wildfly::params::config,
   $domain_config     = $wildfly::params::domain_config,
   $host_config       = $wildfly::params::host_config,
+  $domain_controller_only       = $wildfly::params::domain_controller_only,
   $console_log       = $wildfly::params::console_log,
   $java_xmx          = $wildfly::params::java_xmx,
   $java_xms          = $wildfly::params::java_xms,
