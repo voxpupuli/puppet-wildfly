@@ -34,7 +34,7 @@ class wildfly::service {
 
   if ( $::operatingsystem in ['CentOS', 'RedHat', 'OracleLinux'] and $::operatingsystemmajrelease == '7') {
 
-    file { "/etc/systemd/system/wildfly.service":
+    file { "/etc/systemd/system/${::wildfly::service_name}.service":
       ensure  => present,
       mode    => '0755',
       owner   => 'root',
