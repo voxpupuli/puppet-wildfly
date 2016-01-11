@@ -33,20 +33,23 @@ class wildfly::service {
   }
 
   if ( $::operatingsystem in ['CentOS', 'RedHat', 'OracleLinux'] and $::operatingsystemmajrelease == '7') {
-    # enabled is not yet implemented
-    service { $::wildfly::service_name:
-      ensure     => $::wildfly::service_ensure,
-      hasrestart => true,
-      hasstatus  => true,
-      require    => [File["/etc/init.d/${::wildfly::service_name}"], File[$::wildfly::conf_file]]
+
+    file { "/etc/systemd/system/${::wildfly::service_name}.service":
+      ensure  => present,
+      mode    => '0755',
+      owner   => 'root',
+      group   => 'root',
+      content => template('wildfly/wildfly.service.erb'),
+      before  => Service[$::wildfly::service_name],
     }
-  } else {
-    service { $::wildfly::service_name:
-      ensure     => $::wildfly::service_ensure,
-      enable     => $::wildfly::service_enable,
-      hasrestart => true,
-      hasstatus  => true,
-      require    => [File["/etc/init.d/${::wildfly::service_name}"], File[$::wildfly::conf_file]]
-    }
+
+  }
+
+  service { $::wildfly::service_name:
+    ensure     => $::wildfly::service_ensure,
+    enable     => $::wildfly::service_enable,
+    hasrestart => true,
+    hasstatus  => true,
+    require    => [File["/etc/init.d/${::wildfly::service_name}"], File[$::wildfly::conf_file]]
   }
 }

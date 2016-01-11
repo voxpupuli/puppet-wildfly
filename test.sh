@@ -17,7 +17,7 @@ set -e
 ruby -v
 echo "gem version"
 gem --version
-gem install bundler --no-rdoc --no-ri
+gem install bundler --no-rdoc --no-ri --version 1.10.6
 bundle install --without development
 bundle --version
 gem update --system 2.1.11
