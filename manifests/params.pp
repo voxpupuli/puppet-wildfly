@@ -9,6 +9,7 @@ class wildfly::params {
   $group          = 'wildfly'
   $user           = 'wildfly'
   $dirname        = '/opt/wildfly'
+  $package_ensure = 'present'
   $service_name   = 'wildfly'
   $service_ensure = true
   $service_enable = true
