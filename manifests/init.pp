@@ -31,6 +31,7 @@ class wildfly(
   $ajp_port                     = $wildfly::params::ajp_port,
   $users_mgmt                   = $wildfly::params::users_mgmt,
   $conf_file                    = $wildfly::params::conf_file,
+  $package_ensure               = $wildfly::params::package_ensure,
   $service_file                 = $wildfly::params::service_file,
   $service_name                 = $wildfly::params::service_name,
   $service_ensure               = $wildfly::params::service_ensure,
