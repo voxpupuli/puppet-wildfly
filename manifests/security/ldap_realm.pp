@@ -200,6 +200,7 @@ define wildfly::security::ldap_realm(
   } ->
 
   # Configure the LDAP parameters so it can find the groups a user belongs to
+  # lint:ignore:arrow_alignment
   wildfly::util::resource { "/core-service=management/security-realm=${realm_name}/authorization=ldap":
     recursive => true,
     content   => {
@@ -216,7 +217,7 @@ define wildfly::security::ldap_realm(
           'iterative'                  => $authorization_group_iterative,
           'prefer-original-connection' => $authorization_prefer_original_conn,
           'cache'                      => {
-            "${cache_type}"    => {
+            "${cache_type}" => {
               'max-cache-size' => $max_cache_size,
               'eviction-time'  => $cache_eviction_time,
               'cache-failures' => $cache_failures,
@@ -229,13 +230,14 @@ define wildfly::security::ldap_realm(
           'force'             => $authorization_user_force,
           'recursive'         => $authorization_user_recursive,
           'cache'             => {
-            "${cache_type}"    => {
+            "${cache_type}" => {
               'max-cache-size' => $max_cache_size,
               'eviction-time'  => $cache_eviction_time,
               'cache-failures' => $cache_failures,
       }}}},
     },
   } ->
+  # lint:endignore
 
   # Prepare the authorization system for Wildfly role <-> LDAP group mappings
   # These are the Wildfly default authentication roles
