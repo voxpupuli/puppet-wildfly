@@ -4,28 +4,24 @@
 # [*domain_name*]
 #  Name of the security domain to be created on the Wildfly server.
 #
-# [*code*]
-#  Login module code to use. See: https://docs.jboss.org/author/display/WFLY9/Authentication+Modules
-#
-# [*flag*]
-#  The flag controls how the module participates in the overall procedure. Allowed values are:
-#  `requisite`, `required`, `sufficient` or `optional`. Default: `required`.
-#
-# [*module_options*]
-#  A hash of module options containing name/value pairs. E.g.:
-#  `{ 'name1' => 'value1', 'name2' => 'value2' }`
-#  or in Hiera:
-#  ```
-#   module_options:
-#    name1: value1
-#    name2: value2
-#  ```
+# [*login_modules*]
+#  A hash with a specification of all login-modules to add to the domain.
+#  Also see the documentation of `wildfly::security::login_module`
+#  Example:
+#    { 'login-module-1' => {
+#        domain_name => 'my-security-domain',
+#        code => 'DirectDomain',
+#        flag => 'required',
+#        module_options => { realm => 'my-security-realm' }
+#      },
+#      'login-module-2' => {
+#        ...
+#      }
+#    }
 #
 define wildfly::security::domain(
-  $domain_name    = $title,
-  $code           = undef,
-  $flag           = 'required',
-  $module_options = {}
+  $domain_name   = $title,
+  $login_modules = {}
 ) {
 
   wildfly::util::resource { "/subsystem=security/security-domain=${domain_name}":
@@ -36,14 +32,11 @@ define wildfly::security::domain(
 
   wildfly::util::resource { "/subsystem=security/security-domain=${domain_name}/authentication=classic":
     content => {},
-  } ->
-
-  wildfly::util::resource { "/subsystem=security/security-domain=${domain_name}/authentication=classic/login-module=${code}":
-    content => {
-      'code'           => $code,
-      'flag'           => $flag,
-      'module-options' => $module_options,
-    },
   }
+
+  create_resources('wildfly::security::login_module', $login_modules)
+
+  Wildfly::Util::Resource[ "/subsystem=security/security-domain=${domain_name}/authentication=classic"] ->
+    Wildfly::Security::Login_module<|tag == 'wildfly'|>
 
 }
