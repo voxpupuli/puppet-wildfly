@@ -42,11 +42,16 @@ describe 'Acceptance case four. Standalone mode with Wildfly 9' do
           } ->
 
           wildfly::security::domain { 'MySecurityDomain':
-            code           => 'RealmDirect',
-            flag           => 'required',
-            module_options => {
-              realm             => 'SecurityRealm',
-              password-stacking => 'useFirstPass',
+            login_modules => {
+              'RealmDirectLoginModule' => {
+                domain         => 'MySecurityDomain',
+                code           => 'RealmDirect',
+                flag           => 'required',
+                module_options => {
+                  realm             => 'SecurityRealm',
+                  password-stacking => 'useFirstPass',
+                }
+              },
             },
           }
 
