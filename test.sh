@@ -26,9 +26,11 @@ bundle exec rake syntax
 bundle exec rake lint
 bundle exec rake spec
 #bundle exec rake ci:setup:rspec spec
-BEAKER_debug=true BEAKER_destroy=onpass bundle exec rspec spec/acceptance
-BEAKER_set=centos-70-x64 bundle exec rspec spec/acceptance
-BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
+export BEAKER_debug=true
+export BEAKER_destroy=no
+bundle exec rspec spec/acceptance
+#BEAKER_set=centos-70-x64 bundle exec rspec spec/acceptance
+#BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
 bundle exec rubocop
 #bundle exec rake spec
 

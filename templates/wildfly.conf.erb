@@ -29,11 +29,11 @@ JBOSS_HOST_CONFIG="<%= scope.lookupvar('wildfly::host_config') %>"
 
 # The amount of time to wait for startup
 #
-STARTUP_WAIT="30"
+STARTUP_WAIT="<%= scope.lookupvar('wildfly::startup_wait') %>"
 
 # The amount of time to wait for shutdown
 #
-SHUTDOWN_WAIT="30"
+SHUTDOWN_WAIT="<%= scope.lookupvar('wildfly::shutdown_wait') %>"
 
 # Location to keep the console log
 #
