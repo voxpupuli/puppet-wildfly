@@ -61,4 +61,6 @@ class wildfly::params {
   $custom_init  = undef
   $install_cache_dir = '/var/cache/wget'
   $domain_controller_only = false
+  
+  $install_download_timeout = 500
 }

@@ -14,7 +14,7 @@ class wildfly::install  {
     loglevel => 'notice',
     creates  => "${install_cache_dir}/${install_file}",
     unless   => "test -f ${wildfly::dirname}/jboss-modules.jar",
-    timeout  => 500,
+    timeout  => $wildfly::install_download_timeout,
   }
   ~>
   # Gunzip+Untar wildfly.tar.gz if download was successful.
