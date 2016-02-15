@@ -33,10 +33,10 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
 
   if $source =~ /^(file:|puppet:)/ {
     file { "${dir_path}/${file_name}":
-      owner   => $::wildfly::user,
-      group   => $::wildfly::group,
-      mode    => '0755',
-      source  => $source
+      owner  => $::wildfly::user,
+      group  => $::wildfly::group,
+      mode   => '0755',
+      source => $source
     }
   } else {
     exec { "download module from ${source}":
