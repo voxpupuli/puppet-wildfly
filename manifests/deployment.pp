@@ -46,7 +46,7 @@ define wildfly::deployment(
     port         => $::wildfly::mgmt_http_port,
     timeout      => $timeout,
     source       => "file:${local_source}",
-    require      => File["${local_source}"]
+    require      => File[$local_source]
   }
 
 }
