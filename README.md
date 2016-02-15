@@ -209,10 +209,18 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
 
 **From a source:**
 
-Source supports: http:// and ftp://
+Source supports: http://, ftp://, puppet://, file:
 
     wildfly::deployment { 'hawtio.war':
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+    }
+    
+    wildfly::deployment { 'hawtio.war':
+     source   => 'puppet:///modules/profile/wildfly/hawtio-web-1.4.48.war',
+    }
+    
+    wildfly::deployment { 'hawtio.war':
+     source   => 'file:/var/tmp/hawtio-web-1.4.48.war',
     }
 
 **To a server-group (domain mode):**
@@ -250,10 +258,20 @@ And associate groups or roles to them (requires server restart)
 
 ## Module installation
 
-Install a JAR module from a remote file system.
+Install a JAR module from a remote file system, puppet file server or local file system.
 
     wildfly::config::module { 'org.postgresql':
       source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api']
+    }
+    
+    wildfly::config::module { 'org.postgresql':
+      source       => 'puppet:///modules/profile/wildfly/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api']
+    }
+    
+    wildfly::config::module { 'org.postgresql':
+      source       => 'file:/var/tmp/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
     }
 
