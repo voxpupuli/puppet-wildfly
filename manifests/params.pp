@@ -62,12 +62,12 @@ class wildfly::params {
   $domain_slave = {}
   $custom_init  = undef
   $install_cache_dir = '/var/cache/wget'
+  $domain_controller_only = false
   $remote_debug      = false
   $remote_debug_port = '8787'
   $startup_wait      = '30'
   $shutdown_wait     = '30'
 
-  $domain_controller_only = false
   
   $install_download_timeout = 500
 }
