@@ -31,13 +31,15 @@ class wildfly::prepare {
     require => User[$wildfly::user],
   }
 
-  $libaiopackage  = $::osfamily ? {
-    'RedHat' => 'libaio',
-    'Debian' => 'libaio1',
-    default  => 'libaio',
-  }
+  if $wildfly::package_ensure {
+    $libaiopackage  = $::osfamily ? {
+      'RedHat' => 'libaio',
+      'Debian' => 'libaio1',
+      default  => 'libaio',
+    }
 
-  ensure_resource('package', $libaiopackage, {'ensure' => 'present'})
-  ensure_resource('package', 'wget', {'ensure' => 'present'})
+    ensure_resource('package', $libaiopackage, {'ensure' => $wildfly::package_ensure})
+    ensure_resource('package', 'wget', {'ensure' => $wildfly::package_ensure})
+  }
 
 }

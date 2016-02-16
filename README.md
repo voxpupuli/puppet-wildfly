@@ -1,4 +1,5 @@
 #wildfly
+[![Build Status](https://travis-ci.org/biemond/biemond-wildfly.svg?branch=master)](https://travis-ci.org/biemond/biemond-wildfly)  [![Coverage Status](https://coveralls.io/repos/biemond/biemond-wildfly/badge.svg?branch=master&service=github)](https://coveralls.io/github/biemond/biemond-wildfly?branch=master)
 
 ####Table of Contents
 
@@ -52,6 +53,8 @@ The wildfly module can install, configure and manage (using its HTTP API) Wildfl
 
 * Creates a wildfly service and manages its installation (in an unobtrusive way using Wildfly HTTP API meaning that there are no templates for its standalone/domain configurations file)
 
+* Installs requisite libaio and wget packages
+
 ###Setup Requirements
 
 This module requires a JVM ( should already be there ).
@@ -68,19 +71,27 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 - group             wildfly
 - user              wildfly
 - dirname           /opt/wildfly
+- package_ensure    present
+- service_ensure    true
+- service_enable    true
+- java_home         /usr/java/jdk1.7.0_75/
 - mode              standalone
 - config            standalone.xml
 - domain_config     domain.xml
 - host_config       host.xml
-- java_xmx          512m
-- java_xms          128m
-- java_maxpermsize  256m
+- console_log       /var/log/wildfly/console.log
+- mgmt_bind         0.0.0.0
 - mgmt_http_port    9990
 - mgmt_https_port   9993
+- public_bind       0.0.0.0
 - public_http_port  8080
 - public_https_port 8443
 - ajp_port          8009
+- java_xmx          512m
+- java_xms          128m
+- java_maxpermsize  256m
 - users_mgmt        user 'wildfly' with wildfly as password
+- install_cache_dir /var/cache/wget
 
 ##Usage
 
@@ -169,7 +180,6 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       users_mgmt        => { 'wildfly' => { password => 'wildfly'}},
     }
 
-
 ## Domain Mode
 
 ### Domain Master
@@ -199,10 +209,18 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
 
 **From a source:**
 
-Source supports: http:// and ftp://
+Source supports: http://, ftp://, puppet://, file:
 
     wildfly::deployment { 'hawtio.war':
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+    }
+    
+    wildfly::deployment { 'hawtio.war':
+     source   => 'puppet:///modules/profile/wildfly/hawtio-web-1.4.48.war',
+    }
+    
+    wildfly::deployment { 'hawtio.war':
+     source   => 'file:/var/tmp/hawtio-web-1.4.48.war',
     }
 
 **To a server-group (domain mode):**
@@ -240,10 +258,20 @@ And associate groups or roles to them (requires server restart)
 
 ## Module installation
 
-Install a JAR module from a remote file system.
+Install a JAR module from a remote file system, puppet file server or local file system.
 
     wildfly::config::module { 'org.postgresql':
       source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api']
+    }
+    
+    wildfly::config::module { 'org.postgresql':
+      source       => 'puppet:///modules/profile/wildfly/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api']
+    }
+    
+    wildfly::config::module { 'org.postgresql':
+      source       => 'file:/var/tmp/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
     }
 

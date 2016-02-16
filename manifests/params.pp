@@ -9,6 +9,7 @@ class wildfly::params {
   $group          = 'wildfly'
   $user           = 'wildfly'
   $dirname        = '/opt/wildfly'
+  $package_ensure = 'present'
   $service_name   = 'wildfly'
   $service_ensure = true
   $service_enable = true
@@ -67,4 +68,6 @@ class wildfly::params {
   $shutdown_wait     = '30'
 
   $domain_controller_only = false
+  
+  $install_download_timeout = 500
 }
