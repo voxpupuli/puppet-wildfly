@@ -1,5 +1,17 @@
 # History
 
+## 0.5.2
+- Support file and puppet protocol for module/deployment installation
+- Download timeout parameter
+- Login module management
+- Optional package dependencies management
+- wildfly_reload custom type/provider
+- Fix wildfly service in EL7
+- Fix wildfly_resource when HTTP API return numbers
+- Support digest authentication
+- Ignore HTTP Proxy in net/http
+- Improve acceptance tests 
+
 ## 0.5.1
 - Support datasource database properties
 - Support logging::category, only for full profiles
