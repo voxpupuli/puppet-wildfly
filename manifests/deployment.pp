@@ -23,7 +23,7 @@ define wildfly::deployment(
     }
   } else {
     exec { "download deployable from ${source} for ${server_group}":
-      command  => "wget -N -P /tmp ${source} --max-redirect=5",
+      command  => "wget -N -P /tmp/${server_group} ${source} --max-redirect=5",
       path     => ['/bin', '/usr/bin', '/sbin'],
       loglevel => 'notice',
       creates  => $local_source,
