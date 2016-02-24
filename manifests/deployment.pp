@@ -11,7 +11,7 @@ define wildfly::deployment(
   $passwords_mgmt = values($::wildfly::users_mgmt)
 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
-  $local_source = "/tmp/${file_name}"
+  $local_source = "/tmp/${server_group}/${file_name}"
 
   if $source =~ /^(file:|puppet:)/ {
     file { $local_source:
@@ -22,7 +22,7 @@ define wildfly::deployment(
       source => $source
     }
   } else {
-    exec { "download deployable from ${source}":
+    exec { "download deployable from ${source} for ${server_group}":
       command  => "wget -N -P /tmp ${source} --max-redirect=5",
       path     => ['/bin', '/usr/bin', '/sbin'],
       loglevel => 'notice',
