@@ -22,4 +22,5 @@ gem 'fog-google', '= 0.1.0'
 gem 'beaker', '>= 2.0.0'
 gem 'beaker-rspec', '>= 5.0.0'
 gem 'serverspec', '>= 2.0.0'
+gem 'metadata-json-lint', '>= 0.0.11'
 
