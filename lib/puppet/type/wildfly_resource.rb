@@ -50,7 +50,7 @@ Puppet::Type.newtype(:wildfly_resource) do
       def recursive_sort!(obj)
         case obj
         when Array
-          obj.map!{|v| recursive_sort!(v)}.sort_by!{|v| (v.to_s rescue nil) }
+          obj.map!{|v| recursive_sort!(v)}.sort_by{|v| (v.to_s rescue nil) }
         when Hash
           obj = Hash[Hash[obj.map{|k,v| [recursive_sort!(k),recursive_sort!(v)]}].sort_by{|k,v| [(k.to_s rescue nil), (v.to_s rescue nil)]}]
         else

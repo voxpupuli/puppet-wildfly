@@ -8,7 +8,7 @@ class wildfly::service {
     mode    => '0755',
     owner   => 'root',
     group   => 'root',
-    content => template('wildfly/wildfly.conf.erb'),
+    content => template($::wildfly::conf_template),
     notify  => Service[$::wildfly::service_name]
   }
 
