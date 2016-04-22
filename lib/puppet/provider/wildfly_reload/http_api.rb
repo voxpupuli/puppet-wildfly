@@ -8,34 +8,33 @@ Puppet::Type.type(:wildfly_reload).provide(:http_api) do
   end
 
   def reload
-    debug "Reloading..."
+    debug 'Reloading...'
 
-    cli.exec("reload")
+    cli.exec('reload')
 
     retried = 0
 
     begin
-      is_pending?
+      pending?
     rescue => e
-      if retried + 1 < @resource[:retries]
+      if retried + 1 < @resource[:retries].to_i
         retried += 1
-        sleep @resource[:wait]
+        sleep @resource[:wait].to_i
         retry
       else
         raise e
       end
     end
 
-    debug "Reloaded!"
+    debug 'Reloaded!'
   end
 
-  def is_pending?
-    response = cli.exec(":read-attribute(name=server-state)")
+  def pending?
+    response = cli.exec(':read-attribute(name=server-state)')
     server_state = response['result']
 
     debug "Server state: #{server_state}"
 
     server_state == 'reload-required'
   end
-
 end

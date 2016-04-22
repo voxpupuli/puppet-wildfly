@@ -39,7 +39,7 @@ Puppet::Type.newtype(:wildfly_reload) do
     defaultto true
 
     def retrieve
-      !provider.is_pending?
+      !provider.pending?
     end
 
     def sync
