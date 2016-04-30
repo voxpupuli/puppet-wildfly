@@ -37,9 +37,9 @@ Can also work with JBoss EAP ( tested on 6.1/6.2/6.3), it may change in the futu
 
 [Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db.
 
-[Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + modcluster).
+[Vagrant CentOS Standalone HA + Gossip Router example](https://github.com/jairojunior/wildfly-ha-tcpgossip-vagrant-puppet) with two nodes, a gossip router and a load balancer (http + mod_cluster).
 
-[Vagrant CentOS Domain Mode](https://github.com/jairojunior/wildfly-domain-vagrant-puppet) with two nodes (Domain master and slave).
+[Vagrant CentOS 7.2 Domain Mode](https://github.com/jairojunior/wildfly-domain-vagrant-puppet) with two nodes (Domain master and slave) and a load balancer.
 
 [MCollective JBoss Agent Plugin](https://github.com/jairojunior/mcollective-jboss-agent) might be useful if you want to make consistent large scale changes.
 
@@ -214,11 +214,11 @@ Source supports: http://, ftp://, puppet://, file:
     wildfly::deployment { 'hawtio.war':
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
     }
-    
+
     wildfly::deployment { 'hawtio.war':
      source   => 'puppet:///modules/profile/wildfly/hawtio-web-1.4.48.war',
     }
-    
+
     wildfly::deployment { 'hawtio.war':
      source   => 'file:/var/tmp/hawtio-web-1.4.48.war',
     }
@@ -264,12 +264,12 @@ Install a JAR module from a remote file system, puppet file server or local file
       source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
     }
-    
+
     wildfly::config::module { 'org.postgresql':
       source       => 'puppet:///modules/profile/wildfly/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
     }
-    
+
     wildfly::config::module { 'org.postgresql':
       source       => 'file:/var/tmp/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
@@ -387,6 +387,14 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       onlyif  => '(result == reload-required) of read-attribute server-state'
     }
 
+
+OR
+    ## operation that needs reload
+    ~>
+    widlfly::util::reload { 'Reload if necessary':
+      retries => 2,
+      wait    => 15,
+    }
 ## Messaging (Only for full profiles)
 for domain mode you need to set target_profile parameter
 
@@ -400,7 +408,7 @@ for domain mode you need to set target_profile parameter
       entries => ['java:/jms/topic/DemoTopic']
     }
 
-## Logging (Only for full profiles)
+## Logging
 for domain mode you need to set target_profile parameter
 
     wildfly::logging::category { 'DemoCategory':
@@ -409,14 +417,14 @@ for domain mode you need to set target_profile parameter
       handlers =>  ['DemoHandler']
     }
 
-## System Property (Only for full profiles)
+## System Property
 for domain mode you need to set target_profile parameter
 
     wildfly::system::property { 'DemoSysProperty':
      value    => 'demovalue'
     }
 
-## Modcluster (Only for HA profiles)
+## Modcluster (Only for full and HA profiles)
 for domain mode you need to set target_profile parameter
 
     wildfly::modcluster::config { "Modcluster mybalancer":
