@@ -13,7 +13,7 @@ class wildfly::setup {
     notify  => Class['wildfly::service']
   }
 
-  if versioncmp($wildfly::version, '8.2.1') <= 0 {
+  if versioncmp($wildfly::version, '8.2.1') < 0 {
 
     if !$wildfly::domain_controller_only {
       wildfly::config::interfaces { 'public':
