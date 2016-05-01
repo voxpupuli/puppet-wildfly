@@ -1,4 +1,6 @@
-define wildfly::domain::slave($secret, $domain_master_address) {
+define wildfly::domain::slave(
+  $secret,
+  $domain_master_address) {
 
   augeas { $name:
     lens    => 'Xml.lns',

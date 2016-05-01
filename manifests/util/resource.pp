@@ -1,7 +1,11 @@
 #
 # Uses wildfly_resource to ensure configuration state
 #
-define wildfly::util::resource($ensure = 'present', $content = undef, $recursive = false, $profile = undef) {
+define wildfly::util::resource(
+  $ensure = 'present',
+  $recursive = false,
+  $content = undef,
+  $profile = undef) {
 
   $profile_path = profile_path($profile)
   $users_mgmt = keys($::wildfly::users_mgmt)

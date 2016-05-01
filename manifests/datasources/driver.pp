@@ -1,7 +1,12 @@
 #
 # Configures a driver
 #
-define wildfly::datasources::driver($driver_name, $driver_module_name, $driver_class_name = undef, $driver_xa_datasource_class_name = undef, $target_profile = undef) {
+define wildfly::datasources::driver(
+  $driver_name,
+  $driver_module_name,
+  $driver_class_name = undef,
+  $driver_xa_datasource_class_name = undef,
+  $target_profile = undef) {
 
   $params = {
     'driver-name' => $driver_name,

@@ -1,4 +1,6 @@
-define wildfly::util::reload($retries = 3, $wait = 10) {
+define wildfly::util::reload(
+  $retries = 3,
+  $wait = 10) {
 
   $users_mgmt = keys($::wildfly::users_mgmt)
   $passwords_mgmt = values($::wildfly::users_mgmt)

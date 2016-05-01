@@ -1,8 +1,11 @@
 #
 # Configures connection property in a database
 #
-define wildfly::datasources::db_property($database = undef, $value = undef,  $target_profile = undef) {
-  
+define wildfly::datasources::db_property(
+  $database,
+  $value = undef,
+  $target_profile = undef) {
+
   $params = {
     'value' => $value,
   }

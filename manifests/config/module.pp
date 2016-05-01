@@ -1,7 +1,10 @@
 #
 # Module installation
 #
-define wildfly::config::module($system = true, $source = undef, $dependencies = []) {
+define wildfly::config::module(
+  $system = true,
+  $source = undef,
+  $dependencies = []) {
 
   require wildfly::install
 

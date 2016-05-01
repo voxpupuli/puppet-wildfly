@@ -1,7 +1,10 @@
 #
 # Executes a JBoss-CLI command
 #
-define wildfly::util::exec_cli($command = undef, $unless = undef, $onlyif = undef) {
+define wildfly::util::exec_cli(
+  $command = $name,
+  $unless = undef,
+  $onlyif = undef) {
 
   $users_mgmt = keys($::wildfly::users_mgmt)
   $passwords_mgmt = values($::wildfly::users_mgmt)

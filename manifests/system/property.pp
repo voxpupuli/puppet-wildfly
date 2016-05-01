@@ -1,7 +1,9 @@
 #
 # Configures a system property
 #
-define wildfly::system::property($value = undef, $target_profile = undef) {
+define wildfly::system::property(
+  $value = undef,
+  $target_profile = undef) {
 
   $params = {
     'value' => $value,

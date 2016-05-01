@@ -2,10 +2,10 @@
 # Manages a Wildfly deployment
 #
 define wildfly::deployment(
+  $source,
   $ensure            = present,
   $timeout           = undef,
-  $server_group      = undef,
-  $source            = undef) {
+  $server_group      = undef) {
 
   $users_mgmt = keys($::wildfly::users_mgmt)
   $passwords_mgmt = values($::wildfly::users_mgmt)
@@ -18,7 +18,7 @@ define wildfly::deployment(
       ensure => 'present',
       owner  => $::wildfly::user,
       group  => $::wildfly::group,
-      mode   => '0755',
+      mode   => '0655',
       source => $source
     }
   } else {
