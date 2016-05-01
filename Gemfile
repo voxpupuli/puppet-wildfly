@@ -23,4 +23,4 @@ gem 'beaker', '>= 2.0.0'
 gem 'beaker-rspec', '>= 5.0.0'
 gem 'serverspec', '>= 2.0.0'
 gem 'metadata-json-lint', '>= 0.0.11'
-
+gem 'google-api-client', '0.8'
