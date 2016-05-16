@@ -76,6 +76,8 @@ Puppet::Type.newtype(:wildfly_resource) do
         transform_hash(hash, :deep => true) {|hash, key, value|
           if value.is_a? Numeric
             hash[key] = value.to_s
+          elsif (value.is_a?(TrueClass) || value.is_a?(FalseClass))
+            hash[key] = value.to_s
           else
             hash[key] = value
           end
