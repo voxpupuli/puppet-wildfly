@@ -1,7 +1,11 @@
 #
 # Configures a queue
 #
-define wildfly::messaging::queue($durable = undef, $entries = undef, $selector = undef, $target_profile = undef) {
+define wildfly::messaging::queue(
+  $entries = undef,
+  $durable = undef,
+  $selector = undef,
+  $target_profile = undef) {
 
   $params = {
     'durable' => $durable,

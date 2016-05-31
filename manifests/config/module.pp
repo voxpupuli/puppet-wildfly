@@ -1,7 +1,10 @@
 #
 # Module installation
 #
-define wildfly::config::module($system = true, $source = undef, $dependencies = []) {
+define wildfly::config::module(
+  $system = true,
+  $source = undef,
+  $dependencies = []) {
 
   require wildfly::install
 
@@ -22,7 +25,7 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
 
   exec { "Create Parent Directories: ${name}":
     path    => ['/bin','/usr/bin', '/sbin'],
-    command => "/bin/mkdir -p ${dir_path}",
+    command => "mkdir -p ${dir_path}",
     unless  => "test -d ${dir_path}",
   } ->
   file { "${wildfly::dirname}/modules/${module_dir}/${namespace_first_level}/${namespace_second_level}":
@@ -30,16 +33,39 @@ define wildfly::config::module($system = true, $source = undef, $dependencies = 
     recurse => true,
   }
 
-  $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
-
-  archive { "${dir_path}/${file_name}":
-    source => $source,
+  if $source == '.' {
+    $file_name = '.'
+  } else {
+    $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
   }
-  ->
-  file { "${dir_path}/${file_name}":
-    owner => $::wildfly::user,
-    group => $::wildfly::group,
-    mode  => '0755'
+
+  case $source {
+    '.': {
+    }
+    /^(file:|puppet:)/: {
+      file { "${dir_path}/${file_name}":
+        owner  => $::wildfly::user,
+        group  => $::wildfly::group,
+        mode   => '0755',
+        source => $source
+      }
+    }
+    default : {
+      exec { "download module from ${source}":
+        command  => "wget -N -P ${dir_path} ${source} --max-redirect=5",
+        path     => ['/bin','/usr/bin', '/sbin'],
+        loglevel => 'notice',
+        creates  => "${dir_path}/${file_name}",
+        require  => File[$wildfly::dirname],
+      }
+
+      file { "${dir_path}/${file_name}":
+        owner   => $::wildfly::user,
+        group   => $::wildfly::group,
+        mode    => '0755',
+        require => Exec["download module from ${source}"],
+      }
+    }
   }
 
   file { "${dir_path}/module.xml":

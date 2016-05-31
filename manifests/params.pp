@@ -3,13 +3,16 @@
 #
 class wildfly::params {
 
-  $manage_user  = true
-  $uid          = undef
-  $gid          = undef
-  $group        = 'wildfly'
-  $user         = 'wildfly'
-  $dirname      = '/opt/wildfly'
-  $service_name = 'wildfly'
+  $manage_user    = true
+  $uid            = undef
+  $gid            = undef
+  $group          = 'wildfly'
+  $user           = 'wildfly'
+  $dirname        = '/opt/wildfly'
+  $package_ensure = 'present'
+  $service_name   = 'wildfly'
+  $service_ensure = true
+  $service_enable = true
 
   $service_file  = $::osfamily? {
     'Debian' => 'wildfly-init-debian.sh',
@@ -22,10 +25,12 @@ class wildfly::params {
     'Debian' => "/etc/default/${service_name}",
     default => "/etc/default/${service_name}.conf",
   }
+  $conf_template     = "wildfly/${service_name}.conf.erb"
 
   $java_home         = '/usr/java/jdk1.7.0_75/'
 
   $mode              = 'standalone'
+  $mode_template     = "wildfly/${mode}.conf.erb"
   $config            = 'standalone.xml'
   $domain_config     = 'domain.xml'
   $host_config       = 'host.xml'
@@ -50,11 +55,19 @@ class wildfly::params {
 
   $users_mgmt = {
     'wildfly' => {
-      username => 'wildfly',
       password => 'wildfly',
     },
   }
 
   $domain_slave = {}
+  $custom_init  = undef
+  $install_cache_dir = '/var/cache/wget'
+  $domain_controller_only = false
+  $remote_debug      = false
+  $remote_debug_port = '8787'
+  $startup_wait      = '30'
+  $shutdown_wait     = '30'
 
+  
+  $install_download_timeout = 500
 }

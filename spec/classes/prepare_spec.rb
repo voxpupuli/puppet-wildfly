@@ -6,6 +6,11 @@ describe 'wildfly::prepare' do
   end
 
   context 'add group, user, create home with default params' do
+    let(:facts) {{ :operatingsystem           => 'CentOS' ,
+                   :kernel                    => 'Linux',
+                   :osfamily                  => 'RedHat',
+                   :operatingsystemmajrelease => 7 }}
+
     it { should contain_class('wildfly::prepare') }
     it { should contain_group('wildfly') }
     it { should contain_user('wildfly') }
@@ -20,36 +25,20 @@ describe 'wildfly::prepare' do
   end
 
   context 'install dependencies for Redhat' do
-    let :facts do
-      {
-        osfamily: 'Redhat'
-      }
-    end
+    let(:facts) {{ :operatingsystem           => 'CentOS' ,
+                   :kernel                    => 'Linux',
+                   :osfamily                  => 'RedHat',
+                   :operatingsystemmajrelease => 7 }}
+
     it { should contain_package('libaio') }
   end
 
   context 'install dependencies for Debian' do
-    let :facts do
-      {
-        osfamily: 'Debian'
-      }
-    end
+    let(:facts) {{ :operatingsystem           => 'Debian' ,
+                   :kernel                    => 'Linux',
+                   :osfamily                  => 'Debian',
+                   :operatingsystemmajrelease => 10 }}
     it { should contain_package('libaio1') }
   end
 
-  context 'dont install dependencies when already defined' do
-    let :pre_condition do
-      <<-EOS
-        package { 'libaio': }
-        ->
-        class { 'wildfly': }
-      EOS
-    end
-    let :facts do
-      {
-        osfamily: 'Redhat'
-      }
-    end
-    it { should compile }
-  end
 end

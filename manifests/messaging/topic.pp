@@ -1,7 +1,9 @@
 #
 # Configures a topic
 #
-define wildfly::messaging::topic($entries = undef, $target_profile = undef) {
+define wildfly::messaging::topic(
+  $entries,
+  $target_profile = undef) {
 
   $params = {
     'entries' => $entries

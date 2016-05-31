@@ -24,6 +24,15 @@ describe 'Acceptance case one. Standalone mode with defaults' do
             java_home => $java_home,
           }
 
+          wildfly::config::module { 'org.postgresql':
+            source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+            dependencies => ['javax.api', 'javax.transaction.api']
+          }
+
+          wildfly::config::module { 'empty.module':
+            source       => '.'
+          }
+
           class { 'java': }
 
           Class['java'] -> Class['wildfly']
@@ -47,6 +56,22 @@ describe 'Acceptance case one. Standalone mode with defaults' do
     it 'welcome page' do
       shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
+      end
+    end
+
+    it 'contains postgresql module' do
+      shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include 'postgresql-9.3-1103-jdbc4.jar'
+        expect(r.stdout).to include 'module.xml'
+      end
+    end
+
+    it 'contains empty module' do
+      shell('ls -la /opt/wildfly/modules/system/layers/base/empty/module/main', :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include 'module.xml'
+      end
+      shell('cat /opt/wildfly/modules/system/layers/base/empty/module/main/module.xml', :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include '<resource-root path="."/>'
       end
     end
 

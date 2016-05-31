@@ -1,5 +1,31 @@
 # History
 
+## 0.5.2
+- Support file and puppet protocol for module/deployment installation
+- Download timeout parameter
+- Login module management
+- Optional package dependencies management
+- wildfly_reload custom type/provider
+- Fix wildfly service in EL7
+- Fix wildfly_resource when HTTP API return numbers
+- Support digest authentication
+- Ignore HTTP Proxy in net/http
+- Improve acceptance tests 
+
+## 0.5.1
+- Support datasource database properties
+- Support logging::category, only for full profiles
+- Support system property, only for full profiles
+- Be able to provide your own service wildfly initd script
+- Wildfy Service enable & ensure parameters
+- Fix module installation
+
+## 0.5.0
+- Removed nanliu-archive dependency
+- Removed nexus deployment support
+- Rename deploy to deployment
+- Simplify user management
+
 ## 0.4.3
 - Allow setting the uid/gid for the wildfly user and group
 - Uses JBOSS_OPTS to configure socket binding and bind address. (Operation mode independent)

@@ -1,7 +1,9 @@
 #
 # Configures a datasource
 #
-define wildfly::datasources::xa_datasource($config = undef, $target_profile = undef) {
+define wildfly::datasources::xa_datasource(
+  $config = undef,
+  $target_profile = undef) {
 
   $profile_path = profile_path($target_profile)
 

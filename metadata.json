@@ -4,10 +4,6 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">=3.2.0"
-    },
-    {
-      "name": "nanliu/archive",
-      "version_requirement": ">=0.3.0"
     }
   ],
   "license": "Apache-2.0",
@@ -15,7 +11,7 @@
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "version": "0.4.3",
+  "version": "0.5.2",
   "tags": [
     "jboss",
     "EAP",

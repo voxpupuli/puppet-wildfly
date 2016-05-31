@@ -1,4 +1,5 @@
 #wildfly
+[![Build Status](https://travis-ci.org/biemond/biemond-wildfly.svg?branch=master)](https://travis-ci.org/biemond/biemond-wildfly)  [![Coverage Status](https://coveralls.io/repos/biemond/biemond-wildfly/badge.svg?branch=master&service=github)](https://coveralls.io/github/biemond/biemond-wildfly?branch=master)
 
 ####Table of Contents
 
@@ -34,9 +35,13 @@ Can also work with JBoss EAP ( tested on 6.1/6.2/6.3), it may change in the futu
     wildfly::install_source: http://mywebserver/jboss-eap-6.1.tar.gz
 
 
-[Vagrant Fedora 20, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db
+[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db.
 
-[Vagrant CentOS HA example](https://github.com/jairojunior/wildfly-ha-vagrant-puppet) with two nodes and a load balancer (Apache + modcluster)
+[Vagrant CentOS Standalone HA + Gossip Router example](https://github.com/jairojunior/wildfly-ha-tcpgossip-vagrant-puppet) with two nodes, a gossip router and a load balancer (http + mod_cluster).
+
+[Vagrant CentOS 7.2 Domain Mode](https://github.com/jairojunior/wildfly-domain-vagrant-puppet) with two nodes (Domain master and slave) and a load balancer.
+
+[MCollective JBoss Agent Plugin](https://github.com/jairojunior/mcollective-jboss-agent) might be useful if you want to make consistent large scale changes.
 
 ##Module Description
 
@@ -48,6 +53,8 @@ The wildfly module can install, configure and manage (using its HTTP API) Wildfl
 
 * Creates a wildfly service and manages its installation (in an unobtrusive way using Wildfly HTTP API meaning that there are no templates for its standalone/domain configurations file)
 
+* Installs requisite libaio and wget packages
+
 ###Setup Requirements
 
 This module requires a JVM ( should already be there ).
@@ -57,37 +64,61 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 ###Beginning with wildlfy
 
 ## Module defaults
-- version           8.2.1
-- install_source    http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz
+- version           9.0.2
+- install_source    http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz
 - java_home         /usr/java/jdk1.7.0_75/ (default dir for oracle official rpm)
 - manage_user       true
 - group             wildfly
 - user              wildfly
 - dirname           /opt/wildfly
+- package_ensure    present
+- service_ensure    true
+- service_enable    true
+- java_home         /usr/java/jdk1.7.0_75/
 - mode              standalone
 - config            standalone.xml
 - domain_config     domain.xml
 - host_config       host.xml
-- java_xmx          512m
-- java_xms          128m
-- java_maxpermsize  256m
+- console_log       /var/log/wildfly/console.log
+- mgmt_bind         0.0.0.0
 - mgmt_http_port    9990
 - mgmt_https_port   9993
+- public_bind       0.0.0.0
 - public_http_port  8080
 - public_https_port 8443
 - ajp_port          8009
+- java_xmx          512m
+- java_xms          128m
+- java_maxpermsize  256m
 - users_mgmt        user 'wildfly' with wildfly as password
+- install_cache_dir /var/cache/wget
 
 ##Usage
 
 
     class { 'wildfly': }
 
+or for wildfly 9.0.2
+
+    class { 'wildfly':
+      version        => '9.0.2',
+      install_source => 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
+      java_home      => '/opt/jdk-8',
+    }
+
 or for wildfly 9.0.0
 
     class { 'wildfly':
       version        => '9.0.0',
       install_source => 'http://download.jboss.org/wildfly/9.0.0.Final/wildfly-9.0.0.Final.tar.gz',
+      java_home      => '/opt/jdk-8',
+    }
+
+or for wildfly 8.2.0
+
+    class { 'wildfly':
+      version        => '8.2.0',
+      install_source => 'http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz',
       java_home      => '/opt/jdk-8',
     }
 
@@ -126,7 +157,7 @@ or you can override a paramater
       public_http_port  => '8080',
       public_https_port => '8443',
       ajp_port          => '8009',
-      users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
+      users_mgmt        => { 'wildfly' => { password => 'wildfly'}},
     }
 
 or with java_opts instead of java_xmx, java_xms, java_maxpermsize
@@ -146,9 +177,8 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       public_http_port  => '8080',
       public_https_port => '8443',
       ajp_port          => '8009',
-      users_mgmt        => { 'wildfly' => { username => 'wildfly', password => 'wildfly'}},
+      users_mgmt        => { 'wildfly' => { password => 'wildfly'}},
     }
-
 
 ## Domain Mode
 
@@ -158,7 +188,7 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
       mode        => 'domain',
       host_config => 'host-master.xml'
     }
-    
+
     wildfly::config::mgmt_user { 'slave1':
       password => 'wildfly',
     }
@@ -175,37 +205,34 @@ or with java_opts instead of java_xmx, java_xms, java_maxpermsize
         }
     }
 
-## Deploy
+## Deployment
 
 **From a source:**
 
-Source supports: http://, ftp://, file://
+Source supports: http://, ftp://, puppet://, file:
 
-    wildfly::deploy { 'hawtio.war':
+    wildfly::deployment { 'hawtio.war':
      source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
-     checksum => '303e8fcb569a0c3d33b7c918801e5789621f6639' #sha1
     }
 
-**From Nexus:**
-
-    wildfly::deploy { 'hawtio.war':
-      ensure     => present,
-      nexus_url  => 'https://oss.sonatype.org',
-      gav        => 'io.hawt:hawtio-web:1.4.36',
-      repository => 'releases',
-      packaging  => 'war',
+    wildfly::deployment { 'hawtio.war':
+     source   => 'puppet:///modules/profile/wildfly/hawtio-web-1.4.48.war',
     }
 
-**From Nexus to a server-group (domain mode):**
-
-    wildfly::deploy { 'hawtio.war':
-      ensure       => present,
-      nexus_url    => 'https://oss.sonatype.org',
-      gav          => 'io.hawt:hawtio-web:1.4.36',
-      repository   => 'releases',
-      packaging    => 'war',
-      server_group => 'main-server-group',
+    wildfly::deployment { 'hawtio.war':
+     source   => 'file:/var/tmp/hawtio-web-1.4.48.war',
     }
+
+**To a server-group (domain mode):**
+
+    wildfly::deployment { 'hawtio.war':
+     source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+     server_group => 'main-server-group',
+    }
+
+**Deploy from nexus: **
+
+This feature was removed to avoid 'archive' name collision, but you can still use archive::nexus to download an artifact and use as an input for wildfly::deploy
 
 ## User management
 
@@ -231,10 +258,20 @@ And associate groups or roles to them (requires server restart)
 
 ## Module installation
 
-Install a JAR module from a remote file system.
+Install a JAR module from a remote file system, puppet file server or local file system.
 
     wildfly::config::module { 'org.postgresql':
       source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api']
+    }
+
+    wildfly::config::module { 'org.postgresql':
+      source       => 'puppet:///modules/profile/wildfly/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api']
+    }
+
+    wildfly::config::module { 'org.postgresql':
+      source       => 'file:/var/tmp/postgresql-9.3-1103-jdbc4.jar',
       dependencies => ['javax.api', 'javax.transaction.api']
     }
 
@@ -260,7 +297,7 @@ Setup a driver and a datasource (for domain mode you need to set target_profile 
 
 Alternatively, you can install a JDBC driver and module using deploy if your driver is JDBC4 compliant:
 
-    wildfly::deploy { 'postgresql-9.3-1103-jdbc4.jar':
+    wildfly::deployment { 'postgresql-9.3-1103-jdbc4.jar':
       source => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar'
     }
     ->
@@ -272,6 +309,51 @@ Alternatively, you can install a JDBC driver and module using deploy if your dri
         'user-name' => 'postgres',
         'password' => 'postgres'
       }
+    }
+
+A postgresql normal & XA datasource example
+
+    wildfly::config::module { 'org.postgresql':
+      source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+      dependencies => ['javax.api', 'javax.transaction.api'],
+      require      => Class['wildfly'],
+    } ->
+
+    wildfly::datasources::driver { 'Driver postgresql':
+      driver_name                     => 'postgresql',
+      driver_module_name              => 'org.postgresql',
+      driver_xa_datasource_class_name => 'org.postgresql.xa.PGXADataSource'
+    } ->
+
+    wildfly::datasources::datasource { 'petshop datasource':
+      name           => 'petshopDS',
+      config         => { 'driver-name'    => 'postgresql',
+                          'connection-url' => 'jdbc:postgresql://10.10.10.10/petshop',
+                          'jndi-name'      => 'java:jboss/datasources/petshopDS',
+                          'user-name'      => 'petshop',
+                          'password'       => 'password'
+                        }
+    } ->
+
+    wildfly::datasources::xa_datasource { 'petshop xa datasource':
+      name            => 'petshopDSXa',
+      config          => {  'driver-name'              => 'postgresql',
+                            'jndi-name'                => 'java:jboss/datasources/petshopDSXa',
+                            'user-name'                => 'petshop',
+                            'password'                 => 'password',
+                            'xa-datasource-class'      => 'org.postgresql.xa.PGXADataSource',
+                            'xa-datasource-properties' => {
+                                  'url' => {'value' => 'jdbc:postgresql://10.10.10.10/petshop'}
+                            },
+      }
+    }
+
+
+Configure Database Property, only works for normal datasources
+
+    wildfly::datasources::db_property { 'DemoDbProperty':
+     value => 'demovalue',
+     database => 'ExampleDS',
     }
 
 Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name. More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
@@ -305,7 +387,16 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       onlyif  => '(result == reload-required) of read-attribute server-state'
     }
 
-## Messaging (Only for full profiles) (for domain mode you need to set target_profile parameter)
+
+OR
+    ## operation that needs reload
+    ~>
+    widlfly::util::reload { 'Reload if necessary':
+      retries => 2,
+      wait    => 15,
+    }
+## Messaging (Only for full profiles)
+for domain mode you need to set target_profile parameter
 
     wildfly::messaging::queue { 'DemoQueue':
       durable => true,
@@ -317,7 +408,24 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
       entries => ['java:/jms/topic/DemoTopic']
     }
 
-## Modcluster (Only for HA profiles) (for domain mode you need to set target_profile parameter)
+## Logging
+for domain mode you need to set target_profile parameter
+
+    wildfly::logging::category { 'DemoCategory':
+      level => 'DEBUG',
+      use_parent_handlers => false,
+      handlers =>  ['DemoHandler']
+    }
+
+## System Property
+for domain mode you need to set target_profile parameter
+
+    wildfly::system::property { 'DemoSysProperty':
+     value    => 'demovalue'
+    }
+
+## Modcluster (Only for full and HA profiles)
+for domain mode you need to set target_profile parameter
 
     wildfly::modcluster::config { "Modcluster mybalancer":
       balancer => 'mybalancer',
@@ -350,7 +458,7 @@ Some configurations like SSL and modcluster requires a server reload, it can be 
 * [wildfly::config::module]
 * [wildfly::util::resource]
 * [wildfly::util::exec_cli]
-* [wildfly::*]
+* [wildfly::deployment]
 
 Check types tab for more info about custom types/providers.
 
@@ -383,24 +491,24 @@ JBoss/Wildfly management is based on three custom types and you can do virtually
 
 *Examples*:
 
-        wildfly_cli { 'Enable ExampleDS'
-          command => '/subsystem=datasources/data-source=ExampleDS:enable',
-          unless  => '(result == true) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)'
-        }
+    wildfly_cli { 'Enable ExampleDS'
+      command => '/subsystem=datasources/data-source=ExampleDS:enable',
+      unless  => '(result == true) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)'
+    }
 
-        wildfly_resource { '/subsystem=datasources/data-source=ExampleDS':
-          state => {
-                   'driver-name' => 'postgresql',
-                   'connection-url' => 'jdbc:postgresql://localhost/example',
-                   'jndi-name' => 'java:jboss/datasources/ExampleDS',
-                   'user-name' => 'postgres',
-                   'password' => 'postgres'
-                   }
-        }
+    wildfly_resource { '/subsystem=datasources/data-source=ExampleDS':
+      state => {
+               'driver-name' => 'postgresql',
+               'connection-url' => 'jdbc:postgresql://localhost/example',
+               'jndi-name' => 'java:jboss/datasources/ExampleDS',
+               'user-name' => 'postgres',
+               'password' => 'postgres'
+               }
+    }
 
-        wildfly_deploy { 'sample.war':
-          source => 'file:/vagrant/sample.war'
-        }
+    wildfly_deployment { 'sample.war':
+      source => 'file:/vagrant/sample.war'
+    }
 
 They all require a management username, password, host and port params, as it uses Wildfly HTTP API. *Host defaults to 127.0.0.1 and port to 9990*
 
