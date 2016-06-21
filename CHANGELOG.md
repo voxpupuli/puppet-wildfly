@@ -1,5 +1,7 @@
 # History
 
+## 0.5.4
+
 ## 0.5.3
 - Fix for true/false comparison in custom types.
 - Improved wildfly::modcluster::config.
@@ -17,7 +19,7 @@
 - Fix wildfly_resource when HTTP API return numbers
 - Support digest authentication
 - Ignore HTTP Proxy in net/http
-- Improve acceptance tests 
+- Improve acceptance tests
 
 ## 0.5.1
 - Support datasource database properties
