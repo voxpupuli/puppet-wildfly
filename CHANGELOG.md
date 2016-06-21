@@ -1,5 +1,12 @@
 # History
 
+## 0.5.3
+- Fix for true/false comparison in custom types.
+- Improved wildfly::modcluster::config.
+- Fix version comparison.
+- SSL for Wildfly 9+
+- Still support Ruby 1.8.7.
+
 ## 0.5.2
 - Support file and puppet protocol for module/deployment installation
 - Download timeout parameter
