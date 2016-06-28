@@ -16,7 +16,7 @@ define wildfly::config::module(
 
   File {
     owner => $wildfly::user,
-    group => $wildfly::group
+    group => $wildfly::group,
   }
 
   $dir_path = "${wildfly::dirname}/modules/${module_dir}/${namespace_path}/main"
@@ -46,7 +46,7 @@ define wildfly::config::module(
         owner  => $::wildfly::user,
         group  => $::wildfly::group,
         mode   => '0755',
-        source => $source
+        source => $source,
       }
     }
     default : {
@@ -69,7 +69,7 @@ define wildfly::config::module(
 
   file { "${dir_path}/module.xml":
     ensure  => file,
-    content => template('wildfly/module.xml.erb')
+    content => template('wildfly/module.xml.erb'),
   }
 
 }

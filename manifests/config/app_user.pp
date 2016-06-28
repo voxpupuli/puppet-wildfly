@@ -7,7 +7,7 @@ define wildfly::config::app_user($password) {
     username  => $name,
     password  => $password,
     file_name => 'application-users.properties',
-    realm     => 'ApplicationRealm'
+    realm     => 'ApplicationRealm',
   }
 
 }

@@ -12,6 +12,6 @@ define wildfly::config::user(
   file_line { "${username}:${realm}":
     path  => "${wildfly::dirname}/${wildfly::mode}/configuration/${file_name}",
     line  => "${username}=${password_hash}",
-    match => "^${username}=.*\$"
+    match => "^${username}=.*\$",
   }
 }

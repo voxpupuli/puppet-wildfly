@@ -7,7 +7,7 @@ define wildfly::config::mgmt_user($password) {
     username  => $name,
     password  => $password,
     file_name => 'mgmt-users.properties',
-    realm     => 'ManagementRealm'
+    realm     => 'ManagementRealm',
   }
 
 }
