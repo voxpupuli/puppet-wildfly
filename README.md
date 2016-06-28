@@ -358,7 +358,7 @@ Configure Database Property, only works for normal datasources
 
 Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name. More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
 
-## HTTPS/SSL
+## HTTPS/SSL (Wildfly 8+)
 
     wildfly::undertow::https { 'https':
       socket_binding    => 'https',
@@ -376,6 +376,25 @@ Datasource configuration uses a hash with elements that match JBoss-CLI datasour
       private_key => '/opt/demo.private.pem',
       path        => '/usr/java/jdk1.7.0_75/bin/',
       password    => 'changeit',
+    }
+
+## HTTPS/SSL (JBoss AS7/EAP 6)
+
+    wildfly::web::connector { 'https':
+      scheme         => 'https',
+      protocol       => 'HTTP/1.1',
+      socket_binding => 'https',
+      enable_lookups => false,
+      secure         => true,
+    }
+    ->
+    wildfly::web::ssl { 'ssl':
+      connector            => 'https',
+      protocol             => 'TLSv1,TLSv1.1,TLSv1.2',
+      password             => 'changeit',
+      key_alias            => 'demo',
+      certificate_key_file => '/opt/identitykeystore.jks',
+      cipher_suite         => 'TLS_RSA_WITH_AES_128_CBC_SHA,SSL_RSA_WITH_3DES_EDE_CBC_SHA',
     }
 
 ## Server Reload
