@@ -5,6 +5,7 @@ define wildfly::modcluster::config(
   $advertise_socket = 'modcluster',
   $connector = 'ajp',
   $type = 'busyness',
+  $excluded_contexts = undef,
   $balancer = undef,
   $load_balancing_group = undef,
   $proxy_list = undef,
@@ -15,8 +16,9 @@ define wildfly::modcluster::config(
 
   $config = {
     'advertise-socket' => $advertise_socket,
-    'connector' => $connector,
     'balancer' => $balancer,
+    'connector' => $connector,
+    'excluded-contexts' => $excluded_contexts,
     'load-balancing-group' => $load_balancing_group,
     'proxy-url' => $proxy_url,
     'proxy-list' => $proxy_list,
