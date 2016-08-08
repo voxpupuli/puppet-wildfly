@@ -3,16 +3,19 @@
 #
 class wildfly::params {
 
-  $manage_user    = true
-  $uid            = undef
-  $gid            = undef
-  $group          = 'wildfly'
-  $user           = 'wildfly'
-  $dirname        = '/opt/wildfly'
-  $package_ensure = 'present'
-  $service_name   = 'wildfly'
-  $service_ensure = true
-  $service_enable = true
+  $manage_user      = true
+  $uid              = undef
+  $gid              = undef
+  $group            = 'wildfly'
+  $user             = 'wildfly'
+  $dirname          = '/opt/wildfly'
+  $package_ensure   = 'present'
+  $install_method   = 'tarball'
+  $package_name     = 'wildfly'
+  $package_version  = 'latest'
+  $service_name     = 'wildfly'
+  $service_ensure   = true
+  $service_enable   = true
 
   $service_file  = $::osfamily? {
     'Debian' => 'wildfly-init-debian.sh',
