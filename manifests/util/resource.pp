@@ -14,7 +14,7 @@ define wildfly::util::resource(
   wildfly_resource { "${profile_path}${name}":
     ensure    => $ensure,
     username  => $users_mgmt[0],
-    password  => $passwords_mgmt[0]['password'],
+    password  => $passwords_mgmt[0],
     host      => $::wildfly::mgmt_bind,
     port      => $::wildfly::mgmt_http_port,
     recursive => $recursive,
