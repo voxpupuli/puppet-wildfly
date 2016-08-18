@@ -11,7 +11,7 @@ define wildfly::util::exec_cli(
 
   wildfly_cli { $name:
     username => $users_mgmt[0],
-    password => $passwords_mgmt[0]['password'],
+    password => $passwords_mgmt[0],
     host     => $::wildfly::mgmt_bind,
     port     => $::wildfly::mgmt_http_port,
     command  => $command,
