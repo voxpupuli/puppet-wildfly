@@ -7,7 +7,7 @@ define wildfly::util::reload(
 
   wildfly_reload { $name:
     username => $users_mgmt[0],
-    password => $passwords_mgmt[0]['password'],
+    password => $passwords_mgmt[0],
     host     => $::wildfly::mgmt_bind,
     port     => $::wildfly::mgmt_http_port,
     retries  => $retries,
