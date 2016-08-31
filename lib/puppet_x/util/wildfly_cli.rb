@@ -250,17 +250,26 @@ module PuppetX
       end
 
       def send(body, ignore_outcome = false)
-        http_request = Net::HTTP::Post.new @uri.request_uri
-        http_request.add_field 'Content-type', 'application/json'
-        authz = authz_header
-        if authz =~ /digest/i
-          http_request.add_field 'Authorization', authz
-        else
-          http_request.basic_auth @username, @password
-        end
-        http_request.body = body.to_json
+        tries = 0
+        first_response = ""
+        http_response = Net::HTTPOK.new nil, nil, nil
+        while (tries < 10 && first_response.length <= 3) do
+          tries += 1
+          sleep((tries - 1) * 15)
+          http_request = Net::HTTP::Post.new @uri.request_uri
+          http_request.add_field 'Content-type', 'application/json'
+          authz = authz_header
+          if authz =~ /digest/i
+            http_request.add_field 'Authorization', authz
+          else
+            http_request.basic_auth @username, @password
+          end
+          http_request.body = body.to_json
 
-        http_response = @http_client.request http_request
+          http_response = @http_client.request http_request
+
+          first_response = http_response.body.nil? ? "" : http_response.body
+        end
 
         response = JSON.parse(http_response.body)
 
