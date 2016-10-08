@@ -24,7 +24,7 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
       onlyif_eval = evaluate_command(@resource[:onlyif])
     end
 
-    onlyif_eval || !unless_eval
+    onlyif_eval || !unless_eval || (@resource[:unless].nil? && @resource[:onlyif].nil?)
   end
 
   def evaluate_command(command)
