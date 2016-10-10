@@ -68,6 +68,5 @@ class wildfly::params {
   $startup_wait      = '30'
   $shutdown_wait     = '30'
 
-  
   $install_download_timeout = 500
 }

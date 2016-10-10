@@ -12,6 +12,8 @@ rvm --version
 rvm install ruby-2.0.0
 rvm use ruby-2.0.0
 
+brew install libxml2
+
 set -e
 
 ruby -v
@@ -19,6 +21,7 @@ echo "gem version"
 gem --version
 gem install bundler --no-rdoc --no-ri --version 1.10.6
 bundle install --without development
+bundle config build.nokogiri "--use-system-libraries --with-xml2-include=/usr/local/opt/libxml2/include/libxml2"
 bundle --version
 gem update --system 2.1.11
 
