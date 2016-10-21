@@ -242,6 +242,10 @@ module PuppetX
         digest_auth = Net::HTTP::DigestAuth.new
         authz_request = Net::HTTP::Get.new @uri.request_uri
         response = @http_client.request authz_request
+
+	# work-around for intermittent auth error
+	sleep 0.1
+
         if response['www-authenticate'] =~ /digest/i
           digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
         else
