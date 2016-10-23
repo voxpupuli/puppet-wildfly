@@ -7,6 +7,8 @@ define wildfly::deployment(
   $timeout           = undef,
   $server_group      = undef) {
 
+  require wildfly::install
+
   $users_mgmt = keys($::wildfly::users_mgmt)
   $passwords_mgmt = values($::wildfly::users_mgmt)
 
