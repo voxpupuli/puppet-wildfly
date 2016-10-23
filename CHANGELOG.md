@@ -1,6 +1,10 @@
 # History
 
 ## 0.5.4
+- Fix for digest authentication in Wildfly 10.
+- Fix wildfly_cli should_execute? condition
+- Excluded-contexts for modcluster configuration.
+- HTTPS support for AS7/EAP6.
 
 ## 0.5.3
 - Fix for true/false comparison in custom types.
