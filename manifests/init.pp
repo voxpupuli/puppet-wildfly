@@ -47,8 +47,8 @@ class wildfly(
   $shutdown_wait                = $wildfly::params::shutdown_wait,
 ) inherits wildfly::params {
 
-  include wildfly::install
   include wildfly::prepare
+  include wildfly::install
   include wildfly::setup
   include wildfly::service
 
