@@ -1,10 +1,8 @@
 require 'spec_helper_acceptance'
 
 describe 'Acceptance case one. Standalone mode with defaults' do
-
   context 'Initial install Wildfly and verification' do
     it 'Should apply the manifest without error' do
-
       # update augeas on debian
       # echo 'deb     http://pkg.camptocamp.net/apt wheezy/stable sysadmin' | sudo tee -a /etc/apt/sources.list
       # curl -s http://pkg.camptocamp.net/packages-c2c-key.gpg | sudo apt-key add -
@@ -13,16 +11,30 @@ describe 'Acceptance case one. Standalone mode with defaults' do
       # dpkg -l '*augeas*'
 
       pp = <<-EOS
+          case $::osfamily {
+            'RedHat': {
+              java::oracle { 'jdk8' :
+                ensure  => 'present',
+                version => '8',
+                java_se => 'jdk',
+                before  => Class['wildfly']
+              }
 
-          $java_home = $::osfamily ? {
-            'RedHat' => '/etc/alternatives/java_sdk',
-            'Debian' => "/usr/lib/jvm/java-7-openjdk-${::architecture}",
-            default  => undef
+
+              $java_home = '/usr/java/default'
+             }
+            'Debian': {
+              class { 'java':
+                before => Class['wildfly']
+              }
+
+              $java_home = "/usr/lib/jvm/java-7-openjdk-${::architecture}"
+           }
           }
 
           class { 'wildfly':
-            java_home => $java_home,
-          }
+            java_home      => $java_home,
+          } ->
 
           wildfly::config::module { 'org.postgresql':
             source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
@@ -33,9 +45,6 @@ describe 'Acceptance case one. Standalone mode with defaults' do
             source       => '.'
           }
 
-          class { 'java': }
-
-          Class['java'] -> Class['wildfly']
       EOS
 
       # Run it twice and test for idempotency
@@ -45,12 +54,12 @@ describe 'Acceptance case one. Standalone mode with defaults' do
     end
 
     it 'service wildfly' do
-      expect(service 'wildfly').to be_enabled
-      expect(service 'wildfly').to be_running
+      expect(service('wildfly')).to be_enabled
+      expect(service('wildfly')).to be_running
     end
 
     it 'runs on port 8080' do
-      expect(port 8080).to be_listening
+      expect(port(8080)).to be_listening
     end
 
     it 'welcome page' do
@@ -74,7 +83,5 @@ describe 'Acceptance case one. Standalone mode with defaults' do
         expect(r.stdout).to include '<resource-root path="."/>'
       end
     end
-
   end
-
 end

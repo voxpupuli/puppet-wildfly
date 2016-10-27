@@ -1,27 +1,32 @@
 require 'spec_helper_acceptance'
 
 describe 'Acceptance case four. Standalone mode with Wildfly 9' do
-
   context 'Install Wildfly 9.0.2 with security and verification' do
     it 'Should apply the manifest without error' do
-
       pp = <<-EOS
+          case $::osfamily {
+            'RedHat': {
+              java::oracle { 'jdk8' :
+                ensure  => 'present',
+                version => '8',
+                java_se => 'jdk',
+                before  => Class['wildfly']
+              }
 
-          $java_home = $::osfamily ? {
-            'RedHat' => '/etc/alternatives/java_sdk',
-            'Debian' => "/usr/lib/jvm/java-7-openjdk-${::architecture}",
-            default  => undef
+
+              $java_home = '/usr/java/default'
+             }
+            'Debian': {
+              class { 'java':
+                before => Class['wildfly']
+              }
+
+              $java_home = "/usr/lib/jvm/java-7-openjdk-${::architecture}"
+           }
           }
 
-          class { 'java': } ->
-
           class { 'wildfly':
-            version        => '9.0.2',
-            install_source => 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
             java_home      => $java_home,
-            users_mgmt     => {
-              'wildfly' => { password => '3:E]k[NT<j]R:]j4pjF#c5Uay&(499.-4xBcu&!_' },
-            },
           } ->
 
           wildfly::security::ldap_realm { 'SecurityRealm':
@@ -64,12 +69,12 @@ describe 'Acceptance case four. Standalone mode with Wildfly 9' do
     end
 
     it 'service wildfly' do
-      expect(service 'wildfly').to be_enabled
-      expect(service 'wildfly').to be_running
+      expect(service('wildfly')).to be_enabled
+      expect(service('wildfly')).to be_running
     end
 
     it 'runs on port 8080' do
-      expect(port 8080).to be_listening
+      expect(port(8080)).to be_listening
     end
 
     it 'welcome page' do
@@ -130,7 +135,5 @@ describe 'Acceptance case four. Standalone mode with Wildfly 9' do
         expect(r.stdout).to include '"provider" => "rbac"'
       end
     end
-
   end
-
 end

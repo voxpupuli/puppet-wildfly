@@ -1,15 +1,28 @@
 require 'spec_helper_acceptance'
 
 describe 'Acceptance case two. Domain mode with defaults' do
-
   context 'Initial install Wildfly and verification' do
     it 'Should apply the manifest without error' do
       pp = <<-EOS
+          case $::osfamily {
+            'RedHat': {
+              java::oracle { 'jdk8' :
+                ensure  => 'present',
+                version => '8',
+                java_se => 'jdk',
+                before  => Class['wildfly']
+              }
 
-          $java_home = $::osfamily ? {
-            'RedHat' => '/etc/alternatives/java_sdk',
-            'Debian' => "/usr/lib/jvm/java-7-openjdk-${::architecture}",
-            default  => undef
+
+              $java_home = '/usr/java/default'
+             }
+            'Debian': {
+              class { 'java':
+                before => Class['wildfly']
+              }
+
+              $java_home = "/usr/lib/jvm/java-7-openjdk-${::architecture}"
+           }
           }
 
           class { 'wildfly':
@@ -17,9 +30,6 @@ describe 'Acceptance case two. Domain mode with defaults' do
             mode      => 'domain',
           }
 
-          class { 'java': }
-
-          Class['java'] -> Class['wildfly']
       EOS
 
       # Run it twice and test for idempotency
@@ -29,12 +39,12 @@ describe 'Acceptance case two. Domain mode with defaults' do
     end
 
     it 'service wildfly' do
-      expect(service 'wildfly').to be_enabled
-      expect(service 'wildfly').to be_running
+      expect(service('wildfly')).to be_enabled
+      expect(service('wildfly')).to be_running
     end
 
     it 'runs on port 9990' do
-      expect(port 9990).to be_listening
+      expect(port(9990)).to be_listening
     end
 
     it 'protected management page' do
@@ -42,7 +52,5 @@ describe 'Acceptance case two. Domain mode with defaults' do
         expect(r.stdout).to include '401 - Unauthorized'
       end
     end
-
   end
-
 end
