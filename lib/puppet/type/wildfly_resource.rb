@@ -84,7 +84,24 @@ Puppet::Type.newtype(:wildfly_resource) do
         }
       end
 
-      current_without_unused_keys = is.delete_if { |key, _| !should.keys.include? key }
+
+			def state_diff(is, should)
+				diff = {}
+				managed_keys = should.keys
+				
+				is.each do |key, value|
+					if value.is_a? Hash
+						diff[key] = state_diff(value, should[key])
+					elsif managed_keys.include? key
+						diff[key] = value
+					end
+				end
+				
+				diff
+			end
+
+      current_without_unused_keys = state_diff(is, should)
+
       debug "Should: #{stringify_values(recursive_sort!(should)).inspect} Is: #{stringify_values(recursive_sort!(current_without_unused_keys)).inspect}"
       stringify_values(recursive_sort!(should)) == stringify_values(recursive_sort!(current_without_unused_keys))
     end
