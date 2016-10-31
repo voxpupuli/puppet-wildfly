@@ -38,71 +38,71 @@ Puppet::Type.newtype(:wildfly_resource) do
   end
 
   newproperty(:state) do
+  
     desc 'Resource state'
     defaultto {}
 
     validate do |value|
       value.is_a?(Hash)
     end
+    
+    def recursive_sort!(obj)
+      case obj
+      when Array
+        obj.map!{|v| recursive_sort!(v)}.sort_by{|v| (v.to_s rescue nil) }
+      when Hash
+        obj = Hash[Hash[obj.map{|k,v| [recursive_sort!(k),recursive_sort!(v)]}].sort_by{|k,v| [(k.to_s rescue nil), (v.to_s rescue nil)]}]
+      else
+        obj
+      end
+    end
 
-    def insync?(is)
-      # Helper function to recursively sort
-      def recursive_sort!(obj)
-        case obj
-        when Array
-          obj.map!{|v| recursive_sort!(v)}.sort_by{|v| (v.to_s rescue nil) }
-        when Hash
-          obj = Hash[Hash[obj.map{|k,v| [recursive_sort!(k),recursive_sort!(v)]}].sort_by{|k,v| [(k.to_s rescue nil), (v.to_s rescue nil)]}]
-        else
-          obj
+    # Helper function to transform the hash
+    def transform_hash(original, options = {}, &block)
+      original.each_with_object({}) do |(key, value), result|
+        value = if options[:deep] && Hash === value
+                  transform_hash(value, options, &block)
+                else
+                  value
+                end
+        yield(result, key, value)
+        result
+      end
+    end
+
+    # Helper function to transform values to strings
+    def stringify_values(hash)
+      transform_hash(hash, :deep => true) do |hash, key, value|
+        hash[key] = if value.is_a? Numeric
+                      value.to_s
+                    elsif value.is_a?(TrueClass) || value.is_a?(FalseClass)
+                      value.to_s
+                    else
+                      value
+                    end
+      end
+    end
+
+    def state_diff(is, should)
+      diff = {}
+      managed_keys = should.keys
+
+      is.each do |key, value|
+        if value.is_a? Hash
+          diff[key] = state_diff(value, should[key])
+        elsif managed_keys.include? key
+          diff[key] = value
         end
       end
 
-      # Helper function to transform the hash
-      def transform_hash(original, options={}, &block)
-        original.inject({}){|result, (key,value)|
-          value = if (options[:deep] && Hash === value)
-                    transform_hash(value, options, &block)
-                  else
-                    value
-                  end
-          block.call(result,key,value)
-          result
-        }
-      end
+      diff
+    end    
 
-      # Helper function to transform values to strings
-      def stringify_values(hash)
-        transform_hash(hash, :deep => true) {|hash, key, value|
-          if value.is_a? Numeric
-            hash[key] = value.to_s
-          elsif (value.is_a?(TrueClass) || value.is_a?(FalseClass))
-            hash[key] = value.to_s
-          else
-            hash[key] = value
-          end
-        }
-      end
-
-
-			def state_diff(is, should)
-				diff = {}
-				managed_keys = should.keys
-				
-				is.each do |key, value|
-					if value.is_a? Hash
-						diff[key] = state_diff(value, should[key])
-					elsif managed_keys.include? key
-						diff[key] = value
-					end
-				end
-				
-				diff
-			end
-
+    def insync?(is)
       current_without_unused_keys = state_diff(is, should)
 
       debug "Should: #{stringify_values(recursive_sort!(should)).inspect} Is: #{stringify_values(recursive_sort!(current_without_unused_keys)).inspect}"
+      
       stringify_values(recursive_sort!(should)) == stringify_values(recursive_sort!(current_without_unused_keys))
     end
 
