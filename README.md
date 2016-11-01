@@ -633,7 +633,7 @@ Manages a deployment (JAR, EAR, WAR) in Wildfly. This define is a wrapper for `w
 
 #### Defined type: `wildfly::config::module`
 
-Manages a Wildfly module module (`$WILDFLY_HOME/modules`).
+Manages a module (`$WILDFLY_HOME/modules`).
 
 #### Defined type: `wildfly::config::app_user`
 
@@ -680,7 +680,7 @@ BEAKER_set=centos-72-x64 bundle exec rspec spec/acceptance
 BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
 ```
 
-JBoss/Wildfly management is based on three custom types and you can do virtually any JBoss/Wildfly configuration using them. So, before build your awesome definition to manage a resource (anything in configurations XML's) or deploy an artifact from my_internal_protocol://, check wildfly::deploy or wildfly::datasources namespace for guidance.
+JBoss/Wildfly management is based on three custom types and you can do virtually any JBoss/Wildfly configuration using them. So, before build your awesome definition to manage a resource (anything in configurations XML's) or deploy an artifact from my_internal_protocol://, check `wildfly::*` (`wildfly::deployment`, `wildfly::datasources::*`, `wildfly::undertow::*`, `wildfly::messaging::*`) for guidance
 
 
 *Examples*:
