@@ -1,5 +1,9 @@
 # History
 
+## 0.5.5
+- Fix non idempotent behavior in wildfly_resource when resource contains a nested hash.
+- Obfuscate sensitive data in wildfly_resource change_to_s.
+
 ## 0.5.4
 - Fix for digest authentication in Wildfly 10.
 - Fix wildfly_cli should_execute? condition
