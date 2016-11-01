@@ -10,6 +10,9 @@
     * [Setup requirements](#setup-requirements)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+    * [Public classes](#public-classes)
+    * [Private classes](#private-classes)
+    * [Public defined types](#public-defined-types)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
@@ -450,9 +453,24 @@ wildfly::modcluster::config { "Modcluster mybalancer":
 
 ##Reference
 
-###Classes
+- [**Public classes**](#public-classes)
+    - [Class: wildfly](#class-wildfly)
+- [**Private classes**](#private-classes)
+    - [Class: wildfly::prepare](#class-wildfly_prepare)
+    - [Class: wildfly::install](#class-wildfly_install)
+    - [Class: wildfly::setup](#class-wildfly_setup)
+    - [Class: wildfly::service](#class-wildfly_service)
+- [**Public defined types**](#public-defined-types)
+    - [Defined type: wildfly::util::resource](#defined-type-wildflyutilresource)
+    - [Defined type: wildfly::util::exec_cli](#defined-type-wildflyutilexec_cli)
+    - [Defined type: wildfly::deployment](#defined-type-wildflydeployment)
+    - [Defined type: wildfly::config::module](#defined-type-wildflyconfigmodule)
+    - [Defined type: wildfly::config::app_user](#defined-type-wildflyconfigapp_user)
+    - [Defined type: wildfly::config::mgmt_user](#defined-type-wildflyconfigmgmt_user)
+    - [Defined type: wildfly::config::user_groups](#defined-type-wildflyconfiguser_groups)
+    - [Defined type: wildfly::config::user_roles](#defined-type-wildflyconfiguser_roles)
 
-####Public classes
+### Public classes
 
 #### Class: `wildfly`
 
@@ -580,25 +598,60 @@ Sets Java's `-MaxPermSize` parameter. Default `256m`.
 
 Hash containing Wildfly's management users to be managed. Default `{ 'wildfly' => {password => 'wildfly'} }`
 
-####Private classes
 
-* [`wildfly::install`]
-* [`wildfly::prepare`]
-* [`wildfly::setup`]
-* [`wildfly::service`]
+### Private classes
 
-###Resources
+#### Class: `wildfly::prepare`
 
-* [`wildfly::config::app_user`]
-* [`wildfly::config::mgmt_user`]
-* [`wildfly::config::user_groups`]
-* [`wildfly::config::user_roles`]
-* [`wildfly::config::module`]
-* [`wildfly::util::resource`]
-* [`wildfly::util::exec_cli`]
-* [`wildfly::deployment`]
+Manages Wildfly requirements.
 
-Check types tab for more info about custom types/providers.
+#### Class: `wildfly::install`
+
+Downloads and installs Wildfly from a remote source.
+
+#### Class: `wildfly::setup`
+
+Manages Wildfly configuration required to run in service mode.
+
+#### Class: `wildfly::service`
+
+Manages Wildfly service.
+
+### Public defined types
+
+#### Defined type: `wildfly::util::resource`
+
+Manages a Wildfly configuration resource: e.g `/subsystem=datasources/data-source=MyDS or /subsystem=datasources/jdbc-driver=postgresql`. Virtually anything in your configuration XML file that can be manipulated using JBoss-CLI could be managed by this defined type. This define is a wrapper for `wildfly_resource` that defaults to your local Wildfly installation.
+
+#### Defined type: `wildfly::util::exec_cli`
+
+Executes an arbitrary JBoss-CLI command. This define is a wrapper for `wildfly_cli` that defaults to your local Wildfly installation.
+
+#### Defined type: `wildfly::deployment`
+
+Manages a deployment (JAR, EAR, WAR) in Wildfly. This define is a wrapper for `wildfly_deployment` that defaults to your local Wildfly installation.
+
+#### Defined type: `wildfly::config::module`
+
+Manages a Wildfly module module (`$WILDFLY_HOME/modules`).
+
+#### Defined type: `wildfly::config::app_user`
+
+Manages an Application User (`application-users.properties`) for Wildfly.
+
+#### Defined type: `wildfly::config::mgmt_user`
+
+Manages a Management User (`mgmt-users.properties`) for Wildfly.
+
+#### Defined type: `wildfly::config::user_groups`
+
+Manages groups for a Management User (`mgmt-groups.properties`).
+
+#### Defined type: `wildfly::config::user_roles`
+
+Manages roles for an Application User (`application-roles.properties`).
+
+> **NOTE:** Check types tab (https://forge.puppet.com/biemond/wildfly/types) for more information about custom types/providers.
 
 ##Limitations
 
