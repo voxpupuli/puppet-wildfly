@@ -1,5 +1,7 @@
 # History
 
+## 0.5.6
+
 ## 0.5.5
 - Fix non idempotent behavior in wildfly_resource when resource contains a nested hash.
 - Obfuscate sensitive data in wildfly_resource change_to_s.
