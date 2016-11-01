@@ -188,9 +188,10 @@ wildfly::deployment { 'hawtio.war':
 }
 ```
 
-**Deploy from nexus: **
 
-> **NOTE: ** This feature was removed to avoid 'archive' name collision, but you can still use `archive::nexus` to download an artifact and use as an input for `wildfly::deployment`
+**From nexus:**
+
+> **NOTE:** This feature was removed to avoid 'archive' name collision, but you can still use `archive::nexus` to download an artifact and use as an input for `wildfly::deployment`
 
 ## User management
 
