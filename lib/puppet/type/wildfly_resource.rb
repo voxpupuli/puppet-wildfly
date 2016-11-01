@@ -83,6 +83,18 @@ Puppet::Type.newtype(:wildfly_resource) do
       end
     end
 
+
+		def obfuscate_sensitive_data(hash)
+			transform_hash(hash, :deep => true) do |hash, key, value| 
+				if key.include?('password')
+				  hash[key] = '******'
+			  else
+					hash[key] = value
+				end
+			end
+		end
+
+		# Return a hash containing the keys of the left hash that are also present in the right hash
     def state_diff(is, should)
       diff = {}
       managed_keys = should.keys
@@ -109,8 +121,8 @@ Puppet::Type.newtype(:wildfly_resource) do
     def change_to_s(current_value, new_value)
       changed_keys = (new_value.to_a - current_value.to_a).collect { |key, _|  key }
 
-      current_value = current_value.delete_if { |key, _| !changed_keys.include? key }.inspect
-      new_value = new_value.delete_if { |key, _| !changed_keys.include? key }.inspect
+      current_value = obfuscate_sensitive_data(current_value).delete_if { |key, _| !changed_keys.include? key }.inspect
+      new_value = obfuscate_sensitive_data(new_value).delete_if { |key, _| !changed_keys.include? key }.inspect
 
       super(current_value, new_value)
     end
