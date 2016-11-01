@@ -27,7 +27,7 @@ class wildfly::params {
   }
   $conf_template     = "wildfly/${service_name}.conf.erb"
 
-  $java_home         = '/usr/java/jdk1.7.0_75/'
+  $java_home         = '/usr/java/default/'
 
   $mode              = 'standalone'
   $mode_template     = "wildfly/${mode}.conf.erb"
