@@ -8,15 +8,12 @@
 3. [Setup - The basics of getting started with wildfly](#setup)
     * [What wildfly affects](#what-wildfly-affects)
     * [Setup requirements](#setup-requirements)
-    * [Beginning with wildfly](#beginning-with-wildfly)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
 ##Overview
-
-[![Build Status](https://travis-ci.org/biemond/biemond-wildfly.png)](https://travis-ci.org/biemond/biemond-wildfly)
 
 created by Edwin Biemond email biemond at gmail dot com
 [biemond.blogspot.com](http://biemond.blogspot.com)
@@ -51,38 +48,6 @@ The wildfly module can install, configure and manage (using its HTTP API) Wildfl
 This module requires a JVM ( should already be there ).
 
 Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
-
-###Beginning with wildlfy
-
-## Module defaults
-- version           9.0.2
-- install_source    http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz
-- java_home         /usr/java/jdk1.7.0_75/ (default dir for oracle official rpm)
-- manage_user       true
-- group             wildfly
-- user              wildfly
-- dirname           /opt/wildfly
-- package_ensure    present
-- service_ensure    true
-- service_enable    true
-- java_home         /usr/java/jdk1.7.0_75/
-- mode              standalone
-- config            standalone.xml
-- domain_config     domain.xml
-- host_config       host.xml
-- console_log       /var/log/wildfly/console.log
-- mgmt_bind         0.0.0.0
-- mgmt_http_port    9990
-- mgmt_https_port   9993
-- public_bind       0.0.0.0
-- public_http_port  8080
-- public_https_port 8443
-- ajp_port          8009
-- java_xmx          512m
-- java_xms          128m
-- java_maxpermsize  256m
-- users_mgmt        user 'wildfly' with wildfly as password
-- install_cache_dir /var/cache/wget
 
 ##Usage
 
@@ -488,7 +453,131 @@ wildfly::modcluster::config { "Modcluster mybalancer":
 
 ####Public classes
 
-* [`wildfly`]
+#### Class: `wildfly`
+
+Guides the basic setup and installation of Wildfly on your system.
+
+When this class is declared with the default options, Puppet:
+
+- Download and installs Wildfly from a remote source in your system.
+- Installs required packages (wget e libaio)
+- Configures/starts the Wildfly service.
+
+You can simply declare the default `wildfly` class:
+
+``` puppet
+class { 'wildfly': }
+```
+
+**Parameters within `wildfly`:**
+
+##### `version`
+
+Sets the Wildfly version managed in order to handle small differences among versions. Default: `9.0.2`
+
+##### `install_source`
+
+Source of Wildfly tarball installer. Default: `http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz`.
+
+##### `java_home`
+
+Sets the `JAVA_HOME` for Wildfly. Default '/usr/java/default'.
+
+##### `manage_user`
+
+Whether this module should manage wildfly user and group. Default `true`.
+
+##### `group`
+
+Group to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed. Default `wildfly`.
+
+##### `user`
+
+User to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed. Default `wildfly`.
+
+##### `dirname`
+
+`WILDFLY_HOME`. i.e. The directory where your Wildfly will live. Default `/opt/wildfly`.
+
+##### `package_ensure`
+
+Wether this module should manage required packages (wget and liaio). Default `present`.
+
+##### `service_ensure`
+
+Sets Wildfly's service `name`. Default `wildfly`.
+
+##### `service_ensure`
+
+Sets Wildfly's service `ensure`. Default `true`.
+
+##### `service_enable`
+
+Sets Wildfly's service `enable`. Default `true`.
+
+##### `mode`
+
+Sets Wildfly execution mode will run, `standalone` or `domain`. Default `standalone`.
+
+##### `config`
+
+Sets Wildfly configuration file for initialization when you're using `standalone` mode. Default `standalone.xml`.
+
+##### `domain_config`
+
+Sets Wildfly configuration file for initialization when you're using `domain` mode. Default `domain.xml`.
+
+##### `host_config`
+
+Sets Wildfly Host configuration file for initialization when you're using `domain` mode. Default `host.xml`.
+
+##### `console_log`
+
+Configures service log file. Default `/var/log/wildfly/console.log`.
+
+##### `mgmt_bind`
+
+Sets bind address for management interface. Default `0.0.0.0`.
+
+##### `mgmt_http_port`
+
+Sets HTTP port for HTTP management interface. Default `9990`.
+
+##### `mgmt_https_port`
+
+Sets HTTPs port for management interface. Default `9993`.
+
+##### `public_bind`
+
+Sets bind address for public interface. Default `0.0.0.0`.
+
+##### `public_http_port`
+
+Sets HTTP port for public interface. Default `8080`.
+
+##### `public_https_port`
+
+Sets HTTPs port for public interface. Default `8443`.
+
+##### `ajp_port`
+
+Sets AJP port. Default `8009`.
+
+##### `java_xmx`
+
+Sets Java's `-Xmx` parameter. Default `512m`.
+
+##### `java_xms`
+
+Sets Java's `-Xms` parameter. Default `128m`.
+
+##### `java_maxpermsize`
+
+Sets Java's `-MaxPermSize` parameter. Default `256m`.
+
+##### `users_mgmt`
+
+Hash containing Wildfly's management users to be managed. Default `{ 'wildfly' => {password => 'wildfly'} }`
 
 ####Private classes
 
