@@ -2,7 +2,7 @@ require 'spec_helper_acceptance'
 
 describe 'Acceptance case two. Domain mode with defaults' do
   context 'Initial install Wildfly and verification' do
-    it 'Should apply the manifest without error' do
+    it 'applies the manifest without error' do
       pp = <<-EOS
           case $::osfamily {
             'RedHat': {
@@ -33,8 +33,8 @@ describe 'Acceptance case two. Domain mode with defaults' do
       EOS
 
       # Run it twice and test for idempotency
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      expect(apply_manifest(pp, catch_failures: true).exit_code).to be_zero
       shell('sleep 15')
     end
 
@@ -48,7 +48,7 @@ describe 'Acceptance case two. Domain mode with defaults' do
     end
 
     it 'protected management page' do
-      shell('curl localhost:9990/management', :acceptable_exit_codes => 0) do |r|
+      shell('curl localhost:9990/management', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '401 - Unauthorized'
       end
     end

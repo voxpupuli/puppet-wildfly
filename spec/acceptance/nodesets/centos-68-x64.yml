@@ -1,0 +1,11 @@
+HOSTS:
+  centos-68-x64:
+    roles:
+      - agent
+      - default
+    platform: el-6-x86_64
+    box : centos-6.8-x64-wildfly 
+    hypervisor : vagrant
+
+CONFIG:
+  type: foss 

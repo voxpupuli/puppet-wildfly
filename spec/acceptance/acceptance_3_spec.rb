@@ -2,7 +2,7 @@ require 'spec_helper_acceptance'
 
 describe 'Acceptance case three. Standalone mode with Wildfly 9' do
   context 'Initial install Wildfly 9 and verification' do
-    it 'Should apply the manifest without error' do
+    it 'applies the manifest without error' do
       # update augeas on debian
       # echo 'deb     http://pkg.camptocamp.net/apt wheezy/stable sysadmin' | sudo tee -a /etc/apt/sources.list
       # curl -s http://pkg.camptocamp.net/packages-c2c-key.gpg | sudo apt-key add -
@@ -38,8 +38,8 @@ describe 'Acceptance case three. Standalone mode with Wildfly 9' do
       EOS
 
       # Run it twice and test for idempotency
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      expect(apply_manifest(pp, catch_failures: true).exit_code).to be_zero
       shell('sleep 15')
     end
 
@@ -53,7 +53,7 @@ describe 'Acceptance case three. Standalone mode with Wildfly 9' do
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl localhost:8080', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end

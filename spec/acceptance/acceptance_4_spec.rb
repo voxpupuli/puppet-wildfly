@@ -2,7 +2,7 @@ require 'spec_helper_acceptance'
 
 describe 'Acceptance case four. Standalone mode with Wildfly 9' do
   context 'Install Wildfly 9.0.2 with security and verification' do
-    it 'Should apply the manifest without error' do
+    it 'applies the manifest without error' do
       pp = <<-EOS
           case $::osfamily {
             'RedHat': {
@@ -63,8 +63,8 @@ describe 'Acceptance case four. Standalone mode with Wildfly 9' do
       EOS
 
       # Run it twice and test for idempotency
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      expect(apply_manifest(pp, catch_failures: true).exit_code).to be_zero
       shell('sleep 15')
     end
 
@@ -78,60 +78,60 @@ describe 'Acceptance case four. Standalone mode with Wildfly 9' do
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl localhost:8080', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
 
     it 'domain resource' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/subsystem=security/security-domain=MySecurityDomain:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'ldap realm LDAP connection resource' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/core-service=management/ldap-connection=SecurityRealm-LDAPConnection:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'ldap realm authentication resources' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/core-service=management/security-realm=SecurityRealm/authentication=local:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/core-service=management/security-realm=SecurityRealm/authentication=ldap:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'ldap realm authorization resource' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/core-service=management/security-realm=SecurityRealm/authorization=ldap:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'role mappings' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/core-service=management/access=authorization/role-mapping=SuperUser:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'realm applied to management interface' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/core-service=management/management-interface=http-interface:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"security-realm" => "SecurityRealm"'
       end
     end
 
     it 'RBAC settings applied' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/core-service=management/access=authorization:read-resource"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"provider" => "rbac"'
       end
     end

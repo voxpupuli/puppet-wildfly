@@ -6,16 +6,18 @@ describe 'wildfly::prepare' do
   end
 
   context 'add group, user, create home with default params' do
-    let(:facts) {{ :operatingsystem           => 'CentOS' ,
-                   :kernel                    => 'Linux',
-                   :osfamily                  => 'RedHat',
-                   :operatingsystemmajrelease => 7 }}
+    let(:facts) do
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: 7 }
+    end
 
-    it { should contain_class('wildfly::prepare') }
-    it { should contain_group('wildfly') }
-    it { should contain_user('wildfly') }
+    it { is_expected.to contain_class('wildfly::prepare') }
+    it { is_expected.to contain_group('wildfly') }
+    it { is_expected.to contain_user('wildfly') }
     it do
-      should contain_file('/opt/wildfly').with(
+      is_expected.to contain_file('/opt/wildfly').with(
         'ensure' => 'directory',
         'owner' => 'wildfly',
         'group' => 'wildfly',
@@ -25,22 +27,25 @@ describe 'wildfly::prepare' do
   end
 
   context 'install dependencies for Redhat' do
-    let(:facts) {{ :operatingsystem           => 'CentOS' ,
-                   :kernel                    => 'Linux',
-                   :osfamily                  => 'RedHat',
-                   :operatingsystemmajrelease => 7 }}
+    let(:facts) do
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: 7 }
+    end
 
-    it { should contain_package('libaio') }
-    it { should contain_package('wget') }
+    it { is_expected.to contain_package('libaio') }
+    it { is_expected.to contain_package('wget') }
   end
 
   context 'install dependencies for Debian' do
-    let(:facts) {{ :operatingsystem           => 'Debian' ,
-                   :kernel                    => 'Linux',
-                   :osfamily                  => 'Debian',
-                   :operatingsystemmajrelease => 10 }}
-    it { should contain_package('libaio1') }
-    it { should contain_package('wget') }
+    let(:facts) do
+      { operatingsystem: 'Debian',
+        kernel: 'Linux',
+        osfamily: 'Debian',
+        operatingsystemmajrelease: 10 }
+    end
+    it { is_expected.to contain_package('libaio1') }
+    it { is_expected.to contain_package('wget') }
   end
-
 end

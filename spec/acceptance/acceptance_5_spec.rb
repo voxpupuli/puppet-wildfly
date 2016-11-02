@@ -3,7 +3,7 @@ require 'json'
 
 describe 'Acceptance case five. Deployment on standalone mode with Wildfly 9' do
   context 'Initial install Wildfly 9, deployment and verification' do
-    it 'Should apply the manifest without error' do
+    it 'applies the manifest without error' do
       pp = <<-EOS
           case $::osfamily {
             'RedHat': {
@@ -36,8 +36,8 @@ describe 'Acceptance case five. Deployment on standalone mode with Wildfly 9' do
       EOS
 
       # Run it twice and test for idempotency
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      expect(apply_manifest(pp, catch_failures: true).exit_code).to be_zero
       shell('sleep 15')
     end
 
@@ -51,23 +51,23 @@ describe 'Acceptance case five. Deployment on standalone mode with Wildfly 9' do
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl localhost:8080', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
 
     it 'downloaded WAR file' do
-      shell('ls -la /tmp/hawtio-web-1.4.66.war', :acceptable_exit_codes => 0) do |r|
+      shell('ls -la /tmp/hawtio-web-1.4.66.war', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '/tmp/hawtio-web-1.4.66.war'
       end
     end
 
     it 'deployed application' do
       shell('/opt/wildfly/bin/jboss-cli.sh --connect "/deployment=hawtio.war:read-resource(recursive=true)"',
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
-      shell('curl localhost:8080/'.concat('hawtio/'), :acceptable_exit_codes => 0) do |r|
+      shell('curl localhost:8080/'.concat('hawtio/'), acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'hawtio'
       end
     end
