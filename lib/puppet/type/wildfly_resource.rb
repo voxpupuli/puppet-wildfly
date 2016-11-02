@@ -101,7 +101,10 @@ Puppet::Type.newtype(:wildfly_resource) do
 
       is.each do |key, value|
         if value.is_a? Hash
-          diff[key] = state_diff(value, should[key])
+          should_nested_hash = should[key]
+          unless should_nested_hash.nil?
+            diff[key] = state_diff(value, should_nested_hash)
+          end
         elsif managed_keys.include? key
           diff[key] = value
         end

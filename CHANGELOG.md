@@ -1,6 +1,7 @@
 # History
 
 ## 0.5.6
+- Fix wildfly_resource when non managed properties are a hash
 
 ## 0.5.5
 - Fix non idempotent behavior in wildfly_resource when resource contains a nested hash.

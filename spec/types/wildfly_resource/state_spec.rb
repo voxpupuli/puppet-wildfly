@@ -118,48 +118,55 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       is = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 } }
       expect(state.insync?(is)).to be true
     end
+
+    it 'should be synced if there are unmanaged hash properties' do
+      state.should = { 'name' => 'dummy' }
+
+      is = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 } }
+      expect(state.insync?(is)).to be true
+    end
   end
-  
+
   describe 'when testing state change notification' do
     let(:state) { described_class.new(:resource => resource) }
-    
+
     it 'should obfuscate sensitive data' do
       current_value = { 'name' => 'dummy', 'nested-hash' => { 'enabled' => true } }
       new_value = { 'name' => 'dummy', 'password' => 'wildflyRocks', 'enabled' => false }
-      
+
       message = state.change_to_s(current_value, new_value)
-      
+
       matches = /state changed '(.*)' to '(.*)'/.match(message)
-      
+
       captured_new_value = JSON.parse(matches[2].gsub('=>', ':'))
-      
-      expect(captured_new_value['password']).to  eq('******')
+
+      expect(captured_new_value['password']).to eq('******')
     end
-    
+
     it 'should obfuscate new state sensitive data' do
       current_value = { 'name' => 'dummy', 'nested-hash' => { 'enabled' => true } }
       new_value = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42, 'password' => 'gq!&+Q@!Cy%6Aq>D' } }
-      
+
       message = state.change_to_s(current_value, new_value)
-      
+
       matches = /state changed '(.*)' to '(.*)'/.match(message)
-      
+
       captured_new_value = JSON.parse(matches[2].gsub('=>', ':'))
-      
-      expect(captured_new_value['nested-hash']['password']).to  eq('******')
+
+      expect(captured_new_value['nested-hash']['password']).to eq('******')
     end
-    
+
     it 'should obfuscate current state sensitive data' do
       current_value = { 'name' => 'dummy', 'nested-hash' => { 'enabled' => true, 'password' => 'gq!&+Q@!Cy%6Aq>D' } }
       new_value = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 } }
-      
+
       message = state.change_to_s(current_value, new_value)
-      
+
       matches = /state changed '(.*)' to '(.*)'/.match(message)
-      
+
       captured_current_value = JSON.parse(matches[1].gsub('=>', ':'))
-      
-      expect(captured_current_value['nested-hash']['password']).to  eq('******')
+
+      expect(captured_current_value['nested-hash']['password']).to eq('******')
     end
   end
 end
