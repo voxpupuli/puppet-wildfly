@@ -9,6 +9,19 @@
     * [What wildfly affects](#what-wildfly-affects)
     * [Setup requirements](#setup-requirements)
 4. [Usage - Configuration options and additional functionality](#usage)
+    * [Wildfly 9.0.2](#wildfly-902)
+    * [Wildfly 8.2.1](#wildfly-821)
+    * [JBoss EAP 6.x (with hiera)](#jboss-eap-6x-with-hiera)
+    * [Domain Mode](#domain-mode)
+    * [Deployment](#deployment)
+    * [User management](#user-management)
+    * [Module installation](#module-installation)
+    * [Datasources](#datasources)
+    * [HTTPS/SSL](#httpsssl)
+    * [Server reload](#server-reload)
+    * [Messaging](#messaging)
+    * [Logging](#logging)
+    * [Modcluster](#modcluster)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
     * [Public classes](#public-classes)
     * [Private classes](#private-classes)
@@ -58,27 +71,25 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 class { 'wildfly': }
 ```
 
-Wildfly 9.0.2
+###Wildfly 9.0.2
 
 ```puppet
 class { 'wildfly':
   version        => '9.0.2',
   install_source => 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
-  java_home      => '/opt/jdk-8',
 }
 ```
 
-Wildfly 8.2.0
+###Wildfly 8.2.1
 
 ```puppet
 class { 'wildfly':
-  version        => '8.2.0',
-  install_source => 'http://download.jboss.org/wildfly/8.2.0.Final/wildfly-8.2.0.Final.tar.gz',
-  java_home      => '/opt/jdk-8',
+  version        => '8.2.1',
+  install_source => 'http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz',
 }
 ```
 
-JBoss EAP 6.x and hiera
+##JBoss EAP 6.x (with hiera)
 
 ```puppet
 include ::wildfly
@@ -88,43 +99,7 @@ include ::wildfly
 wildfly::service_name: jboss-as
 wildfly::conf_file: /etc/jboss-as/jboss-as.conf
 wildfly::service_file: jboss-as-standalone.sh
-wildfly::install_source: http://mywebserver/jboss-eap-6.1.tar.gz
-```
-
-or you can override a paramater
-
-```puppet
-class { 'wildfly':
-  version           => '8.1.0',
-  install_source    => 'http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz',
-  java_home         => '/opt/jdk-8',
-  group             => 'wildfly',
-  user              => 'wildfly',
-  dirname           => '/opt/wildfly',
-  mode              => 'standalone',
-  config            => 'standalone-full.xml',
-  java_xmx          => '512m',
-  java_xms          => '256m',
-  java_maxpermsize  => '256m',
-  mgmt_http_port    => '9990',
-  mgmt_https_port   => '9993',
-  public_http_port  => '8080',
-  public_https_port => '8443',
-  ajp_port          => '8009',
-  users_mgmt        => { 'wildfly' => { password => 'wildfly'}},
-}
-```
-
-Use JAVA_OPTS (java_opts parameter) instead of java_xmx, java_xms, java_maxpermsize
-
-```puppet
-class { 'wildfly':
-  version           => '8.1.0',
-  install_source    => 'http://download.jboss.org/wildfly/8.1.0.Final/wildfly-8.1.0.Final.tar.gz',
-  mode              => 'standalone',
-  config            => 'standalone-full.xml',
-  java_opts         => '-Xms64m -Xmx512m -XX:MaxPermSize=256m',
-}
+wildfly::install_source: http://mywebserver/jboss-eap-6.4.tar.gz
 ```
 
 ## Domain Mode
@@ -148,11 +123,11 @@ wildfly::config::mgmt_user { 'slave1':
 
 ```puppet
 class { 'wildfly':
-    mode        => 'domain',
-    host_config => 'host-slave.xml',
+    mode         => 'domain',
+    host_config  => 'host-slave.xml',
     domain_slave => {
-      host_name => 'slave1',
-      secret    => 'd2lsZGZseQ==', #base64(password)
+      host_name             => 'slave1',
+      secret                => 'd2lsZGZseQ==', #base64(password)
       domain_master_address => 'DomainBindAddress',
     }
 }
@@ -166,19 +141,19 @@ Source supports: http://, ftp://, puppet://, file:
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
- source   => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+ source => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
 }
 ```
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
- source   => 'puppet:///modules/profile/wildfly/hawtio-web-1.4.48.war',
+ source => 'puppet:///modules/profile/wildfly/hawtio-web-1.4.48.war',
 }
 ```
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
- source   => 'file:/var/tmp/hawtio-web-1.4.48.war',
+ source => 'file:/var/tmp/hawtio-web-1.4.48.war',
 }
 ```
 
@@ -216,13 +191,13 @@ And associate groups or roles to them (requires server restart)
 
 ```puppet
 wildfly::config::user_groups { 'mgmtuser':
-  groups   => 'admin,mygroup'
+  groups => 'admin,mygroup'
 }
 ```
 
 ```puppet
 wildfly::config::user_roles { 'appuser':
-  roles    => 'guest,ejb'
+  roles => 'guest,ejb'
 }
 ```
 
@@ -264,11 +239,11 @@ wildfly::datasources::driver { 'Driver postgresql':
 ->
 wildfly::datasources::datasource { 'DemoDS':
   config         => {
-    'driver-name' => 'postgresql',
+    'driver-name'    => 'postgresql',
     'connection-url' => 'jdbc:postgresql://localhost/postgres',
-    'jndi-name' => 'java:jboss/datasources/DemoDS',
-    'user-name' => 'postgres',
-    'password' => 'postgres'
+    'jndi-name'      => 'java:jboss/datasources/DemoDS',
+    'user-name'      => 'postgres',
+    'password'       => 'postgres'
   }
 }
 ```
@@ -282,11 +257,11 @@ wildfly::deployment { 'postgresql-9.3-1103-jdbc4.jar':
 ->
 wildfly::datasources::datasource { 'DemoDS':
   config         => {
-    'driver-name' => 'postgresql-9.3-1103-jdbc4.jar',
+    'driver-name'    => 'postgresql-9.3-1103-jdbc4.jar',
     'connection-url' => 'jdbc:postgresql://localhost/postgres',
-    'jndi-name' => 'java:jboss/datasources/DemoDS',
-    'user-name' => 'postgres',
-    'password' => 'postgres'
+    'jndi-name'      => 'java:jboss/datasources/DemoDS',
+    'user-name'      => 'postgres',
+    'password'       => 'postgres'
   }
 }
 ```
@@ -341,7 +316,9 @@ wildfly::datasources::db_property { 'DemoDbProperty':
 }
 ```
 
-## HTTPS/SSL (Wildfly 8+)
+## HTTPS/SSL
+
+### Wildfly 8+
 
 ```puppet
 wildfly::undertow::https { 'https':
@@ -353,7 +330,7 @@ wildfly::undertow::https { 'https':
 }
 ```
 
-## HTTPS/SSL (JBoss AS7/EAP 6)
+###JBoss AS7/EAP 6
 
 ```puppet
 wildfly::web::connector { 'https':
@@ -374,7 +351,7 @@ wildfly::web::ssl { 'ssl':
 }
 ```
 
-**Identity Store sample Configuration:**
+**Sample identity store configuration with `puppetlabs-java_ks`:**
 
 ```puppet
 java_ks { 'demo:/opt/identitystore.jks':
@@ -388,7 +365,18 @@ java_ks { 'demo:/opt/identitystore.jks':
 
 ## Server Reload
 
-Some configurations like SSL and modcluster requires a server reload, it can be achieved with the following snippet:
+Some configurations like SSL and modcluster requires a server reload (i.e. `server-state = reload-required`), and it can be achieved with the following snippet:
+
+```puppet
+## a_resource_that_requires_reload_when_changed {}
+~>
+widlfly::util::reload { 'Reload if necessary':
+  retries => 2,
+  wait    => 15,
+}
+```
+
+Or
 
 ```puppet
 wildfly::util::exec_cli { 'Reload if necessary':
@@ -397,23 +385,14 @@ wildfly::util::exec_cli { 'Reload if necessary':
 }
 ```
 
-OR
+## Messaging
 
-```puppet
-## operation that needs reload
-~>
-widlfly::util::reload { 'Reload if necessary':
-  retries => 2,
-  wait    => 15,
-}
-```
-
-## Messaging (Only for full profiles)
+*`full` profiles only*
 
 ```puppet
 wildfly::messaging::queue { 'DemoQueue':
-  durable => true,
-  entries => ['java:/jms/queue/DemoQueue'],
+  durable  => true,
+  entries  => ['java:/jms/queue/DemoQueue'],
   selector => "MessageType = 'AddRequest'"
 }
 
@@ -426,9 +405,9 @@ wildfly::messaging::topic { 'DemoTopic':
 
 ```puppet
 wildfly::logging::category { 'DemoCategory':
-  level => 'DEBUG',
+  level               => 'DEBUG',
   use_parent_handlers => false,
-  handlers =>  ['DemoHandler']
+  handlers            =>  ['DemoHandler']
 }
 ```
 
@@ -436,20 +415,24 @@ wildfly::logging::category { 'DemoCategory':
 
 ```puppet
 wildfly::system::property { 'DemoSysProperty':
- value    => 'demovalue'
+ value => 'demovalue'
 }
 ```
 
-## Modcluster (Only for full and HA profiles)
+## Modcluster
+
+*`full` and `ha` profiles only
 
 ```puppet
 wildfly::modcluster::config { "Modcluster mybalancer":
-  balancer => 'mybalancer',
+  balancer             => 'mybalancer',
   load_balancing_group => 'demolb',
-  proxy_url => '/',
-  proxy_list => '127.0.0.1:6666'
+  proxy_url            => '/',
+  proxy_list           => '127.0.0.1:6666'
 }
 ```
+
+> **NOTE:** For apache/httpd mod_cluster configuration check: https://github.com/puppetlabs/puppetlabs-apache#class-apachemodcluster
 
 ##Reference
 
@@ -592,7 +575,11 @@ Sets Java's `-Xms` parameter. Default `128m`.
 
 ##### `java_maxpermsize`
 
-Sets Java's `-MaxPermSize` parameter. Default `256m`.
+Sets Java's `-XX:MaxPermSize` parameter. Default `256m`.
+
+##### `java_opts`
+
+Sets `JAVA_OPTS`, allowing to override several Java params, like `Xmx`, `Xms` and `MaxPermSize`, e.g. `-Xms64m -Xmx512m -XX:MaxPermSize=256m`. Default `undef`.
 
 ##### `users_mgmt`
 
@@ -627,6 +614,10 @@ Manages a Wildfly configuration resource: e.g `/subsystem=datasources/data-sourc
 
 Executes an arbitrary JBoss-CLI command. This define is a wrapper for `wildfly_cli` that defaults to your local Wildfly installation.
 
+#### Defined type: `wildfly::util::reload`
+
+Performs a system reload when a reload is required `server-state=reload-required`. This define is a wrapper for `wildfly_reload` that defaults to your local Wildfly installation.
+
 #### Defined type: `wildfly::deployment`
 
 Manages a deployment (JAR, EAR, WAR) in Wildfly. This define is a wrapper for `wildfly_deployment` that defaults to your local Wildfly installation.
@@ -655,15 +646,19 @@ Manages roles for an Application User (`application-roles.properties`).
 
 ##Limitations
 
-wildfly definitions (datasources, messaging, undertow, etc) which are intended to enforce good practices, syntax sugar or serve as examples are built for Wildfly 8.x and may not work with other versions. (Check Issue #27 for more details)
+Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) are built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::util::resource`.
 
-JBoss AS7/EAP 6 support is limited due to the above limitation and to the fact that service scripts are a little different. (Don't support debian and have only one script for both standalone/domain modes).
+One discussed approach would be to generate defined types based on Wildfly's configuration schemas (`$WILDFLY_HOME/docs/schema`). 
+
+JBoss AS7/EAP 6 support is limited due to the above limitation and to the fact that init scripts are a little different. (*Don't support debian and have only one script for both standalone/domain modes*).
 
 This bug might also be a problem for standalone-full-ha users in JBoss EAP: https://bugzilla.redhat.com/show_bug.cgi?id=1224170
 
 ##Development
 
-This module uses puppet-lint, rubocop, rspec, beaker and travis-ci. Try to use them before submit your PR.
+### Testing
+
+This module uses puppet-lint, rubocop, rspec-puppet, beaker and travis-ci. We hope you use them before submitting your PR.
 
 ```shell
 gem install bundler --no-rdoc --no-ri
@@ -680,37 +675,14 @@ BEAKER_set=centos-72-x64 bundle exec rspec spec/acceptance
 BEAKER_set=debian-78-x64 bundle exec rspec spec/acceptance
 ```
 
-JBoss/Wildfly management is based on three custom types and you can do virtually any JBoss/Wildfly configuration using them. So, before build your awesome definition to manage a resource (anything in configurations XML's) or deploy an artifact from my_internal_protocol://, check `wildfly::*` (`wildfly::deployment`, `wildfly::datasources::*`, `wildfly::undertow::*`, `wildfly::messaging::*`) for guidance
+### New features
 
+JBoss/Wildfly configuration management is based on three custom types, `wildfly_resource`, `wildfly_cli` and `wildfly_deployment`. And you can do virtually any configuration that is possible through JBoss-CLI or XML configuration using them.
 
-*Examples*:
+ So, before build your awesome definition to manage a new resource or introduce a new configuration in an existing resource, check `wildfly::*` (`wildfly::deployment`, `wildfly::datasources::*`, `wildfly::undertow::*`, `wildfly::messaging::*`) for guidance.
 
-```puppet
-wildfly_cli { 'Enable ExampleDS'
-  command => '/subsystem=datasources/data-source=ExampleDS:enable',
-  unless  => '(result == true) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)'
-}
-```
+If you can't figure out how to achieve your configuration, feel free to open an issue.
 
-```puppet
-wildfly_resource { '/subsystem=datasources/data-source=ExampleDS':
-  state => {
-           'driver-name' => 'postgresql',
-           'connection-url' => 'jdbc:postgresql://localhost/example',
-           'jndi-name' => 'java:jboss/datasources/ExampleDS',
-           'user-name' => 'postgres',
-           'password' => 'postgres'
-           }
-}
-```
-
-```puppet
-wildfly_deployment { 'sample.war':
-  source => 'file:/vagrant/sample.war'
-}
-```
-
-They all require a management username, password, host and port params, as it uses Wildfly HTTP API. *Host defaults to 127.0.0.1 and port to 9990*
 
 ##Author/Contributors
 
