@@ -10,7 +10,7 @@ describe 'wildfly::service' do
       { operatingsystem: 'CentOS',
         kernel: 'Linux',
         osfamily: 'RedHat',
-        operatingsystemmajrelease: 6 }
+        operatingsystemmajrelease: '6' }
     end
 
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
@@ -30,7 +30,7 @@ describe 'wildfly::service' do
       { operatingsystem: 'CentOS',
         kernel: 'Linux',
         osfamily: 'RedHat',
-        operatingsystemmajrelease: 7 }
+        operatingsystemmajrelease: '7' }
     end
 
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
@@ -51,7 +51,7 @@ describe 'wildfly::service' do
       { operatingsystem: 'Debian',
         kernel: 'Linux',
         osfamily: 'Debian',
-        operatingsystemmajrelease: 10 }
+        operatingsystemmajrelease: '10' }
     end
 
     it { is_expected.to contain_file('/etc/default/wildfly') }

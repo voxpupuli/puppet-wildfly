@@ -16,7 +16,7 @@ gem 'puppet-syntax'
 gem 'facter', '>= 1.6.10'
 # gem 'ci_reporter_rspec'
 gem 'rubocop', :git => 'https://github.com/bbatsov/rubocop',  :require => false
-gem 'rubocop-rspec'
+gem 'rubocop-rspec', '1.5.0'
 gem 'puppet-blacksmith'
 gem 'fog', '>= 1.25.0'
 gem 'fog-google', '= 0.1.0'
