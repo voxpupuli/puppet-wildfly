@@ -44,16 +44,16 @@ module WildflyCliAssembler
   def assemble_operation(operation)
     operation.sub!('()', '')
 
-    if operation =~ /^([\w\-]+)$/
+    if operation =~ %r{^([\w\-]+)$}
       operation_name = Regexp.last_match(1)
     end
 
-    if operation =~ /([\w\-]+)\s+([\w\-]+)/
+    if operation =~ %r{([\w\-]+)\s+([\w\-]+)}
       operation_name = Regexp.last_match(1)
       attribute_name = Regexp.last_match(2)
     end
 
-    if operation =~ /([\w\-]+)\((.+)\)/
+    if operation =~ %r{([\w\-]+)\((.+)\)}
       operation_name = Regexp.last_match(1)
       params = Regexp.last_match(2)
     end

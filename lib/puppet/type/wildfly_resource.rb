@@ -10,7 +10,7 @@ Puppet::Type.newtype(:wildfly_resource) do
     desc 'JBoss Resource Path'
 
     validate do |value|
-      fail("Invalid resource path #{value}") unless value =~ %r{(\/[\w\-]+=[\w\-]+)}
+      raise("Invalid resource path #{value}") unless value =~ %r{(\/[\w\-]+=[\w\-]+)}
     end
   end
 
@@ -38,20 +38,20 @@ Puppet::Type.newtype(:wildfly_resource) do
   end
 
   newproperty(:state) do
-  
+
     desc 'Resource state'
     defaultto {}
 
     validate do |value|
       value.is_a?(Hash)
     end
-    
+
     def recursive_sort!(obj)
       case obj
       when Array
-        obj.map!{|v| recursive_sort!(v)}.sort_by{|v| (v.to_s rescue nil) }
+        obj.map! { |v| recursive_sort!(v) }.sort_by { |v| (v.to_s rescue nil) }
       when Hash
-        obj = Hash[Hash[obj.map{|k,v| [recursive_sort!(k),recursive_sort!(v)]}].sort_by{|k,v| [(k.to_s rescue nil), (v.to_s rescue nil)]}]
+        obj = Hash[Hash[obj.map { |k, v| [recursive_sort!(k), recursive_sort!(v)] }].sort_by { |k, v| [(k.to_s rescue nil), (v.to_s rescue nil)] }]
       else
         obj
       end
@@ -83,18 +83,17 @@ Puppet::Type.newtype(:wildfly_resource) do
       end
     end
 
+    def obfuscate_sensitive_data(hash)
+      transform_hash(hash, :deep => true) do |hash, key, value|
+        if key.include?('password')
+          hash[key] = '******'
+        else
+          hash[key] = value
+        end
+      end
+    end
 
-		def obfuscate_sensitive_data(hash)
-			transform_hash(hash, :deep => true) do |hash, key, value| 
-				if key.include?('password')
-				  hash[key] = '******'
-			  else
-					hash[key] = value
-				end
-			end
-		end
-
-		# Return a hash containing the keys of the left hash that are also present in the right hash
+    # Return a hash containing the keys of the left hash that are also present in the right hash
     def state_diff(is, should)
       diff = {}
       managed_keys = should.keys
@@ -111,18 +110,18 @@ Puppet::Type.newtype(:wildfly_resource) do
       end
 
       diff
-    end    
+    end
 
     def insync?(is)
       current_without_unused_keys = state_diff(is, should)
 
       debug "Should: #{stringify_values(recursive_sort!(should)).inspect} Is: #{stringify_values(recursive_sort!(current_without_unused_keys)).inspect}"
-      
+
       stringify_values(recursive_sort!(should)) == stringify_values(recursive_sort!(current_without_unused_keys))
     end
 
     def change_to_s(current_value, new_value)
-      changed_keys = (new_value.to_a - current_value.to_a).collect { |key, _|  key }
+      changed_keys = (new_value.to_a - current_value.to_a).collect { |key, _| key }
 
       current_value = obfuscate_sensitive_data(current_value).delete_if { |key, _| !changed_keys.include? key }.inspect
       new_value = obfuscate_sensitive_data(new_value).delete_if { |key, _| !changed_keys.include? key }.inspect

@@ -168,9 +168,9 @@ module PuppetX
 
       def split_resources(name, state)
         # Ruby 1.8.7 Hash doesn't have filter
-        child_hashes = state.reject { |k, v| !v.is_a?(Hash) }
+        child_hashes = state.reject { |_k, v| !v.is_a?(Hash) }
         child_resources = child_hashes.reduce([]) { |resources, (k, v)| resources.concat(v.reduce([]) { |r2, (k2, v2)| r2.concat(split_resources("#{name}/#{k}=#{k2}", v2)) }) }
-        base_state = [name, state.reject { |k, v| v.is_a?(Hash) }]
+        base_state = [name, state.reject { |_k, v| v.is_a?(Hash) }]
         [base_state].concat(child_resources)
       end
 
@@ -243,10 +243,10 @@ module PuppetX
         authz_request = Net::HTTP::Get.new @uri.request_uri
         response = @http_client.request authz_request
 
-	# work-around for intermittent auth error
-	sleep 0.1
+        # work-around for intermittent auth error
+        sleep 0.1
 
-        if response['www-authenticate'] =~ /digest/i
+        if response['www-authenticate'] =~ %r{digest}i
           digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
         else
           response['www-authenticate']
@@ -257,7 +257,7 @@ module PuppetX
         http_request = Net::HTTP::Post.new @uri.request_uri
         http_request.add_field 'Content-type', 'application/json'
         authz = authz_header
-        if authz =~ /digest/i
+        if authz =~ %r{digest}i
           http_request.add_field 'Authorization', authz
         else
           http_request.basic_auth @username, @password
@@ -269,7 +269,7 @@ module PuppetX
         response = JSON.parse(http_response.body)
 
         unless response['outcome'] == 'success' || ignore_outcome
-          fail "Failed with: #{response['failure-description']} for #{body.to_json}"
+          raise "Failed with: #{response['failure-description']} for #{body.to_json}"
         end
 
         response
