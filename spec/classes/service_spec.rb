@@ -5,7 +5,25 @@ describe 'wildfly::service' do
     'class { "wildfly": }'
   end
 
-  context 'use RedHat script' do
+  context 'use RedHat init script' do
+    let(:facts) {{ :operatingsystem           => 'CentOS' ,
+                   :kernel                    => 'Linux',
+                   :osfamily                  => 'RedHat',
+                   :operatingsystemmajrelease => 6 }}
+
+    it { should contain_file('/etc/default/wildfly.conf') }
+    it { should contain_file('/etc/init.d/wildfly') }
+    it do
+      should contain_service('wildfly').with(
+        'ensure'     => true,
+        'hasrestart' => true,
+        'hasstatus'  => true
+      ).that_requires(['File[/etc/default/wildfly.conf]', 'File[/etc/init.d/wildfly]'])
+    end
+    it { should contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
+  end
+
+  context 'use RedHat systemd script' do
     let(:facts) {{ :operatingsystem           => 'CentOS' ,
                    :kernel                    => 'Linux',
                    :osfamily                  => 'RedHat',
@@ -21,6 +39,7 @@ describe 'wildfly::service' do
       ).that_requires(['File[/etc/default/wildfly.conf]', 'File[/etc/init.d/wildfly]'])
     end
     it { should contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
+    it { should contain_file('/etc/systemd/system/wildfly.service') }
   end
 
   context 'use Debian script' do

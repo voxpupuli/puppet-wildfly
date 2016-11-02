@@ -31,6 +31,7 @@ describe 'wildfly::prepare' do
                    :operatingsystemmajrelease => 7 }}
 
     it { should contain_package('libaio') }
+    it { should contain_package('wget') }
   end
 
   context 'install dependencies for Debian' do
@@ -39,6 +40,7 @@ describe 'wildfly::prepare' do
                    :osfamily                  => 'Debian',
                    :operatingsystemmajrelease => 10 }}
     it { should contain_package('libaio1') }
+    it { should contain_package('wget') }
   end
 
 end
