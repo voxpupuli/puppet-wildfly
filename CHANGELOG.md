@@ -1,5 +1,8 @@
 # History
 
+## 0.5.7
+- Replace each_with_object (1.9.3+) with inject (1.8.7+)
+
 ## 0.5.6
 - Fix wildfly_resource when non managed properties are a hash
 

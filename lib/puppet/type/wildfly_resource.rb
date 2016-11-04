@@ -59,7 +59,7 @@ Puppet::Type.newtype(:wildfly_resource) do
 
     # Helper function to transform the hash
     def transform_hash(original, options = {}, &block)
-      original.each_with_object({}) do |(key, value), result|
+      original.inject({}) do |result, (key, value)|
         value = if options[:deep] && Hash === value
                   transform_hash(value, options, &block)
                 else
