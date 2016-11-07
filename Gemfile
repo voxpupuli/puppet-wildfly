@@ -2,10 +2,9 @@ source 'https://rubygems.org'
 
 puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['= 3.7.5']
 
-platform :ruby_19, :ruby_20 do
-  gem 'coveralls', :require => false
-  gem 'simplecov', :require => false
-end
+gem 'coveralls', :require => false
+gem 'simplecov', :require => false
+gem 'simplecov-console'
 gem 'puppet-lint'
 gem 'puppet', puppetversion
 gem 'rspec', '>= 3.2.0'

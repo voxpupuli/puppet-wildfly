@@ -1,16 +1,30 @@
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
 
-begin
-  require 'coveralls'
-  Coveralls.wear!
+require 'coveralls'
+require 'simplecov'
+require 'simplecov-console'
 
-rescue LoadError
-  puts 'No Coveralls support'
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::Console,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start do
+
+  add_group "Puppet Types", '/lib/puppet/type/'
+  add_group "Puppet Providers", '/lib/puppet/provider/'
+  add_group "Puppet Functions", 'lib/puppet/parser/functions/'
+  add_group "Puppet Extensions", 'lib/puppet_x/'
+  add_group "Facts", 'lib/facter'
+
+
+  add_filter '/spec'
+  add_filter '/lib/puppet_x/util/digest_auth.rb'
+
+  track_files 'lib/**/*.rb'
 end
 
-fixture_path = File.expand_path(File.join(__FILE__, '..', 'fixtures'))
-# include common helpers
 support_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec/support/*.rb'))
 Dir[support_path].each { |f| require f }
 
