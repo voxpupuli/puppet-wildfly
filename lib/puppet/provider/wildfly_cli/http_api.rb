@@ -1,10 +1,12 @@
-require 'puppet_x/util/wildfly_cli'
+require 'puppet_x/wildfly/api_client'
+require 'puppet_x/wildfly/operation_request'
 
 Puppet::Type.type(:wildfly_cli).provide(:http_api) do
   desc 'Uses JBoss HTTP API to execute a JBoss-CLI command'
 
   def cli
-    PuppetX::Util::WildflyCli.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+    api_client = PuppetX::Wildfly::APIClient.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
+		PuppetX::Wildfly::OperationRequest.new(api_client)
   end
 
   def exec(command)
