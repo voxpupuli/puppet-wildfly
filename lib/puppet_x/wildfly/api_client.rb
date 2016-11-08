@@ -3,6 +3,7 @@ require 'net/http'
 require 'cgi'
 require 'json'
 require 'puppet_x/util/digest_auth'
+require 'puppet_x/wildfly/cli_command'
 
 module PuppetX
   module Wildfly
@@ -34,7 +35,7 @@ module PuppetX
         end
       end
 
-      def send(body, ignore_outcome = false)
+      def send(body, ignore_outcome = false, detyped = false)
         http_request = Net::HTTP::Post.new @uri.request_uri
         http_request.add_field 'Content-type', 'application/json'
         authz = authz_header
@@ -43,7 +44,13 @@ module PuppetX
         else
           http_request.basic_auth @username, @password
         end
-        http_request.body = body.to_json
+
+        if detyped
+          http_request.body = body.to_json
+        else
+          detyped_request = CLICommand.new(body).to_detyped_request
+          http_request.body = detyped_request.to_json
+        end
 
         http_response = @http_client.request http_request
 
