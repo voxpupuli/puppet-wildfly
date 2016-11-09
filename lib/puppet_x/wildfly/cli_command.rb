@@ -68,11 +68,16 @@ module PuppetX
           end
         end
 
-        request
-      end
+        unless headers.empty?
+          request['operation-headers'] = {}
+          headers.each do |header|
+            header.each do |key, value|
+              request['operation-headers'].store(key, value)
+            end
+          end
+        end
 
-      def inspect
-        "Address: #{address} Operation: #{operation} Params: #{params} Headers: #{headers}"
+        request
       end
     end
   end
