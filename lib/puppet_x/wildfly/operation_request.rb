@@ -28,6 +28,18 @@ module PuppetX
         @api_client.send(operation.add(resource).with(state).build)
       end
 
+      def update(resource, state)
+        updates = []
+
+        state.each { |attribute, value| updates << operation.write_attribute(resource, attribute, value).build }
+
+        @api_client.send(operation.composite(*updates).build)
+      end
+
+      def remove(resource)
+        @api_client.send(operation.remove(resource).build)
+      end
+
       def deploy(name, source, server_group)
         add_content = operation.add_content(name, source).build
         deploy = operation.target(server_group).deploy(name).build
@@ -35,30 +47,26 @@ module PuppetX
         @api_client.send(operation.composite(add_content, deploy).build)
       end
 
-			def undeploy(name, server_group)
-				undeploy = operation.target(server_group).undeploy(name).build
-				remove_content = operation.remove_content(name).build
+      def undeploy(name, server_group)
+        undeploy = operation.target(server_group).undeploy(name).build
+        remove_content = operation.remove_content(name).build
 
-				@api_client.send(operation.composite(undeploy, remove_content).build)
-			end
+        @api_client.send(operation.composite(undeploy, remove_content).build)
+      end
 
-			def update_deploy(name, source, server_group)
-				undeploy = operation.target(server_group).undeploy(name).build
-				remove_content = operation.remove_content(name).build
+      def update_deploy(name, source, server_group)
+        undeploy = operation.target(server_group).undeploy(name).build
+        remove_content = operation.remove_content(name).build
 
         add_content = operation.add_content(name, source).build
         deploy = operation.target(server_group).deploy(name).build
 
-				@api_client.send(operation.composite(undeploy, remove_content, add_content, deploy).build)
-			end
-
-      def remove(resource)
-        @api_client.send(operation.remove(resource).build)
+        @api_client.send(operation.composite(undeploy, remove_content, add_content, deploy).build)
       end
 
-			def operation
-				OperationBuilder.new	
-			end
+      def operation
+        OperationBuilder.new
+      end
     end
   end
 end

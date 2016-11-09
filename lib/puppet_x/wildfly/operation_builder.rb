@@ -9,12 +9,12 @@ module PuppetX
         }
       end
 
-			def target(name)
-				unless name.nil?
-					@detyped_request[:address] << {'server-group' => name}
-				end
-				self
-			end
+      def target(name)
+        unless name.nil?
+          @detyped_request[:address] << { 'server-group' => name }
+        end
+        self
+      end
 
       def add(name)
         @detyped_request[:operation] = :add
@@ -25,6 +25,14 @@ module PuppetX
       def read(name)
         @detyped_request[:operation] = 'read-resource'
         @detyped_request[:address] = path_to_address(name)
+        self
+      end
+
+      def write_attribute(path, attribute, value)
+        @detyped_request[:operation] = 'write-attribute'
+        @detyped_request[:address] = path_to_address(path)
+        @detyped_request[:name] = attribute
+        @detyped_request[:value] = value
         self
       end
 
