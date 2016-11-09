@@ -9,6 +9,13 @@ module PuppetX
         }
       end
 
+			def target(name)
+				unless name.nil?
+					@detyped_request[:address] << {'server-group' => name}
+				end
+				self
+			end
+
       def add(name)
         @detyped_request[:operation] = :add
         @detyped_request[:address] = path_to_address(name)
@@ -27,6 +34,12 @@ module PuppetX
         self
       end
 
+      def remove_content(name)
+        @detyped_request[:operation] = :remove
+        @detyped_request[:address] << { :deployment => name }
+        self
+      end
+
       def add_content(name, source)
         @detyped_request[:operation] = :add
         @detyped_request[:content] = [:url => source]
@@ -36,6 +49,12 @@ module PuppetX
 
       def deploy(name)
         @detyped_request[:operation] = :deploy
+        @detyped_request[:address] << { :deployment => name }
+        self
+      end
+
+      def undeploy(name)
+        @detyped_request[:operation] = :undeploy
         @detyped_request[:address] << { :deployment => name }
         self
       end
@@ -52,7 +71,7 @@ module PuppetX
       end
 
       def path_to_address(path)
-				# change grammar to avoid :dummy
+        # change grammar to avoid :dummy
         CLICommand.new("#{path}:dummy").address
       end
 
