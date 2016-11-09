@@ -34,7 +34,7 @@ module PuppetX
         end
       end
 
-      def send(body, ignore_outcome = false) 
+      def send(body, ignore_outcome = false)
         http_request = Net::HTTP::Post.new @uri.request_uri
         http_request.add_field 'Content-type', 'application/json'
         authz = authz_header
@@ -44,7 +44,7 @@ module PuppetX
           http_request.basic_auth @username, @password
         end
 
-				http_request.body = body.to_json
+        http_request.body = body.to_json
 
         http_response = @http_client.request http_request
 
