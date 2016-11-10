@@ -31,7 +31,11 @@ module PuppetX
       def update(resource, state)
         updates = []
 
-        state.each { |attribute, value| updates << operation.write_attribute(resource, attribute, value).build }
+        current_state = read(resource)
+
+        to_update = state.delete_if { |key, value| value == current_state[key] }
+
+        to_update.each { |attribute, value| updates << operation.write_attribute(resource, attribute, value).build }
 
         @api_client.send(operation.composite(*updates).build)
       end
