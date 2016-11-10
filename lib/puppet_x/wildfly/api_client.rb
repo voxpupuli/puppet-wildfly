@@ -2,7 +2,7 @@ require 'uri'
 require 'net/http'
 require 'cgi'
 require 'json'
-require 'puppet_x/util/digest_auth'
+require 'puppet_x/external/digest_auth'
 
 module PuppetX
   module Wildfly
@@ -45,9 +45,7 @@ module PuppetX
         end
 
         http_request.body = body.to_json
-
         http_response = @http_client.request http_request
-
         response = JSON.parse(http_response.body)
 
         unless response['outcome'] == 'success' || ignore_outcome
