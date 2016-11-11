@@ -17,7 +17,7 @@ define wildfly::web::ssl(
     'ca-certificate-file' => $ca_certificate_file,
   }
 
-  wildfly::util::resource { "/subsystem=web/connector=${connector}/ssl=configuration":
+  wildfly::resource { "/subsystem=web/connector=${connector}/ssl=configuration":
     content => $params
   }
 

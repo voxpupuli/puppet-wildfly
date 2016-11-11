@@ -13,7 +13,7 @@ define wildfly::messaging::queue(
     'selector' => $selector
   }
 
-  wildfly::util::resource { "/subsystem=messaging/hornetq-server=default/jms-queue=${name}":
+  wildfly::resource { "/subsystem=messaging/hornetq-server=default/jms-queue=${name}":
     content => $params,
     profile => $target_profile,
   }

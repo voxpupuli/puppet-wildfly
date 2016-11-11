@@ -30,11 +30,11 @@ define wildfly::undertow::https(
     }
   }
 
-  wildfly::util::resource { '/core-service=management/security-realm=TLSRealm':
+  wildfly::resource { '/core-service=management/security-realm=TLSRealm':
     content => {},
   }
   ->
-  wildfly::util::resource { '/core-service=management/security-realm=TLSRealm/server-identity=ssl':
+  wildfly::resource { '/core-service=management/security-realm=TLSRealm/server-identity=ssl':
     content => {
       'keystore-path'        => $keystore_path,
       'keystore-relative-to' => $keystore_relative_to,
@@ -44,7 +44,7 @@ define wildfly::undertow::https(
     },
   }
   ->
-  wildfly::util::resource { "/subsystem=undertow/server=default-server/https-listener=${name}":
+  wildfly::resource { "/subsystem=undertow/server=default-server/https-listener=${name}":
     content => $listener_content,
     profile => $target_profile,
   }

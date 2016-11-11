@@ -1,7 +1,7 @@
 #
 # Executes a JBoss-CLI command
 #
-define wildfly::util::exec_cli(
+define wildfly::cli(
   $command = $name,
   $unless = undef,
   $onlyif = undef) {

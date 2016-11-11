@@ -1,7 +1,7 @@
 #
 # Uses wildfly_resource to ensure configuration state
 #
-define wildfly::util::resource(
+define wildfly::resource(
   $ensure = 'present',
   $recursive = false,
   $content = undef,
