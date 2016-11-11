@@ -14,7 +14,7 @@ define wildfly::web::connector(
     'secure' => $secure
   }
 
-  wildfly::util::resource { "/subsystem=web/connector=${name}":
+  wildfly::resource { "/subsystem=web/connector=${name}":
     content => $params
   }
 

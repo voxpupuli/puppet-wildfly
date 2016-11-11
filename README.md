@@ -379,7 +379,7 @@ widlfly::util::reload { 'Reload if necessary':
 Or
 
 ```puppet
-wildfly::util::exec_cli { 'Reload if necessary':
+wildfly::cli { 'Reload if necessary':
   command => 'reload',
   onlyif  => '(result == reload-required) of read-attribute server-state'
 }
@@ -444,8 +444,8 @@ wildfly::modcluster::config { "Modcluster mybalancer":
     - [Class: wildfly::setup](#class-wildflysetup)
     - [Class: wildfly::service](#class-wildflyservice)
 - [**Public defined types**](#public-defined-types)
-    - [Defined type: wildfly::util::resource](#defined-type-wildflyutilresource)
-    - [Defined type: wildfly::util::exec_cli](#defined-type-wildflyutilexec_cli)
+    - [Defined type: wildfly::resource](#defined-type-wildflyresource)
+    - [Defined type: wildfly::cli](#defined-type-wildflyexec_cli)
     - [Defined type: wildfly::deployment](#defined-type-wildflydeployment)
     - [Defined type: wildfly::config::module](#defined-type-wildflyconfigmodule)
     - [Defined type: wildfly::config::app_user](#defined-type-wildflyconfigapp_user)
@@ -606,15 +606,15 @@ Manages Wildfly service.
 
 ### Public defined types
 
-#### Defined type: `wildfly::util::resource`
+#### Defined type: `wildfly::resource`
 
 Manages a Wildfly configuration resource: e.g `/subsystem=datasources/data-source=MyDS or /subsystem=datasources/jdbc-driver=postgresql`. Virtually anything in your configuration XML file that can be manipulated using JBoss-CLI could be managed by this defined type. This define is a wrapper for `wildfly_resource` that defaults to your local Wildfly installation.
 
-#### Defined type: `wildfly::util::exec_cli`
+#### Defined type: `wildfly::cli`
 
 Executes an arbitrary JBoss-CLI command. This define is a wrapper for `wildfly_cli` that defaults to your local Wildfly installation.
 
-#### Defined type: `wildfly::util::reload`
+#### Defined type: `wildfly::reload`
 
 Performs a system reload when a reload is required `server-state=reload-required`. This define is a wrapper for `wildfly_reload` that defaults to your local Wildfly installation.
 
@@ -646,7 +646,7 @@ Manages roles for an Application User (`application-roles.properties`).
 
 ##Limitations
 
-Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) are built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::util::resource`.
+Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) are built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::resource`.
 
 One discussed approach would be to generate defined types based on Wildfly's configuration schemas (`$WILDFLY_HOME/docs/schema`). 
 

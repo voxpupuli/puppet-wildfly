@@ -10,7 +10,7 @@ define wildfly::datasources::db_property(
     'value' => $value,
   }
 
-  wildfly::util::resource { "/subsystem=datasources/data-source=${database}/connection-properties=${name}":
+  wildfly::resource { "/subsystem=datasources/data-source=${database}/connection-properties=${name}":
     content => $params,
     profile => $target_profile,
   }

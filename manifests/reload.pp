@@ -1,4 +1,4 @@
-define wildfly::util::reload(
+define wildfly::reload(
   $retries = 3,
   $wait = 10) {
 

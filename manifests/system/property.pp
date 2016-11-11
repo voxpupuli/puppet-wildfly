@@ -9,7 +9,7 @@ define wildfly::system::property(
     'value' => $value,
   }
 
-  wildfly::util::resource { "/system-property=${name}":
+  wildfly::resource { "/system-property=${name}":
     content => $params,
     profile => $target_profile,
   }

@@ -9,7 +9,7 @@ define wildfly::messaging::topic(
     'entries' => $entries
   }
 
-  wildfly::util::resource { "/subsystem=messaging/hornetq-server=default/jms-topic=${name}":
+  wildfly::resource { "/subsystem=messaging/hornetq-server=default/jms-topic=${name}":
     content => $params,
     profile => $target_profile,
   }

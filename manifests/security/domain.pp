@@ -24,13 +24,13 @@ define wildfly::security::domain(
   $login_modules = {}
 ) {
 
-  wildfly::util::resource { "/subsystem=security/security-domain=${domain_name}":
+  wildfly::resource { "/subsystem=security/security-domain=${domain_name}":
     content => {
       'cache-type' => 'default',
     },
   } ->
 
-  wildfly::util::resource { "/subsystem=security/security-domain=${domain_name}/authentication=classic":
+  wildfly::resource { "/subsystem=security/security-domain=${domain_name}/authentication=classic":
     content => {},
   }
 

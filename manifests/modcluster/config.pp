@@ -26,17 +26,17 @@ define wildfly::modcluster::config(
     'sticky-session' => $sticky_session,
   }
 
-  wildfly::util::resource { '/subsystem=modcluster/mod-cluster-config=configuration':
+  wildfly::resource { '/subsystem=modcluster/mod-cluster-config=configuration':
     content => $config,
     profile => $target_profile,
   }
   ->
-  wildfly::util::resource { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
+  wildfly::resource { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
     content => {},
     profile => $target_profile,
   }
   ->
-  wildfly::util::resource { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
+  wildfly::resource { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
     content => {
       'type' => $type
     },
