@@ -28,64 +28,14 @@ module PuppetX
         @api_client.send(operation.add(resource).with(state).build)
       end
 
-      def add_recursive(resource, state)
-        sub_resources, top_level_state = state.partition(&with_nested_hash)
-        operations = []
-        operations << operation.add(resource).for(top_level_state).build
-
-        sub_resources.each { |sub_resource| operations << operation.add_child(sub_resource, resource).build }
-
-        @api_client.send(operation.composite(*operations).build)
-      end
-
-      def with_nested_hash
-        lambda { |_, value| value.is_a?(Hash) && !value.keys.empty? && value[value.keys.first].is_a?(Hash) }
-      end
-
       def update(resource, state)
         current_state = read(resource)
         @api_client.send(operation.composite(*diff(current_state, state, resource)).build)
       end
 
-      def update_recursive(resource, state)
-        current_state = read(resource, true)
-
-        sub_resources = Hash[state.select(&with_nested_hash)]
-        top_level_state = state.reject(&with_nested_hash)
-
-        current_sub_resources = Hash[current_state.select(&with_nested_hash)]
-        current_top_level_state = current_state.reject(&with_nested_hash)
-
-        updates = []
-
-        updates.push(*diff(current_top_level_state, top_level_state, resource))
-        updates.push(*nested_level_diff(current_sub_resources, sub_resources, resource))
-
-        @api_client.send(operation.composite(*updates).build)
-      end
-
       def diff(current_state, desired_state, resource)
-        updates = []
         to_update = desired_state.reject { |key, value| value == current_state[key] }
-        to_update.each { |attribute, value| updates << operation.write_attribute(resource, attribute, value).build }
-        updates
-      end
-
-      def nested_level_diff(current_sub_resources, desired_sub_resources, resource)
-        updates = []
-
-        desired_sub_resources.each do |key, value|
-          node_type = key
-          node_name = value.keys.first
-
-          current_state = current_sub_resources[node_type][node_name]
-          desired_state = value[node_name]
-          resource_name = "#{resource}/#{node_type}=#{node_name}"
-
-          updates.push(*diff(current_state, desired_state, resource_name))
-        end
-
-        updates
+        to_update.map { |attribute, value| operation.write_attribute(resource, attribute, value).build }
       end
 
       def remove(resource)
@@ -93,27 +43,27 @@ module PuppetX
       end
 
       def deploy(name, source, server_group)
-        add_content = operation.add_content(name, source).build
-        deploy = operation.target(server_group).deploy(name).build
+        @api_client.send(operation.composite(*deploy_operations(name, source, server_group)).build)
+      end
 
-        @api_client.send(operation.composite(add_content, deploy).build)
+      def deploy_operations(name, source, server_group)
+        [operation.add_content(name, source).build, operation.target(server_group).deploy(name).build]
       end
 
       def undeploy(name, server_group)
-        undeploy = operation.target(server_group).undeploy(name).build
-        remove_content = operation.remove_content(name).build
+        @api_client.send(operation.composite(*undeploy_operations(name, server_group)).build)
+      end
 
-        @api_client.send(operation.composite(undeploy, remove_content).build)
+      def undeploy_operations(name, server_group)
+        [operation.target(server_group).undeploy(name).build, operation.remove_content(name).build]
       end
 
       def update_deploy(name, source, server_group)
-        undeploy = operation.target(server_group).undeploy(name).build
-        remove_content = operation.remove_content(name).build
+        @api_client.send(operation.composite(*update_deploy_operations(name, source, server_group)).build)
+      end
 
-        add_content = operation.add_content(name, source).build
-        deploy = operation.target(server_group).deploy(name).build
-
-        @api_client.send(operation.composite(undeploy, remove_content, add_content, deploy).build)
+      def update_deploy_operations(name, source, server_group)
+        undeploy_operations(name, server_group).push(*deploy_operations(name, source, server_group))
       end
 
       def operation

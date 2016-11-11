@@ -22,19 +22,6 @@ module PuppetX
         self
       end
 
-      def add_child(child, parent)
-        @detyped_request[:operation] = :add
-
-        child = Hash[*child.flatten]
-
-        node_type = child.keys.first
-        node_name = child[node_type].keys.first
-
-        @detyped_request[:address] = path_to_address("#{parent}/#{node_type}=#{node_name}")
-        with(child[node_type][node_name])
-        self
-      end
-
       def read(name)
         @detyped_request[:operation] = 'read-resource'
         @detyped_request[:address] = path_to_address(name)
@@ -89,10 +76,6 @@ module PuppetX
       def with(state)
         @detyped_request.merge!(state)
         self
-      end
-
-      def for(state)
-        with(Hash[*state.flatten])
       end
 
       def path_to_address(path)
