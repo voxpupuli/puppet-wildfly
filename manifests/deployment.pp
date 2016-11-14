@@ -5,7 +5,8 @@ define wildfly::deployment(
   $source,
   $ensure            = present,
   $timeout           = undef,
-  $server_group      = undef) {
+  $server_group      = undef,
+  $operation_headers = {}) {
 
   require wildfly::install
 
@@ -40,15 +41,16 @@ define wildfly::deployment(
   }
 
   wildfly_deployment { $name:
-    ensure       => $ensure,
-    server_group => $server_group,
-    username     => $users_mgmt[0],
-    password     => $passwords_mgmt[0]['password'],
-    host         => $::wildfly::mgmt_bind,
-    port         => $::wildfly::mgmt_http_port,
-    timeout      => $timeout,
-    source       => "file:${local_source}",
-    require      => File[$local_source]
+    ensure            => $ensure,
+    server_group      => $server_group,
+    username          => $users_mgmt[0],
+    password          => $passwords_mgmt[0]['password'],
+    host              => $::wildfly::mgmt_bind,
+    port              => $::wildfly::mgmt_http_port,
+    timeout           => $timeout,
+    source            => "file:${local_source}",
+    operation_headers => $operation_headers,
+    require           => File[$local_source]
   }
 
 }

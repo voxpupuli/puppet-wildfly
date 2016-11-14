@@ -12,12 +12,12 @@ Puppet::Type.type(:wildfly_deployment).provide(:http_api) do
 
   def create
     debug "Deploying #{@resource[:name]} from source #{@resource[:source]}"
-    cli.deploy(@resource[:name], @resource[:source], @resource[:server_group])
+    cli.deploy(@resource[:name], @resource[:source], @resource[:server_group], @resource[:operation_headers])
   end
 
   def destroy
     debug "Undeploying #{@resource[:name]}"
-    cli.undeploy(@resource[:name], @resource[:server_group])
+    cli.undeploy(@resource[:name], @resource[:server_group], @resource[:operation_headers])
   end
 
   def exists?
@@ -39,7 +39,7 @@ Puppet::Type.type(:wildfly_deployment).provide(:http_api) do
 
   def content=(value)
     debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
-    cli.update_deploy(@resource[:name], @resource[:source], @resource[:server_group])
+    cli.update_deploy(@resource[:name], @resource[:source], @resource[:server_group], @resource[:operation_headers])
   end
 
   private

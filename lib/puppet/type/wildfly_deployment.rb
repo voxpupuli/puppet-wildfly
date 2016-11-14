@@ -47,6 +47,15 @@ Puppet::Type.newtype(:wildfly_deployment) do
     end
   end
 
+  newparam(:operation_headers) do
+    desc 'Operation headers.'
+    defaultto {}
+
+    validate do |value|
+      value.is_a?(Hash)
+    end
+  end
+
   newproperty(:content) do
     desc 'SHA1 of deployed content'
     defaultto ''
