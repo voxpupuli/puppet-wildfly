@@ -9,13 +9,13 @@ module PuppetX
         @api_client = api_client
       end
 
-      def exec(command)
+      def exec(command, ignore_failed_outcome = false)
         detyped_request = CLICommand.new(command).to_detyped_request
-        @api_client.send(detyped_request)
+        @api_client.send(detyped_request, ignore_failed_outcome)
       end
 
       def exists?(resource)
-        response = @api_client.send(operation.read(resource).build, true)
+        response = @api_client.send(operation.read(resource).build, :ignore_failed_outcome => true)
         response['outcome'] == 'success'
       end
 

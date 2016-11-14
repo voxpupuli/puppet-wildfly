@@ -32,9 +32,10 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
   def evaluate_command(command)
     condition, command = command.split(%r{\sof\s})
     variable, operator, value = condition.sub('(', '').sub(')', '').split(%r{\s})
-    response = cli.exec(command)
 
     debug "Executing: #{command} to verify: (#{condition})"
+
+    response = cli.exec(command, :ignore_failed_outcome => true)
 
     if operator == 'has'
       condition = "#{response[variable].inspect}.include?(#{value})"

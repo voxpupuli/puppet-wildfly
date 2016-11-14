@@ -34,7 +34,7 @@ module PuppetX
         end
       end
 
-      def send(body, ignore_outcome = false)
+      def send(body, ignore_failed_outcome = false)
         http_request = Net::HTTP::Post.new @uri.request_uri
         http_request.add_field 'Content-type', 'application/json'
         authz = authz_header
@@ -48,7 +48,7 @@ module PuppetX
         http_response = @http_client.request http_request
         response = JSON.parse(http_response.body)
 
-        unless response['outcome'] == 'success' || ignore_outcome
+        unless response['outcome'] == 'success' || ignore_failed_outcome
           raise "Failed with: #{response['failure-description']} for #{body.to_json}"
         end
 
