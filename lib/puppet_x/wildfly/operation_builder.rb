@@ -73,6 +73,11 @@ module PuppetX
         self
       end
 
+      def headers(headers)
+        @detyped_request['operation-headers'] = headers
+        self
+      end
+
       def with(state)
         @detyped_request.merge!(state)
         self
