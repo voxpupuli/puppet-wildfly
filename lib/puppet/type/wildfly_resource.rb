@@ -37,8 +37,16 @@ Puppet::Type.newtype(:wildfly_resource) do
     defaultto false
   end
 
-  newproperty(:state) do
+  newparam(:operation_headers) do
+    desc 'Operation headers.'
+    defaultto {}
 
+    validate do |value|
+      value.is_a?(Hash)
+    end
+  end
+
+  newproperty(:state) do
     desc 'Resource state'
     defaultto {}
 

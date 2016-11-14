@@ -24,13 +24,13 @@ module PuppetX
         response['outcome'] == 'success' ? response['result'] : {}
       end
 
-      def add(resource, state)
-        @api_client.send(operation.add(resource).with(state).build)
+      def add(resource, state, recursive, headers)
+        @api_client.send(operation.add(resource).with(state).headers(headers).build)
       end
 
-      def update(resource, state)
+      def update(resource, state, recursive, headers)
         current_state = read(resource)
-        @api_client.send(operation.composite(*diff(current_state, state, resource)).build)
+        @api_client.send(operation.composite(*diff(current_state, state, resource).headers(headers)).build)
       end
 
       def diff(current_state, desired_state, resource)
@@ -38,8 +38,8 @@ module PuppetX
         to_update.map { |attribute, value| operation.write_attribute(resource, attribute, value).build }
       end
 
-      def remove(resource)
-        @api_client.send(operation.remove(resource).build)
+      def remove(resource, headers)
+        @api_client.send(operation.remove(resource).headers(headers).build)
       end
 
       def deploy(name, source, server_group)
