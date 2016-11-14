@@ -2,7 +2,7 @@ require 'uri'
 require 'net/http'
 require 'cgi'
 require 'json'
-require 'puppet_x/external/digest_auth'
+require 'net/http/digest_auth'
 
 module PuppetX
   module Wildfly
