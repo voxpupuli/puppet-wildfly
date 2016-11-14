@@ -72,6 +72,10 @@ Puppet::Type.newtype(:wildfly_deployment) do
         return Digest::SHA1.hexdigest(File.read(source_path))
       end
     end
+
+    def change_to_s(current_value, new_value)
+      super(current_value, sha1sum?(@resource[:source]))
+    end
   end
 
   autorequire(:service) do
