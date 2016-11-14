@@ -20,7 +20,6 @@ SimpleCov.start do
 
 
   add_filter '/spec'
-  add_filter '/lib/puppet_x/external'
 
   track_files 'lib/**/*.rb'
 end
