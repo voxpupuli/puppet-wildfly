@@ -42,24 +42,24 @@ module PuppetX
         @api_client.send(operation.remove(resource).headers(headers).build)
       end
 
-      def deploy(name, source, server_group)
-        @api_client.send(operation.composite(*deploy_operations(name, source, server_group)).build)
+      def deploy(name, source, server_group, headers)
+        @api_client.send(operation.composite(*deploy_operations(name, source, server_group)).headers(headers).build)
       end
 
       def deploy_operations(name, source, server_group)
         [operation.add_content(name, source).build, operation.target(server_group).deploy(name).build]
       end
 
-      def undeploy(name, server_group)
-        @api_client.send(operation.composite(*undeploy_operations(name, server_group)).build)
+      def undeploy(name, server_group, headers)
+        @api_client.send(operation.composite(*undeploy_operations(name, server_group)).headers(headers).build)
       end
 
       def undeploy_operations(name, server_group)
         [operation.target(server_group).undeploy(name).build, operation.remove_content(name).build]
       end
 
-      def update_deploy(name, source, server_group)
-        @api_client.send(operation.composite(*update_deploy_operations(name, source, server_group)).build)
+      def update_deploy(name, source, server_group, headers)
+        @api_client.send(operation.composite(*update_deploy_operations(name, source, server_group)).headers(headers).build)
       end
 
       def update_deploy_operations(name, source, server_group)
