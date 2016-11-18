@@ -20,7 +20,7 @@ describe 'wildfly::service' do
         'ensure'     => true,
         'hasrestart' => true,
         'hasstatus'  => true
-      ).that_requires(['File[/etc/default/wildfly.conf]', 'File[/etc/init.d/wildfly]'])
+      )
     end
     it { is_expected.to contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
   end
@@ -40,7 +40,7 @@ describe 'wildfly::service' do
         'ensure'     => true,
         'hasrestart' => true,
         'hasstatus'  => true
-      ).that_requires(['File[/etc/default/wildfly.conf]', 'File[/etc/init.d/wildfly]'])
+      )
     end
     it { is_expected.to contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
     it { is_expected.to contain_file('/etc/systemd/system/wildfly.service') }
@@ -62,7 +62,7 @@ describe 'wildfly::service' do
         'enable'     => true,
         'hasrestart' => true,
         'hasstatus'  => true
-      ).that_requires(['File[/etc/default/wildfly]', 'File[/etc/init.d/wildfly]'])
+      )
     end
 
     it { is_expected.to contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-debian.sh') }

@@ -3,6 +3,7 @@
 #
 class wildfly(
   $version                      = '9.0.2',
+  $distribution                 = 'wildfly',
   $install_source               = 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
   $install_cache_dir            = $wildfly::params::install_cache_dir,
   $install_download_timeout     = $wildfly::params::install_download_timeout,
@@ -32,10 +33,12 @@ class wildfly(
   $public_https_port            = $wildfly::params::public_https_port,
   $ajp_port                     = $wildfly::params::ajp_port,
   $users_mgmt                   = $wildfly::params::users_mgmt,
+  $init_system                  = $wildfly::params::init_system,
   $conf_file                    = $wildfly::params::conf_file,
   $package_ensure               = $wildfly::params::package_ensure,
   $conf_template                = $wildfly::params::conf_template,
   $service_file                 = $wildfly::params::service_file,
+  $systemd_template             = $wildfly::params::systemd_template,
   $service_name                 = $wildfly::params::service_name,
   $service_ensure               = $wildfly::params::service_ensure,
   $service_enable               = $wildfly::params::service_enable,
