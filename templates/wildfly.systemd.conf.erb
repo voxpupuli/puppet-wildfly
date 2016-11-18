@@ -1,0 +1,11 @@
+# The configuration you want to run
+WILDFLY_CONFIG="<%= scope.lookupvar('wildfly::config') %>"
+
+# The mode you want to run
+WILDFLY_MODE="<%= scope.lookupvar('wildfly::mode') %>"
+
+# The address to bind to
+WILDFLY_BIND="<%= scope.lookupvar('wildfly::public_bind') %>"
+
+# Location of JDK
+JAVA_HOME="<%= scope.lookupvar('wildfly::java_home') %>"

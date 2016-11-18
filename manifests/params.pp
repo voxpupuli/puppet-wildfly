@@ -10,22 +10,17 @@ class wildfly::params {
   $user           = 'wildfly'
   $dirname        = '/opt/wildfly'
   $package_ensure = 'present'
-  $service_name   = 'wildfly'
+  $service_name   = undef
   $service_ensure = true
   $service_enable = true
 
-  $service_file  = $::osfamily? {
-    'Debian' => 'wildfly-init-debian.sh',
-    'RedHat' => 'wildfly-init-redhat.sh',
-    default  => 'wildfly-init-redhat.sh',
-  }
+  $init_system       = 'systemd'
 
-  $conf_file = $::osfamily? {
-    'RedHat' => "/etc/default/${service_name}.conf",
-    'Debian' => "/etc/default/${service_name}",
-    default => "/etc/default/${service_name}.conf",
-  }
-  $conf_template     = "wildfly/${service_name}.conf.erb"
+  $service_file      = undef
+  $systemd_template  = undef
+  $custom_init       = undef
+  $conf_file         = undef
+  $conf_template     = undef
 
   $java_home         = '/usr/java/default/'
 
@@ -60,7 +55,6 @@ class wildfly::params {
   }
 
   $domain_slave = {}
-  $custom_init  = undef
   $install_cache_dir = '/var/cache/wget'
   $domain_controller_only = false
   $remote_debug      = false

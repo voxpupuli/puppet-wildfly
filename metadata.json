@@ -3,7 +3,11 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">=3.2.0"
+      "version_requirement": ">=4.13.1"
+    },
+    {
+      "name": "jethrocarr/initfact",
+      "version_requirement": ">=1.0.1"
     }
   ],
   "license": "Apache-2.0",
@@ -11,7 +15,7 @@
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "JBoss Wildfly puppet module",
-  "version": "0.5.8",
+  "version": "1.0.0",
   "tags": [
     "jboss",
     "EAP",
