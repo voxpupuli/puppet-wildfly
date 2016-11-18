@@ -20,7 +20,7 @@ JBOSS_MODE="<%= scope.lookupvar('wildfly::mode') %>"
 
 # Configuration for standalone mode
 #
-JBOSS_CONFIG="<%= scope.lookupvar('wildfly::config') %>"
+JBOSS_CONFIG="<%= scope.lookupvar('wildfly::config') %> -P <%= scope.lookupvar('wildfly::dirname') %>/jboss.properties"
 
 # Configuration for domain mode
 #
@@ -41,4 +41,4 @@ JBOSS_CONSOLE_LOG="<%= scope.lookupvar('wildfly::console_log') %>"
 
 # Startup script options
 #
-JBOSS_OPTS="-Djboss.bind.address=<%= scope.lookupvar('wildfly::public_bind') %> -Djboss.bind.address.management=<%= scope.lookupvar('wildfly::mgmt_bind') %> -Djboss.management.http.port=<%= scope.lookupvar('wildfly::mgmt_http_port') %> -Djboss.management.https.port=<%= scope.lookupvar('wildfly::mgmt_https_port') %> -Djboss.http.port=<%= scope.lookupvar('wildfly::public_http_port') %> -Djboss.https.port=<%= scope.lookupvar('wildfly::public_https_port') %> -Djboss.ajp.port=<%= scope.lookupvar('wildfly::ajp_port') %>"
+JBOSS_OPTS="<%= scope.lookupvar('wildfly::jboss_opts') %>"

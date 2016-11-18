@@ -10,53 +10,48 @@ class wildfly::params {
   $user           = 'wildfly'
   $dirname        = '/opt/wildfly'
   $package_ensure = 'present'
-  $service_name   = undef
-  $service_ensure = true
-  $service_enable = true
 
-  $init_system       = 'systemd'
-
+  $service_ensure    = true
+  $service_enable    = true
+  $conf_file         = undef
   $service_file      = undef
+  $service_name      = undef
+  $conf_template     = undef
   $systemd_template  = undef
   $custom_init       = undef
-  $conf_file         = undef
-  $conf_template     = undef
-
+  $init_system       = 'systemd'
   $java_home         = '/usr/java/default/'
-
   $mode              = 'standalone'
-  $mode_template     = "wildfly/${mode}.conf.erb"
   $config            = 'standalone.xml'
   $domain_config     = 'domain.xml'
   $host_config       = 'host.xml'
-
-  $config_file_path  = "${dirname}/${mode}/configuration/${config}"
   $console_log       = '/var/log/wildfly/console.log'
 
-  $mgmt_bind         = '0.0.0.0'
-  $mgmt_http_port    = '9990'
-  $mgmt_https_port   = '9993'
+  $mode_template     = "wildfly/${mode}.conf.erb"
 
-  $public_bind       = '0.0.0.0'
-  $public_http_port  = '8080'
-  $public_https_port = '8443'
-
-  $ajp_port          = '8009'
+  $properties = {
+    'jboss.bind.address' => '0.0.0.0',
+    'jboss.bind.address.management' => '127.0.0.1',
+    'jboss.management.http.port' => '9990',
+    'jboss.management.https.port' => '9993',
+    'jboss.http.port' => '8080',
+    'jboss.https.port' => '8443',
+    'jboss.ajp.port' => '8009',
+  }
 
   $java_xmx          = '512m'
   $java_xms          = '128m'
   $java_maxpermsize  = '256m'
   $java_opts         = ''
+  $jboss_opts        = ''
 
   $mgmt_user = { username => 'puppet', password => fqdn_rand_string(30) }
 
-  $domain_slave = {}
   $install_cache_dir = '/var/cache/wget'
-  $domain_controller_only = false
+  $install_download_timeout = 500
   $remote_debug      = false
   $remote_debug_port = '8787'
   $startup_wait      = '30'
   $shutdown_wait     = '30'
 
-  $install_download_timeout = 500
 }

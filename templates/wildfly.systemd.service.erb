@@ -5,7 +5,7 @@ Before=httpd.service
 
 [Service]
 Environment=LAUNCH_JBOSS_IN_BACKGROUND=1
-EnvironmentFile=-/etc/wildfly/wildfly.conf
+EnvironmentFile=/etc/wildfly/wildfly.conf
 User=<%= scope.lookupvar('wildfly::user') %>
 LimitNOFILE=102642
 PIDFile=/var/run/wildfly/wildfly.pid
