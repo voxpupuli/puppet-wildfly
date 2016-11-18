@@ -10,9 +10,6 @@ define wildfly::deployment(
 
   require wildfly::install
 
-  $users_mgmt = keys($::wildfly::users_mgmt)
-  $passwords_mgmt = values($::wildfly::users_mgmt)
-
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
   $local_source = "/tmp/${file_name}"
 
@@ -43,8 +40,8 @@ define wildfly::deployment(
   wildfly_deployment { $name:
     ensure            => $ensure,
     server_group      => $server_group,
-    username          => $users_mgmt[0],
-    password          => $passwords_mgmt[0]['password'],
+    username          => $wildfly::mgmt_user['username'],
+    password          => $wildfly::mgmt_user['password'],
     host              => $::wildfly::mgmt_bind,
     port              => $::wildfly::mgmt_http_port,
     timeout           => $timeout,

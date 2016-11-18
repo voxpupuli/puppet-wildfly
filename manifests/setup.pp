@@ -3,7 +3,9 @@
 #
 class wildfly::setup {
 
-  create_resources(wildfly::config::mgmt_user, $wildfly::users_mgmt)
+  wildfly::config::mgmt_user { $wildfly::mgmt_user['username']:
+    password => $wildfly::mgmt_user['password'],
+  }
 
   file { "${wildfly::dirname}/bin/${wildfly::mode}.conf":
     ensure  => file,
