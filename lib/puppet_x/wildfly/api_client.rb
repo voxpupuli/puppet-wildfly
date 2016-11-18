@@ -22,10 +22,22 @@ module PuppetX
       def authz_header
         digest_auth = Net::HTTP::DigestAuth.new
         authz_request = Net::HTTP::Get.new @uri.request_uri
-        response = @http_client.request authz_request
 
-        # work-around for intermittent auth error
-        sleep 0.1
+        retried = 0
+
+        # All http_api providers require Wildfly service to be up, but with systemd there is no guarantee that the service is actually running, therefore we need to retry
+
+        begin
+          response = @http_client.request authz_request
+        rescue => e
+          if retried + 1 < 5
+            retried += 1
+            sleep 5
+            retry
+          else
+            raise e
+          end
+        end
 
         if response['www-authenticate'] =~ /digest/i
           digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
