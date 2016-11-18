@@ -48,11 +48,7 @@ class wildfly::params {
   $java_maxpermsize  = '256m'
   $java_opts         = ''
 
-  $users_mgmt = {
-    'wildfly' => {
-      password => 'wildfly',
-    },
-  }
+  $mgmt_user = { username => 'puppet', password => fqdn_rand_string(30) }
 
   $domain_slave = {}
   $install_cache_dir = '/var/cache/wget'

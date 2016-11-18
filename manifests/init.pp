@@ -32,7 +32,7 @@ class wildfly(
   $public_http_port             = $wildfly::params::public_http_port,
   $public_https_port            = $wildfly::params::public_https_port,
   $ajp_port                     = $wildfly::params::ajp_port,
-  $users_mgmt                   = $wildfly::params::users_mgmt,
+  $mgmt_user                    = $wildfly::params::mgmt_user,
   $init_system                  = $wildfly::params::init_system,
   $conf_file                    = $wildfly::params::conf_file,
   $package_ensure               = $wildfly::params::package_ensure,
