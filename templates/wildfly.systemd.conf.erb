@@ -1,11 +1,11 @@
 # The configuration you want to run
-WILDFLY_CONFIG="<%= scope.lookupvar('wildfly::config') %>"
+WILDFLY_CONFIG="'<%= scope.lookupvar('wildfly::config') %> -P <%= scope.lookupvar('wildfly::dirname') %>/jboss.properties'"
 
 # The mode you want to run
-WILDFLY_MODE="<%= scope.lookupvar('wildfly::mode') %>"
+WILDFLY_MODE=<%= scope.lookupvar('wildfly::mode') %>
 
 # The address to bind to
-WILDFLY_BIND="<%= scope.lookupvar('wildfly::public_bind') %>"
+WILDFLY_BIND=<%= scope.lookupvar('wildfly::properties')['jboss.bind.address'] %>
 
 # Location of JDK
-JAVA_HOME="<%= scope.lookupvar('wildfly::java_home') %>"
+JAVA_HOME=<%= scope.lookupvar('wildfly::java_home') %>
