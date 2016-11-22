@@ -25,7 +25,7 @@ JBOSS_CONFIG="<%= scope.lookupvar('wildfly::config') %> -P <%= scope.lookupvar('
 # Configuration for domain mode
 #
 JBOSS_DOMAIN_CONFIG="<%= scope.lookupvar('wildfly::domain_config') %>"
-JBOSS_HOST_CONFIG="<%= scope.lookupvar('wildfly::host_config') %>"
+JBOSS_HOST_CONFIG="<%= scope.lookupvar('wildfly::host_config') %> -P <%= scope.lookupvar('wildfly::dirname') %>/jboss.properties"
 
 # The amount of time to wait for startup
 #
