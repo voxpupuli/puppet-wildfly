@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'Acceptance case two. Domain mode with defaults' do
+describe "Acceptance case two. Domain mode with #{test_data['distribution']}:#{test_data['version']}" do
   context 'Initial install Wildfly and verification' do
     it 'applies the manifest without error' do
       pp = <<-EOS
@@ -9,7 +9,7 @@ describe 'Acceptance case two. Domain mode with defaults' do
               java::oracle { 'jdk8' :
                 ensure  => 'present',
                 version => '8',
-                java_se => 'jdk',
+                java_se => 'jre',
                 before  => Class['wildfly']
               }
 
@@ -26,8 +26,11 @@ describe 'Acceptance case two. Domain mode with defaults' do
           }
 
           class { 'wildfly':
-            java_home => $java_home,
-            mode      => 'domain',
+            distribution   => '#{test_data['distribution']}',
+            version        => '#{test_data['version']}',
+            install_source => '#{test_data['install_source']}',
+            java_home      => $java_home,
+            mode           => 'domain',
           }
 
       EOS
