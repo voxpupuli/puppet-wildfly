@@ -1,8 +1,8 @@
 require 'spec_helper_acceptance'
 require 'json'
 
-describe 'Acceptance case five. Deployment on standalone mode with Wildfly 9' do
-  context 'Initial install Wildfly 9, deployment and verification' do
+describe "Acceptance case five. Deployment on standalone mode with #{test_data['distribution']}:#{test_data['version']}" do 
+  context 'Initial install Wildfly, deployment and verification' do
     it 'applies the manifest without error' do
       pp = <<-EOS
           case $::osfamily {
@@ -10,7 +10,7 @@ describe 'Acceptance case five. Deployment on standalone mode with Wildfly 9' do
               java::oracle { 'jdk8' :
                 ensure  => 'present',
                 version => '8',
-                java_se => 'jdk',
+                java_se => 'jre',
                 before  => Class['wildfly']
               }
 
@@ -27,6 +27,9 @@ describe 'Acceptance case five. Deployment on standalone mode with Wildfly 9' do
           }
 
           class { 'wildfly':
+            distribution   => '#{test_data['distribution']}',
+            version        => '#{test_data['version']}',
+            install_source => '#{test_data['install_source']}',
             java_home      => $java_home,
           } ->
 
