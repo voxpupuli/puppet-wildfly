@@ -7,7 +7,7 @@ class wildfly::setup {
     password => $wildfly::mgmt_user['password'],
   }
 
-  $properties = merge($wildfly::properties, $wildfly::params::properties)
+  $properties = merge($wildfly::params::properties, $wildfly::properties)
 
   file { "${wildfly::dirname}/jboss.properties":
     ensure  => file,
