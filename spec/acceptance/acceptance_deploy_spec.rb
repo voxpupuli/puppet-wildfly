@@ -1,15 +1,9 @@
 require 'spec_helper_acceptance'
+require 'json'
 
-describe "Acceptance case one. Standalone mode with #{test_data['distribution']}:#{test_data['version']}" do
-  context 'Initial install Wildfly and verification' do
+describe "Deployment on standalone mode with #{test_data['distribution']}:#{test_data['version']}" do 
+  context 'Initial install Wildfly, deployment and verification' do
     it 'applies the manifest without error' do
-      # update augeas on debian
-      # echo 'deb     http://pkg.camptocamp.net/apt wheezy/stable sysadmin' | sudo tee -a /etc/apt/sources.list
-      # curl -s http://pkg.camptocamp.net/packages-c2c-key.gpg | sudo apt-key add -
-      # apt-get update
-      # sudo apt-get install augeas-tools=1.\* augeas-lenses=1.\* augeas-doc=1.\* libaugeas0=1.\*
-      # dpkg -l '*augeas*'
-
       pp = <<-EOS
           case $::osfamily {
             'RedHat': {
@@ -39,15 +33,9 @@ describe "Acceptance case one. Standalone mode with #{test_data['distribution']}
             java_home      => $java_home,
           } ->
 
-          wildfly::config::module { 'org.postgresql':
-            source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
-            dependencies => ['javax.api', 'javax.transaction.api']
+          wildfly::deployment { 'hawtio.war':
+            source => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war'
           }
-
-          wildfly::config::module { 'empty.module':
-            source       => '.'
-          }
-
       EOS
 
       # Run it twice and test for idempotency
@@ -71,19 +59,19 @@ describe "Acceptance case one. Standalone mode with #{test_data['distribution']}
       end
     end
 
-    it 'contains postgresql module' do
-      shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', acceptable_exit_codes: 0) do |r|
-        expect(r.stdout).to include 'postgresql-9.3-1103-jdbc4.jar'
-        expect(r.stdout).to include 'module.xml'
+    it 'downloaded WAR file' do
+      shell('ls -la /tmp/hawtio-web-1.4.66.war', acceptable_exit_codes: 0) do |r|
+        expect(r.stdout).to include '/tmp/hawtio-web-1.4.66.war'
       end
     end
 
-    it 'contains empty module' do
-      shell('ls -la /opt/wildfly/modules/system/layers/base/empty/module/main', acceptable_exit_codes: 0) do |r|
-        expect(r.stdout).to include 'module.xml'
+    it 'deployed application' do
+      shell('/opt/wildfly/bin/jboss-cli.sh --connect "/deployment=hawtio.war:read-resource(recursive=true)"',
+            acceptable_exit_codes: 0) do |r|
+        expect(r.stdout).to include '"outcome" => "success"'
       end
-      shell('cat /opt/wildfly/modules/system/layers/base/empty/module/main/module.xml', acceptable_exit_codes: 0) do |r|
-        expect(r.stdout).to include '<resource-root path="."/>'
+      shell('curl localhost:8080/'.concat('hawtio/'), acceptable_exit_codes: 0) do |r|
+        expect(r.stdout).to include 'hawtio'
       end
     end
   end

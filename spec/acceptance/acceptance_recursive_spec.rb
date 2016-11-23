@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
-describe 'Acceptance case four. Standalone mode with Wildfly 9' do
-  context 'Install Wildfly 9.0.2 with security and verification' do
+describe "Standalone mode with complex/recursive resources and #{test_data['distribution']}:#{test_data['version']}" do
+  context 'Install Wildfly with security and verification' do
     it 'applies the manifest without error' do
       pp = <<-EOS
           case $::osfamily {
@@ -61,6 +61,11 @@ describe 'Acceptance case four. Standalone mode with Wildfly 9' do
                 }
               },
             },
+          }
+          ~>
+          wildfly::reload { 'if necessary':
+            retries => 2,
+            wait    => 15,
           }
 
       EOS
