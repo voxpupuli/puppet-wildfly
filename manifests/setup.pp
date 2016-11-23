@@ -25,4 +25,15 @@ class wildfly::setup {
     notify  => Class['wildfly::service']
   }
 
+  if $wildfly::secret_value {
+
+    augeas { "host_config-secret":
+      lens    => 'Xml.lns',
+      incl    => "${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::host_config}",
+      changes => "set host/management/security-realms/security-realm[#attribute/name='ManagementRealm']/server-identities/secret/#attribute/value ${wildfly::secret_value}",
+      onlyif  => "match host/management/security-realms/security-realm[#attribute/name='ManagementRealm']/server-identities/secret[#attribute/value='${wildfly::secret_value}'] size == 0"
+    }
+
+  }
+
 }
