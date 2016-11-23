@@ -54,4 +54,6 @@ class wildfly::params {
   $startup_wait      = '30'
   $shutdown_wait     = '30'
 
+  $secret_value      = undef
+
 }
