@@ -270,8 +270,8 @@ define wildfly::security::ldap_realm(
       },
     }
 
-    Wildfly::Util::Resource['/core-service=management/access=authorization'] ->
-      Wildfly::Util::Resource['/core-service=management/management-interface=http-interface']
+    Wildfly::Resource['/core-service=management/access=authorization'] ->
+      Wildfly::Resource['/core-service=management/management-interface=http-interface']
   }
 
 }

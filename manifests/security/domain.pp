@@ -36,7 +36,7 @@ define wildfly::security::domain(
 
   create_resources('wildfly::security::login_module', $login_modules)
 
-  Wildfly::Util::Resource[ "/subsystem=security/security-domain=${domain_name}/authentication=classic"] ->
+  Wildfly::Resource[ "/subsystem=security/security-domain=${domain_name}/authentication=classic"] ->
     Wildfly::Security::Login_module<|tag == 'wildfly'|>
 
 }
