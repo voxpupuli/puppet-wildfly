@@ -4,32 +4,11 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
   context 'Initial install Wildfly and verification' do
     it 'applies the manifest without error' do
       pp = <<-EOS
-          case $::osfamily {
-            'RedHat': {
-              java::oracle { 'jdk8' :
-                ensure  => 'present',
-                version => '8',
-                java_se => 'jre',
-                before  => Class['wildfly']
-              }
-
-
-              $java_home = '/usr/java/default'
-             }
-            'Debian': {
-              class { 'java':
-                before => Class['wildfly']
-              }
-
-              $java_home = "/usr/lib/jvm/java-7-openjdk-${::architecture}"
-           }
-          }
-
           class { 'wildfly':
             distribution   => '#{test_data['distribution']}',
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
-            java_home      => $java_home,
+            java_home      => '#{test_data['java_home']}', 
             mode           => 'domain',
           }
 
