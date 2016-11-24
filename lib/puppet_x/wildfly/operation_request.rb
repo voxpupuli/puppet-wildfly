@@ -25,15 +25,34 @@ module PuppetX
       end
 
       def add(resource, state, recursive, headers)
-        @api_client.send(operation.add(resource).with(state).headers(headers).build)
+        if recursive
+          resources = split(resource, state)
+          operations = resources.map { |(atomic_resource, atomic_state)| operation.add(atomic_resource).with(atomic_state).build }
+          @api_client.send(operation.composite(*operations).headers(headers).build)
+        else
+          @api_client.send(operation.add(resource).with(state).headers(headers).build)
+        end
       end
 
       def update(resource, state, recursive, headers)
-        current_state = read(resource)
-        @api_client.send(operation.composite(*diff(current_state, state, resource).headers(headers)).build)
+        if recursive
+          resources = split(resource, state)
+          operations = resources.map { |(atomic_resource, atomic_state)| diff(atomic_state, atomic_resource) }
+          @api_client.send(operations.composite(*operations).headers(headers).build)
+        else
+          @api_client.send(operation.composite(*diff(state, resource)).headers(headers).build)
+        end
       end
 
-      def diff(current_state, desired_state, resource)
+      def split(resource, state)
+        child_hashes = state.reject { |_, v| !v.is_a?(Hash) }
+        child_resources = child_hashes.reduce([]) { |resources, (k, v)| resources.concat(v.reduce([]) { |r2, (k2, v2)| r2.concat(split("#{resource}/#{k}=#{k2}", v2)) }) }
+        base_state = [resource, state.reject { |_, v| v.is_a?(Hash) }]
+        [base_state].concat(child_resources)
+      end
+
+      def diff(desired_state, resource)
+        current_state = read(resource)
         to_update = desired_state.reject { |key, value| value == current_state[key] }
         to_update.map { |attribute, value| operation.write_attribute(resource, attribute, value).build }
       end
