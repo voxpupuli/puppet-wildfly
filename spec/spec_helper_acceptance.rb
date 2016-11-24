@@ -12,10 +12,9 @@ RSpec.configure do |c|
     puppet_module_install(:source => project_root, :module_name => 'wildfly')
     hosts.each do |host|
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '4.2.0')
-      on host, puppet('module','install','puppetlabs-java')
-      on host, puppet('module','install','puppet-archive')
-      on host, puppet('module','install','jethrocarr-initfact')
-      on host, "/opt/puppetlabs/puppet/bin/gem install treetop net-http-digest_auth --no-ri --no-rdoc" 
+      on host, puppet('module', 'install', 'jethrocarr-initfact')
+      on host, '/opt/puppetlabs/puppet/bin/gem install treetop net-http-digest_auth --no-ri --no-rdoc'
+      on host, 'wget --header "Cookie: oraclelicense=accept-securebackup-cookie" -N -P /var/cache/wget http://download.oracle.com/otn-pub/java/jdk/8u111-b14/jdk-8u111-linux-x64.tar.gz && tar -C /opt -zxvf /var/cache/wget/jdk-8u111-linux-x64.tar.gz'
     end
   end
 end
@@ -23,32 +22,6 @@ end
 def test_data
   RSpec.configuration.test_data
 end
-
-def java_manifest
-  <<-EOS
-    case $::osfamily {
-      'RedHat': {
-        java::oracle { 'jdk8' :
-          ensure  => 'present',
-          version => '8',
-          java_se => 'jre',
-          before  => Class['wildfly']
-        }
-
-
-        $java_home = '/usr/java/default'
-       }
-      'Debian': {
-        class { 'java':
-          before => Class['wildfly']
-        }
-
-        $java_home = "/usr/lib/jvm/java-7-openjdk-${::architecture}"
-     }
-    }
-  EOS
-end
-
 
 profile = ENV['profile'] || 'wildfly:9.0.2'
 
@@ -78,5 +51,7 @@ when 'custom'
   data['version'] = ENV['version']
   data['install_source'] = ENV['install_source']
 end
+
+data['java_home'] = '/opt/jdk1.8.0_111/'
 
 RSpec.configuration.test_data = data
