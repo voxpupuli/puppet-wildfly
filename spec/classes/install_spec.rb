@@ -10,7 +10,8 @@ describe 'wildfly::install' do
       { operatingsystem: 'CentOS',
         kernel: 'Linux',
         osfamily: 'RedHat',
-        operatingsystemmajrelease: 7 }
+        operatingsystemmajrelease: '7',
+        initsystem: 'systemd' }
     end
 
     it { is_expected.to contain_class('wildfly::install') }

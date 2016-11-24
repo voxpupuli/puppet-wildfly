@@ -14,6 +14,7 @@ RSpec.configure do |c|
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '4.2.0')
       on host, puppet('module','install','puppetlabs-java')
       on host, puppet('module','install','puppet-archive')
+      on host, puppet('module','install','jethrocarr-initfact')
       on host, "/opt/puppetlabs/puppet/bin/gem install treetop net-http-digest_auth --no-ri --no-rdoc" 
     end
   end
@@ -21,6 +22,31 @@ end
 
 def test_data
   RSpec.configuration.test_data
+end
+
+def java_manifest
+  <<-EOS
+    case $::osfamily {
+      'RedHat': {
+        java::oracle { 'jdk8' :
+          ensure  => 'present',
+          version => '8',
+          java_se => 'jre',
+          before  => Class['wildfly']
+        }
+
+
+        $java_home = '/usr/java/default'
+       }
+      'Debian': {
+        class { 'java':
+          before => Class['wildfly']
+        }
+
+        $java_home = "/usr/lib/jvm/java-7-openjdk-${::architecture}"
+     }
+    }
+  EOS
 end
 
 

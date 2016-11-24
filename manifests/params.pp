@@ -19,7 +19,7 @@ class wildfly::params {
   $conf_template     = undef
   $systemd_template  = undef
   $custom_init       = undef
-  $init_system       = 'systemd'
+  $init_system       = $::initsystem
   $java_home         = '/usr/java/default/'
   $mode              = 'standalone'
   $config            = 'standalone.xml'
