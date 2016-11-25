@@ -6,12 +6,13 @@ class wildfly::service::systemd {
 
   if $wildfly::service::systemd_native {
     file { "${wildfly::dirname}/bin/launch.sh" :
-      ensure => present,
-      mode   => '0755',
-      owner  => $wildfly::user,
-      group  => $wildfly::group,
-      source => "${wildfly::dirname}/docs/contrib/scripts/systemd/launch.sh",
-      before => File["/etc/systemd/system/${wildfly::service::service_name}.service"],
+      ensure  => present,
+      mode    => '0755',
+      owner   => $wildfly::user,
+      group   => $wildfly::group,
+      # need to manage this until it's fixed in the upstream
+      content => file('wildfly/launch.sh'),
+      before  => File["/etc/systemd/system/${wildfly::service::service_name}.service"],
     }
   } else {
     # Use init.d scripts for systemd
