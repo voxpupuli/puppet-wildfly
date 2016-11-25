@@ -1,4 +1,4 @@
-<% config = scope.lookupvar('wildfly::mode') == 'domain'? scope.lookupvar('wildfly::host_config') : scope.lookupvar('wildfly::config') %>
+<% config = scope.lookupvar('wildfly::mode') == 'domain'? "#{scope.lookupvar('wildfly::domain_config')} --host-config #{scope.lookupvar('wildfly::host_config')}" : scope.lookupvar('wildfly::config') %>
 
 # The configuration you want to run
 WILDFLY_CONFIG="'<%= config.to_s %> -P <%= scope.lookupvar('wildfly::dirname') %>/jboss.properties'"
