@@ -37,8 +37,8 @@ module PuppetX
       def update(resource, state, recursive, headers)
         if recursive
           resources = split(resource, state)
-          operations = resources.map { |(atomic_resource, atomic_state)| diff(atomic_state, atomic_resource) }
-          @api_client.send(operations.composite(*operations).headers(headers).build)
+          operations = resources.map { |(atomic_resource, atomic_state)| diff(atomic_state, atomic_resource) }.flatten
+          @api_client.send(operation.composite(*operations).headers(headers).build)
         else
           @api_client.send(operation.composite(*diff(state, resource)).headers(headers).build)
         end
