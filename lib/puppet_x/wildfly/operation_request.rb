@@ -11,26 +11,26 @@ module PuppetX
 
       def exec(command, ignore_failed_outcome = false)
         detyped_request = CLICommand.new(command).to_detyped_request
-        @api_client.send(detyped_request, ignore_failed_outcome)
+        @api_client.submit(detyped_request, ignore_failed_outcome)
       end
 
       def exists?(resource)
-        response = @api_client.send(operation.read(resource).build, :ignore_failed_outcome => true)
+        response = @api_client.submit(operation.read(resource).build, :ignore_failed_outcome => true)
         response['outcome'] == 'success'
       end
 
       def read(resource, recursive = false)
-        response = @api_client.send(operation.read(resource).with(:recursive => recursive).build)
-        response['outcome'] == 'success' ? response['result'] : {}
+        response = @api_client.submit(operation.read(resource).with(:recursive => recursive).build)
+        response['result']
       end
 
       def add(resource, state, recursive, headers)
         if recursive
           resources = split(resource, state)
           operations = resources.map { |(atomic_resource, atomic_state)| operation.add(atomic_resource).with(atomic_state).build }
-          @api_client.send(operation.composite(*operations).headers(headers).build)
+          @api_client.submit(operation.composite(*operations).headers(headers).build)
         else
-          @api_client.send(operation.add(resource).with(state).headers(headers).build)
+          @api_client.submit(operation.add(resource).with(state).headers(headers).build)
         end
       end
 
@@ -38,9 +38,9 @@ module PuppetX
         if recursive
           resources = split(resource, state)
           operations = resources.map { |(atomic_resource, atomic_state)| diff(atomic_state, atomic_resource) }.flatten
-          @api_client.send(operation.composite(*operations).headers(headers).build)
+          @api_client.submit(operation.composite(*operations).headers(headers).build)
         else
-          @api_client.send(operation.composite(*diff(state, resource)).headers(headers).build)
+          @api_client.submit(operation.composite(*diff(state, resource)).headers(headers).build)
         end
       end
 
@@ -58,11 +58,11 @@ module PuppetX
       end
 
       def remove(resource, headers)
-        @api_client.send(operation.remove(resource).headers(headers).build)
+        @api_client.submit(operation.remove(resource).headers(headers).build)
       end
 
       def deploy(name, source, server_group, headers)
-        @api_client.send(operation.composite(*deploy_operations(name, source, server_group)).headers(headers).build)
+        @api_client.submit(operation.composite(*deploy_operations(name, source, server_group)).headers(headers).build)
       end
 
       def deploy_operations(name, source, server_group)
@@ -70,7 +70,7 @@ module PuppetX
       end
 
       def undeploy(name, server_group, headers)
-        @api_client.send(operation.composite(*undeploy_operations(name, server_group)).headers(headers).build)
+        @api_client.submit(operation.composite(*undeploy_operations(name, server_group)).headers(headers).build)
       end
 
       def undeploy_operations(name, server_group)
@@ -78,7 +78,7 @@ module PuppetX
       end
 
       def update_deploy(name, source, server_group, headers)
-        @api_client.send(operation.composite(*update_deploy_operations(name, source, server_group)).headers(headers).build)
+        @api_client.submit(operation.composite(*update_deploy_operations(name, source, server_group)).headers(headers).build)
       end
 
       def update_deploy_operations(name, source, server_group)
