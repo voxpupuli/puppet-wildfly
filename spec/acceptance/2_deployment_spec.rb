@@ -10,7 +10,7 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}', 
-          } ->
+          } 
 
           wildfly::deployment { 'hawtio.war':
             source => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war'
@@ -24,8 +24,8 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
     end
 
     it 'service wildfly' do
-      expect(service('wildfly')).to be_enabled
-      expect(service('wildfly')).to be_running
+      expect(service(test_data['service_name'])).to be_enabled
+      expect(service(test_data['service_name'])).to be_running
     end
 
     it 'runs on port 8080' do

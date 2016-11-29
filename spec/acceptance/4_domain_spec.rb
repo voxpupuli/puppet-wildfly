@@ -10,6 +10,7 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}', 
             mode           => 'domain',
+            host_config    => 'host-master.xml',
           }
 
       EOS
@@ -21,8 +22,8 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
     end
 
     it 'service wildfly' do
-      expect(service('wildfly')).to be_enabled
-      expect(service('wildfly')).to be_running
+      expect(service(test_data['service_name'])).to be_enabled
+      expect(service(test_data['service_name'])).to be_running
     end
 
     it 'runs on port 9990' do
@@ -30,8 +31,8 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
     end
 
     it 'protected management page' do
-      shell('curl localhost:9990/management', acceptable_exit_codes: 0) do |r|
-        expect(r.stdout).to include '401 - Unauthorized'
+      shell('curl -v localhost:9990/management 2>&1', acceptable_exit_codes: 0) do |r|
+        expect(r.stdout).to include '401 Unauthorized'
       end
     end
   end
