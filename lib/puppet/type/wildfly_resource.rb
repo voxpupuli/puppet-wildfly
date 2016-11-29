@@ -137,8 +137,4 @@ Puppet::Type.newtype(:wildfly_resource) do
       super(current_value, new_value)
     end
   end
-
-  autorequire(:service) do
-    ['wildfly']
-  end
 end

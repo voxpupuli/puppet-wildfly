@@ -77,8 +77,4 @@ Puppet::Type.newtype(:wildfly_deployment) do
       super(current_value, sha1sum?(@resource[:source]))
     end
   end
-
-  autorequire(:service) do
-    ['wildfly']
-  end
 end

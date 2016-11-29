@@ -44,8 +44,4 @@ Puppet::Type.newtype(:wildfly_cli) do
       provider.exec(@resource[:command])
     end
   end
-
-  autorequire(:service) do
-    ['wildfly']
-  end
 end

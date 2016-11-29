@@ -8,7 +8,7 @@ define wildfly::deployment(
   $server_group      = undef,
   $operation_headers = {}) {
 
-  require wildfly::install
+  require wildfly::service
 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
   $local_source = "/tmp/${file_name}"
@@ -42,8 +42,8 @@ define wildfly::deployment(
     server_group      => $server_group,
     username          => $wildfly::mgmt_user['username'],
     password          => $wildfly::mgmt_user['password'],
-    host              => $wildfly::properties['jboss.bind.address.management'],
-    port              => $wildfly::properties['jboss.management.http.port'],
+    host              => $wildfly::setup::properties['jboss.bind.address.management'],
+    port              => $wildfly::setup::properties['jboss.management.http.port'],
     timeout           => $timeout,
     source            => "file:${local_source}",
     operation_headers => $operation_headers,

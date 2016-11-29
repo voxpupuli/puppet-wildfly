@@ -46,8 +46,4 @@ Puppet::Type.newtype(:wildfly_reload) do
       provider.reload
     end
   end
-
-  autorequire(:service) do
-    ['wildfly']
-  end
 end
