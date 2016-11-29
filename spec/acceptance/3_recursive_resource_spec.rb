@@ -45,8 +45,8 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
     end
 
     it 'service wildfly' do
-      expect(service('wildfly')).to be_enabled
-      expect(service('wildfly')).to be_running
+      expect(service(test_data['service_name'])).to be_enabled
+      expect(service(test_data['service_name'])).to be_running
     end
 
     it 'runs on port 8080' do

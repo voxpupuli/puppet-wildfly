@@ -18,10 +18,6 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
             java_home      => '#{test_data['java_home']}', 
           } 
 
-          wildfly::config::module { 'empty.module':
-            source       => '.'
-          }
-
           wildfly::config::module { 'org.postgresql':
             source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
             dependencies => ['javax.api', 'javax.transaction.api']
@@ -56,8 +52,8 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
     end
 
     it 'service wildfly' do
-      expect(service('wildfly')).to be_enabled
-      expect(service('wildfly')).to be_running
+      expect(service(test_data['service_name'])).to be_enabled
+      expect(service(test_data['service_name'])).to be_running
     end
 
     it 'runs on port 8080' do
@@ -74,15 +70,6 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
       shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'postgresql-9.3-1103-jdbc4.jar'
         expect(r.stdout).to include 'module.xml'
-      end
-    end
-
-    it 'contains empty module' do
-      shell('ls -la /opt/wildfly/modules/system/layers/base/empty/module/main', acceptable_exit_codes: 0) do |r|
-        expect(r.stdout).to include 'module.xml'
-      end
-      shell('cat /opt/wildfly/modules/system/layers/base/empty/module/main/module.xml', acceptable_exit_codes: 0) do |r|
-        expect(r.stdout).to include '<resource-root path="."/>'
       end
     end
   end

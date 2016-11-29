@@ -43,15 +43,20 @@ when 'wildfly:10.1.0'
 when 'jboss-eap:6.4'
   data['distribution'], data['version'] = profile.split(':')
   data['install_source'] = 'http://10.0.2.2:9090/jboss-eap-6.4.tar.gz'
+  data['service_name'] = 'jboss-as'
 when 'jboss-eap:7.0'
   data['distribution'], data['version'] = profile.split(':')
   data['install_source'] = 'http://10.0.2.2:9090/jboss-eap-7.0.tar.gz'
+  data['service_name'] = 'jboss-eap'
+when 'jboss-eap:7.0'
 when 'custom'
   data['distribution'] = ENV['distribution']
   data['version'] = ENV['version']
   data['install_source'] = ENV['install_source']
+  data['service_name'] = ENV['service_name']
 end
 
+data['service_name'] = data['service_name'] || 'wildfly'
 data['java_home'] = '/opt/jdk1.8.0_111/'
 
 RSpec.configuration.test_data = data

@@ -6,6 +6,6 @@ for test_profile in "${profiles[@]}"
 do
   for box in "${boxes[@]}"
   do
-    profile="${test_profile}" BEAKER_set="${box}" BEAKER_destroy="onpass" bundle exec rake beaker
+    profile="${test_profile}" BEAKER_set="${box}" bundle exec rake beaker
   done
 done
