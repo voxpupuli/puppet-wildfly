@@ -8,7 +8,9 @@
 3. [Setup - The basics of getting started with wildfly](#setup)
     * [What wildfly affects](#what-wildfly-affects)
     * [Setup requirements](#setup-requirements)
-4. [Usage - Configuration options and additional functionality](#usage)
+4. [Upgrade](#upgrade)
+    * [to 1.0.0](#to-100)
+5. [Usage - Configuration options and additional functionality](#usage)
     * [Wildfly 10.1.0](#wildfly-1010)
     * [Wildfly 9.0.2](#wildfly-902)
     * [Wildfly 8.2.1](#wildfly-821)
@@ -25,12 +27,12 @@
     * [Messaging](#messaging)
     * [Logging](#logging)
     * [Modcluster](#modcluster)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+6. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
     * [Public classes](#public-classes)
     * [Private classes](#private-classes)
     * [Public defined types](#public-defined-types)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+7. [Limitations - OS compatibility, etc.](#limitations)
+8. [Development - Guide for contributing to the module](#development)
 
 ##Overview
 
@@ -80,6 +82,47 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
 This module requires `puppetlabs-stdlib` and `jethrocarr/initfact` (it uses `init_system` fact provided by this module by default, but it's overridable in `wildfly::initsystem` parameter)
 
+##Upgrade
+
+## to 1.0.0
+
+### wildfly class
+
+The main changes in `wildfly` class are bellow:
+
+```puppet
+class { '::wildfly':
+  distribution     => 'jboss-eap|wildfly',
+  properties       => {
+    'jboss.bind.address'            => $public_bind,
+    'jboss.bind.address.management' => $mgmt_bind,
+    'jboss.management.http.port'    => $mgmt_http_port,
+    'jboss.management.https.port'   => $mgmt_https_port,
+    'jboss.http.port'               => $public_http_port,
+    'jboss.https.port'              => $public_https_port,
+    'jboss.ajp.port'                => $ajp_port,
+  },
+  jboss_opts       => '-Dproperty=value'
+  mgmt_user        => { username  => $management_user, password  => $management_password },
+}
+```
+
+`distribution` was introduced to provided out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier to manage a properties file than Wildfly XML through augeas)
+
+`users_mgmt` was replaced by `mgmt_user`, and additional users should be managed by `wildfly::config::mgtm_user` defined type. The hash format and default value also changed.
+
+### New dependencies
+
+You will need to add the new dependencies: `net-http-digest_auth` and `treetop` gems and `jethrocarr/initfact` module.
+
+### Defined types
+
+All resources from `wildfly::util` were moved to `wildfly`, hence you need to search and replace them, I suggest you execute these commands in your environment:
+
+`find . -type f -exec sed -i 's/wildfly::util::exec_cli/wildfly::cli/g' {} +`
+
+`find . -type f -exec sed -i 's/wildfly::util/wildfly/g' {} +`
+
 ##Usage
 
 ```puppet
@@ -122,7 +165,11 @@ include ::wildfly
 ```yaml
 wildfly::distribution: 'jboss-eap'
 wildfly::version: '6.4'
-wildfly::install_source: http://mywebserver/jboss-eap-6.4.tar.gz
+wildfly::install_source: 'http://mywebserver/jboss-eap-6.4.tar.gz'
+wildfly::user: 'jboss-as'
+wildfly::group: 'jboss-as'
+wildfly::dirname: '/opt/jboss-as'
+wildfly::console_log: '/var/log/jboss-as/console.log'
 ```
 
 ##JBoss EAP 7.0
@@ -132,6 +179,10 @@ class { 'wildfly':
   version        => '7.0',
   distribution   => 'jboss-eap',
   install_source => 'http:/mywebserver/jboss-eap-7.0.tar.gz',
+  user           => 'jboss-eap',
+  group          => 'jboss-eap',
+  dirname        => '/opt/jboss-eap',
+  console_log    => '/var/log/jboss-eap/console.log',
 }
 ```
 
