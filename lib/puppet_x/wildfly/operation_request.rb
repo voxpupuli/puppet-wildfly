@@ -9,10 +9,14 @@ module PuppetX
         @api_client = api_client
       end
 
+      # cli
+
       def exec(command, ignore_failed_outcome = false)
         detyped_request = CLICommand.new(command).to_detyped_request
         @api_client.submit(detyped_request, ignore_failed_outcome)
       end
+
+      # resource
 
       def exists?(resource)
         response = @api_client.submit(operation.read(resource).build, :ignore_failed_outcome => true)
@@ -59,6 +63,16 @@ module PuppetX
 
       def remove(resource, headers)
         @api_client.submit(operation.remove(resource).headers(headers).build)
+      end
+
+      # deployment
+
+      def deployment_checksum(name)
+        response = read("/deployment=#{name}")
+        bytes_value = response['content'].first['hash']['BYTES_VALUE']
+        decoded = Base64.decode64(bytes_value)
+
+        decoded.unpack('H*').first
       end
 
       def deploy(name, source, server_group, headers)

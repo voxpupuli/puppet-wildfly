@@ -268,7 +268,7 @@ Then start managing your own `server-groups` and `server-config` with `wildfly::
 
 **From a local or remote source:**
 
-Source supports these protocols: `http://`, `ftp://`, `puppet://`, `file:/`
+Source supports these protocols: `http://`, `ftp://`, `puppet://`, `file://`
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
@@ -284,7 +284,7 @@ wildfly::deployment { 'hawtio.war':
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
- source => 'file:/var/tmp/hawtio-web-1.4.48.war',
+ source => 'file://var/tmp/hawtio-web-1.4.48.war',
 }
 ```
 

@@ -26,15 +26,7 @@ Puppet::Type.type(:wildfly_deployment).provide(:http_api) do
   end
 
   def content
-    response = cli.read("/deployment=#{@resource[:name]}")
-    bytes_value = response['content'].first['hash']['BYTES_VALUE']
-    decoded = Base64.decode64(bytes_value)
-
-    content_sha1_sum = decoded.unpack('H*').first
-
-    debug "Current content SHA1: #{content_sha1_sum}"
-
-    content_sha1_sum
+    cli.deployment_checksum(@resource[:name])
   end
 
   def content=(value)

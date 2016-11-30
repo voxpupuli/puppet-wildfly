@@ -45,7 +45,7 @@ define wildfly::deployment(
     host              => $wildfly::setup::properties['jboss.bind.address.management'],
     port              => $wildfly::setup::properties['jboss.management.http.port'],
     timeout           => $timeout,
-    source            => "file:${local_source}",
+    source            => $local_source,
     operation_headers => $operation_headers,
     require           => File[$local_source]
   }

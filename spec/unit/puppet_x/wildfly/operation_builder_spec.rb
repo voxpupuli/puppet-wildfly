@@ -40,7 +40,7 @@ describe PuppetX::Wildfly::OperationBuilder do
 
     it 'creates an add request with content' do
       operation_builder = described_class.new
-      operation = operation_builder.add_content('hawtio.war', 'file:/tmp/hawtio.war').build
+      operation = operation_builder.add_content('hawtio.war', '/tmp/hawtio.war').build
 
       expect(operation).to eq(:operation => :add, :content => [:url => 'file:/tmp/hawtio.war'], :address => [{ :deployment => 'hawtio.war' }])
     end
