@@ -14,12 +14,10 @@ SimpleCov.start do
 
   add_group "Puppet Types", '/lib/puppet/type/'
   add_group "Puppet Providers", '/lib/puppet/provider/'
-  add_group "Puppet Functions", 'lib/puppet/parser/functions/'
   add_group "Puppet Extensions", 'lib/puppet_x/'
-  add_group "Facts", 'lib/facter'
-
 
   add_filter '/spec'
+  add_filter 'lib/puppet/parser'
 
   track_files 'lib/**/*.rb'
 end

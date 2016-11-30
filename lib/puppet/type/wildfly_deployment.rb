@@ -52,7 +52,7 @@ Puppet::Type.newtype(:wildfly_deployment) do
     defaultto {}
 
     validate do |value|
-      value.is_a?(Hash)
+      raise("#{value} is not a Hash") unless value.is_a?(Hash)
     end
   end
 
