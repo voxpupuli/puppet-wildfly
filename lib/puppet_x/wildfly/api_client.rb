@@ -30,9 +30,9 @@ module PuppetX
         begin
           response = @http_client.request authz_request
         rescue => e
-          if retried + 1 < 5
+          if retried + 1 < 6
             retried += 1
-            sleep 5
+            sleep 10 
             retry
           else
             raise e
