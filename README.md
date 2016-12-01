@@ -211,7 +211,7 @@ wildfly_resource { "/subsystem=datasources/data-source=MyDS":
 
 ## Domain Mode
 
-### Domain Master
+### Master (Domain Controller)
 
 ```puppet
 class { 'wildfly':
@@ -229,7 +229,7 @@ wildfly::config::mgmt_user { 'slave1':
 
 > **NOTE:** Don't forget to set `target_profile` while managing your domain resources.
 
-### Domain Slave
+### Slave (Host Controller)
 
 ```puppet
 class { 'wildfly':
@@ -244,7 +244,7 @@ class { 'wildfly':
 
 ## Domain Management
 
-Make sure you remove default resources if you're not going to use it.
+Make sure you remove default resources (server-groups and server-config) if you're not going to use it.
 
 Domain controller:
 
