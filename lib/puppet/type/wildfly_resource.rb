@@ -66,10 +66,10 @@ Puppet::Type.newtype(:wildfly_resource) do
     end
 
     # Helper function to transform the hash
-    def transform_hash(original, options = {}, &block)
+    def transform_hash(original, &block)
       original.inject({}) do |result, (key, value)|
-        value = if options[:deep] && Hash === value
-                  transform_hash(value, options, &block)
+        value = if value.is_a?(Hash)
+                  transform_hash(value, &block)
                 else
                   value
                 end
@@ -80,24 +80,14 @@ Puppet::Type.newtype(:wildfly_resource) do
 
     # Helper function to transform values to strings
     def stringify_values(hash)
-      transform_hash(hash, :deep => true) do |hash, key, value|
-        hash[key] = if value.is_a? Numeric
-                      value.to_s
-                    elsif value.is_a?(TrueClass) || value.is_a?(FalseClass)
-                      value.to_s
-                    else
-                      value
-                    end
+      transform_hash(hash) do |inner_hash, key, value|
+        inner_hash[key] = value.is_a?(Hash) ? value : value.to_s
       end
     end
 
     def obfuscate_sensitive_data(hash)
-      transform_hash(hash, :deep => true) do |hash, key, value|
-        if key.include?('password')
-          hash[key] = '******'
-        else
-          hash[key] = value
-        end
+      transform_hash(hash) do |inner_hash, key, value|
+        inner_hash[key] = key.include?('password') ? '******' : value
       end
     end
 
