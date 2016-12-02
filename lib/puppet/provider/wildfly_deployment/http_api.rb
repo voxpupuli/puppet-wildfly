@@ -7,7 +7,7 @@ Puppet::Type.type(:wildfly_deployment).provide(:http_api) do
 
   def cli
     api_client = PuppetX::Wildfly::APIClient.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
-		PuppetX::Wildfly::OperationRequest.new(api_client)
+    PuppetX::Wildfly::OperationRequest.new(api_client)
   end
 
   def create

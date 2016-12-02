@@ -17,6 +17,13 @@ describe PuppetX::Wildfly::OperationBuilder do
       expect(operation).to eq(:address => [{ 'subsystem' => 'web' }], :operation => :add, 'param' => 'value', 'param2' => 'value')
     end
 
+    it 'creates a write-attribute (update) request' do
+      operation_builder = described_class.new
+      operation = operation_builder.write_attribute('/subsystem=web', 'enabled', true).build
+
+      expect(operation).to eq(:address => [{ 'subsystem' => 'web' }], :operation => 'write-attribute', :name => 'enabled', :value => true)
+    end
+
     it 'creates a remove request' do
       operation_builder = described_class.new
       operation = operation_builder.remove('/subsystem=web').build
@@ -45,11 +52,32 @@ describe PuppetX::Wildfly::OperationBuilder do
       expect(operation).to eq(:operation => :add, :content => [:url => 'file:/tmp/hawtio.war'], :address => [{ :deployment => 'hawtio.war' }])
     end
 
+    it 'creates a remove content request' do
+      operation_builder = described_class.new
+      operation = operation_builder.remove_content('hawtio.war').build
+
+      expect(operation).to eq(:operation => :remove, :address => [{ :deployment => 'hawtio.war' }])
+    end
+
     it 'creates a deploy request' do
       operation_builder = described_class.new
       operation = operation_builder.deploy('myapp.ear').build
 
       expect(operation).to eq(:operation => :deploy, :address => [:deployment => 'myapp.ear'])
+    end
+
+    it 'creates a undeploy request' do
+      operation_builder = described_class.new
+      operation = operation_builder.undeploy('myapp.ear').build
+
+      expect(operation).to eq(:operation => :undeploy, :address => [:deployment => 'myapp.ear'])
+    end
+
+    it 'appends server-group to target address' do
+      operation_builder = described_class.new
+      operation = operation_builder.target('main-server-group').build
+
+      expect(operation).to eq(:address => ['server-group' => 'main-server-group'])
     end
 
     it 'creates a composite request' do

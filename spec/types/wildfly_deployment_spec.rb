@@ -31,4 +31,21 @@ describe Puppet::Type.type(:wildfly_deployment) do
       expect { resource[:operation_headers] = 'teste' }.to raise_error(Puppet::ResourceError)
     end
   end
+
+  describe 'content property' do
+    let(:file_deployment) { described_class.new(:name => 'file', :source => File.expand_path('LICENSE')) }
+    let(:content) { described_class.attrclass(:content).new(resource: file_deployment) }
+
+    it 'is in sync if checksum is equal' do
+      expect(content.insync?('2b8b815229aa8a61e483fb4ba0588b8b6c491890')).to be(true)
+    end
+
+    it 'it is not in sync if checksum is different' do
+      expect(content.insync?('033477d1d856776cdeb582a289d75804415158b1')).to be(false)
+    end
+
+    it 'print new value as checksum of the source' do
+      expect(content.change_to_s('033477d1d856776cdeb582a289d75804415158b1', nil)).to include('2b8b815229aa8a61e483fb4ba0588b8b6c491890')
+    end
+  end
 end
