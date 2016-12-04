@@ -3,6 +3,7 @@ sudo: false
 cache:
   directories:
   - vendor/bundle
+  - wget_cache
 rvm:
   - 2.0.0
   - 2.1.9

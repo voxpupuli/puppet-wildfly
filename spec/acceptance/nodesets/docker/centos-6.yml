@@ -8,3 +8,7 @@ HOSTS:
     hypervisor : docker
     docker_preserve_image: true
     docker_cmd: '["/sbin/init"]'
+    mount_folders:
+      cache:
+        host_path: wget_cache/
+        container_path: /var/cache/wget
