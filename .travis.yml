@@ -8,7 +8,7 @@ rvm:
   - 2.1.9
   - 2.2.5
   - 2.3.1
-bundler_args: --without development
+bundler_args: --without acceptance
 before_install:
   -  gem update --system 2.1.11
 script:
@@ -18,6 +18,7 @@ script:
 notifications:
   email:
     - biemond@gmail.com
+    - junior.jairo1@gmail.com
 env:
   - PUPPET_VERSION=3.6.2
   - PUPPET_VERSION=3.7.5
@@ -40,3 +41,18 @@ matrix:
       env: PUPPET_VERSION=3.8.7
     - rvm: 2.3.1
       env: PUPPET_VERSION=3.8.7
+  include:
+    - rvm: 2.3.1
+      dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/centos-6
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
+      bundler_args: --with acceptance
+    - rvm: 2.3.1
+      dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/debian-8 bundle
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
+      bundler_args: --with acceptance

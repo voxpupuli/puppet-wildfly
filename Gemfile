@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['= 3.7.5']
+puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['= 4.2.3']
 
 gem 'coveralls', :require => false
 gem 'simplecov', :require => false
@@ -13,17 +13,19 @@ gem 'rspec-system-puppet'
 gem 'puppetlabs_spec_helper'
 gem 'puppet-syntax'
 gem 'facter', '>= 1.6.10'
-# gem 'ci_reporter_rspec'
-gem 'rubocop', :git => 'https://github.com/bbatsov/rubocop',  :require => false
+gem 'rubocop', require: false
 gem 'rubocop-rspec', '1.5.0'
 gem 'puppet-blacksmith'
-gem 'fog', '>= 1.25.0'
-gem 'fog-google', '= 0.1.0'
-gem 'beaker', '>= 2.0.0'
-gem 'beaker-rspec', '>= 5.0.0'
-gem 'serverspec', '>= 2.0.0'
-gem 'metadata-json-lint', '>= 0.0.11'
-gem 'google-api-client', '0.8.6'
-gem 'activesupport', '4.2.7.1'
 gem 'treetop'
 gem 'net-http-digest_auth'
+gem 'metadata-json-lint', '>= 0.0.11'
+gem 'google-api-client', '>= 0.9'
+gem 'activesupport', '4.2.7.1'
+
+group :acceptance do
+  gem 'fog', '>= 1.25.0'
+  gem 'beaker', '3.5.0'
+  gem 'beaker-puppet_install_helper'
+  gem 'beaker-rspec'
+  gem 'serverspec', '>= 2.0.0'
+end
