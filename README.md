@@ -1,7 +1,8 @@
-#wildfly
-[![Build Status](https://travis-ci.org/biemond/biemond-wildfly.svg?branch=master)](https://travis-ci.org/biemond/biemond-wildfly)  [![Coverage Status](https://coveralls.io/repos/biemond/biemond-wildfly/badge.svg?branch=master&service=github)](https://coveralls.io/github/biemond/biemond-wildfly?branch=master)  ![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/biemond/wildfly.svg)
+# wildfly
 
-##Table of Contents
+[![Build Status](https://travis-ci.org/biemond/biemond-wildfly.svg?branch=master)](https://travis-ci.org/biemond/biemond-wildfly)  [![Coverage Status](https://coveralls.io/repos/biemond/biemond-wildfly/badge.svg?branch=master&service=github)](https://coveralls.io/github/biemond/biemond-wildfly?branch=master)  ![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/biemond/wildfly.svg) [![Code Climate](https://codeclimate.com/github/biemond/biemond-wildfly/badges/gpa.svg)](https://codeclimate.com/github/biemond/biemond-wildfly)
+
+## Table of Contents
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
@@ -34,7 +35,7 @@
 7. [Limitations - OS compatibility, etc.](#limitations)
 8. [Development - Guide for contributing to the module](#development)
 
-##Overview
+## Overview
 
 created by Edwin Biemond email biemond at gmail dot com
 [biemond.blogspot.com](http://biemond.blogspot.com)
@@ -52,13 +53,13 @@ Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 1
 
 [MCollective JBoss Agent Plugin](https://github.com/jairojunior/mcollective-jboss-agent) might be useful if you want to make consistent large scale changes.
 
-##Module Description
+## Module Description
 
 The wildfly module can install, configure and manage (using its HTTP API) Wildfly (8/9/10) and JBoss EAP (6.1+/7.0+).
 
-##Setup
+## Setup
 
-###What wildfly affects
+### What wildfly affects
 
 * Manage Wildfly user, group and directory.
 
@@ -66,7 +67,7 @@ The wildfly module can install, configure and manage (using its HTTP API) Wildfl
 
 * Installs requisite libaio and wget packages
 
-###Setup Requirements
+### Setup Requirements
 
 This module requires a JVM ( should already be there ). Just need to be extracted somewhere, no need to update-alternatives, set PATH or anything else, but it works just fine if you do so.
 
@@ -82,7 +83,7 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
 This module requires `puppetlabs-stdlib` and `jethrocarr/initfact` (it uses `init_system` fact provided by this module by default, but it's overridable in `wildfly::initsystem` parameter)
 
-##Upgrade
+## Upgrade
 
 ## to 1.0.0
 
@@ -123,13 +124,13 @@ All resources from `wildfly::util` were moved to `wildfly`, hence you need to se
 
 `find . -type f -exec sed -i 's/wildfly::util/wildfly/g' {} +`
 
-##Usage
+## Usage
 
 ```puppet
 class { 'wildfly': }
 ```
 
-###Wildfly 10.1.0
+### Wildfly 10.1.0
 
 ```puppet
 class { 'wildfly':
@@ -138,7 +139,7 @@ class { 'wildfly':
 }
 ```
 
-###Wildfly 9.0.2
+### Wildfly 9.0.2
 
 ```puppet
 class { 'wildfly':
@@ -147,7 +148,7 @@ class { 'wildfly':
 }
 ```
 
-###Wildfly 8.2.1
+### Wildfly 8.2.1
 
 ```puppet
 class { 'wildfly':
@@ -156,7 +157,7 @@ class { 'wildfly':
 }
 ```
 
-##JBoss EAP 6.x (with hiera)
+## JBoss EAP 6.x (with hiera)
 
 ```puppet
 include ::wildfly
@@ -172,7 +173,7 @@ wildfly::dirname: '/opt/jboss-as'
 wildfly::console_log: '/var/log/jboss-as/console.log'
 ```
 
-##JBoss EAP 7.0
+## JBoss EAP 7.0
 
 ```puppet
 class { 'wildfly':
@@ -266,7 +267,7 @@ Then start managing your own `server-groups` and `server-config` with `wildfly::
 
 ## Deployment
 
-**From a local or remote source:**
+### From a local or remote source
 
 Source supports these protocols: `http://`, `ftp://`, `puppet://`, `file://`
 
@@ -288,7 +289,7 @@ wildfly::deployment { 'hawtio.war':
 }
 ```
 
-**To a target server-group (domain mode):**
+### To a target server-group (domain mode)
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
@@ -297,8 +298,7 @@ wildfly::deployment { 'hawtio.war':
 }
 ```
 
-
-**From nexus:**
+### From nexus
 
 > **NOTE:** This feature was removed to avoid 'archive' name collision, but you can still use [archive::nexus](https://github.com/voxpupuli/puppet-archive/#archivenexus) to download an artifact and use as an input for `wildfly::deployment`
 
@@ -314,7 +314,6 @@ wildfly::deployment { 'hawtio.war':
   source => '/tmp/hawtio.war'
 }
 ```
-
 
 ## User management
 
@@ -449,7 +448,7 @@ wildfly::datasources::xa_datasource { 'petshopDSXa':
 }
 ```
 
-Datasource configuration uses a hash with elements that match JBoss-CLI datasource add elements name. More info here: https://docs.jboss.org/author/display/WFLY8/DataSource+configuration
+Datasource configuration uses a hash with elements that match [JBoss-CLI datasource add elements name](https://docs.jboss.org/author/display/WFLY8/DataSource+configuration).
 
 Configure Database Property, only works for normal datasources
 
@@ -474,7 +473,7 @@ wildfly::undertow::https { 'https':
 }
 ```
 
-###JBoss AS7/EAP 6
+### JBoss AS7/EAP 6
 
 ```puppet
 wildfly::web::connector { 'https':
@@ -495,7 +494,7 @@ wildfly::web::ssl { 'ssl':
 }
 ```
 
-**Sample identity store configuration with `puppetlabs-java_ks`:**
+### Sample identity store configuration with `puppetlabs-java_ks`
 
 ```puppet
 java_ks { 'demo:/opt/identitystore.jks':
@@ -541,7 +540,7 @@ wildfly::resource { '/some=resource':
 
 ## Messaging
 
-*`full` profiles only*
+> **NOTE** `full` profiles only
 
 ```puppet
 wildfly::messaging::queue { 'DemoQueue':
@@ -586,9 +585,9 @@ wildfly::modcluster::config { "Modcluster mybalancer":
 }
 ```
 
-> **NOTE:** For apache/httpd mod_cluster configuration check: https://github.com/puppetlabs/puppetlabs-apache#class-apachemodcluster
+> **NOTE:** For apache/httpd mod_cluster configuration check [::apache::mod::cluster](https://github.com/puppetlabs/puppetlabs-apache#class-apachemodcluster)
 
-##Reference
+## Reference
 
 - [**Public classes**](#public-classes)
     - [Class: wildfly](#class-wildfly)
@@ -625,7 +624,7 @@ You can simply declare the default `wildfly` class:
 class { 'wildfly': }
 ```
 
-**Parameters within `wildfly`:**
+#### Parameters within `wildfly`
 
 ##### `version`
 
@@ -759,7 +758,7 @@ Manages Wildfly service.
 
 Manages a Wildfly configuration resource: e.g `/subsystem=datasources/data-source=MyDS or /subsystem=datasources/jdbc-driver=postgresql`. Virtually anything in your configuration XML file that can be manipulated using JBoss-CLI could be managed by this defined type. This define is a wrapper for `wildfly_resource` that defaults to your local Wildfly installation.
 
-**Parameters within `wildfly::resource`:**
+#### Parameters within `wildfly::resource`
 
 ##### `name`
 
@@ -789,7 +788,7 @@ Sets the target profile to prefix resource name. Requires domain mode. Default `
 
 Executes an arbitrary JBoss-CLI command `# [node-type=node-name (/node-type=node-name)*] : operation-name ['('[name=value [, name=value]*]')'] [{header (;header)*}]`. This define is a wrapper for `wildfly_cli` that defaults to your local Wildfly installation.
 
-**Parameters within `wildfly::cli`:**
+#### Parameters within `wildfly::cli`
 
 ##### `command (namevar)`
 
@@ -805,7 +804,7 @@ If this parameter is set, then this `cli` will only run if this command conditio
 
 ```
 (result == false) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)
-```  
+```
 
 ##### `onlyif`
 
@@ -813,25 +812,27 @@ If this parameter is set, then this `cli` will run unless this command condition
 
 ```
 (result == true of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)
-```  
+```
 
 #### Defined type: `wildfly::reload`
 
 Performs a system reload when a reload is required `server-state=reload-required`. This define is a wrapper for `wildfly_reload` that defaults to your local Wildfly installation. It is commonly used as a subscriber of a resource that requires reload.
 
-**Parameters within `wildfly::reload`:**
+#### Parameters within `wildfly::reload`
 
 ##### `retries`
+
 Sets the number of retries to check if service is available. Default `3`.
 
 ##### `wait`
+
 Sets the amount of time in seconds that this resource will wait for the service to be available before a attempt. Default `10`.
 
 #### Defined type: `wildfly::deployment`
 
 Manages a deployment (JAR, EAR, WAR) in Wildfly. This define is a wrapper for `wildfly_deployment` that defaults to your local Wildfly installation.
 
-**Parameters within `wildfly::deployment`:**
+#### Parameters within `wildfly::deployment`
 
 ##### `name`
 
@@ -861,7 +862,7 @@ Sets [operation-headers](https://docs.jboss.org/author/display/WFLY9/Admin+Guide
 
 Manages a module (`$WILDFLY_HOME/modules`).
 
-**Parameters within `wildfly::config::module`:**
+#### Parameters within `wildfly::config::module`
 
 ##### `name`
 
@@ -872,6 +873,7 @@ The name of the module. e.g. `org.postgresql`
 Sets the source for this module, either a local file `file:/`, a remote one `http://` or `puppet://`.
 
 ##### `dependencies`
+
 Sets the dependencies for this module e.g. `javax.transaction`. Default `[]`
 
 ##### `system`
@@ -882,53 +884,61 @@ Whether this is a system (`system/layers/base`) module or not. Default `true`.
 
 Manages an Application User (`application-users.properties`) for Wildfly.
 
-**Parameters within `wildfly::config::app_user`:**
+#### Parameters within `wildfly::config::app_user`
 
 ##### `name`
+
 The user name.
 
 ##### `password`
+
 The user password.
 
 #### Defined type: `wildfly::config::mgmt_user`
 
 Manages a Management User (`mgmt-users.properties`) for Wildfly.
 
-**Parameters within `wildfly::config::mgmt_user`:**
+#### Parameters within `wildfly::config::mgmt_user`
 
 ##### `name`
+
 The user name.
 
 ##### `password`
+
 The user password.
 
 #### Defined type: `wildfly::config::user_groups`
 
 Manages groups for a Management User (`mgmt-groups.properties`).
 
-**Parameters within `wildfly::config::user_groups`:**
+#### Parameters within `wildfly::config::user_groups`
 
 ##### `name`
+
 The target user to manage groups.
 
 ##### `groups`
+
 List of groups to associate with this user.
 
 #### Defined type: `wildfly::config::user_roles`
 
 Manages roles for an Application User (`application-roles.properties`).
 
-**Parameters within `wildfly::config::user_roles`:**
+#### Parameters within `wildfly::config::user_roles`
 
 ##### `name`
+
 The target user to manage roles.
 
 ##### `groups`
+
 List of roles to associate with this user.
 
-> **NOTE:** Check types tab (https://forge.puppet.com/biemond/wildfly/types) for more information about custom types/providers.
+> **NOTE:** Check [types tab](https://forge.puppet.com/biemond/wildfly/types) for more information about custom types/providers.
 
-##Limitations
+## Limitations
 
 Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) are built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::resource`.
 
@@ -936,9 +946,9 @@ One discussed approach would be to generate defined types based on Wildfly's con
 
 JBoss EAP only works with RHEL-based OS's unless you provide custom scripts.
 
-This bug might also be a problem for `standalone-full-ha` users in JBoss EAP: https://bugzilla.redhat.com/show_bug.cgi?id=1224170
+[This bug](https://bugzilla.redhat.com/show_bug.cgi?id=1224170) might also be a problem for `standalone-full-ha` users in JBoss EAP.
 
-##Development
+## Development
 
 ### Testing
 
@@ -975,14 +985,12 @@ It takes ~3 minutes per test.
 
 JBoss/Wildfly configuration management is based on three custom types, `wildfly_resource`, `wildfly_cli` and `wildfly_deployment`. And you can do virtually any configuration that is possible through JBoss-CLI or XML configuration using them.
 
- So, before build your awesome definition to manage a new resource or introduce a new configuration in an existing resource, check `wildfly::*` (`wildfly::deployment`, `wildfly::datasources::*`, `wildfly::undertow::*`, `wildfly::messaging::*`) for guidance.
+So, before build your awesome definition to manage a new resource or introduce a new configuration in an existing resource, check `wildfly::*` (`wildfly::deployment`, `wildfly::datasources::*`, `wildfly::undertow::*`, `wildfly::messaging::*`) for guidance.
 
 If you can't figure out how to achieve your configuration, feel free to open an issue.
 
-
-##Author/Contributors
+## Author/Contributors
 
 - Edwin Biemond (biemond at gmail dot com)
 - Jairo Junior (junior.jairo1 at gmail dot com)
-
-More: https://github.com/biemond/biemond-wildfly/graphs/contributors
+- [More](https://github.com/biemond/biemond-wildfly/graphs/contributors)
