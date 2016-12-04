@@ -11,10 +11,9 @@ SimpleCov.formatters = [
   Coveralls::SimpleCov::Formatter
 ]
 SimpleCov.start do
-
-  add_group "Puppet Types", '/lib/puppet/type/'
-  add_group "Puppet Providers", '/lib/puppet/provider/'
-  add_group "Puppet Extensions", 'lib/puppet_x/'
+  add_group 'Puppet Types', '/lib/puppet/type/'
+  add_group 'Puppet Providers', '/lib/puppet/provider/'
+  add_group 'Puppet Extensions', 'lib/puppet_x/'
 
   add_filter '/spec'
   add_filter 'lib/puppet/parser'

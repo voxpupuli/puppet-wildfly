@@ -7,11 +7,11 @@ describe 'wildfly::install' do
 
   context 'install wildfly' do
     let(:facts) do
-      { operatingsystem: 'CentOS',
-        kernel: 'Linux',
-        osfamily: 'RedHat',
-        operatingsystemmajrelease: '7',
-        initsystem: 'systemd' }
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
     end
 
     it { is_expected.to contain_class('wildfly::install') }

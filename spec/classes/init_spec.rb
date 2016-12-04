@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'wildfly', type: :class do
+describe 'wildfly', :type => :class do
   context 'with defaults for all parameters' do
     let(:facts) do
-      { operatingsystem: 'CentOS',
-        kernel: 'Linux',
-        osfamily: 'RedHat',
-        operatingsystemmajrelease: '7',
-        initsystem: 'systemd' }
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
     end
 
     it { is_expected.to contain_class('wildfly') }

@@ -39,8 +39,8 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
       EOS
 
       # Run it twice and test for idempotency
-      apply_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
-      expect(apply_manifest(pp, catch_failures: true).exit_code).to be_zero
+      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 15')
     end
 
@@ -54,21 +54,21 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', acceptable_exit_codes: 0) do |r|
+      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
 
     it 'XA datasource exists' do
       shell("#{jboss_cli} '/subsystem=datasources/xa-data-source=petshopDSXa:read-resource'",
-            acceptable_exit_codes: 0) do |r|
+            :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'XA datasource is enabled' do
       shell("#{jboss_cli} '/subsystem=datasources/xa-data-source=petshopDSXa:read-attribute(name=enabled)'",
-            acceptable_exit_codes: 0) do |r|
+            :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '"result" => true'
       end
     end

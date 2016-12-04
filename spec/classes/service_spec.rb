@@ -7,11 +7,11 @@ describe 'wildfly::service' do
 
   context 'use RedHat init script' do
     let(:facts) do
-      { operatingsystem: 'CentOS',
-        kernel: 'Linux',
-        osfamily: 'RedHat',
-        operatingsystemmajrelease: '6', 
-        initsystem: 'sysvinit' }
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '6',
+        :initsystem => 'sysvinit' }
     end
 
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
@@ -28,11 +28,11 @@ describe 'wildfly::service' do
 
   context 'use RedHat systemd script' do
     let(:facts) do
-      { operatingsystem: 'CentOS',
-        kernel: 'Linux',
-        osfamily: 'RedHat',
-        operatingsystemmajrelease: '7',
-        initsystem: 'systemd' }
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
     end
 
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
@@ -50,11 +50,11 @@ describe 'wildfly::service' do
 
   context 'use Debian script' do
     let(:facts) do
-      { operatingsystem: 'Debian',
-        kernel: 'Linux',
-        osfamily: 'Debian',
-        operatingsystemmajrelease: '8',
-        initsystem: 'systemd' }
+      { :operatingsystem => 'Debian',
+        :kernel => 'Linux',
+        :osfamily => 'Debian',
+        :operatingsystemmajrelease => '8',
+        :initsystem => 'systemd' }
     end
 
     it { is_expected.to contain_file('/etc/default/wildfly') }

@@ -15,8 +15,8 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
             distribution   => '#{test_data['distribution']}',
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
-            java_home      => '#{test_data['java_home']}', 
-          } 
+            java_home      => '#{test_data['java_home']}',
+          }
 
           wildfly::config::module { 'org.postgresql':
             source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
@@ -46,8 +46,8 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
       EOS
 
       # Run it twice and test for idempotency
-      apply_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
-      expect(apply_manifest(pp, catch_failures: true).exit_code).to be_zero
+      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 15')
     end
 
@@ -61,13 +61,13 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', acceptable_exit_codes: 0) do |r|
+      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
 
     it 'contains postgresql module' do
-      shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', acceptable_exit_codes: 0) do |r|
+      shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'postgresql-9.3-1103-jdbc4.jar'
         expect(r.stdout).to include 'module.xml'
       end

@@ -7,11 +7,11 @@ describe 'wildfly::setup' do
 
   context 'with default params' do
     let(:facts) do
-      { operatingsystem: 'Debian',
-        kernel: 'Linux',
-        osfamily: 'Debian',
-        operatingsystemmajrelease: '8',
-        initsystem: 'systemd' }
+      { :operatingsystem => 'Debian',
+        :kernel => 'Linux',
+        :osfamily => 'Debian',
+        :operatingsystemmajrelease => '8',
+        :initsystem => 'systemd' }
     end
 
     it { is_expected.to contain_file('/opt/wildfly/bin/standalone.conf') }

@@ -4,10 +4,10 @@ require 'json'
 describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   let (:path) { '/subsystem=dummy' }
 
-  let (:resource) { Puppet::Type.type(:wildfly_resource).new path: path }
+  let (:resource) { Puppet::Type.type(:wildfly_resource).new :path => path }
 
   describe 'when testing wether the state is in sync without recursive' do
-    let(:state) { described_class.new(resource: resource) }
+    let(:state) { described_class.new(:resource => resource) }
 
     it 'does not be in sync if hashes do not match' do
       state.should = { 'name' => 'dummy', 'value' => 'anotherResource' }
@@ -64,7 +64,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   end
 
   describe 'when testing wether the state is in sync with recursive' do
-    let(:state) { described_class.new(resource: resource) }
+    let(:state) { described_class.new(:resource => resource) }
 
     it 'does not be in sync if hashes do not match' do
       state.should = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'match' } }
@@ -128,7 +128,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   end
 
   describe 'when testing state change notification' do
-    let(:state) { described_class.new(resource: resource) }
+    let(:state) { described_class.new(:resource => resource) }
 
     it 'obfuscates sensitive data' do
       current_value = { 'name' => 'dummy', 'nested-hash' => { 'enabled' => true } }
@@ -136,7 +136,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
 
       message = state.change_to_s(current_value, new_value)
 
-      matches = %r{state changed '(.*)' to '(.*)'}.match(message)
+      matches = /state changed '(.*)' to '(.*)'/.match(message)
 
       captured_new_value = JSON.parse(matches[2].gsub('=>', ':'))
 
@@ -149,7 +149,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
 
       message = state.change_to_s(current_value, new_value)
 
-      matches = %r{state changed '(.*)' to '(.*)'}.match(message)
+      matches = /state changed '(.*)' to '(.*)'/.match(message)
 
       captured_new_value = JSON.parse(matches[2].gsub('=>', ':'))
 
@@ -162,7 +162,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
 
       message = state.change_to_s(current_value, new_value)
 
-      matches = %r{state changed '(.*)' to '(.*)'}.match(message)
+      matches = /state changed '(.*)' to '(.*)'/.match(message)
 
       captured_current_value = JSON.parse(matches[1].gsub('=>', ':'))
 

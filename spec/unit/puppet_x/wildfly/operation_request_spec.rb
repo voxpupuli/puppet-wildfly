@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe PuppetX::Wildfly::OperationRequest do
   context 'when performing requests' do
-
     let(:api_client) { double('api_client') }
     let(:request) { described_class.new(api_client) }
 
