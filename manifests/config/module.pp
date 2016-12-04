@@ -9,6 +9,8 @@ define wildfly::config::module(
   require wildfly::install
 
   $namespace_path = regsubst($name, '[.]', '/', 'G')
+  $namespace_first_level = split($namespace_path, '/')[0]
+  $namespace_second_level = split($namespace_path, '/')[1]
 
   if $system {
     $module_dir = 'system/layers/base'
@@ -25,11 +27,10 @@ define wildfly::config::module(
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "mkdir -p ${dir_path}",
     unless  => "test -d ${dir_path}",
-    before  => [File[$dir_path]],
-  }
-
-  file { $dir_path:
+  } ->
+  file { "${wildfly::dirname}/modules/${module_dir}/${namespace_first_level}/${namespace_second_level}":
     ensure  => directory,
+    recurse => true,
   }
 
   if $source == '.' {
