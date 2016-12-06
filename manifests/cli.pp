@@ -13,7 +13,6 @@ define wildfly::cli(
     password => $wildfly::mgmt_user['password'],
     host     => $wildfly::setup::properties['jboss.bind.address.management'],
     port     => $wildfly::setup::properties['jboss.management.http.port'],
-    command  => $command,
     unless   => $unless,
     onlyif   => $onlyif
   }

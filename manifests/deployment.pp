@@ -33,7 +33,7 @@ define wildfly::deployment(
       ensure => 'present',
       owner  => $::wildfly::user,
       group  => $::wildfly::group,
-      mode   => '0755',
+      mode   => '0655',
     }
   }
 

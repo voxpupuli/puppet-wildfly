@@ -11,9 +11,22 @@ describe 'wildfly::setup' do
         :kernel => 'Linux',
         :osfamily => 'Debian',
         :operatingsystemmajrelease => '8',
-        :initsystem => 'systemd' }
+        :initsystem => 'systemd',
+        :fqdn => 'appserver.localdomain' }
     end
 
-    it { is_expected.to contain_file('/opt/wildfly/bin/standalone.conf') }
+    it do
+      is_expected.to contain_file('/opt/wildfly/bin/standalone.conf')
+        .with(:owner => 'wildfly',
+              :group   => 'wildfly')
+        .that_notifies('Class[wildfly::service]')
+    end
+    it do
+      is_expected.to contain_file('/opt/wildfly/jboss.properties')
+        .with(:owner => 'wildfly',
+              :group   => 'wildfly')
+        .that_notifies('Class[wildfly::service]')
+    end
+    it { is_expected.to contain_wildfly__config__mgmt_user('puppet').with(:password => 'z7kH7ff95VJrYFR9Ll6W9DQl9mWCzx') }
   end
 end

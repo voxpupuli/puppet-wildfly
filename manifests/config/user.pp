@@ -2,10 +2,13 @@
 # add wildlfy user
 #
 define wildfly::config::user(
-  $username,
   $password,
   $file_name,
-  $realm) {
+) {
+
+  $user_info = split($name, ':')
+  $username = $user_info[0]
+  $realm = $user_info[1]
 
   $password_hash = inline_template('<%= require \'digest/md5\'; Digest::MD5.hexdigest("#{@username}:#{@realm}:#{@password}") %>')
 

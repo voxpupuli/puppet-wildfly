@@ -45,7 +45,10 @@ class wildfly::params {
   $java_opts         = ''
   $jboss_opts        = ''
 
-  $mgmt_user = { username => 'puppet', password => fqdn_rand_string(30) }
+  $mgmt_user = {
+    username => 'puppet',
+    password => fqdn_rand_string(30)
+  }
 
   $install_cache_dir = '/var/cache/wget'
   $install_download_timeout = 500

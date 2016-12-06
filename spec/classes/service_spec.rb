@@ -14,6 +14,8 @@ describe 'wildfly::service' do
         :initsystem => 'sysvinit' }
     end
 
+    it { is_expected.to contain_class('wildfly::service::sysvinit') }
+
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
     it do
@@ -35,6 +37,7 @@ describe 'wildfly::service' do
         :initsystem => 'systemd' }
     end
 
+    it { is_expected.to contain_class('wildfly::service::systemd') }
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
     it do
@@ -57,6 +60,7 @@ describe 'wildfly::service' do
         :initsystem => 'systemd' }
     end
 
+    it { is_expected.to contain_class('wildfly::service::systemd') }
     it { is_expected.to contain_file('/etc/default/wildfly') }
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
     it do

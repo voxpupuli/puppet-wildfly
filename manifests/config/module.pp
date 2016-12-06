@@ -25,6 +25,7 @@ define wildfly::config::module(
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "mkdir -p ${dir_path}",
     unless  => "test -d ${dir_path}",
+    user    => $wildfly::user,
     before  => [File[$dir_path]],
   }
 
@@ -43,6 +44,7 @@ define wildfly::config::module(
     }
     /^(file:|puppet:)/: {
       file { "${dir_path}/${file_name}":
+        ensure => 'file',
         owner  => $::wildfly::user,
         group  => $::wildfly::group,
         mode   => '0755',
@@ -59,6 +61,7 @@ define wildfly::config::module(
       }
 
       file { "${dir_path}/${file_name}":
+        ensure  => 'file',
         owner   => $::wildfly::user,
         group   => $::wildfly::group,
         mode    => '0755',
