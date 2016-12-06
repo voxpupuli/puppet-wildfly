@@ -19,32 +19,13 @@ Puppet::Type.type(:wildfly_cli).provide(:http_api) do
     onlyif_eval = false
 
     unless @resource[:unless].nil?
-      unless_eval = evaluate_command(@resource[:unless])
+      unless_eval = cli.evaluate(@resource[:unless])
     end
 
     unless @resource[:onlyif].nil?
-      onlyif_eval = evaluate_command(@resource[:onlyif])
+      onlyif_eval = cli.evaluate(@resource[:onlyif])
     end
 
     onlyif_eval || !unless_eval || (@resource[:unless].nil? && @resource[:onlyif].nil?)
-  end
-
-  def evaluate_command(command)
-    condition, command = command.split(%r{\sof\s})
-    variable, operator, value = condition.sub('(', '').sub(')', '').split(%r{\s})
-
-    debug "Executing: #{command} to verify: (#{condition})"
-
-    response = cli.exec(command, :ignore_failed_outcome => true)
-
-    if operator == 'has'
-      condition = "#{response[variable].inspect}.include?(#{value})"
-    else
-      condition = "'#{response[variable]}' #{operator} '#{value}'"
-    end
-
-    debug "Condition (#{condition})"
-
-    eval(condition)
   end
 end

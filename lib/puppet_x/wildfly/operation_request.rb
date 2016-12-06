@@ -16,6 +16,21 @@ module PuppetX
         @api_client.submit(detyped_request, ignore_failed_outcome)
       end
 
+      def evaluate(command)
+        condition, command = command.split(/\sof\s/)
+        variable, operator, value = condition.gsub(/[()]/, '').split("\s")
+
+        response = exec(command, :ignore_failed_outcome => true)
+
+        condition = if operator == 'has'
+                      "#{response[variable].inspect}.include?(#{value})"
+                    else
+                      "'#{response[variable]}' #{operator} '#{value}'"
+                    end
+
+        eval(condition)
+      end
+
       # resource
 
       def exists?(resource)
