@@ -7,7 +7,7 @@ gem 'simplecov', :require => false
 gem 'simplecov-console'
 gem 'puppet-lint'
 gem 'puppet', puppetversion
-gem 'rspec', '>= 3.2.0'
+gem 'rspec', '>= 3.4.4'
 gem 'rspec-puppet', '>= 2.1.0'
 gem 'rspec-system-puppet'
 gem 'puppetlabs_spec_helper'
