@@ -27,6 +27,6 @@ describe 'wildfly::setup' do
               :group   => 'wildfly')
         .that_notifies('Class[wildfly::service]')
     end
-    it { is_expected.to contain_wildfly__config__mgmt_user('puppet').with(:password => 'z7kH7ff95VJrYFR9Ll6W9DQl9mWCzx') }
+    it { is_expected.to contain_wildfly__config__mgmt_user('puppet') }
   end
 end

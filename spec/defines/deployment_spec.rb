@@ -22,7 +22,6 @@ describe 'wildfly::deployment' do
     it do
       is_expected.to contain_wildfly_deployment(title)
         .with(:username => 'puppet',
-              :password => 'z7kH7ff95VJrYFR9Ll6W9DQl9mWCzx',
               :host     => '127.0.0.1',
               :port     => '9990')
         .that_requires(['Class[wildfly::service]', 'File[/tmp/hawtio.war]'])
