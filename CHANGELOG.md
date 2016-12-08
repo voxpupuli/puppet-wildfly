@@ -1,5 +1,9 @@
 # History
 
+## 1.0.1
+
+- Fix for Wildfly 10 with systemd.
+
 ## 1.0.0
 
 - Improve domain support

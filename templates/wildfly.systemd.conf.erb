@@ -6,8 +6,8 @@ WILDFLY_CONFIG="'<%= config.to_s %> -P <%= scope.lookupvar('wildfly::dirname') %
 # The mode you want to run
 WILDFLY_MODE=<%= scope.lookupvar('wildfly::mode') %>
 
-# The address to bind to
-WILDFLY_BIND=<%= scope.lookupvar('wildfly::setup::properties')['jboss.bind.address'] %>
+# Location of WildFly
+WILDFLY_HOME="<%= scope.lookupvar('wildfly::dirname') %>"
 
 # Location of JDK
 JAVA_HOME=<%= scope.lookupvar('wildfly::java_home') %>
