@@ -10,6 +10,10 @@ class wildfly::params {
   $user           = 'wildfly'
   $dirname        = '/opt/wildfly'
   $package_ensure = 'present'
+  
+  $install_method   = 'tarball'
+  $package_name     = 'wildfly'
+  $package_version  = present
 
   $service_ensure    = true
   $service_enable    = true
