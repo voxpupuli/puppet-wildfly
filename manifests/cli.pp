@@ -9,6 +9,7 @@ define wildfly::cli(
   require wildfly::service
 
   wildfly_cli { $name:
+    command  => $command,
     username => $wildfly::mgmt_user['username'],
     password => $wildfly::mgmt_user['password'],
     host     => $wildfly::setup::properties['jboss.bind.address.management'],
