@@ -13,7 +13,7 @@ Puppet::Type.newtype(:wildfly_deployment) do
   end
 
   newparam(:source) do
-    desc 'Deployment source in URL format. (e.g. file:/tmp/file.war)'
+    desc 'Deployment source file. (e.g. /tmp/file.war)'
   end
 
   newparam(:server_group) do
