@@ -32,7 +32,7 @@ module PuppetX
         rescue => e
           if retried + 1 < 6
             retried += 1
-            sleep 10 
+            sleep 10
             retry
           else
             raise e
