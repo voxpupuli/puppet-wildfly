@@ -1,6 +1,4 @@
 require 'base64'
-# require 'puppet_x/wildfly/api_client'
-# require 'puppet_x/wildfly/operation_request'
 
 Puppet::Type.type(:wildfly_deployment).provide(:http_api) do
   desc 'Uses JBoss HTTP API to perfom deploy'
