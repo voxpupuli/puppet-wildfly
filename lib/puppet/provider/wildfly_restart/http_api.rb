@@ -13,13 +13,10 @@ Puppet::Type.type(:wildfly_restart).provide :http_api, :parent => Puppet::Provid
     begin
       pending?
     rescue => e
-      if retried + 1 < @resource[:retries].to_i
-        retried += 1
-        sleep @resource[:wait].to_i
-        retry
-      else
-        raise e
-      end
+      raise e unless retried + 1 < @resource[:retries].to_i
+      retried += 1
+      sleep @resource[:wait].to_i
+      retry
     end
 
     debug 'Restarted!'

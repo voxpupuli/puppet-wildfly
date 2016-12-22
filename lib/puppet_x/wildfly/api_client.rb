@@ -30,13 +30,10 @@ module PuppetX
         begin
           response = @http_client.request authz_request
         rescue => e
-          if retried + 1 < 6
-            retried += 1
-            sleep 10
-            retry
-          else
-            raise e
-          end
+          raise e unless retried + 1 < 6
+          retried += 1
+          sleep 10
+          retry
         end
 
         if response['www-authenticate'] =~ /digest/i

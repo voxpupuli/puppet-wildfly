@@ -8,13 +8,13 @@ module Puppet::Parser::Functions
     params = []
     params << source
 
-    if override_all then
+    if override_all
       params << '--override-all'
     else
       unless override.empty? then params << "--override=#{override.join(',')}" end
       unless preserve.empty? then params << "--preserve=#{preserve.join(',')}" end
     end
 
-    params.join(" ")
+    params.join(' ')
   end
 end
