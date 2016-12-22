@@ -1,14 +1,7 @@
-require 'base64'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'wildfly'))
 
-Puppet::Type.type(:wildfly_deployment).provide(:http_api) do
+Puppet::Type.type(:wildfly_deployment).provide :http_api, :parent => Puppet::Provider::Wildfly do
   desc 'Uses JBoss HTTP API to perfom deploy'
-
-  confine :feature => :puppet_x_wildfly_api_client
-
-  def cli
-    api_client = PuppetX::Wildfly::APIClient.new(@resource[:host], @resource[:port], @resource[:username], @resource[:password])
-    PuppetX::Wildfly::OperationRequest.new(api_client)
-  end
 
   def create
     debug "Deploying #{@resource[:name]} from source #{@resource[:source]}"

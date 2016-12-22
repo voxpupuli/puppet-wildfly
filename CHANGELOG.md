@@ -1,5 +1,10 @@
 # History
 
+## 1.1.0
+
+- Introduce patch management feature
+- Move providers dependencies to a single place
+
 ## 1.0.1
 
 - Fix for Wildfly 10 with systemd.

@@ -1,5 +1,7 @@
 class Puppet::Provider::Wildfly < Puppet::Provider
 
+  confine :feature => :puppet_x_wildfly_api_client
+
   def cli
     require 'puppet_x/wildfly/api_client'
     require 'puppet_x/wildfly/operation_request'

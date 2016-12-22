@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'puppet_x/wildfly/operation_builder'
 
 describe PuppetX::Wildfly::OperationBuilder do
   context 'when building requests' do

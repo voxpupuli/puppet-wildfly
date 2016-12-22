@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'puppet_x/wildfly/cli_command'
 
 describe PuppetX::Wildfly::CLICommand do
   context 'detyped requests' do

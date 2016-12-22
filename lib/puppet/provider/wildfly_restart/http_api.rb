@@ -1,4 +1,4 @@
-require 'puppet/provider/wildfly'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'wildfly'))
 
 Puppet::Type.type(:wildfly_restart).provide :http_api, :parent => Puppet::Provider::Wildfly do
   desc 'Uses JBoss HTTP API to manage restarts.'
