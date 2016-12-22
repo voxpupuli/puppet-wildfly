@@ -26,11 +26,19 @@ Puppet::Type.newtype(:wildfly_restart) do
   newparam(:retries) do
     desc 'Number of times it will check if server is running after a restart'
     defaultto 3
+
+    munge do |value|
+      value.to_i
+    end
   end
 
   newparam(:wait) do
     desc 'Amount of time (in seconds) that it will wait before next attempt'
     defaultto 10
+
+    munge do |value|
+      value.to_i
+    end
   end
 
   newproperty(:pending) do
