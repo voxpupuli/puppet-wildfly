@@ -7,7 +7,7 @@ require 'net/http/digest_auth'
 module PuppetX
   module Wildfly
     class APIClient
-      def initialize(address, port, user, password, timeout = 60)
+      def initialize(address, port, user, password, timeout)
         @username = user
         @password = password
 
