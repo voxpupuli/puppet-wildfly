@@ -657,10 +657,12 @@ wildfly::modcluster::config { "Modcluster mybalancer":
     - [Class: wildfly::service](#class-wildflyservice)
 - [**Public defined types**](#public-defined-types)
     - [Defined type: wildfly::resource](#defined-type-wildflyresource)
+    - [Defined type: wildfly::cli](#defined-type-wildflycli)
     - [Defined type: wildfly::deployment](#defined-type-wildflydeployment)
-    - [Defined type: wildfly::cli](#defined-type-wildfly_cli)
-    - [Defined type: wildfly::reload](#defined-type-wildfly_reload)
-    - [Defined type: wildfly::restart](#defined-type-wildfly_restart)
+    - [Defined type: wildfly::reload](#defined-type-wildflyreload)
+    - [Defined type: wildfly::restart](#defined-type-wildflyrestart)
+    - [Defined type: wildfly::patch::offline](#defined-type-wildflypatchoffline)
+    - [Defined type: wildfly::patch::online](#defined-type-wildflypatchonline)
     - [Defined type: wildfly::config::module](#defined-type-wildflyconfigmodule)
     - [Defined type: wildfly::config::app_user](#defined-type-wildflyconfigapp_user)
     - [Defined type: wildfly::config::mgmt_user](#defined-type-wildflyconfigmgmt_user)
@@ -875,6 +877,36 @@ If this parameter is set, then this `cli` will run unless this command condition
 (result == true of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)
 ```
 
+#### Defined type: `wildfly::deployment`
+
+Manages a deployment (JAR, EAR, WAR) in Wildfly. This define is a wrapper for `wildfly_deployment` that defaults to your local Wildfly installation.
+
+#### Parameters within `wildfly::deployment`
+
+##### `name`
+
+The actual name of the deployment. (e.g. `hawtio.war` or `myapp.ear`)
+
+##### `ensure`
+
+Whether the deployment should exist (`present`) or not (`absent`). Default `present`.
+
+##### `source`
+
+Sets the source for this deployment, either a local file `file:/` or a remote file `http://`.
+
+##### `timeout`
+
+Sets the timeout to deploy this resource. Default `300`.
+
+##### `server_group`
+
+Sets the target `server-group` for this deployment. Requires domain mode. Default `undef`.
+
+##### `operation_headers`
+
+Sets [operation-headers](https://docs.jboss.org/author/display/WFLY9/Admin+Guide#AdminGuide-OperationHeaders) (e.g. `{ 'allow-resource-service-restart' => true, 'rollback-on-runtime-failure' => false, 'blocking-timeout' => 600}`) to be used when creating/destroying this deployment. Default `{}`.
+
 #### Defined type: `wildfly::reload`
 
 Performs a system reload when a reload is required `server-state=reload-required`. This define is a wrapper for `wildfly_restart` that defaults to your local Wildfly installation. It is commonly used as a subscriber of a resource that requires reload.
@@ -903,35 +935,49 @@ Sets the number of retries to check if service is available. Default `3`.
 
 Sets the amount of time in seconds that this resource will wait for the service to be available before a attempt. Default `10`.
 
-#### Defined type: `wildfly::deployment`
+#### Defined type: `wildfly::patch::offline`
 
-Manages a deployment (JAR, EAR, WAR) in Wildfly. This define is a wrapper for `wildfly_deployment` that defaults to your local Wildfly installation.
+Applies patches offline.
 
-#### Parameters within `wildfly::deployment`
+#### Parameters within `wildfly::patch::offline`
 
 ##### `name`
 
-The actual name of the deployment. (e.g. `hawtio.war` or `myapp.ear`)
+Sets the version of the patch to ensure that patch is present.
 
-##### `ensure`
+##### `override_all`
 
-Whether the deployment should exist (`present`) or not (`absent`). Default `present`.
+Whether it should solve all conflicts by overriding current files. Default `false`.
 
-##### `source`
+##### `override`
 
-Sets the source for this deployment, either a local file `file:/` or a remote file `http://`.
+List of files to be overridden. Default `[]`.
 
-##### `timeout`
+##### `preserve`
 
-Sets the timeout to deploy this resource. Default `120`.
+List of files to be preserved. Default `[]`.
 
-##### `server_group`
+#### Defined type: `wildfly::patch::online`
 
-Sets the target `server-group` for this deployment. Requires domain mode. Default `undef`.
+Applies patches online. Requires server restart.
 
-##### `operation_headers`
+#### Parameters within `wildfly::patch::online`
 
-Sets [operation-headers](https://docs.jboss.org/author/display/WFLY9/Admin+Guide#AdminGuide-OperationHeaders) (e.g. `{ 'allow-resource-service-restart' => true, 'rollback-on-runtime-failure' => false, 'blocking-timeout' => 600}`) to be used when creating/destroying this deployment. Default `{}`.
+##### `name`
+
+Sets the version of the patch to ensure that patch is present.
+
+##### `override_all`
+
+Whether it should solve all conflicts by overriding current files. Default `false`.
+
+##### `override`
+
+List of files to be overridden. Default `[]`.
+
+##### `preserve`
+
+List of files to be preserved. Default `[]`.
 
 #### Defined type: `wildfly::config::module`
 
