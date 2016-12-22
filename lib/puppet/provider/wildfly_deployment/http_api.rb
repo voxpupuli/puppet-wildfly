@@ -27,11 +27,7 @@ Puppet::Type.type(:wildfly_deployment).provide :http_api, :parent => Puppet::Pro
     cli.update_deploy(@resource[:name], @resource[:source], @resource[:server_group], @resource[:operation_headers])
   end
 
-  private
-
   def server_group_address
-    unless @resource[:server_group].nil?
-      "/server-group=#{@resource[:server_group]}"
-    end
+    "/server-group=#{@resource[:server_group]}" unless @resource[:server_group].nil?
   end
 end
