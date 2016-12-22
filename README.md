@@ -17,6 +17,7 @@
     * [Wildfly 8.2.1](#wildfly-821)
     * [JBoss EAP 6.x (with hiera)](#jboss-eap-6x-with-hiera)
     * [JBoss EAP 7.0](#jboss-eap-70)
+    * [Patch management](#patch-management)
     * [Unmanaged installation](#unmanaged-installation)
     * [Domain Mode](#domain-mode)
     * [Deployment](#deployment)
@@ -184,6 +185,64 @@ class { 'wildfly':
   group          => 'jboss-eap',
   dirname        => '/opt/jboss-eap',
   console_log    => '/var/log/jboss-eap/console.log',
+}
+```
+
+## Patch management
+
+Wildfly/JBoss allows you to apply patches to existing installation in order to update it. I suggest you use `puppet-archive` or any other `archive` module to download patches from remote sources, just be aware that you need to extract patch zip file in order to apply patches to Wildfly, but you'll be able to apply the zip file directly when you're using EAP.
+
+> **NOTE:** Wildfly from versions 8.0.0 to 9.0.1 has a bug in `jboss-cli.sh` that makes it report that a patch hasn't been successfuly applied (exit code 2) even when it was. If you're using one of theses versions you better update this file or live with a bad report. 
+
+### Offline
+
+Offline patching requires the server to be down, but don't leave the server in a `restart-required` state.
+
+
+#### EAP/Offline example
+
+```puppet
+class { '::wildfly':
+  distribution   => 'jboss-eap',
+  version        => '6.4',
+}
+
+archive { '/opt/wildfly/jboss-eap-6.4.8-patch.zip':
+  ensure => present,
+  source => 'http://10.0.2.2:9090/jboss-eap-6.4.8-patch.zip',
+}
+->
+wildfly::patch::offline { '6.4.8':
+  source => '/opt/wildfly/jboss-eap-6.4.8-patch.zip',
+}
+```
+
+### Online
+
+Online patching requires the server to be up and requires a restart after being applied.
+
+#### Wildfly/Online example
+
+```puppet
+class { '::wildfly':
+  version        => '10.0.0',
+  install_source => 'http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz',
+}
+
+archive { '/opt/wildfly/wildfly-10.1.0.Final-update.zip':
+  ensure       => present,
+  extract      => true,
+  extract_path => '/opt/wildfly',
+  creates      => '/opt/wildfly/wildfly-10.1.0.Final.patch',
+  source       => 'http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final-update.zip',
+  user         => 'wildfly',
+  group        => 'wildfly',
+  require      => [File['/opt/wildfly'],Package['unzip']],
+}
+->
+wildfly::patch::online { '10.1.0':
+  source       => '/opt/wildfly/wildfly-10.1.0.Final.patch',
+  override_all => true,
 }
 ```
 

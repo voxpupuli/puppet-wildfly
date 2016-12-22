@@ -10,7 +10,7 @@ class wildfly::service::sysvinit {
       ensure  => present,
       mode    => '0755',
       content => template($service_file),
-      before  => Service[$wildfly::service::service_name],
+      notify  => Service[$wildfly::service::service_name],
     }
   } else {
     # Use/Copy default initd script from installation
@@ -18,7 +18,7 @@ class wildfly::service::sysvinit {
       ensure => present,
       mode   => '0755',
       source => $service_file,
-      before => Service[$wildfly::service::service_name],
+      notify => Service[$wildfly::service::service_name],
     }
   }
 

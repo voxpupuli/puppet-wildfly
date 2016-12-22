@@ -1,0 +1,19 @@
+#
+# Manages Wildfly patches online
+#
+define wildfly::patch::online($source, $override_all = false, $override = [], $preserve = []) {
+
+  require wildfly::service
+
+  $args = patch_args($source, $override_all, $override, $preserve)
+
+  exec { "Patch ${name}":
+    command     => "jboss-cli.sh -c 'patch apply ${args}'",
+    unless      => "jboss-cli.sh -c 'patch history' | grep -q ${name}",
+    path        => ['/bin', '/usr/bin', '/sbin', "${wildfly::dirname}/bin"],
+    environment => "JAVA_HOME=${wildfly::java_home}",
+  }
+  ~>
+  wildfly::restart { "Restart for patch ${name}":
+  }
+}
