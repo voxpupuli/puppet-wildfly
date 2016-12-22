@@ -192,7 +192,7 @@ class { 'wildfly':
 
 Wildfly/JBoss allows you to apply patches to existing installation in order to update it. I suggest you use `puppet-archive` or any other `archive` module to download patches from remote sources, just be aware that you need to extract patch zip file in order to apply patches to Wildfly, but you'll be able to apply the zip file directly when you're using EAP.
 
-> **NOTE:** Wildfly from versions 8.0.0 to 9.0.1 has a bug in `jboss-cli.sh` that makes it report that a patch hasn't been successfuly applied (exit code 2) even when it was. If you're using one of theses versions you better update this file or live with a bad report. 
+> **NOTE:** Wildfly from versions 8.0.0 to 9.0.1 has a bug in `jboss-cli.sh` that makes it report that a patch hasn't been successfuly applied (exit code 2) even when it was. If you're using one of theses versions you better update this file or live with a bad report.
 
 ### Offline
 
@@ -248,7 +248,7 @@ wildfly::patch::online { '10.1.0':
 
 ## Unmanaged installation
 
-If you don't want to use this module to manage your Wildfly/JBoss installation or you don't want to manage your installation with Puppet at all. You still can use this module to manage your configuration using `wildfly_resource`, `wildfly_cli`, `wildfly_deployment` and `wildfly_reload`.
+If you don't want to use this module to manage your Wildfly/JBoss installation or you don't want to manage your installation with Puppet at all. You still can use this module to manage your configuration using `wildfly_resource`, `wildfly_cli`, `wildfly_deployment` and `wildfly_restart`.
 
 Example:
 
@@ -657,8 +657,10 @@ wildfly::modcluster::config { "Modcluster mybalancer":
     - [Class: wildfly::service](#class-wildflyservice)
 - [**Public defined types**](#public-defined-types)
     - [Defined type: wildfly::resource](#defined-type-wildflyresource)
-    - [Defined type: wildfly::cli](#defined-type-wildflyexec_cli)
     - [Defined type: wildfly::deployment](#defined-type-wildflydeployment)
+    - [Defined type: wildfly::cli](#defined-type-wildfly_cli)
+    - [Defined type: wildfly::reload](#defined-type-wildfly_reload)
+    - [Defined type: wildfly::restart](#defined-type-wildfly_restart)
     - [Defined type: wildfly::config::module](#defined-type-wildflyconfigmodule)
     - [Defined type: wildfly::config::app_user](#defined-type-wildflyconfigapp_user)
     - [Defined type: wildfly::config::mgmt_user](#defined-type-wildflyconfigmgmt_user)
@@ -875,9 +877,23 @@ If this parameter is set, then this `cli` will run unless this command condition
 
 #### Defined type: `wildfly::reload`
 
-Performs a system reload when a reload is required `server-state=reload-required`. This define is a wrapper for `wildfly_reload` that defaults to your local Wildfly installation. It is commonly used as a subscriber of a resource that requires reload.
+Performs a system reload when a reload is required `server-state=reload-required`. This define is a wrapper for `wildfly_restart` that defaults to your local Wildfly installation. It is commonly used as a subscriber of a resource that requires reload.
 
 #### Parameters within `wildfly::reload`
+
+##### `retries`
+
+Sets the number of retries to check if service is available. Default `3`.
+
+##### `wait`
+
+Sets the amount of time in seconds that this resource will wait for the service to be available before a attempt. Default `10`.
+
+#### Defined type: `wildfly::restart`
+
+Performs a full restart system when a restart is required `server-state=restart-required`. This define is a wrapper for `wildfly_restart` that defaults to your local Wildfly installation. It is commonly used as a subscriber of a resource that requires restart.
+
+#### Parameters within `wildfly::restart`
 
 ##### `retries`
 

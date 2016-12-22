@@ -16,7 +16,7 @@ describe 'wildfly::reload' do
     let(:pre_condition) { 'include wildfly' }
 
     it do
-      is_expected.to contain_wildfly_reload(title)
+      is_expected.to contain_wildfly_restart(title)
         .with(:username => 'puppet',
               :host     => '127.0.0.1',
               :port     => '9990')
@@ -41,7 +41,7 @@ describe 'wildfly::reload' do
     end
 
     it do
-      is_expected.to contain_wildfly_reload(title)
+      is_expected.to contain_wildfly_restart(title)
         .with(:username => 'admin',
               :password => 'safepassword',
               :host     => '192.168.10.10',

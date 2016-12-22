@@ -41,6 +41,11 @@ Puppet::Type.newtype(:wildfly_restart) do
     end
   end
 
+  newparam(:reload) do
+    desc 'Whether the server should only reload instead of restarting.'
+    defaultto false
+  end
+
   newproperty(:pending) do
     desc 'Whether the restart should be executed or not'
 

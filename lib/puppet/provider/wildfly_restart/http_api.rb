@@ -4,9 +4,11 @@ Puppet::Type.type(:wildfly_restart).provide :http_api, :parent => Puppet::Provid
   desc 'Uses JBoss HTTP API to manage restarts.'
 
   def restart
-    debug 'Restarting...'
+    command = resource[:reload]? ':reload' : ':shutdown(restart=true)'
 
-    cli.exec(':shutdown(restart=true)')
+    debug "Executing: #{command}"
+
+    cli.exec(command)
 
     retried = 0
 
@@ -19,7 +21,7 @@ Puppet::Type.type(:wildfly_restart).provide :http_api, :parent => Puppet::Provid
       retry
     end
 
-    debug 'Restarted!'
+    debug 'Done! Server ready.'
   end
 
   def pending?
@@ -28,6 +30,8 @@ Puppet::Type.type(:wildfly_restart).provide :http_api, :parent => Puppet::Provid
 
     debug "Server state: #{server_state}"
 
-    server_state == 'restart-required'
+    state = resource[:reload]? 'reload' : 'restart'
+
+    server_state == "#{state}-required"
   end
 end

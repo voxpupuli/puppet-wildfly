@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Puppet::Type.type(:wildfly_reload) do
-  let(:reload) { Puppet::Type.type(:wildfly_reload) }
+describe Puppet::Type.type(:wildfly_restart) do
+  let(:reload) { Puppet::Type.type(:wildfly_restart) }
 
   it 'has expected properties' do
     expect(reload.properties.map(&:name)).to include(:pending)
