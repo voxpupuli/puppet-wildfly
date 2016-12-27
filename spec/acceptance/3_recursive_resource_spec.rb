@@ -38,7 +38,6 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
 
       EOS
 
-      # Run it twice and test for idempotency
       apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
       expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 15')
@@ -56,6 +55,20 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
     it 'welcome page' do
       shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
+      end
+    end
+
+    it 'contains postgresql module' do
+      shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include 'postgresql-9.3-1103-jdbc4.jar'
+        expect(r.stdout).to include 'module.xml'
+      end
+    end
+
+    it 'postgresql driver exists' do
+      shell("#{jboss_cli} '/subsystem=datasources/jdbc-driver=postgresql:read-resource'",
+            :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 

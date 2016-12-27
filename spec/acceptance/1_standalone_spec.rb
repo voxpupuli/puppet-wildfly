@@ -2,14 +2,9 @@ require 'spec_helper_acceptance'
 
 describe "Standalone mode with #{test_data['distribution']}:#{test_data['version']}" do
   context 'Initial install Wildfly and verification' do
-    it 'applies the manifest without error' do
-      # update augeas on debian
-      # echo 'deb     http://pkg.camptocamp.net/apt wheezy/stable sysadmin' | sudo tee -a /etc/apt/sources.list
-      # curl -s http://pkg.camptocamp.net/packages-c2c-key.gpg | sudo apt-key add -
-      # apt-get update
-      # sudo apt-get install augeas-tools=1.\* augeas-lenses=1.\* augeas-doc=1.\* libaugeas0=1.\*
-      # dpkg -l '*augeas*'
+    let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
 
+    it 'applies the manifest without error' do
       pp = <<-EOS
           class { 'wildfly':
             distribution   => '#{test_data['distribution']}',
@@ -45,7 +40,6 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
 
       EOS
 
-      # Run it twice and test for idempotency
       apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
       expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 15')
@@ -70,6 +64,27 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
       shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'postgresql-9.3-1103-jdbc4.jar'
         expect(r.stdout).to include 'module.xml'
+      end
+    end
+
+    it 'postgresql driver exists' do
+      shell("#{jboss_cli} '/subsystem=datasources/jdbc-driver=postgresql:read-resource'",
+            :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include '"outcome" => "success"'
+      end
+    end
+
+    it 'datasource exists' do
+      shell("#{jboss_cli} '/subsystem=datasources/data-source=DemoDS:read-resource'",
+            :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include '"outcome" => "success"'
+      end
+    end
+
+    it 'datasource is enabled' do
+      shell("#{jboss_cli} '/subsystem=datasources/data-source=DemoDS:read-attribute(name=enabled)'",
+            :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include '"result" => true'
       end
     end
   end

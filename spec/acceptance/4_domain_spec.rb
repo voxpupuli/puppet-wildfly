@@ -2,6 +2,8 @@ require 'spec_helper_acceptance'
 
 describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}" do
   context 'Initial install Wildfly and verification' do
+    let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
+
     it 'applies the manifest without error' do
       pp = <<-EOS
           class { 'wildfly':
@@ -15,7 +17,6 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
 
       EOS
 
-      # Run it twice and test for idempotency
       apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
       expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 15')
@@ -33,6 +34,13 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
     it 'protected management page' do
       shell('curl -v localhost:9990/management 2>&1', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '401 Unauthorized'
+      end
+    end
+
+    it 'is a Domain Controller' do
+      shell("#{jboss_cli} 'ls'",
+            :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include 'process-type=Domain Controller'
       end
     end
   end
