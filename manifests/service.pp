@@ -15,7 +15,9 @@ class wildfly::service {
   $systemd_template = $config['systemd_template']
   $systemd_native = $config['systemd_native']
 
-  contain "wildfly::service::${wildfly::init_system}"
+  if !$wildfly::package_name {
+    contain "wildfly::service::${wildfly::init_system}"
+  }
 
   $conf_dir = dirname($conf_file)
 

@@ -4,6 +4,8 @@
 class wildfly(
   $version                      = '9.0.2',
   $distribution                 = 'wildfly',
+  $package_name                 = $wildfly::params::package_name,
+  $package_version              = $wildfly::params::package_version,
   $install_source               = 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
   $install_cache_dir            = $wildfly::params::install_cache_dir,
   $install_download_timeout     = $wildfly::params::install_download_timeout,
