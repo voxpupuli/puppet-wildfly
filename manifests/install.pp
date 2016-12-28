@@ -4,9 +4,9 @@
 class wildfly::install  {
 
   if $wildfly::package_name {
-      package { $wildfly::package_name :
-        ensure => $wildfly::package_version,
-      }
+    package { $wildfly::package_name :
+      ensure => $wildfly::package_version,
+    }
   } else {
     $install_source = $wildfly::install_source
     $install_cache_dir = $wildfly::install_cache_dir
