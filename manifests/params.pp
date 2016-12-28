@@ -11,8 +11,7 @@ class wildfly::params {
   $dirname        = '/opt/wildfly'
   $package_ensure = 'present'
 
-  $install_method   = 'tarball'
-  $package_name     = 'wildfly'
+  $package_name     = undef
   $package_version  = present
 
   $service_ensure    = true
