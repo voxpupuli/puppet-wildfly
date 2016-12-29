@@ -16,7 +16,6 @@ RSpec.configure do |c|
     hosts.each do |host|
       on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '4.13.1')
       on host, puppet('module', 'install', 'jethrocarr-initfact')
-      on host, '/opt/puppetlabs/puppet/bin/gem install treetop net-http-digest_auth --no-ri --no-rdoc'
       on host, puppet('resource', 'package', 'wget', 'ensure=installed')
       on host, 'wget --header "Cookie: oraclelicense=accept-securebackup-cookie" -N -P /var/cache/wget http://download.oracle.com/otn-pub/java/jdk/8u111-b14/jdk-8u111-linux-x64.tar.gz && tar -C /opt -zxvf /var/cache/wget/jdk-8u111-linux-x64.tar.gz'
     end

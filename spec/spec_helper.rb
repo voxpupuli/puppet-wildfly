@@ -17,6 +17,7 @@ SimpleCov.start do
 
   add_filter '/spec'
   add_filter 'lib/puppet/parser'
+  add_filter 'lib/puppet_x/wildfly/gems/'
 
   track_files 'lib/**/*.rb'
 end

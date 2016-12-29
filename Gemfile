@@ -16,8 +16,6 @@ gem 'facter', '>= 1.6.10'
 gem 'rubocop', require: false
 gem 'rubocop-rspec', '1.5.0'
 gem 'puppet-blacksmith'
-gem 'treetop'
-gem 'net-http-digest_auth'
 gem 'metadata-json-lint', '>= 0.0.11'
 gem 'google-api-client', '>= 0.9'
 gem 'activesupport', '4.2.7.1'
