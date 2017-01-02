@@ -4,6 +4,7 @@ pkg
 /log
 *.iml
 *.swp
+Session.vim
 
 *.lock
 .vagrant

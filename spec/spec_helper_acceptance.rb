@@ -26,23 +26,17 @@ def test_data
   RSpec.configuration.test_data
 end
 
-profile = ENV['profile'] || 'wildfly:9.0.2'
+profile = ENV['TEST_profile'] || 'wildfly:9.0.2'
 
 data = {}
 
 case profile
-when 'wildfly:8.0'
-  data['distribution'], data['version'] = profile.split(':')
-  data['install_source'] = 'http://download.jboss.org/wildfly/8.0.0.Final/wildfly-8.0.0.Final.tar.gz'
-when 'wildfly:8.2.1'
-  data['distribution'], data['version'] = profile.split(':')
-  data['install_source'] = 'http://download.jboss.org/wildfly/8.2.1.Final/wildfly-8.2.1.Final.tar.gz'
-when 'wildfly:9.0.2'
-  data['distribution'], data['version'] = profile.split(':')
-  data['install_source'] = 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz'
-when 'wildfly:10.1.0'
-  data['distribution'], data['version'] = profile.split(':')
-  data['install_source'] = 'http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.tar.gz'
+
+when /(wildfly):(\d{1,}\.\d{1,}\.\d{1,})/
+  data['distribution'] = $1
+  data['version'] = $2
+  data['install_source'] = "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
+  data['service_name'] = 'wildfly'
 when 'jboss-eap:6.4'
   data['distribution'], data['version'] = profile.split(':')
   data['install_source'] = 'http://10.0.2.2:9090/jboss-eap-6.4.tar.gz'
@@ -51,15 +45,13 @@ when 'jboss-eap:7.0'
   data['distribution'], data['version'] = profile.split(':')
   data['install_source'] = 'http://10.0.2.2:9090/jboss-eap-7.0.tar.gz'
   data['service_name'] = 'jboss-eap'
-when 'jboss-eap:7.0'
 when 'custom'
-  data['distribution'] = ENV['distribution']
-  data['version'] = ENV['version']
-  data['install_source'] = ENV['install_source']
-  data['service_name'] = ENV['service_name']
+  data['distribution'] = ENV['TEST_distribution']
+  data['version'] = ENV['TEST_version']
+  data['install_source'] = ENV['TEST_install_source']
+  data['service_name'] = ENV['TEST_service_name']
 end
 
-data['service_name'] = data['service_name'] || 'wildfly'
 data['java_home'] = '/opt/jdk1.8.0_111/'
 
 RSpec.configuration.test_data = data
