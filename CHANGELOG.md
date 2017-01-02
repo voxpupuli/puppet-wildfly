@@ -1,5 +1,10 @@
 # History
 
+## 1.2.0
+
+- Installation from system packages
+- Bundle gems with the module
+
 ## 1.1.0
 
 - Introduce patch management feature
