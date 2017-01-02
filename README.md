@@ -10,13 +10,14 @@
     * [What wildfly affects](#what-wildfly-affects)
     * [Setup requirements](#setup-requirements)
 4. [Upgrade](#upgrade)
-    * [to 1.0.0](#to-100)
+    * [to 1.2.0](#to-120)
 5. [Usage - Configuration options and additional functionality](#usage)
     * [Wildfly 10.1.0](#wildfly-1010)
     * [Wildfly 9.0.2](#wildfly-902)
     * [Wildfly 8.2.1](#wildfly-821)
     * [JBoss EAP 6.x (with hiera)](#jboss-eap-6x-with-hiera)
     * [JBoss EAP 7.0](#jboss-eap-70)
+    * [Wildfly's Configuration Management](#wildfly-configuration-management)
     * [Patch management](#patch-management)
     * [Unmanaged installation](#unmanaged-installation)
     * [Domain Mode](#domain-mode)
@@ -72,13 +73,7 @@ The wildfly module can install, configure and manage (using its HTTP API) Wildfl
 
 This module requires a JVM ( should already be there ). Just need to be extracted somewhere, no need to update-alternatives, set PATH or anything else, but it works just fine if you do so.
 
-You'll need two gems installed in your node, if you're going masterless, or in your Puppet Master otherwise: `treetop` (parsing JBoss-CLI commands) and `net-http-digest_auth` (Management API communication).
-
-To install them use:
-
-`/opt/puppetlabs/puppet/bin/gem install treetop net-http-digest_auth --no-ri --no-rdoc` (Puppet 4.x AIO)
-
-`gem install treetop net-http-digest_auth --no-ri --no-rdoc` (Puppet 3)
+Three gems are bundled with this module: `treetop` (parsing JBoss-CLI commands), `polyglot` (treetop's requirement) and `net-http-digest_auth` (Management API communication).
 
 Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
@@ -86,7 +81,7 @@ This module requires `puppetlabs-stdlib` and `jethrocarr/initfact` (it uses `ini
 
 ## Upgrade
 
-## to 1.0.0
+## to 1.2.0
 
 ### wildfly class
 
@@ -109,13 +104,13 @@ class { '::wildfly':
 }
 ```
 
-`distribution` was introduced to provided out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier to manage a properties file than Wildfly XML through augeas)
+`distribution` was introduced to provided out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier to manage a properties file than Wildfly's XML through augeas)
 
 `users_mgmt` was replaced by `mgmt_user`, and additional users should be managed by `wildfly::config::mgtm_user` defined type. The hash format and default value also changed.
 
-### New dependencies
+### New dependency
 
-You will need to add the new dependencies: `net-http-digest_auth` and `treetop` gems and `jethrocarr/initfact` module.
+`jethrocarr/initfact` module.
 
 ### Defined types
 
@@ -158,7 +153,7 @@ class { 'wildfly':
 }
 ```
 
-## JBoss EAP 6.x (with hiera)
+### JBoss EAP 6.x (with hiera)
 
 ```puppet
 include ::wildfly
@@ -174,7 +169,7 @@ wildfly::dirname: '/opt/jboss-as'
 wildfly::console_log: '/var/log/jboss-as/console.log'
 ```
 
-## JBoss EAP 7.0
+### JBoss EAP 7.0
 
 ```puppet
 class { 'wildfly':
@@ -188,16 +183,77 @@ class { 'wildfly':
 }
 ```
 
+## Wildfly's Configuration Management
+
+Wildfly has a [Management Model](https://docs.jboss.org/author/display/WFLY8/Description+of+the+Management+Model) that describes its configuration and there are three main elements that you need to understand in order to use this module: `path`, `attributes` and `operations`
+
+This module provides a few defined types built around these concepts using `wildfly_resource` and `wildfly_cli` (`wildfly::messaging::*`, `wildfly:datasources::datasource`, `wildfly:datasources::driver`) to ease management of most used resources, but they are not guaranteed to work across all versions of JBoss/Wildfly and they represent only a tiny subset of the Management Model.
+
+In order to manage virtually any configuration in the [Model Reference](https://wildscribe.github.io/) (i.e. datasources, https, queues, modcluster) with `wildfly::resource` or `wildfly::cli` you must understand how declared resources are converted to Management API requests using `paths`, `attributes` and `operations`.
+
+**Path/Addresss:** The resource address in `/node-type=node-name (/node-type=node-name)*` format. (e.g. `/subsystem=datasources/datasource=DatasourceName`)
+
+**Attributes:** key-value pairs that describes the resource. (e.g. `driver-name=postgresql`, `connection-url=jdbc:postgresql://localhost/postgres`)
+
+**Operations:** An operation to be performed in a resource. (e.g. `read`, `write-attribute`, `remove`)
+
+With `wildfly::cli` you have more control, but you should only use it when you can't manage the resource with `wildfly_resource` (e.g. you can't manage `enabled` attribute as it is only changed as a result of `enable` and `disable` **operations**.):
+
+```puppet
+wildfly::cli { "Enable ADatasource":
+  command => "/subsystem=datasources/data-source=ADatasource:enable",
+  unless  => "(result == true) of /subsystem=datasources/data-source=ADatasource:read-attribute(name=enabled)",
+}
+```
+
+For all other scenarios, `wildfly::resource` will be your best friend, from the most simple resource:
+
+```
+wildfly::resource { "/system-property=myproperty":
+  content => {
+    'value' => '1234'
+  },
+}
+```
+
+To the most complex:
+
+```puppet
+wildfly::resource { '/subsystem=modcluster/mod-cluster-config=configuration':
+  recursive => true,
+  content   => {
+        'advertise'             => true,
+        'connector'             => 'ajp',
+        'excluded-contexts'     => 'ROOT,invoker,jbossws,juddi,console',
+        'proxy-url'             => '/',
+        'sticky-session'        => true,
+        'proxies'               => ['192.168.1.1:6666', '192.168.1.2::6666']
+        'balancer'              => 'mybalancer',
+        'load-balancing-group'  => 'mygroup',
+        'dynamic-load-provider' => {'configuration' => {
+            'load-metric' => {'busyness' => {
+                'type' => 'busyness',
+            }}
+        }},
+    }
+}
+```
+
+The first thing to note about `wildfly::resource` is the absence of an **operation**, as you will only need to set `ensure` with either present or absent, using the first will result in the creation or update of the resource with the declared state/content, whereas the other will remove the resource with all its children.
+
+A resource attribute behaviors like a Puppet resource property. Therefore, **unmanaged attributes** behavior like **unmanaged properties** in puppet resources, meaning: *if you don't declare, you don't care*.
+
+> **NOTE:** Be careful with the type of declared attribute's value as it should match Management Model type. Valid Management Model types include: `STRING`, `INT`, `BOOLEAN`, `LIST` (i.e. arrays []) and `OBJECT` (i.e. hashes {}).
+
 ## Patch management
 
 Wildfly/JBoss allows you to apply patches to existing installation in order to update it. I suggest you use `puppet-archive` or any other `archive` module to download patches from remote sources, just be aware that you need to extract patch zip file in order to apply patches to Wildfly, but you'll be able to apply the zip file directly when you're using EAP.
 
-> **NOTE:** Wildfly from versions 8.0.0 to 9.0.1 has a bug in `jboss-cli.sh` that makes it report that a patch hasn't been successfuly applied (exit code 2) even when it was. If you're using one of theses versions you better update this file or live with a bad report.
+> **NOTE:** Wildfly from versions 8.0.0 to 9.0.1 has a bug in `jboss-cli.sh` [WFCORE-160](https://issues.jboss.org/browse/WFCORE-160) that makes it report that a patch hasn't been successfuly applied (exit code 2) even when it was. If you're using one of theses versions you better update this file or live with a bad report.
 
 ### Offline
 
 Offline patching requires the server to be down, but don't leave the server in a `restart-required` state.
-
 
 #### EAP/Offline example
 
