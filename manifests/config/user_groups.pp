@@ -7,7 +7,7 @@ define wildfly::config::user_groups($groups) {
     path   => "${wildfly::dirname}/${wildfly::mode}/configuration/mgmt-groups.properties",
     line   => "${name}=${groups}",
     match  => "^${name}=.*\$",
-    notify => Class['wildfly::service'],
+    notify => Service['wildfly'],
   }
 
 }

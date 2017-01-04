@@ -2,8 +2,6 @@ define wildfly::reload(
   $retries = 3,
   $wait = 10) {
 
-  require wildfly::service
-
   wildfly_restart { $name:
     username => $wildfly::mgmt_user['username'],
     password => $wildfly::mgmt_user['password'],
@@ -12,6 +10,7 @@ define wildfly::reload(
     retries  => $retries,
     wait     => $wait,
     reload   => true,
+    require  => Service['wildfly'],
   }
 
 }

@@ -20,7 +20,7 @@ describe 'wildfly::cli' do
         .with(:username => 'puppet',
               :host     => '127.0.0.1',
               :port     => '9990')
-        .that_requires('Class[wildfly::service]')
+        .that_requires('Service[wildfly]')
     end
   end
 
@@ -46,7 +46,7 @@ describe 'wildfly::cli' do
               :password => 'safepassword',
               :host     => '192.168.10.10',
               :port     => '10090')
-        .that_requires('Class[wildfly::service]')
+        .that_requires('Service[wildfly]')
     end
   end
 end

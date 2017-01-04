@@ -8,8 +8,6 @@ define wildfly::resource(
   $operation_headers = {},
   $profile = undef) {
 
-  require wildfly::service
-
   $profile_path = profile_path($profile)
 
   wildfly_resource { "${profile_path}${name}":
@@ -21,6 +19,7 @@ define wildfly::resource(
     recursive         => $recursive,
     state             => delete_undef_values($content),
     operation_headers => $operation_headers,
+    require           => Service['wildfly'],
   }
 
 }

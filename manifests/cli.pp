@@ -6,8 +6,6 @@ define wildfly::cli(
   $unless = undef,
   $onlyif = undef) {
 
-  require wildfly::service
-
   wildfly_cli { $name:
     command  => $command,
     username => $wildfly::mgmt_user['username'],
@@ -15,7 +13,8 @@ define wildfly::cli(
     host     => $wildfly::setup::properties['jboss.bind.address.management'],
     port     => $wildfly::setup::properties['jboss.management.http.port'],
     unless   => $unless,
-    onlyif   => $onlyif
+    onlyif   => $onlyif,
+    require  => Service['wildfly'],
   }
 
 }

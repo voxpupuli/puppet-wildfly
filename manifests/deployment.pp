@@ -8,8 +8,6 @@ define wildfly::deployment(
   $server_group      = undef,
   $operation_headers = {}) {
 
-  require wildfly::service
-
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
   $local_source = "/tmp/${file_name}"
 
@@ -47,7 +45,7 @@ define wildfly::deployment(
     timeout           => $timeout,
     source            => $local_source,
     operation_headers => $operation_headers,
-    require           => File[$local_source]
+    require           => [Service['wildfly'], File[$local_source]],
   }
 
 }

@@ -8,7 +8,7 @@ define wildfly::config::user_roles($roles) {
     path   => "${wildfly::dirname}/${wildfly::mode}/configuration/application-roles.properties",
     line   => "${name}=${roles}",
     match  => "^${name}=.*\$",
-    notify => Class['wildfly::service'],
+    notify => Service['wildfly'],
   }
 
 }

@@ -2,8 +2,6 @@ define wildfly::restart(
   $retries = 3,
   $wait = 20) {
 
-  require wildfly::service
-
   wildfly_restart { $name:
     username => $wildfly::mgmt_user['username'],
     password => $wildfly::mgmt_user['password'],
@@ -11,6 +9,7 @@ define wildfly::restart(
     port     => $wildfly::setup::properties['jboss.management.http.port'],
     retries  => $retries,
     wait     => $wait,
+    require  => Service['wildfly'],
   }
 
 }

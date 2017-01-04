@@ -24,6 +24,6 @@ describe 'wildfly::config::user' do
       .with(:path => '/opt/wildfly/standalone/configuration/mgmt-users.properties',
             :line => 'wildfly=76cfbe638ea42545686593864689fb85',
             :match => '^wildfly=.*$')
-      .that_notifies('Class[wildfly::service]')
+      .that_notifies('Service[wildfly]')
   end
 end

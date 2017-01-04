@@ -18,6 +18,6 @@ define wildfly::config::user(
     path   => "${wildfly::dirname}/${wildfly::mode}/configuration/${file_name}",
     line   => "${username}=${password_hash}",
     match  => "^${username}=.*\$",
-    notify => Class['wildfly::service'],
+    notify => Service['wildfly'],
   }
 }

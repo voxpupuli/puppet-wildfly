@@ -35,8 +35,9 @@ class wildfly::service {
     content => template($conf_template),
   }
   ~>
-  service { $service_name:
+  service { 'wildfly':
     ensure     => $wildfly::service_ensure,
+    name       => $service_name,
     enable     => $wildfly::service_enable,
     hasrestart => true,
     hasstatus  => true,

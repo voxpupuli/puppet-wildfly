@@ -24,7 +24,7 @@ describe 'wildfly::deployment' do
         .with(:username => 'puppet',
               :host     => '127.0.0.1',
               :port     => '9990')
-        .that_requires(['Class[wildfly::service]', 'File[/tmp/hawtio.war]'])
+        .that_requires(['Service[wildfly]', 'File[/tmp/hawtio.war]'])
     end
   end
 
@@ -50,7 +50,7 @@ describe 'wildfly::deployment' do
               :password => 'safepassword',
               :host     => '192.168.10.10',
               :port     => '10090')
-        .that_requires(['Class[wildfly::service]', 'File[/tmp/hawtio.war]'])
+        .that_requires(['Service[wildfly]', 'File[/tmp/hawtio.war]'])
     end
   end
 
@@ -61,7 +61,7 @@ describe 'wildfly::deployment' do
 
     let(:pre_condition) { 'include wildfly' }
 
-    it { is_expected.to contain_wildfly_deployment(title).that_requires('Class[wildfly::service]') }
+    it { is_expected.to contain_wildfly_deployment(title).that_requires('Service[wildfly]') }
     it { is_expected.to contain_file('/tmp/hawtio.war').with(:owner => 'wildfly', :group => 'wildfly', :mode => '0655', :source => params[:source]) }
   end
 
@@ -72,7 +72,7 @@ describe 'wildfly::deployment' do
 
     let(:pre_condition) { 'include wildfly' }
 
-    it { is_expected.to contain_wildfly_deployment(title).that_requires('Class[wildfly::service]') }
+    it { is_expected.to contain_wildfly_deployment(title).that_requires('Service[wildfly]') }
     it { is_expected.to contain_exec("download deployable from #{params[:source]}").with(:creates => '/tmp/hawtio.war') }
     it { is_expected.to contain_file('/tmp/hawtio.war').with(:owner => 'wildfly', :group => 'wildfly', :mode => '0655') }
   end

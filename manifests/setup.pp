@@ -14,7 +14,7 @@ class wildfly::setup {
     owner   => $wildfly::user,
     group   => $wildfly::group,
     content => template('wildfly/jboss.properties.erb'),
-    notify  => Class['wildfly::service']
+    notify  => Service['wildfly'],
   }
 
   file { "${wildfly::dirname}/bin/${wildfly::mode}.conf":
@@ -22,7 +22,7 @@ class wildfly::setup {
     owner   => $wildfly::user,
     group   => $wildfly::group,
     content => template($wildfly::mode_template),
-    notify  => Class['wildfly::service']
+    notify  => Service['wildfly'],
   }
 
   if $wildfly::secret_value {
