@@ -15,6 +15,15 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
             host_config    => 'host-master.xml',
           }
 
+          wildfly::resource { '/subsystem=datasources/data-source=ExampleDS':
+            ensure  => absent,
+            profile => 'full-ha',
+          }
+
+          wildfly::resource { '/profile=full/subsystem=datasources/data-source=ExampleDS':
+            ensure  => absent,
+          }
+
       EOS
 
       apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
@@ -34,6 +43,20 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
     it 'protected management page' do
       shell('curl -v localhost:9990/management 2>&1', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '401 Unauthorized'
+      end
+    end
+
+    it 'ExampleDS does not exists in full-ha profile' do
+      shell("#{jboss_cli} '/profile=full-ha/subsystem=datasources/data-source=ExampleDS:read-resource'",
+            :acceptable_exit_codes => 1) do |r|
+        expect(r.stdout).to include 'not found'
+      end
+    end
+
+    it 'ExampleDS does not exists in full profile' do
+      shell("#{jboss_cli} '/profile=full-ha/subsystem=datasources/data-source=ExampleDS:read-resource'",
+            :acceptable_exit_codes => 1) do |r|
+        expect(r.stdout).to include 'not found'
       end
     end
 

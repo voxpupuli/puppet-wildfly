@@ -37,14 +37,11 @@ when /(wildfly):(\d{1,}\.\d{1,}\.\d{1,})/
   data['version'] = $2
   data['install_source'] = "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
   data['service_name'] = 'wildfly'
-when 'jboss-eap:6.4'
-  data['distribution'], data['version'] = profile.split(':')
-  data['install_source'] = 'http://10.0.2.2:9090/jboss-eap-6.4.tar.gz'
-  data['service_name'] = 'jboss-as'
-when 'jboss-eap:7.0'
-  data['distribution'], data['version'] = profile.split(':')
-  data['install_source'] = 'http://10.0.2.2:9090/jboss-eap-7.0.tar.gz'
-  data['service_name'] = 'jboss-eap'
+when /(jboss-eap):(\d{1,}\.\d{1,})/
+  data['distribution'] = $1 
+  data['version'] = $2 
+  data['install_source'] = "http://10.0.2.2:9090/jboss-eap-#{data['version']}.tar.gz"
+  data['service_name'] = if data['version'].to_f < 7.0 then 'jboss-as' else 'jboss-eap' end
 when 'custom'
   data['distribution'] = ENV['TEST_distribution']
   data['version'] = ENV['TEST_version']
