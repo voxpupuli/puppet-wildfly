@@ -1,5 +1,9 @@
 # History
 
+## 1.2.1
+
+- Use a unique name for service resource with different name attribute value.
+
 ## 1.2.0
 
 - Installation from system packages
