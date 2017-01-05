@@ -208,7 +208,7 @@ wildfly::cli { "Enable ADatasource":
 
 For all other scenarios, `wildfly::resource` will be your best friend, from the most simple resource:
 
-```
+```puppet
 wildfly::resource { "/system-property=myproperty":
   content => {
     'value' => '1234'
