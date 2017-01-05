@@ -67,9 +67,7 @@ Puppet::Type.newtype(:wildfly_deployment) do
     end
 
     def sha1sum?(source)
-      if File.exist?(source)
-        Digest::SHA1.hexdigest(File.read(source))
-      end
+      Digest::SHA1.hexdigest(File.read(source)) if File.exist?(source)
     end
 
     def change_to_s(current_value, new_value)
