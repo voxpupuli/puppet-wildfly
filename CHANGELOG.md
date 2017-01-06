@@ -1,5 +1,9 @@
 # History
 
+## 1.2.2
+
+- Update supported OS's list and add propert suport for upstart through sysvinit
+
 ## 1.2.1
 
 - Use a unique name for service resource with different name attribute value.
