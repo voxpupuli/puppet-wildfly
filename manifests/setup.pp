@@ -31,18 +31,20 @@ class wildfly::setup {
       lens    => 'Xml.lns',
       incl    => "${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::host_config}",
       changes => "set host/management/security-realms/security-realm[#attribute/name='ManagementRealm']/server-identities/secret/#attribute/value ${wildfly::secret_value}",
-      onlyif  => "match host/management/security-realms/security-realm[#attribute/name='ManagementRealm']/server-identities/secret[#attribute/value='${wildfly::secret_value}'] size == 0"
+      onlyif  => "match host/management/security-realms/security-realm[#attribute/name='ManagementRealm']/server-identities/secret[#attribute/value='${wildfly::secret_value}'] size == 0",
+      notify  => Service['wildfly'],
     }
 
   }
 
   if $wildfly::remote_username {
 
-    augeas { $wildfly::remote_username:
+    augeas { 'host_config-remote-username':
       lens    => 'Xml.lns',
       incl    => "${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::host_config}",
       changes => "set host/domain-controller/remote/#attribute/username ${wildfly::remote_username}",
-      onlyif  => "match host/domain-controller/remote[#attribute/username='${wildfly::remote_username}'] size == 0"
+      onlyif  => "match host/domain-controller/remote[#attribute/username='${wildfly::remote_username}'] size == 0",
+      notify  => Service['wildfly'],
     }
 
   }
