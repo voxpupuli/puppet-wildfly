@@ -61,5 +61,6 @@ class wildfly::params {
   $shutdown_wait     = '30'
 
   $secret_value      = undef
+  $remote_username   = undef
 
 }

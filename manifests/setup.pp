@@ -36,4 +36,15 @@ class wildfly::setup {
 
   }
 
+  if $wildfly::remote_username {
+
+    augeas { $wildfly::remote_username:
+      lens    => 'Xml.lns',
+      incl    => "${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::host_config}",
+      changes => "set host/domain-controller/remote/#attribute/username ${wildfly::remote_username}",
+      onlyif  => "match host/domain-controller/remote[#attribute/username='${wildfly::remote_username}'] size == 0"
+    }
+
+  }
+
 }

@@ -79,6 +79,8 @@ Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
 This module requires `puppetlabs-stdlib` and `jethrocarr/initfact` (it uses `init_system` fact provided by this module by default, but it's overridable in `wildfly::initsystem` parameter)
 
+It should work on every operating system with the following init systems: sysvinit, systemd and upstart
+
 ## Upgrade
 
 ## to 1.2.0
@@ -354,7 +356,7 @@ class { 'wildfly':
     properties   => {
       'jboss.domain.master.address' => '172.17.0.2',
     },
-    secret_value => 'd2lsZGZseQ==', #base64('slave1'),
+    secret_value => 'd2lsZGZseQ==', #base64('wildfly'),
 }
 ```
 

@@ -44,6 +44,7 @@ class wildfly(
   $startup_wait                 = $wildfly::params::startup_wait,
   $shutdown_wait                = $wildfly::params::shutdown_wait,
   $secret_value                 = $wildfly::params::secret_value,
+  $remote_username              = $wildfly::params::remote_username,
 ) inherits wildfly::params {
 
   include wildfly::prepare

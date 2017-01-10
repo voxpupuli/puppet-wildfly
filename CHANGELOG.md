@@ -3,6 +3,7 @@
 ## 1.2.2
 
 - Update supported OS's list and add propert suport for upstart through sysvinit
+- Introduce remote_user parameter
 
 ## 1.2.1
 
