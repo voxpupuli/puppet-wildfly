@@ -22,6 +22,8 @@
     "AS",
     "jdk8",
     "wildfly",
+    "keycloak",
+    "apiman",
     "java",
     "jdk7"
   ],

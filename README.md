@@ -17,6 +17,8 @@
     * [Wildfly 8.2.1](#wildfly-821)
     * [JBoss EAP 6.x (with hiera)](#jboss-eap-6x-with-hiera)
     * [JBoss EAP 7.0](#jboss-eap-70)
+    * [Keycloak](#keycloak)
+    * [apiman](#apiman)
     * [Wildfly's Configuration Management](#wildfly-configuration-management)
     * [Patch management](#patch-management)
     * [Unmanaged installation](#unmanaged-installation)
@@ -184,6 +186,67 @@ class { 'wildfly':
   console_log    => '/var/log/jboss-eap/console.log',
 }
 ```
+
+
+### Keycloak
+
+[Keycloak](http://www.keycloak.org/) is an open source Identity and Access Management built on top of Wildfly/JBoss platform, therefore you should be able to use this module to install and config it.
+
+```puppet
+class { 'wildfly':
+  version        => '10.1.0',
+  distribution   => 'wildfly',
+  install_source => 'https://downloads.jboss.org/keycloak/2.5.0.Final/keycloak-2.5.0.Final.tar.gz',
+}
+```
+> **NOTE:** Just make sure to point to the right version/distribution it was built upon.
+
+Some resources are managed in the same way of regular Wildfly/Jboss configuration:
+
+```puppet
+wildfly::datasources::datasource { 'KeycloakDS':
+  config => {
+    'driver-name'    => 'postgresql',
+    'password'       => 'keycloak',
+    'user-name'      => 'keycloak',
+    'jndi-name'      => 'java:jboss/datasources/KeycloakDS',
+    'connection-url' => "jdbc:postgresql://192.168.33.20:5432/keycloak",
+    'background-validation' => true,
+    'background-validation-millis' => 60000,
+    'check-valid-connection-sql' => 'SELECT 1',
+    'flush-strategy' => 'IdleConnections',
+  }
+}
+```
+
+### apiman
+
+[apiman](http://www.apiman.io) is an API Manager built on top of Wildfly/JBoss, therefore you should be able to use this module to install and config it.
+
+Currently there aren't no prebuilt packages, but download page provides instruction to build it for Wildfly 10, 9 and EAP 7.
+
+
+#### Example
+
+```shell
+wget http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip
+wget http://downloads.jboss.org/apiman/1.2.9.Final/apiman-distro-wildfly10-1.2.9.Final-overlay.zip
+unzip wildfly-10.1.0.Final.zip
+unzip -o apiman-distro-wildfly10-1.2.9.Final-overlay.zip -d wildfly-10.1.0.Final
+tar czvf apiman-wildfly-10.1.0.Final.tar.gz wildfly-10.1.0.Final
+``` 
+
+```puppet
+class { 'wildfly':
+  version        => '10.1.0',
+  distribution   => 'wildfly',
+  java_home      => '/usr/java/jdk1.8.0_92',
+  config         => 'standalone-apiman.xml',
+  install_source => 'http://10.0.2.2:9090/apiman-wildfly-10.1.0.Final.tar.gz',
+}
+```
+
+> **NOTE:** Just make sure to point to the right version/distribution it was built upon.
 
 ## Wildfly's Configuration Management
 
