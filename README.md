@@ -234,7 +234,7 @@ wget http://downloads.jboss.org/apiman/1.2.9.Final/apiman-distro-wildfly10-1.2.9
 unzip wildfly-10.1.0.Final.zip
 unzip -o apiman-distro-wildfly10-1.2.9.Final-overlay.zip -d wildfly-10.1.0.Final
 tar czvf apiman-wildfly-10.1.0.Final.tar.gz wildfly-10.1.0.Final
-``` 
+```
 
 ```puppet
 class { 'wildfly':
@@ -730,6 +730,20 @@ wildfly::messaging::queue { 'DemoQueue':
 }
 
 wildfly::messaging::topic { 'DemoTopic':
+  entries => ['java:/jms/topic/DemoTopic']
+}
+```
+
+Wildfly 10/EAP 7+ replaced HornetQ with ActiveMQ and queue/topic management is slightly different:
+
+```puppet
+wildfly::messaging::activemq::queue { 'DemoQueue':
+  durable  => true,
+  entries  => ['java:/jms/queue/DemoQueue'],
+  selector => "MessageType = 'AddRequest'"
+}
+
+wildfly::messaging::activemq::topic { 'DemoTopic':
   entries => ['java:/jms/topic/DemoTopic']
 }
 ```
