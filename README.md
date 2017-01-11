@@ -19,6 +19,7 @@
     * [JBoss EAP 7.0](#jboss-eap-70)
     * [Keycloak](#keycloak)
     * [apiman](#apiman)
+    * [Infinispan Server](#infinispan-server)
     * [Wildfly's Configuration Management](#wildfly-configuration-management)
     * [Patch management](#patch-management)
     * [Unmanaged installation](#unmanaged-installation)
@@ -49,9 +50,9 @@ Install, configures and manages Wildfly.
 
 Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 10.0, 9.0, 8.2, 8.1 & 8.0 and with JBoss EAP (tested on 6.1/6.2/6.3/6.4 and 7.0). Some defines may work only in certain versions.
 
-[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgress db.
+[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgres db.
 
-[Vagrant CentOS Standalone HA + Gossip Router example](https://github.com/jairojunior/wildfly-ha-tcpgossip-vagrant-puppet) with two nodes, a gossip router and a load balancer (http + mod_cluster).
+[Vagrant CentOS Standalone HA + Gossip Router example](https://github.com/jairojunior/wildfly-ha-tcpgossip-vagrant-puppet) with two nodes, a gossip router and a load balancer (httpd + mod_cluster).
 
 [Vagrant CentOS 7.2 Domain Mode](https://github.com/jairojunior/wildfly-domain-vagrant-puppet) with two nodes (Domain master and slave) and a load balancer.
 
@@ -59,7 +60,7 @@ Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 1
 
 ## Module Description
 
-The wildfly module can install, configure and manage (using its HTTP API) Wildfly (8/9/10) and JBoss EAP (6.1+/7.0+).
+The wildfly module can install, configure and manage - using its HTTP Management API - Wildfly (8/9/10) and JBoss EAP (6.1+/7.0+).
 
 ## Setup
 
@@ -73,9 +74,9 @@ The wildfly module can install, configure and manage (using its HTTP API) Wildfl
 
 ### Setup Requirements
 
-This module requires a JVM ( should already be there ). Just need to be extracted somewhere, no need to update-alternatives, set PATH or anything else, but it works just fine if you do so.
+This module requires a JVM ( should already be there ). Just need to be extracted somewhere, no need to update-alternatives, set PATH or anything else, but it also works if you choose to do so.
 
-Three gems are bundled with this module: `treetop` (parsing JBoss-CLI commands), `polyglot` (treetop's requirement) and `net-http-digest_auth` (Management API communication).
+Three gems are bundled with this module: `treetop` (parsing JBoss-CLI commands), `polyglot` (treetop's requirement) and `net-http-digest_auth` (Management API authentication).
 
 Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
@@ -201,7 +202,7 @@ class { 'wildfly':
 ```
 > **NOTE:** Just make sure to point to the right version/distribution it was built upon.
 
-Some resources are managed in the same way of regular Wildfly/Jboss configuration:
+Some Keycloak configuration can be managed in the same way of a regular Wildfly/Jboss configuration:
 
 ```puppet
 wildfly::datasources::datasource { 'KeycloakDS':
@@ -240,13 +241,30 @@ tar czvf apiman-wildfly-10.1.0.Final.tar.gz wildfly-10.1.0.Final
 class { 'wildfly':
   version        => '10.1.0',
   distribution   => 'wildfly',
-  java_home      => '/usr/java/jdk1.8.0_92',
   config         => 'standalone-apiman.xml',
   install_source => 'http://10.0.2.2:9090/apiman-wildfly-10.1.0.Final.tar.gz',
 }
 ```
 
 > **NOTE:** Just make sure to point to the right version/distribution it was built upon.
+
+# Infinispan Server
+
+Infinispan Server (or JBoss Data Grid) also work with this module but requires more tweaks.
+
+From Infinispan Server 7 to 9 (including JDG 7.0) you will only need to change `install_source` to match the desired version:
+
+```puppet
+class { 'wildfly':
+  install_source => 'http://10.0.2.2:9090/infinispan-server-8.2.5.Final.tar.gz',
+  conf_file      => '/etc/infinispan-server/infinispan-server.conf',
+  conf_template  => 'wildfly/infinispan-server.conf.erb',
+  service_file   => 'bin/init.d/infinispan-server.sh',
+  service_name   => 'infinispan-server',
+}
+```
+
+> **Limitation:** You need to repackage it to a tar.gz file and Infinispan Server 6 and JDG 6.x are not working.
 
 ## Wildfly's Configuration Management
 

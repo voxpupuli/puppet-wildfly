@@ -1,0 +1,27 @@
+# Location of JDK
+#
+JAVA_HOME="<%= scope.lookupvar('wildfly::java_home') %>"
+
+# Location of Infinispan 
+#
+ISPN_SERVER_HOME="<%= scope.lookupvar('wildfly::dirname') %>"
+
+# The username who should own the process.
+#
+ISPN_SERVER_USER="<%= scope.lookupvar('wildfly::user') %>"
+ 
+# The amount of time to wait for startup
+#
+STARTUP_WAIT="<%= scope.lookupvar('wildfly::startup_wait') %>"
+
+# The amount of time to wait for shutdown
+#
+SHUTDOWN_WAIT="<%= scope.lookupvar('wildfly::shutdown_wait') %>"
+
+# Location to keep the console log
+#
+ISPN_SERVER_CONSOLE_LOG="<%= scope.lookupvar('wildfly::console_log') %>"
+
+# Configuration for standalone mode
+#
+ISPN_SERVER_CONFIG="<%= scope.lookupvar('wildfly::config') %> -P <%= scope.lookupvar('wildfly::dirname') %>/jboss.properties"

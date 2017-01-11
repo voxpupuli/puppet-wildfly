@@ -18,12 +18,13 @@
   "version": "1.2.3",
   "tags": [
     "jboss",
-    "EAP",
-    "AS",
-    "jdk8",
     "wildfly",
     "keycloak",
     "apiman",
+    "infinispan",
+    "EAP",
+    "AS",
+    "jdk8",
     "java",
     "jdk7"
   ],
