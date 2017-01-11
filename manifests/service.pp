@@ -10,8 +10,8 @@ class wildfly::service {
   $conf_file = pick($wildfly::conf_file, $config['conf_file'])
   $conf_template = pick($wildfly::conf_template, $config['conf_template'])
   $service_name = pick($wildfly::service_name, $config['service_name'])
+  $service_file = pick($wildfly::service_file, $config['service_file'])
 
-  $service_file = $config['service_file']
   $systemd_template = $config['systemd_template']
   $systemd_native = $config['systemd_native']
 
