@@ -1,0 +1,18 @@
+HOSTS:
+  centos-7:
+    roles:
+      - agent
+      - default
+    platform: el-7-x86_64
+    image: centos:7
+    hypervisor : docker
+    docker_preserve_image: true
+    docker_cmd: '["/sbin/init"]'
+    docker_image_commands:
+      - yum install -y wget initscripts 
+      - rm /lib/systemd/system/systemd*udev*
+      - rm /lib/systemd/system/getty.target
+    mount_folders:
+      cache:
+        host_path: wget_cache/
+        container_path: /var/cache/wget

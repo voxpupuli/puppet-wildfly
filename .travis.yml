@@ -37,21 +37,21 @@ matrix:
   include:
     - rvm: 2.3.1
       dist: trusty
-      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/centos-6
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/centos-7
       script: bundle exec rake beaker
       services: docker
       sudo: required
       bundler_args: --with acceptance
     - rvm: 2.3.1
       dist: trusty
-      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/debian-8 bundle
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/debian-7 bundle
       script: bundle exec rake beaker
       services: docker
       sudo: required
       bundler_args: --with acceptance
     - rvm: 2.3.1
       dist: trusty
-      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/ubuntu-1604 bundle
+      env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/ubuntu-1404 bundle
       script: bundle exec rake beaker
       services: docker
       sudo: required

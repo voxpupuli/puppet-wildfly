@@ -1,0 +1,19 @@
+HOSTS:
+  ubuntu-1404:
+    roles:
+      - agent
+      - default
+    platform: ubuntu-14.04-amd64
+    image:  ubuntu:14.04 
+    hypervisor: docker
+    docker_cmd: '["/sbin/init"]'
+    docker_preserve_image: true
+    docker_image_commands:
+      - apt-get install -yq wget net-tools libssl-dev
+      - ln -sf /sbin/initctl.distrib /sbin/initctl
+      - locale-gen en_US en_US.UTF-8
+      - dpkg-reconfigure locales
+    mount_folders:
+      cache:
+        host_path: wget_cache/
+        container_path: /var/cache/wget

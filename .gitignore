@@ -14,3 +14,4 @@ spec/fixtures/*
 spec/reports/*
 coverage/*
 .DS_Store
+wget_cache/
