@@ -20,7 +20,7 @@ describe 'wildfly::service' do
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
     it do
       is_expected.to contain_service('wildfly').with(
-        'ensure'     => true,
+        'ensure'     => undef,
         'hasrestart' => true,
         'hasstatus'  => true
       )
@@ -42,7 +42,7 @@ describe 'wildfly::service' do
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
     it do
       is_expected.to contain_service('wildfly').with(
-        'ensure'     => true,
+        'ensure'     => undef,
         'hasrestart' => true,
         'hasstatus'  => true
       )
@@ -65,7 +65,7 @@ describe 'wildfly::service' do
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
     it do
       is_expected.to contain_service('wildfly').with(
-        'ensure'     => true,
+        'ensure'     => undef,
         'enable'     => true,
         'hasrestart' => true,
         'hasstatus'  => true
