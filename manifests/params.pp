@@ -14,7 +14,7 @@ class wildfly::params {
   $package_name     = undef
   $package_version  = present
 
-  $service_ensure    = true
+  $service_ensure    = undef
   $service_enable    = true
   $conf_file         = undef
   $service_file      = undef
