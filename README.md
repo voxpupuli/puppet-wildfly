@@ -878,7 +878,7 @@ User to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed
 
 Wether this module should manage required packages (wget and liaio). Default `present`.
 
-##### `service_ensure`
+##### `service_name`
 
 Sets Wildfly's service `name`. Default `wildfly`.
 
