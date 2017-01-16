@@ -6,7 +6,7 @@ Puppet::Type.newtype(:wildfly_resource) do
     defaultto :present
   end
 
-  newparam(:path, :namevar => true) do
+  newparam(:path) do
     desc 'JBoss Resource Path'
 
     validate do |value|
@@ -30,6 +30,10 @@ Puppet::Type.newtype(:wildfly_resource) do
   newparam(:port) do
     desc 'Management port. Defaults to 127.0.0.1'
     defaultto 9990
+
+    munge do |value|
+      value.to_i
+    end
   end
 
   newparam(:recursive) do
@@ -44,6 +48,34 @@ Puppet::Type.newtype(:wildfly_resource) do
     validate do |value|
       raise("#{value} is not a Hash") unless value.is_a?(Hash)
     end
+  end
+
+
+  def self.title_patterns
+    identity = lambda {|x| x}
+    [
+      [
+        /^(.*):(.*):(.*)$/,
+        [
+          [ :path, identity ],
+          [ :host, identity ],
+          [ :port, identity ]
+        ]
+      ],
+      [
+        /^(.*):(.*)$/,
+        [
+            [ :path, identity ],
+            [ :host, identity ],
+        ]
+      ],
+      [
+        /^([^:]+)$/,
+        [
+          [ :path, identity ]
+        ]
+      ]
+    ]
   end
 
   newproperty(:state) do
