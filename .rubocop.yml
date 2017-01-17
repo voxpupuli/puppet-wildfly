@@ -1,3 +1,4 @@
+require: rubocop-rspec
 
 Style/Encoding:
   Enabled: false
@@ -39,8 +40,9 @@ Style/Next:
   Enabled: false
 
 AllCops:
+  TargetRubyVersion: 1.9
   Exclude:
-    - 'spec/**/*'
+    - 'lib/puppet_x/wildfly/gems/**/*'
     - 'pkg/**/*'
     - 'coverage/**/*'
     - 'files/**/*'
