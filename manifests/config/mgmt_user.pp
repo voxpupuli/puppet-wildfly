@@ -3,7 +3,7 @@
 #
 define wildfly::config::mgmt_user($password) {
 
-  wildfly::config::user { "${name}:ManagementRealm":
+  wildfly::config::user { "${title}:ManagementRealm":
     password  => $password,
     file_name => 'mgmt-users.properties',
   }

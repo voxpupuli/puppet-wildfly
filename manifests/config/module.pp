@@ -8,7 +8,7 @@ define wildfly::config::module(
 
   require wildfly::install
 
-  $namespace_path = regsubst($name, '[.]', '/', 'G')
+  $namespace_path = regsubst($title, '[.]', '/', 'G')
 
   if $system {
     $module_dir = 'system/layers/base'
@@ -21,7 +21,7 @@ define wildfly::config::module(
 
   $dir_path = "${wildfly::dirname}/modules/${module_dir}/${namespace_path}/main"
 
-  exec { "Create Parent Directories: ${name}":
+  exec { "Create Parent Directories: ${title}":
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "mkdir -p ${dir_path}",
     unless  => "test -d ${dir_path}",

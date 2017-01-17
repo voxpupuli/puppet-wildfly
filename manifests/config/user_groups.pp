@@ -3,10 +3,10 @@
 #
 define wildfly::config::user_groups($groups) {
 
-  file_line { "${name}:${groups}":
+  file_line { "${title}:${groups}":
     path   => "${wildfly::dirname}/${wildfly::mode}/configuration/mgmt-groups.properties",
-    line   => "${name}=${groups}",
-    match  => "^${name}=.*\$",
+    line   => "${title}=${groups}",
+    match  => "^${title}=.*\$",
     notify => Service['wildfly'],
   }
 

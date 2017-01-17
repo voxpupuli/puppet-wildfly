@@ -13,7 +13,7 @@ define wildfly::messaging::activemq::queue(
     'selector' => $selector
   }
 
-  wildfly::resource { "/subsystem=messaging-activemq/server=default/jms-queue=${name}":
+  wildfly::resource { "/subsystem=messaging-activemq/server=default/jms-queue=${title}":
     content => $params,
     profile => $target_profile,
   }

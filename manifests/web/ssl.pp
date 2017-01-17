@@ -8,7 +8,7 @@ define wildfly::web::ssl(
   $ca_certificate_file = undef) {
 
   $params = {
-    'name' => $name,
+    'name' => $title,
     'password' => $password,
     'protocol' => $protocol,
     'cipher-suite' => $cipher_suite,

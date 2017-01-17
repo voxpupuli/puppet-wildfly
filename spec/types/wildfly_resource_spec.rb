@@ -17,6 +17,12 @@ describe Puppet::Type.type(:wildfly_resource) do
     expect { catalog.add_resource(described_class.new(:title => '/subsystem=web:127.0.0.1'), described_class.new(:title => '/subsystem=web:192.168.33.10')) }.not_to raise_error
   end
 
+  it 'allow same path for different hosts 2' do
+    catalog = Puppet::Resource::Catalog.new
+
+    expect { catalog.add_resource(described_class.new(:title => '/subsystem=datasources/data-source=DemoDS'), described_class.new(:title => '/subsystem=datasources/data-source=MyDS')) }.not_to raise_error
+  end
+
   describe 'when using composite title' do
 
     it 'simple title pattern containing only path' do

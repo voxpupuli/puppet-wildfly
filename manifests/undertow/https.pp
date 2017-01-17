@@ -44,7 +44,7 @@ define wildfly::undertow::https(
     },
   }
   ->
-  wildfly::resource { "/subsystem=undertow/server=default-server/https-listener=${name}":
+  wildfly::resource { "/subsystem=undertow/server=default-server/https-listener=${title}":
     content => $listener_content,
     profile => $target_profile,
   }

@@ -6,7 +6,7 @@ define wildfly::config::user(
   $file_name,
 ) {
 
-  $user_info = split($name, ':')
+  $user_info = split($title, ':')
   $username = $user_info[0]
   $realm = $user_info[1]
 

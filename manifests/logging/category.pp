@@ -13,7 +13,7 @@ define wildfly::logging::category(
     'handlers'             => $handlers
   }
 
-  wildfly::resource { "/subsystem=logging/logger=${name}":
+  wildfly::resource { "/subsystem=logging/logger=${title}":
     content => $params,
     profile => $target_profile,
   }

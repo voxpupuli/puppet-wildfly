@@ -6,7 +6,7 @@ define wildfly::web::connector(
   $secure,) {
 
   $params = {
-    'name' => $name,
+    'name' => $title,
     'scheme' => $scheme,
     'protocol' => $protocol,
     'socket-binding' => $socket_binding,
@@ -14,7 +14,7 @@ define wildfly::web::connector(
     'secure' => $secure
   }
 
-  wildfly::resource { "/subsystem=web/connector=${name}":
+  wildfly::resource { "/subsystem=web/connector=${title}":
     content => $params
   }
 

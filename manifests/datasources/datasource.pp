@@ -7,14 +7,14 @@ define wildfly::datasources::datasource(
 
   $profile_path = profile_path($target_profile)
 
-  wildfly::resource { "/subsystem=datasources/data-source=${name}":
+  wildfly::resource { "/subsystem=datasources/data-source=${title}":
     content => $config,
     profile => $target_profile
   }
   ->
-  wildfly::cli { "Enable ${name}":
-    command => "${profile_path}/subsystem=datasources/data-source=${name}:enable",
-    unless  => "(result == true) of ${profile_path}/subsystem=datasources/data-source=${name}:read-attribute(name=enabled)",
+  wildfly::cli { "Enable ${title}":
+    command => "${profile_path}/subsystem=datasources/data-source=${title}:enable",
+    unless  => "(result == true) of ${profile_path}/subsystem=datasources/data-source=${title}:read-attribute(name=enabled)",
   }
 
 }

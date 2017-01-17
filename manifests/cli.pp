@@ -2,11 +2,11 @@
 # Executes a JBoss-CLI command
 #
 define wildfly::cli(
-  $command = $name,
+  $command = $title,
   $unless = undef,
   $onlyif = undef) {
 
-  wildfly_cli { $name:
+  wildfly_cli { $title:
     command  => $command,
     username => $wildfly::mgmt_user['username'],
     password => $wildfly::mgmt_user['password'],

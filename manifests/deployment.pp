@@ -35,7 +35,7 @@ define wildfly::deployment(
     }
   }
 
-  wildfly_deployment { $name:
+  wildfly_deployment { $title:
     ensure            => $ensure,
     server_group      => $server_group,
     username          => $wildfly::mgmt_user['username'],

@@ -10,7 +10,7 @@ define wildfly::resource(
 
   $profile_path = profile_path($profile)
 
-  wildfly_resource { "${profile_path}${name}":
+  wildfly_resource { "${profile_path}${title}":
     ensure            => $ensure,
     path              => "${profile_path}${name}",
     username          => $wildfly::mgmt_user['username'],

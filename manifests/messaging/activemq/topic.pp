@@ -9,7 +9,7 @@ define wildfly::messaging::activemq::topic(
     'entries' => $entries
   }
 
-  wildfly::resource { "/subsystem=messaging-activemq/server=default/jms-topic=${name}":
+  wildfly::resource { "/subsystem=messaging-activemq/server=default/jms-topic=${title}":
     content => $params,
     profile => $target_profile,
   }
