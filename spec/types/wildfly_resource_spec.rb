@@ -24,7 +24,6 @@ describe Puppet::Type.type(:wildfly_resource) do
   end
 
   describe 'when using composite title' do
-
     it 'simple title pattern containing only path' do
       simple_resource = described_class.new(:title => '/profile=full-ha/subsystem=web/configuration=jsp-configuration')
       expect(simple_resource[:path]).to eq('/profile=full-ha/subsystem=web/configuration=jsp-configuration')
@@ -43,13 +42,12 @@ describe Puppet::Type.type(:wildfly_resource) do
       resource_with_composite_name = described_class.new(:title => '/profile=full-ha/subsystem=web/configuration=jsp-configuration:192.168.30.20:10990')
       expect(resource_with_composite_name[:path]).to eq('/profile=full-ha/subsystem=web/configuration=jsp-configuration')
       expect(resource_with_composite_name[:host]).to eq('192.168.30.20')
-      expect(resource_with_composite_name[:port]).to eq(10990)
+      expect(resource_with_composite_name[:port]).to eq(10_990)
     end
 
     it 'composite fail with invalid path' do
       expect { described_class.new(:title => 'profile=full') }.to raise_error(Puppet::ResourceError)
     end
-
   end
 
   describe 'when validating parameters' do

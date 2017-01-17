@@ -33,15 +33,15 @@ data = {}
 case profile
 
 when /(wildfly):(\d{1,}\.\d{1,}\.\d{1,})/
-  data['distribution'] = $1
-  data['version'] = $2
+  data['distribution'] = Regexp.last_match(1)
+  data['version'] = Regexp.last_match(2)
   data['install_source'] = "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
   data['service_name'] = 'wildfly'
 when /(jboss-eap):(\d{1,}\.\d{1,})/
-  data['distribution'] = $1 
-  data['version'] = $2 
+  data['distribution'] = Regexp.last_match(1)
+  data['version'] = Regexp.last_match(2)
   data['install_source'] = "http://10.0.2.2:9090/jboss-eap-#{data['version']}.tar.gz"
-  data['service_name'] = if data['version'].to_f < 7.0 then 'jboss-as' else 'jboss-eap' end
+  data['service_name'] = (data['version'].to_f < 7.0 ? 'jboss-as' : 'jboss-eap')
 when 'custom'
   data['distribution'] = ENV['TEST_distribution']
   data['version'] = ENV['TEST_version']

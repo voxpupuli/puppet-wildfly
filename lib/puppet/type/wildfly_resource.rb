@@ -56,29 +56,28 @@ Puppet::Type.newtype(:wildfly_resource) do
     end
   end
 
-
   def self.title_patterns
-    identity = lambda {|x| x}
+    identity = lambda { |x| x }
     [
       [
         /^(.*):(.*):(.*)$/,
         [
-          [ :path, identity ],
-          [ :host, identity ],
-          [ :port, identity ]
+          [:path, identity],
+          [:host, identity],
+          [:port, identity]
         ]
       ],
       [
         /^(.*):(.*)$/,
         [
-            [ :path, identity ],
-            [ :host, identity ],
+          [:path, identity],
+          [:host, identity]
         ]
       ],
       [
         /^([^:]+)$/,
         [
-          [ :path, identity ]
+          [:path, identity]
         ]
       ]
     ]

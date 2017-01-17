@@ -2,9 +2,9 @@ require 'spec_helper'
 require 'json'
 
 describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
-  let (:path) { '/subsystem=dummy' }
+  let(:path) { '/subsystem=dummy' }
 
-  let (:resource) { Puppet::Type.type(:wildfly_resource).new :title => path }
+  let(:resource) { Puppet::Type.type(:wildfly_resource).new :title => path }
 
   describe 'when testing wether the state is in sync without recursive' do
     let(:state) { described_class.new(:resource => resource) }
