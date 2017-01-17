@@ -9,6 +9,8 @@ Puppet::Type.newtype(:wildfly_resource) do
   newparam(:path) do
     desc 'JBoss Resource Path'
 
+    isnamevar
+
     validate do |value|
       raise("Invalid resource path #{value}") unless value =~ %r{(\/[\w\-]+=[\w\-]+)}
     end
@@ -25,6 +27,8 @@ Puppet::Type.newtype(:wildfly_resource) do
   newparam(:host) do
     desc 'Host of Management API. Defaults to 127.0.0.1'
     defaultto '127.0.0.1'
+
+    isnamevar
   end
 
   newparam(:port) do
@@ -34,6 +38,8 @@ Puppet::Type.newtype(:wildfly_resource) do
     munge do |value|
       value.to_i
     end
+
+    isnamevar
   end
 
   newparam(:recursive) do

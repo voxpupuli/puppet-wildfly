@@ -13,8 +13,8 @@ describe Puppet::Type.type(:wildfly_resource) do
 
   it 'allow same path for different hosts' do
     catalog = Puppet::Resource::Catalog.new
-    catalog.add_resource(described_class.new(:title => '/profile=full-ha:127.0.0.1'))
-    catalog.add_resource(described_class.new(:title => '/profile=full-ha:192.168.33.10'))
+
+    expect { catalog.add_resource(described_class.new(:title => '/subsystem=web:127.0.0.1'), described_class.new(:title => '/subsystem=web:192.168.33.10')) }.not_to raise_error
   end
 
   describe 'when using composite title' do
