@@ -248,7 +248,7 @@ class { 'wildfly':
 
 > **NOTE:** Just make sure to point to the right version/distribution it was built upon.
 
-# Infinispan Server
+### Infinispan Server
 
 Infinispan Server (or JBoss Data Grid) also work with this module but requires more tweaks.
 
@@ -266,7 +266,7 @@ class { 'wildfly':
 
 > **Limitation:** You need to repackage it to a tar.gz file and Infinispan Server 6 and JDG 6.x are not working.
 
-## Wildfly's Configuration Management
+### Wildfly's Configuration Management
 
 Wildfly has a [Management Model](https://docs.jboss.org/author/display/WFLY8/Description+of+the+Management+Model) that describes its configuration and there are three main elements that you need to understand in order to use this module: `path`, `attributes` and `operations`
 
@@ -328,17 +328,17 @@ A resource attribute behaviors like a Puppet resource property. Therefore, **unm
 
 > **NOTE:** Be careful with the type of declared attribute's value as it should match Management Model type. Valid Management Model types include: `STRING`, `INT`, `BOOLEAN`, `LIST` (i.e. arrays []) and `OBJECT` (i.e. hashes {}).
 
-## Patch management
+### Patch management
 
 Wildfly/JBoss allows you to apply patches to existing installation in order to update it. I suggest you use `puppet-archive` or any other `archive` module to download patches from remote sources, just be aware that you need to extract patch zip file in order to apply patches to Wildfly, but you'll be able to apply the zip file directly when you're using EAP.
 
 > **NOTE:** Wildfly from versions 8.0.0 to 9.0.1 has a bug in `jboss-cli.sh` [WFCORE-160](https://issues.jboss.org/browse/WFCORE-160) that makes it report that a patch hasn't been successfuly applied (exit code 2) even when it was. If you're using one of theses versions you better update this file or live with a bad report.
 
-### Offline
+#### Offline
 
 Offline patching requires the server to be down, but don't leave the server in a `restart-required` state.
 
-#### EAP/Offline example
+##### EAP/Offline example
 
 ```puppet
 class { '::wildfly':
@@ -356,11 +356,11 @@ wildfly::patch::offline { '6.4.8':
 }
 ```
 
-### Online
+#### Online
 
 Online patching requires the server to be up and requires a restart after being applied.
 
-#### Wildfly/Online example
+##### Wildfly/Online example
 
 ```puppet
 class { '::wildfly':
@@ -385,7 +385,7 @@ wildfly::patch::online { '10.1.0':
 }
 ```
 
-## Unmanaged installation
+### Unmanaged installation
 
 If you don't want to use this module to manage your Wildfly/JBoss installation or you don't want to manage your installation with Puppet at all. You still can use this module to manage your configuration using `wildfly_resource`, `wildfly_cli`, `wildfly_deployment` and `wildfly_restart`.
 
@@ -408,9 +408,9 @@ wildfly_resource { "/subsystem=datasources/data-source=MyDS":
 }
 ```
 
-## Domain Mode
+### Domain Mode
 
-### Master (Domain Controller)
+#### Master (Domain Controller)
 
 ```puppet
 class { 'wildfly':
@@ -428,7 +428,7 @@ wildfly::config::mgmt_user { 'slave1':
 
 > **NOTE:** Don't forget to set `target_profile` while managing your domain resources.
 
-### Slave (Host Controller)
+#### Slave (Host Controller)
 
 ```puppet
 class { 'wildfly':
@@ -441,7 +441,7 @@ class { 'wildfly':
 }
 ```
 
-## Domain Management
+#### Domain Management
 
 Make sure you remove default resources (server-groups and server-config) if you're not going to use it.
 
@@ -463,9 +463,9 @@ wildlfy::resource { ['/host=slave1/server-config=server-one', '/host=slave1/serv
 
 Then start managing your own `server-groups` and `server-config` with `wildfly::domain::server-group` and `wildfly::host::server_config`
 
-## Deployment
+### Deployment
 
-### From a local or remote source
+#### From a local or remote source
 
 Source supports these protocols: `http://`, `ftp://`, `puppet://`, `file://`
 
@@ -487,7 +487,7 @@ wildfly::deployment { 'hawtio.war':
 }
 ```
 
-### To a target server-group (domain mode)
+#### To a target server-group (domain mode)
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
@@ -496,7 +496,7 @@ wildfly::deployment { 'hawtio.war':
 }
 ```
 
-### From nexus
+#### From nexus
 
 > **NOTE:** This feature was removed to avoid 'archive' name collision, but you can still use [archive::nexus](https://github.com/voxpupuli/puppet-archive/#archivenexus) to download an artifact and use as an input for `wildfly::deployment`
 
@@ -513,7 +513,7 @@ wildfly::deployment { 'hawtio.war':
 }
 ```
 
-## User management
+### User management
 
 You can add App and Management users (requires server restart).
 
@@ -543,7 +543,7 @@ wildfly::config::user_roles { 'appuser':
 }
 ```
 
-## Module installation
+### Module installation
 
 Install a JAR module from a remote file system, puppet file server or local file system.
 
@@ -568,7 +568,7 @@ wildfly::config::module { 'org.postgresql':
 }
 ```
 
-## Datasources
+### Datasources
 
 Setup a driver and a datasource (for domain mode you need to set `target_profile` parameter):
 
@@ -657,9 +657,9 @@ wildfly::datasources::db_property { 'DemoDbProperty':
 }
 ```
 
-## HTTPS/SSL
+### HTTPS/SSL
 
-### Wildfly 8+
+#### Wildfly 8+
 
 ```puppet
 wildfly::undertow::https { 'https':
@@ -671,7 +671,7 @@ wildfly::undertow::https { 'https':
 }
 ```
 
-### JBoss AS7/EAP 6
+#### JBoss AS7/EAP 6
 
 ```puppet
 wildfly::web::connector { 'https':
@@ -692,7 +692,7 @@ wildfly::web::ssl { 'ssl':
 }
 ```
 
-### Sample identity store configuration with `puppetlabs-java_ks`
+#### Sample identity store configuration with `puppetlabs-java_ks`
 
 ```puppet
 java_ks { 'demo:/opt/identitystore.jks':
@@ -704,7 +704,7 @@ java_ks { 'demo:/opt/identitystore.jks':
 }
 ```
 
-## Server Reload
+### Server Reload
 
 Some configurations like SSL and modcluster requires a server reload (i.e. `server-state = reload-required`), and it can be achieved with the following snippet:
 
@@ -736,7 +736,7 @@ wildfly::resource { '/some=resource':
 }
 ```
 
-## Messaging
+### Messaging
 
 > **NOTE** `full` profiles only
 
@@ -766,7 +766,7 @@ wildfly::messaging::activemq::topic { 'DemoTopic':
 }
 ```
 
-## Logging
+### Logging
 
 ```puppet
 wildfly::logging::category { 'DemoCategory':
@@ -776,7 +776,7 @@ wildfly::logging::category { 'DemoCategory':
 }
 ```
 
-## System Property
+### System Property
 
 ```puppet
 wildfly::system::property { 'DemoSysProperty':
@@ -784,7 +784,7 @@ wildfly::system::property { 'DemoSysProperty':
 }
 ```
 
-## Modcluster
+### Modcluster
 
 *`full` and `ha` profiles only
 

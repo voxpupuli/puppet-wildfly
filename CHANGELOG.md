@@ -1,5 +1,11 @@
 # History
 
+## 1.2.3
+
+- Use composite namevar for wildfly_resource to allow management of multiple instance from a single node.
+- EAP7 topics and queues.
+- Infinispan/JDG template.
+
 ## 1.2.2
 
 - Update supported OS's list and add propert suport for upstart through sysvinit
