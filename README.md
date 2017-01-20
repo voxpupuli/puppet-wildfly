@@ -1,6 +1,6 @@
 # wildfly
 
-[![Build Status](https://travis-ci.org/biemond/biemond-wildfly.svg?branch=master)](https://travis-ci.org/biemond/biemond-wildfly)  [![Coverage Status](https://coveralls.io/repos/biemond/biemond-wildfly/badge.svg?branch=master&service=github)](https://coveralls.io/github/biemond/biemond-wildfly?branch=master)  ![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/biemond/wildfly.svg) [![Code Climate](https://codeclimate.com/github/biemond/biemond-wildfly/badges/gpa.svg)](https://codeclimate.com/github/biemond/biemond-wildfly)
+[![Build Status](https://travis-ci.org/biemond/biemond-wildfly.svg?branch=master)](https://travis-ci.org/biemond/biemond-wildfly) ![Puppet Forge Endorsement](https://img.shields.io/puppetforge/e/biemond/wildfly.svg) ![Puppet Forge Version](https://img.shields.io/puppetforge/v/biemond/wildfly.svg) ![Puppet Forge Score](https://img.shields.io/puppetforge/f/biemond/wildfly.svg)  ![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/biemond/wildfly.svg) [![Code Climate](https://codeclimate.com/github/biemond/biemond-wildfly/badges/gpa.svg)](https://codeclimate.com/github/biemond/biemond-wildfly) [![Coverage Status](https://coveralls.io/repos/biemond/biemond-wildfly/badge.svg?branch=master&service=github)](https://coveralls.io/github/biemond/biemond-wildfly?branch=master)
 
 ## Table of Contents
 
