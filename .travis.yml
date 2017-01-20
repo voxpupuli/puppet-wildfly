@@ -44,6 +44,13 @@ matrix:
       bundler_args: --with acceptance
     - rvm: 2.3.1
       dist: trusty
+      env: PUPPET_INSTALL_TYPE=agent TEST_profile=wildfly:10.1.0 BEAKER_debug=true BEAKER_set=docker/centos-7
+      script: bundle exec rake beaker
+      services: docker
+      sudo: required
+      bundler_args: --with acceptance
+    - rvm: 2.3.1
+      dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/debian-7 bundle
       script: bundle exec rake beaker
       services: docker

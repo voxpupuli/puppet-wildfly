@@ -22,10 +22,10 @@ module Puppet::Parser::Functions
         path = 'bin/init.d'
       end
 
-      unless config['systemd_native']
-        osfamily = lookupvar('osfamily')
-        config['service_file'] = "#{path}/wildfly-init-#{osfamily.downcase}.sh"
+      osfamily = lookupvar('osfamily')
+      config['service_file'] = "#{path}/wildfly-init-#{osfamily.downcase}.sh"
 
+      unless config['systemd_native']
         case osfamily
         when 'RedHat'
           config['conf_file'] = '/etc/default/wildfly.conf'
