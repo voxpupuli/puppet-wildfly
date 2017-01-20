@@ -10,7 +10,7 @@ describe 'service_config' do
     end
 
     it 'using systemd' do
-      is_expected.to run.with_params(distribution, version, 'standalone', 'systemd').and_return('service_name' => 'wildfly', 'conf_file' => '/etc/wildfly/wildfly.conf', 'systemd_template' => 'wildfly/wildfly.systemd.service.erb', 'conf_template' => 'wildfly/wildfly.systemd.conf.erb', 'systemd_native' => true)
+      is_expected.to run.with_params(distribution, version, 'standalone', 'systemd').and_return("systemd_native"=>true, "systemd_template"=>"wildfly/wildfly.systemd.service.erb", "conf_file"=>"/etc/wildfly/wildfly.conf", "conf_template"=>"wildfly/wildfly.systemd.conf.erb", "service_file"=>"/wildfly-init-redhat.sh", "service_name"=>"wildfly")
     end
   end
 
