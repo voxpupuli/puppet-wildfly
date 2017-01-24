@@ -67,11 +67,25 @@ describe PuppetX::Wildfly::OperationBuilder do
       expect(operation).to eq(:operation => :deploy, :address => [:deployment => 'myapp.ear'])
     end
 
-    it 'creates a undeploy request' do
+    it 'creates a deploy request for a server group' do
+      operation_builder = described_class.new
+      operation = operation_builder.target('main-server-group').deploy('myapp.ear').build
+
+      expect(operation).to eq(:operation => :add, :address => [{ 'server-group' => 'main-server-group' }, { :deployment => 'myapp.ear' }])
+    end
+
+    it 'creates an undeploy request' do
       operation_builder = described_class.new
       operation = operation_builder.undeploy('myapp.ear').build
 
       expect(operation).to eq(:operation => :undeploy, :address => [:deployment => 'myapp.ear'])
+    end
+
+    it 'creates an undeploy request for a server group' do
+      operation_builder = described_class.new
+      operation = operation_builder.target('main-server-group').undeploy('myapp.ear').build
+
+      expect(operation).to eq(:operation => :remove, :address => [{ 'server-group' => 'main-server-group' }, { :deployment => 'myapp.ear' }])
     end
 
     it 'appends server-group to target address' do

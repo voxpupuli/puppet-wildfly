@@ -24,6 +24,11 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
             ensure  => absent,
           }
 
+          wildfly::deployment { 'hawtio.war':
+            source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war',
+            server_group => 'main-server-group',
+          }
+
       EOS
 
       apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])

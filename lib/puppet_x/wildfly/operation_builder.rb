@@ -56,13 +56,15 @@ module PuppetX
       end
 
       def deploy(name)
-        @detyped_request[:operation] = :deploy
+        operation = @detyped_request[:address].empty? ? :deploy : :add
+        @detyped_request[:operation] = operation
         @detyped_request[:address] << { :deployment => name }
         self
       end
 
       def undeploy(name)
-        @detyped_request[:operation] = :undeploy
+        operation = @detyped_request[:address].empty? ? :undeploy : :remove
+        @detyped_request[:operation] = operation
         @detyped_request[:address] << { :deployment => name }
         self
       end
