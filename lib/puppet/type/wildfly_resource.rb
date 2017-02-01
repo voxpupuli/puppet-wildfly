@@ -32,7 +32,7 @@ Puppet::Type.newtype(:wildfly_resource) do
   end
 
   newparam(:port) do
-    desc 'Management port. Defaults to 127.0.0.1'
+    desc 'Management port. Defaults to 9990'
     defaultto 9990
 
     munge do |value|
