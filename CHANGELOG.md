@@ -1,5 +1,12 @@
 # History
 
+## 1.2.5
+- Fix for deployment in domain mode
+- Fix custom types docs.
+
+## 1.2.4
+- Fix for wildfly 10 with systemd
+
 ## 1.2.3
 
 - Use composite namevar for wildfly_resource to allow management of multiple instance from a single node.

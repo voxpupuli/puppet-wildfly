@@ -60,7 +60,7 @@ Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 1
 
 ## Module Description
 
-The wildfly module can install, configure and manage - using its HTTP Management API - Wildfly (8/9/10) and JBoss EAP (6.1+/7.0+).
+The wildfly module can install, configure and manage - through its HTTP Management API - Wildfly (8/9/10) and JBoss EAP (6.1+/7.0+).
 
 ## Setup
 

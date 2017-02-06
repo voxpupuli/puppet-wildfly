@@ -14,7 +14,7 @@
   "name": "biemond-wildfly",
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
-  "summary": "JBoss Wildfly puppet module",
+  "summary": "Install, configure and manage - through its HTTP Management API - Wildfly (8/9/10), JBoss EAP (6.1+/7.0+) and some Wildfly based products like apiman, Keycloak and Infinispan.",
   "version": "1.2.5",
   "tags": [
     "jboss",
