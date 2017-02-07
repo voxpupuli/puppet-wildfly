@@ -39,6 +39,11 @@ describe PuppetX::Wildfly::CLICommand do
       expect(detyped_request).to eq(:operation => 'read-operation-names', :address => [{ 'subsystem' => 'web' }, { 'modcluster' => 'configuration' }])
     end
 
+    it 'creates a request for a resource named with special character' do
+      detyped_request = described_class.new('/subsystem=naming/binding="java:global/ldap/resource":add()').to_detyped_request
+      expect(detyped_request).to eq(:operation => 'add', :address => [{ 'subsystem' => 'naming' }, { 'binding' => 'java:global/ldap/resource' }])
+    end
+
     it 'creates a request for a complex operation with complex path' do
       detyped_request = described_class.new('/socket-binding-group=standard-sockets/remote-destinations-outbound-socket-binding=mail-smtp:add(host="www-smtp.localdomain", port=25)').to_detyped_request
       expect(detyped_request).to eq(:operation => 'add', :address => [{ 'socket-binding-group' => 'standard-sockets' }, { 'remote-destinations-outbound-socket-binding' => 'mail-smtp' }], 'host' => '"www-smtp.localdomain"', 'port' => '25')

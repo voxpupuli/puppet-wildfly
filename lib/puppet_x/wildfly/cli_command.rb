@@ -34,7 +34,7 @@ module PuppetX
 
           nodes.size.times do |index|
             element = nodes[index]
-            list << { element.elements[1].text_value => element.elements[3].text_value }
+            list << { element.elements[1].text_value => element.elements[3].text_value.gsub('"', '') }
           end
         end
 
