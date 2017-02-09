@@ -115,10 +115,28 @@ Puppet::Type.newtype(:wildfly_resource) do
       end
     end
 
+    def stringify(array)
+      array.each_with_index do |element, index|
+        if element.is_a?(Hash)
+          array[index] = stringify_values(element)
+        elsif element.is_a?(Array)
+          array[index] = stringify(array)
+        else
+          array[index] = element.to_s
+        end
+      end
+    end
+
     # Helper function to transform values to strings
     def stringify_values(hash)
       transform_hash(hash) do |inner_hash, key, value|
-        inner_hash[key] = value.is_a?(Hash) ? value : value.to_s
+        if value.is_a?(Hash)
+          inner_hash[key] = value
+        elsif value.is_a?(Array)
+          inner_hash[key] = stringify(value)
+        else
+          inner_hash[key] = value.to_s
+        end
       end
     end
 

@@ -12,7 +12,7 @@ define wildfly::resource(
 
   wildfly_resource { "${profile_path}${title}":
     ensure            => $ensure,
-    path              => "${profile_path}${name}",
+    path              => "${profile_path}${title}",
     username          => $wildfly::mgmt_user['username'],
     password          => $wildfly::mgmt_user['password'],
     host              => $wildfly::setup::properties['jboss.bind.address.management'],

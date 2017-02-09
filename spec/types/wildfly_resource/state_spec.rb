@@ -98,10 +98,25 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       expect(state.insync?(is)).to be true
     end
 
+    it 'is synced if hashes and inner arrays are type but string comparison succeed' do
+      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => ['true', 'false', 'true'] } }
+
+      is = { 'nested-hash' => { 'value' => [true, false, true] }, 'name' => 'dummy' }
+
+      expect(state.insync?(is)).to be true
+    end
+
     it 'is synced if desired state is typed but string comparison succeed' do
       state.should = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 } }
 
       is = { 'name' => 'dummy', 'port' => '8080', 'enabled' => 'false', 'nested-hash' => { 'enabled' => 'true', 'a-numeric-resource' => '42' } }
+      expect(state.insync?(is)).to be true
+    end
+
+    it 'is synced if desired state is typed but string comparison succeed with hash inside array' do
+      state.should = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'values' => ['nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 }] }
+
+      is = { 'name' => 'dummy', 'port' => '8080', 'enabled' => 'false', 'values' => ['nested-hash' => { 'enabled' => 'true', 'a-numeric-resource' => '42' }] }
       expect(state.insync?(is)).to be true
     end
 
