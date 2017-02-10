@@ -1,10 +1,16 @@
 # History
 
+## 1.2.6
+- Recursively stringify array values to avoid non-idempotent behavior
+- Allow resources with special characters in its name using quotes
+
 ## 1.2.5
+
 - Fix for deployment in domain mode
 - Fix custom types docs.
 
 ## 1.2.4
+
 - Fix for wildfly 10 with systemd
 
 ## 1.2.3
