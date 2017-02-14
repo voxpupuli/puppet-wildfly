@@ -1,3 +1,5 @@
+require 'puppet_x/wildfly/hash'
+
 Puppet::Type.newtype(:wildfly_resource) do
   @doc = 'Manages JBoss resources like datasources, messaging, ssl, modcluster, etc'
 
@@ -35,9 +37,7 @@ Puppet::Type.newtype(:wildfly_resource) do
     desc 'Management port. Defaults to 9990'
     defaultto 9990
 
-    munge do |value|
-      value.to_i
-    end
+    munge(&:to_i)
 
     isnamevar
   end
@@ -91,93 +91,17 @@ Puppet::Type.newtype(:wildfly_resource) do
       raise("#{value} is not a Hash") unless value.is_a?(Hash)
     end
 
-    def recursive_sort!(obj)
-      case obj
-      when Array
-        obj.map! { |v| recursive_sort!(v) }.sort_by { |v| (v.to_s rescue nil) }
-      when Hash
-        obj = Hash[Hash[obj.map { |k, v| [recursive_sort!(k), recursive_sort!(v)] }].sort_by { |k, v| [(k.to_s rescue nil), (v.to_s rescue nil)] }]
-      else
-        obj
-      end
-    end
-
-    # Helper function to transform the hash
-    def transform_hash(original, &block)
-      original.inject({}) do |result, (key, value)|
-        value = if value.is_a?(Hash)
-                  transform_hash(value, &block)
-                else
-                  value
-                end
-        yield(result, key, value)
-        result
-      end
-    end
-
-    def stringify(array)
-      array.each_with_index do |element, index|
-        if element.is_a?(Hash)
-          array[index] = stringify_values(element)
-        elsif element.is_a?(Array)
-          array[index] = stringify(array)
-        else
-          array[index] = element.to_s
-        end
-      end
-    end
-
-    # Helper function to transform values to strings
-    def stringify_values(hash)
-      transform_hash(hash) do |inner_hash, key, value|
-        if value.is_a?(Hash)
-          inner_hash[key] = value
-        elsif value.is_a?(Array)
-          inner_hash[key] = stringify(value)
-        else
-          inner_hash[key] = value.to_s
-        end
-      end
-    end
-
-    def obfuscate_sensitive_data(hash)
-      transform_hash(hash) do |inner_hash, key, value|
-        inner_hash[key] = key.include?('password') ? '******' : value
-      end
-    end
-
-    # Return a hash containing the keys of the left hash that are also present in the right hash
-    def state_diff(is, should)
-      diff = {}
-      managed_keys = should.keys
-
-      is.each do |key, value|
-        if value.is_a? Hash
-          should_nested_hash = should[key]
-          unless should_nested_hash.nil?
-            diff[key] = state_diff(value, should_nested_hash)
-          end
-        elsif managed_keys.include? key
-          diff[key] = value
-        end
-      end
-
-      diff
-    end
-
     def insync?(is)
-      current_without_unused_keys = state_diff(is, should)
+      debug "Should: #{should.inspect} Is: #{is.inspect}"
 
-      debug "Should: #{stringify_values(recursive_sort!(should)).inspect} Is: #{stringify_values(recursive_sort!(current_without_unused_keys)).inspect}"
-
-      stringify_values(recursive_sort!(should)) == stringify_values(recursive_sort!(current_without_unused_keys))
+      should.insync?(is)
     end
 
     def change_to_s(current_value, new_value)
       changed_keys = (new_value.to_a - current_value.to_a).collect { |key, _| key }
 
-      current_value = obfuscate_sensitive_data(current_value).delete_if { |key, _| !changed_keys.include? key }.inspect
-      new_value = obfuscate_sensitive_data(new_value).delete_if { |key, _| !changed_keys.include? key }.inspect
+      current_value = current_value.delete_if { |key, _| !changed_keys.include? key }.deep_obfuscate_sensitive_values.inspect
+      new_value = new_value.delete_if { |key, _| !changed_keys.include? key }.deep_obfuscate_sensitive_values.inspect
 
       super(current_value, new_value)
     end

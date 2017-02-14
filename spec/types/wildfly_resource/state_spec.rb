@@ -9,7 +9,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   describe 'when testing wether the state is in sync without recursive' do
     let(:state) { described_class.new(:resource => resource) }
 
-    it 'does not be in sync if hashes do not match' do
+    it 'is not in sync if hashes do not match' do
       state.should = { 'name' => 'dummy', 'value' => 'anotherResource' }
 
       is = { 'name' => 'dummy', 'value' => 'resource' }
@@ -66,7 +66,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   describe 'when testing wether the state is in sync with recursive' do
     let(:state) { described_class.new(:resource => resource) }
 
-    it 'does not be in sync if hashes do not match' do
+    it 'is not in sync if hashes do not match' do
       state.should = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'match' } }
 
       is = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'matchzzz' } }
@@ -98,7 +98,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       expect(state.insync?(is)).to be true
     end
 
-    it 'is synced if hashes and inner arrays are type but string comparison succeed' do
+    it 'is synced if hashes and inner arrays are typed but string comparison succeed' do
       state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => ['true', 'false', 'true'] } }
 
       is = { 'nested-hash' => { 'value' => [true, false, true] }, 'name' => 'dummy' }
