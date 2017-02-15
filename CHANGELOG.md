@@ -1,6 +1,8 @@
 # History
 
 ## 1.2.6
+
+- Major wildfly_resource refactor
 - Recursively stringify array values to avoid non-idempotent behavior
 - Allow resources with special characters in its name using quotes
 

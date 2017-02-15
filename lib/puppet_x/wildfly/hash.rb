@@ -8,10 +8,10 @@ class Hash
   end
 
   def deep_transform_values(&block)
-    _deep_transform_values_in_object(self, &block)
+    _deep_transform_values_in_object(self, false, &block)
   end
 
-  def _deep_transform_values_in_object(object, obfuscate = false, &block)
+  def _deep_transform_values_in_object(object, obfuscate, &block)
     case object
     when Hash
       object.inject({}) do |result, (key, value)|
@@ -26,17 +26,15 @@ class Hash
     end
   end
 
+  # Return a hash containing the keys of this hash that are also present in the other hash
   def deep_intersect(other)
     diff = {}
-    managed_keys = other.keys
 
     each do |key, value|
+      next if other[key].nil?
       if value.is_a? Hash
-        other_nested_hash = other[key]
-        unless other_nested_hash.nil?
-          diff[key] = value.deep_intersect(other_nested_hash)
-        end
-      elsif managed_keys.include? key
+        diff[key] = value.deep_intersect(other[key])
+      elsif other.keys.include? key
         diff[key] = value
       end
     end

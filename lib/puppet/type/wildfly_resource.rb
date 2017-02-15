@@ -1,4 +1,4 @@
-require 'puppet_x/wildfly/hash'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'puppet_x/wildfly/hash'))
 
 Puppet::Type.newtype(:wildfly_resource) do
   @doc = 'Manages JBoss resources like datasources, messaging, ssl, modcluster, etc'
