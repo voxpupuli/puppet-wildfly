@@ -721,7 +721,7 @@ Or
 
 ```puppet
 wildfly::cli { 'Reload if necessary':
-  command => 'reload',
+  command => ':reload',
   onlyif  => '(result == reload-required) of :read-attribute(name=server-state)'
 }
 ```
