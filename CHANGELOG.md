@@ -1,5 +1,9 @@
 # History
 
+## 1.2.7
+
+- Keep compatibility with Ruby 1.8.7 (necessary while claiming compatibility with 2.7/3.8)
+
 ## 1.2.6
 
 - Major wildfly_resource refactor

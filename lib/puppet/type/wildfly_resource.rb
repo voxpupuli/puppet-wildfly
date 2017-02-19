@@ -37,7 +37,7 @@ Puppet::Type.newtype(:wildfly_resource) do
     desc 'Management port. Defaults to 9990'
     defaultto 9990
 
-    munge(&:to_i)
+    munge { |value| value.to_i }
 
     isnamevar
   end
