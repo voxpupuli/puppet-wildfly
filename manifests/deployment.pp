@@ -2,7 +2,7 @@
 # Manages a Wildfly deployment
 #
 define wildfly::deployment(
-  Variant[Pattern[/^file:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
+  Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
   Enum[present, absent] $ensure = present,
   Optional[Integer] $timeout     = undef,
   Optional[String] $server_group = undef,

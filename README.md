@@ -121,9 +121,9 @@ class { '::wildfly':
 
 All resources from `wildfly::util` were moved to `wildfly`, hence you need to search and replace them, I suggest you execute these commands in your environment:
 
-`find . -type f -exec sed -i 's/wildfly::util::exec_cli/wildfly::cli/g' {} +`
+`find . -name '*.pp' -type f -exec sed -i 's/wildfly::util::exec_cli/wildfly::cli/g' {} +`
 
-`find . -type f -exec sed -i 's/wildfly::util/wildfly/g' {} +`
+`find . -name '*.pp' -type f -exec sed -i 's/wildfly::util/wildfly/g' {} +`
 
 ## Usage
 

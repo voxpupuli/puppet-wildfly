@@ -2,7 +2,7 @@
 # Module installation
 #
 define wildfly::config::module(
-  Variant[Stdlib::Unixpath, Stdlib::Httpsurl, Stdlib::Httpurl] $source,
+  Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
   Optional[Boolean] $system = true,
   Optional[Array] $dependencies = []) {
 
