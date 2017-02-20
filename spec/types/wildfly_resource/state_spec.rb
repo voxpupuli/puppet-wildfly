@@ -99,7 +99,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
     end
 
     it 'is synced if hashes and inner arrays are typed but string comparison succeed' do
-      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => ['true', 'false', 'true'] } }
+      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => %w(true false true) } }
 
       is = { 'nested-hash' => { 'value' => [true, false, true] }, 'name' => 'dummy' }
 

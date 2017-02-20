@@ -1,10 +1,10 @@
 class Hash
   def deep_stringify_values
-    deep_transform_values { |value| value.to_s }
+    deep_transform_values(&:to_s)
   end
 
   def deep_obfuscate_sensitive_values
-    _deep_transform_values_in_object(self, true) { |value| value.to_s }
+    _deep_transform_values_in_object(self, true, &:to_s)
   end
 
   def deep_transform_values(&block)
@@ -14,10 +14,9 @@ class Hash
   def _deep_transform_values_in_object(object, obfuscate, &block)
     case object
     when Hash
-      object.inject({}) do |result, (key, value)|
+      object.each_with_object({}) do |(key, value), result|
         actual_block = obfuscate && key.to_s.include?('password') ? proc { |_| '******' } : block
         result[key] = _deep_transform_values_in_object(value, obfuscate, &actual_block)
-        result
       end
     when Array
       object.map { |e| _deep_transform_values_in_object(e, obfuscate, &block) }.sort
