@@ -2,9 +2,9 @@
 # Executes a JBoss-CLI command
 #
 define wildfly::cli(
-  $command = $title,
-  $unless = undef,
-  $onlyif = undef) {
+  String $command = $title,
+  Optional[String] $unless = undef,
+  Optional[String] $onlyif = undef) {
 
   wildfly_cli { $title:
     command  => $command,

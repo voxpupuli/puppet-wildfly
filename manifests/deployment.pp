@@ -2,11 +2,11 @@
 # Manages a Wildfly deployment
 #
 define wildfly::deployment(
-  $source,
-  $ensure            = present,
-  $timeout           = undef,
-  $server_group      = undef,
-  $operation_headers = {}) {
+  Variant[Pattern[/^file:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
+  Enum[present, absent] $ensure = present,
+  Optional[Integer] $timeout     = undef,
+  Optional[String] $server_group = undef,
+  $operation_headers             = {}) {
 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
   $local_source = "/tmp/${file_name}"

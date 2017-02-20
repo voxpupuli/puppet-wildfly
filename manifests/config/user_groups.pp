@@ -1,7 +1,7 @@
 #
 # Associate groups to user
 #
-define wildfly::config::user_groups($groups) {
+define wildfly::config::user_groups(String $groups) {
 
   file_line { "${title}:${groups}":
     path   => "${wildfly::dirname}/${wildfly::mode}/configuration/mgmt-groups.properties",

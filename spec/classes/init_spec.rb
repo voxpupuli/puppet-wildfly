@@ -10,7 +10,6 @@ describe 'wildfly' do
         :initsystem => 'systemd' }
     end
 
-    it { is_expected.to contain_class('wildfly::params') }
     it { is_expected.to contain_class('wildfly') }
     it { is_expected.to contain_class('wildfly::prepare').that_comes_before('Class[wildfly::install]') }
     it { is_expected.to contain_class('wildfly::install').that_comes_before('Class[wildfly::setup]') }

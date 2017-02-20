@@ -20,15 +20,11 @@ notifications:
     - biemond@gmail.com
     - junior.jairo1@gmail.com
 env:
-  - PUPPET_VERSION=4.2.3
   - PUPPET_VERSION=4.4.2
   - PUPPET_VERSION=4.6.2
   - PUPPET_VERSION=4.8.2
   - PUPPET_VERSION=4.9.2
 matrix:
-  exclude:
-    - rvm: 2.0.0
-      env: PUPPET_VERSION=4.9.2
   include:
     - rvm: 2.3.1
       dist: trusty

@@ -1,7 +1,11 @@
 #
 # Manages Wildfly patches offline
 #
-define wildfly::patch::offline($source, $override_all = false, $override = [], $preserve = []) {
+define wildfly::patch::offline(
+  Stdlib::Unixpath $source,
+  Optional[Boolean] $override_all = false,
+  Array $override = [],
+  Array $preserve = []) {
 
   require wildfly::install
 

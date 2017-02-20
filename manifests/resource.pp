@@ -2,11 +2,11 @@
 # Uses wildfly_resource to ensure configuration state
 #
 define wildfly::resource(
-  $ensure = 'present',
-  $recursive = false,
-  $content = {},
-  $operation_headers = {},
-  $profile = undef) {
+  Enum[present, absent] $ensure = present,
+  Boolean $recursive = false,
+  Hash $content = {},
+  Hash $operation_headers = {},
+  Optional[String] $profile = undef) {
 
   $profile_path = profile_path($profile)
 

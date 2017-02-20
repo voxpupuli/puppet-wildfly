@@ -1,6 +1,6 @@
 define wildfly::restart(
-  $retries = 3,
-  $wait = 20) {
+  Integer $retries = 3,
+  Integer $wait = 20) {
 
   wildfly_restart { $title:
     username => $wildfly::mgmt_user['username'],

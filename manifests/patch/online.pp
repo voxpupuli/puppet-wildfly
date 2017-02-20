@@ -1,7 +1,11 @@
 #
 # Manages Wildfly patches online
 #
-define wildfly::patch::online($source, $override_all = false, $override = [], $preserve = []) {
+define wildfly::patch::online(
+  Stdlib::Unixpath $source,
+  Optional[Boolean] $override_all = false,
+  Array $override = [],
+  Array $preserve = []) {
 
   $args = patch_args($source, $override_all, $override, $preserve)
 
