@@ -32,7 +32,7 @@ class wildfly::service {
 
   file { $conf_file:
     ensure  => present,
-    content => template($conf_template),
+    content => epp($conf_template),
   }
   ~>
   service { 'wildfly':

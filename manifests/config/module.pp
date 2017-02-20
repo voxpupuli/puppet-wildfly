@@ -14,11 +14,6 @@ define wildfly::config::module(
     $module_dir = 'system/layers/base'
   }
 
-  File {
-    owner => $wildfly::user,
-    group => $wildfly::group,
-  }
-
   $dir_path = "${wildfly::dirname}/modules/${module_dir}/${namespace_path}/main"
 
   exec { "Create Parent Directories: ${title}":
@@ -30,7 +25,9 @@ define wildfly::config::module(
   }
 
   file { $dir_path:
-    ensure  => directory,
+    ensure => directory,
+    owner  => $wildfly::user,
+    group  => $wildfly::group,
   }
 
   if $source == '.' {
@@ -45,8 +42,8 @@ define wildfly::config::module(
     /^(file:|puppet:)/: {
       file { "${dir_path}/${file_name}":
         ensure => 'file',
-        owner  => $::wildfly::user,
-        group  => $::wildfly::group,
+        owner  => $wildfly::user,
+        group  => $wildfly::group,
         mode   => '0755',
         source => $source,
       }
@@ -62,8 +59,8 @@ define wildfly::config::module(
 
       file { "${dir_path}/${file_name}":
         ensure  => 'file',
-        owner   => $::wildfly::user,
-        group   => $::wildfly::group,
+        owner   => $wildfly::user,
+        group   => $wildfly::group,
         mode    => '0755',
         require => Exec["download module from ${source}"],
       }
@@ -72,7 +69,13 @@ define wildfly::config::module(
 
   file { "${dir_path}/module.xml":
     ensure  => file,
-    content => template('wildfly/module.xml.erb'),
+    owner   => $wildfly::user,
+    group   => $wildfly::group,
+    content => epp('wildfly/module.xml', {
+      'file_name'    => $file_name,
+      'dependencies' => $dependencies,
+      'name'         => $title,
+    }),
   }
 
 }

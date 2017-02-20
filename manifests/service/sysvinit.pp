@@ -9,7 +9,7 @@ class wildfly::service::sysvinit {
     file { "/etc/init.d/${wildfly::service::service_name}":
       ensure  => present,
       mode    => '0755',
-      content => template($service_file),
+      content => epp($service_file),
       notify  => Service[$wildfly::service::service_name],
     }
   } else {

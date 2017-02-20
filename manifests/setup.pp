@@ -13,7 +13,7 @@ class wildfly::setup {
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    content => template('wildfly/jboss.properties.erb'),
+    content => epp('wildfly/jboss.properties'),
     notify  => Service['wildfly'],
   }
 
@@ -21,7 +21,7 @@ class wildfly::setup {
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    content => template($wildfly::mode_template),
+    content => epp($wildfly::mode_template),
     notify  => Service['wildfly'],
   }
 
