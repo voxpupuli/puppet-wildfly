@@ -1,5 +1,7 @@
 #
-# Executes an arbitrary JBoss-CLI command `# [node-type=node-name (/node-type=node-name)*] : operation-name ['('[name=value [, name=value]*]')'] [{header (;header)*}]`. This define is a wrapper for `wildfly_cli` that defaults to your local Wildfly installation.
+# Executes an arbitrary JBoss-CLI command
+#   `[node-type=node-name (/node-type=node-name)*] : operation-name ['('[name=value [, name=value]*]')'] [{header (;header)*}]`.
+#   This define is a wrapper for `wildfly_cli` that defaults to your local Wildfly installation.
 #
 # @param command The actual command to execute.
 # @param unless If this parameter is set, then this `cli` will only run if this command condition is met.
