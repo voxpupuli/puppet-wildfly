@@ -1,4 +1,3 @@
-#
 # Wildfly upstart configuration
 #
 class wildfly::service::upstart {

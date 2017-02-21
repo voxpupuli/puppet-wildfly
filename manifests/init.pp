@@ -1,11 +1,54 @@
 #
-# wildfly module class
+# Main class, includes all other classes.
 #
+# @param version Sets the Wildfly version managed in order to handle small differences among versions.
+# @param distribution Sets the Wildfly distribution: 'wildfly' or 'jboss-eap'.
+# @param install_source Source of Wildfly tarball installer.
+# @param java_home Sets the `JAVA_HOME` for Wildfly.
+# @param manage_user Whether this module should manage wildfly user and group.
+# @param user User to own `JBOSS_HOME`. If `manage_user` is `true`, this user will be managed.
+# @param group Group to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed.
+# @param dirname `JBOSS_HOME`. i.e. The directory where your Wildfly will live.
+# @param mode Sets Wildfly execution mode will run, 'standalone' or 'domain'.
+# @param init_system Sets initsystem for service configuration.
+# @param console_log Configures service log file.
+# @param mode_template Sets epp template for standalone.conf or domain.conf.
+# @param config Sets Wildfly configuration file for initialization when you're using 'standalone' mode.
+# @param domain_config Sets Wildfly configuration file for initialization when you're using 'domain' mode.
+# @param host_config Sets Wildfly Host configuration file for initialization when you're using 'domain' mode.
+# @param java_xmx Sets Java's `-Xmx` parameter.
+# @param java_xms Sets Java's `-Xms` parameter.
+# @param java_maxpermsize Sets Java's `-XX:MaxPermSize` parameter.
+# @param package_ensure Wheter it should manage required packages.
+# @param service_ensure Sets Wildfly's service 'ensure'.
+# @param service_enable Sets Wildfly's service 'enable'.
+# @param remote_debug Whether remote debug should be enabled.
+# @param remote_debug_port Sets the port to be used by remote debug.
+# @param startup_wait Sets the time to wait for the process to be up - sysvinit scripts only.
+# @param shutdown_wait Sets the time to wait for the process to be shutdown - sysvinit scripts only.
+# @param install_cache_dir The directory to be used for wget cache.
+# @param install_download_timeout Sets the timeout for installer download.
+# @param properties Sets properties for your service.
+# @param mgmt_user Hash containing a Wildfly's management user to be used internally.
+# @param conf_file Sets a file to be used for service configuration.
+# @param conf_template Sets a template file for service configuration.
+# @param service_file Sets a file to be used for service management.
+# @param systemd_template Sets a custom systemd template.
+# @param service_name Sets Wildfly's service 'name'.
+# @param custom_init Sets a custom init script.
+# @param uid Sets managed user ID.
+# @param gid Sets managed group ID.
+# @param secret_value Sets the secret value in host config.
+# @param remote_username Sets remote username in host config.
+# @param package_name Sets Wildfly package name.
+# @param package_version Sets Wildfly package version.
+# @param java_opts Sets `JAVA_OPTS`, allowing to override several Java params, like `Xmx`, `Xms` and `MaxPermSize`, e.g. `-Xms64m -Xmx512m -XX:MaxPermSize=256m`.
+# @param jboss_opts Sets `JBOSS_OPTS`, allowing to override several JBoss properties. It only works with Wildfly 8.2+.
 class wildfly(
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/] $version   = '9.0.2',
   String $install_source                              = 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
   Enum['wildfly', 'jboss-eap'] $distribution          = 'wildfly',
-  Enum['sysvinit', 'systemd', 'upstart'] $init_system = $::initsystem,
+  Enum['sysvinit', 'systemd', 'upstart'] $init_system = $facts['initsystem'],
   Enum['standalone', 'domain'] $mode                  = 'standalone',
   Stdlib::Unixpath $dirname                           = '/opt/wildfly',
   Stdlib::Unixpath $java_home                         = '/usr/java/default',
@@ -42,9 +85,9 @@ class wildfly(
     'username' => 'puppet',
     'password' => fqdn_rand_string(30),
   },
-  Optional[String] $conf_file                         = undef,
+  Optional[Stdlib::Unixpath] $conf_file               = undef,
   Optional[String] $conf_template                     = undef,
-  Optional[String] $service_file                      = undef,
+  Optional[Stdlib::Unixpath] $service_file            = undef,
   Optional[String] $systemd_template                  = undef,
   Optional[String] $service_name                      = undef,
   Optional[String] $custom_init                       = undef,

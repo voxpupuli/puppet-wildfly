@@ -1,6 +1,4 @@
-#
-# Wildlfy prepare class
-#
+# Manages Wildfly requirements (user, group, dirs and packages)
 class wildfly::prepare {
 
   if $wildfly::manage_user {

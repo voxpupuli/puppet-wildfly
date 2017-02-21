@@ -1,4 +1,3 @@
-#
 # Wildfly sysvinit configuration
 #
 class wildfly::service::sysvinit {

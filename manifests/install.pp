@@ -1,6 +1,4 @@
-#
-# wildfly install class
-#
+# Downloads and installs Wildfly from a remote source or a system package.
 class wildfly::install  {
 
   if $wildfly::package_name {

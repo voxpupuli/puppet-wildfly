@@ -1,6 +1,4 @@
-#
-# Wildfly setup class
-#
+# Manages Wildfly configuration required to run in service mode.
 class wildfly::setup {
 
   wildfly::config::mgmt_user { $wildfly::mgmt_user['username']:

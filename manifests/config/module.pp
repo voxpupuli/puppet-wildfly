@@ -1,6 +1,9 @@
 #
-# Module installation
+# Manages a Wildfly module (`$WILDFLY_HOME/modules`).
 #
+# @param source Sets the source for this module, either a local file `file://`, a remote one `http://` or `puppet://`.
+# @param dependencies Sets the dependencies for this module e.g. `javax.transaction`.
+# @param system Whether this is a system (`system/layers/base`) module or not.
 define wildfly::config::module(
   Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
   Optional[Boolean] $system = true,

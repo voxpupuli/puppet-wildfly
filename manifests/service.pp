@@ -1,6 +1,4 @@
-#
-# Wildfly startup service class
-#
+# Manages Wildfly service.
 class wildfly::service {
 
   $config = service_config($wildfly::distribution, $wildfly::version, $wildfly::mode, $wildfly::init_system)

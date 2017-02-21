@@ -19,6 +19,7 @@ gem 'puppet-blacksmith'
 gem 'metadata-json-lint', '>= 0.0.11'
 gem 'google-api-client', '>= 0.9'
 gem 'activesupport', '4.2.7.1'
+gem 'puppet-strings'
 
 group :acceptance do
   gem 'fog', '>= 1.25.0'

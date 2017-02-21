@@ -1,4 +1,3 @@
-#
 # Wildfly systemd configuration
 #
 class wildfly::service::systemd {

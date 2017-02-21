@@ -1,6 +1,9 @@
 #
-# Manages Wildfly patches offline
+# Applies patches offline.
 #
+# @param override_all Whether it should solve all conflicts by overriding current files.
+# @param override List of files to be overridden.
+# @param preserve List of files to be preserved.
 define wildfly::patch::offline(
   Stdlib::Unixpath $source,
   Optional[Boolean] $override_all = false,
