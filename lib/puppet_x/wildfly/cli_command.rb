@@ -7,6 +7,8 @@ module PuppetX
       def initialize(command)
         parser = JBossCLIParser.new
         @syntax_node = parser.parse(command)
+
+        raise "Invalid command syntax. Could not parse: #{command}" if @syntax_node.nil?
       end
 
       def address
@@ -50,11 +52,44 @@ module PuppetX
           nodes.size.times do |index|
             element = nodes[index].elements[0]
 
-            list << { element.elements[0].text_value => element.elements[2].text_value }
+            list << { element.elements[0].text_value => extract_value(element.elements[2]) }
           end
         end
 
         list
+      end
+
+      def extract_value(element)
+        case element.elements[0].text_value
+        when '['
+          values = []
+
+          values << element.elements[1].text_value
+
+          list = element.elements[2].elements
+
+          list.size.times do |index|
+            values << list[index].elements[1].text_value
+          end
+
+          values
+        when '{'
+          values = {}
+          key_value = element.elements[1]
+          pairs = element.elements[2].elements
+
+          values[key_value.elements[0].text_value] = key_value.elements[2].text_value
+
+          pairs.size.times do |index|
+            pair = pairs[index].elements[1]
+
+            values[pair.elements[0].text_value] = pair.elements[2].text_value
+          end
+
+          values
+        else
+          element.text_value
+        end
       end
 
       def to_detyped_request

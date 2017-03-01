@@ -9,6 +9,16 @@ describe PuppetX::Wildfly::CLICommand do
       expect(detyped_request).to eq(:operation => 'reload', :address => [])
     end
 
+    it 'creates a request for a plain operation' do
+      detyped_request = described_class.new('reload').to_detyped_request
+
+      expect(detyped_request).to eq(:operation => 'reload', :address => [])
+    end
+
+    it 'fails for a request with invalid syntax' do
+      expect { described_class.new('/subsystem:invalid') }.to raise_error(RuntimeError)
+    end
+
     it 'creates a request for a paramless operation' do
       detyped_request = described_class.new(':shutdown').to_detyped_request
       expect(detyped_request).to eq(:operation => 'shutdown', :address => [])
@@ -37,6 +47,21 @@ describe PuppetX::Wildfly::CLICommand do
     it 'creates a request with a complex target address' do
       detyped_request = described_class.new('/subsystem=web/modcluster=configuration:read-operation-names()').to_detyped_request
       expect(detyped_request).to eq(:operation => 'read-operation-names', :address => [{ 'subsystem' => 'web' }, { 'modcluster' => 'configuration' }])
+    end
+
+    it 'creates a request with a OBJECT parameter' do
+      detyped_request = described_class.new('/subsystem=jgroups/stack=tcpping:add(transport={type=TCP, transport=UDP, test=abc})').to_detyped_request
+      expect(detyped_request).to eq(:operation => 'add', :address => [{ 'subsystem' => 'jgroups' }, { 'stack' => 'tcpping' }], 'transport' => { 'type' => 'TCP', 'transport' => 'UDP', 'test' => 'abc' })
+    end
+
+    it 'creates a request with a OBJECT parameteri alt syntax' do
+      detyped_request = described_class.new('/subsystem=jgroups/stack=tcpping:add(transport={type=>TCP, transport=>UDP, test=>abc})').to_detyped_request
+      expect(detyped_request).to eq(:operation => 'add', :address => [{ 'subsystem' => 'jgroups' }, { 'stack' => 'tcpping' }], 'transport' => { 'type' => 'TCP', 'transport' => 'UDP', 'test' => 'abc' })
+    end
+
+    it 'creates a request with a LIST parameter' do
+      detyped_request = described_class.new('/subsystem=modcluster/mod-cluster-config=configuration:add(proxies=[host1, host2])').to_detyped_request
+      expect(detyped_request).to eq(:operation => 'add', :address => [{ 'subsystem' => 'modcluster' }, { 'mod-cluster-config' => 'configuration' }], 'proxies' => %w(host1 host2))
     end
 
     it 'creates a request for a resource named with special character' do
