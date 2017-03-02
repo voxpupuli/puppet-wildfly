@@ -1,5 +1,10 @@
 # History
 
+## 1.2.8
+
+- Fix summary
+- Improve CLI parser error message
+
 ## 1.2.7
 
 - Keep compatibility with Ruby 1.8.7 (necessary while claiming compatibility with 2.7/3.8)

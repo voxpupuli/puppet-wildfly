@@ -7,6 +7,8 @@ module PuppetX
       def initialize(command)
         parser = JBossCLIParser.new
         @syntax_node = parser.parse(command)
+
+        raise "Invalid command syntax. Could not parse: #{command}" if @syntax_node.nil?
       end
 
       def address
