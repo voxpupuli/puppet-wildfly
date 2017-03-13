@@ -37,7 +37,6 @@ describe 'wildfly::prepare' do
     end
 
     it { is_expected.to contain_package('libaio') }
-    it { is_expected.to contain_package('wget') }
   end
 
   context 'install dependencies for Debian' do
@@ -49,6 +48,5 @@ describe 'wildfly::prepare' do
         :initsystem => 'systemd' }
     end
     it { is_expected.to contain_package('libaio1') }
-    it { is_expected.to contain_package('wget') }
   end
 end

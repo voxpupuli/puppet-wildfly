@@ -39,35 +39,12 @@ define wildfly::config::module(
     $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
   }
 
-  case $source {
-    '.': {
-    }
-    /^(file:|puppet:)/: {
-      file { "${dir_path}/${file_name}":
-        ensure => 'file',
-        owner  => $wildfly::user,
-        group  => $wildfly::group,
-        mode   => '0755',
-        source => $source,
-      }
-    }
-    default : {
-      exec { "download module from ${source}":
-        command  => "wget -N -P ${dir_path} ${source} --max-redirect=5",
-        path     => ['/bin','/usr/bin', '/sbin'],
-        loglevel => 'notice',
-        creates  => "${dir_path}/${file_name}",
-        require  => File[$wildfly::dirname],
-      }
-
-      file { "${dir_path}/${file_name}":
-        ensure  => 'file',
-        owner   => $wildfly::user,
-        group   => $wildfly::group,
-        mode    => '0755',
-        require => Exec["download module from ${source}"],
-      }
-    }
+  file { "${dir_path}/${file_name}":
+    ensure => 'file',
+    owner  => $wildfly::user,
+    group  => $wildfly::group,
+    mode   => '0655',
+    source => $source,
   }
 
   file { "${dir_path}/module.xml":

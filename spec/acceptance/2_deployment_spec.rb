@@ -38,8 +38,8 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
     end
 
     it 'downloaded WAR file' do
-      shell('ls -la /tmp/hawtio-web-1.4.66.war', :acceptable_exit_codes => 0) do |r|
-        expect(r.stdout).to include '/tmp/hawtio-web-1.4.66.war'
+      shell('ls -la /opt/hawtio-web-1.4.66.war', :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include '/opt/hawtio-web-1.4.66.war'
       end
     end
 

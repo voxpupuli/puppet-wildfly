@@ -37,7 +37,6 @@ class wildfly::prepare {
     }
 
     ensure_resource('package', $libaiopackage, {'ensure' => $wildfly::package_ensure})
-    ensure_resource('package', 'wget', {'ensure' => $wildfly::package_ensure})
   }
 
 }
