@@ -1,5 +1,11 @@
 # History
 
+## 2.0.0
+
+- Introduce Puppet 4 features (epp, data types and etc)
+- Introduce puppet-strings
+- Small fixes fori JBoss-CLI Parser.
+
 ## 1.2.7
 
 - Keep compatibility with Ruby 1.8.7 (necessary while claiming compatibility with 2.7/3.8)

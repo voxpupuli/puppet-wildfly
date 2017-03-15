@@ -1,5 +1,5 @@
 Puppet::Type.newtype(:wildfly_restart) do
-  @doc = 'Manage JBoss restarts.'
+  desc 'Manage JBoss restarts.'
 
   newparam(:name, :namevar => true) do
     desc 'Informational name'
