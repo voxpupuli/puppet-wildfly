@@ -36,6 +36,7 @@
     * [Modcluster](#modcluster)
 6. [Limitations - OS compatibility, etc.](#limitations)
 7. [Development - Guide for contributing to the module](#development)
+8. [Documentation](#documentation)
 
 ## Overview
 
@@ -858,3 +859,7 @@ If you can't figure out how to achieve your configuration, feel free to open an 
 - Edwin Biemond (biemond at gmail dot com)
 - Jairo Junior (junior.jairo1 at gmail dot com)
 - [More](https://github.com/biemond/biemond-wildfly/graphs/contributors)
+
+## Documentation
+
+A puppet-strings generated documentation can be found [here](http://www.puppetmodule.info/github/biemond/biemond-wildfly/index)
