@@ -2,7 +2,6 @@ require 'spec_helper_acceptance'
 
 describe "Standalone mode with #{test_data['distribution']}:#{test_data['version']}" do
   context 'Initial install Wildfly and verification' do
-    let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
 
     it 'applies the manifest without error' do
       pp = <<-EOS

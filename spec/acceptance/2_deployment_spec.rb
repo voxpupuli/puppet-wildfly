@@ -44,7 +44,7 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
     end
 
     it 'deployed application' do
-      shell("JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect '/deployment=hawtio.war:read-resource(recursive=true)'",
+      shell("#{jboss_cli} '/deployment=hawtio.war:read-resource(recursive=true)'",
             :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end

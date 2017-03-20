@@ -4,7 +4,12 @@ require 'beaker/puppet_install_helper'
 
 run_puppet_install_helper
 
+module JBossCLI extend RSpec::Core::SharedContext
+                let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
+end
+
 RSpec.configure do |c|
+  c.include JBossCLI
   c.add_setting :test_data, :default => {}
 
   project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
