@@ -9,13 +9,13 @@ class wildfly::install  {
     $install_source = $wildfly::install_source
     $install_file = inline_template('<%=File.basename(URI::parse(@install_source).path)%>')
 
-    file { "/opt/${install_file}":
+    file { "${wildfly::install_cache_dir}/${install_file}":
       source => $install_source,
     }
     ~>
     # Gunzip+Untar wildfly.tar.gz if download was successful.
     exec { "untar ${install_file}":
-      command  => "tar --no-same-owner --no-same-permissions --strip-components=1 -C ${wildfly::dirname} -zxvf /opt/${install_file}",
+      command  => "tar --no-same-owner --no-same-permissions --strip-components=1 -C ${wildfly::dirname} -zxvf ${wildfly::install_cache_dir}/${install_file}",
       path     => ['/bin', '/usr/bin', '/sbin'],
       loglevel => 'notice',
       creates  => "${wildfly::dirname}/jboss-modules.jar",

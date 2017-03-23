@@ -13,6 +13,7 @@
 # @param group Group to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed.
 # @param host_config Sets Wildfly Host configuration file for initialization when you're using 'domain' mode.
 # @param init_system Sets initsystem for service configuration.
+# @param install_cache_dir The directory to be used for wget cache.
 # @param install_download_timeout Sets the timeout for installer download.
 # @param install_source Source of Wildfly tarball installer.
 # @param java_home Sets the `JAVA_HOME` for Wildfly.
@@ -53,6 +54,7 @@ class wildfly(
   Stdlib::Unixpath $dirname                                   = '/opt/wildfly',
   Stdlib::Unixpath $java_home                                 = '/usr/java/default',
   Stdlib::Unixpath $console_log                               = '/var/log/wildfly/console.log',
+  Stdlib::Unixpath $install_cache_dir                         = '/var/cache/wget',
   Boolean $manage_user                                        = true,
   String $user                                                = 'wildfly',
   String $group                                               = 'wildfly',
