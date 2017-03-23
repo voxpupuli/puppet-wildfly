@@ -36,7 +36,7 @@ class wildfly::prepare {
       default  => 'libaio',
     }
 
-    ensure_resource('package', $libaiopackage, {'ensure' => $wildfly::package_ensure})
+    ensure_packages({ $libaiopackage => { 'ensure' => $wildfly::package_ensure } } )
   }
 
 }
