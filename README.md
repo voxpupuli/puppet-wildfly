@@ -54,8 +54,6 @@ Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 1
 
 [Vagrant CentOS 7.2 Domain Mode](https://github.com/jairojunior/wildfly-domain-vagrant-puppet) with two nodes (Domain master and slave) and a load balancer.
 
-[MCollective JBoss Agent Plugin](https://github.com/jairojunior/mcollective-jboss-agent) might be useful if you want to make consistent large scale changes.
-
 ## Module Description
 
 The wildfly module can install, configure and manage - through its HTTP Management API - Wildfly (8/9/10) and JBoss EAP (6.1+/7.0+).
@@ -125,7 +123,7 @@ All resources from `wildfly::util` were moved to `wildfly`, hence you need to se
 
 ## to 2.0.0
 
-This version requires Puppet 4.4+ and heavily uses Puppet 4 new features: data types, epp templates and Ruby 2.1+, but there is no breaking change per se.
+This version requires Puppet 4.4+ and heavily uses Puppet 4 new features: data types, epp templates and Ruby 2.1+, but there is no breaking change per se. Meaning that if you're using 1.x version with Puppet 4 you should be able to migrate without any problems.
 
 If you're still using Puppet 3.x with Ruby 1.8.7+ check version 1.2.x.
 
@@ -233,7 +231,7 @@ Currently there aren't no prebuilt packages, but download page provides instruct
 
 #### Example
 
-```shell
+```sh
 wget http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip
 wget http://downloads.jboss.org/apiman/1.2.9.Final/apiman-distro-wildfly10-1.2.9.Final-overlay.zip
 unzip wildfly-10.1.0.Final.zip
@@ -742,7 +740,7 @@ wildfly::resource { '/some=resource':
 
 ### Messaging
 
-> **NOTE** `full` profiles only
+> **NOTE:** `full` profiles only
 
 ```puppet
 wildfly::messaging::queue { 'DemoQueue':
@@ -790,7 +788,7 @@ wildfly::system::property { 'DemoSysProperty':
 
 ### Modcluster
 
-#### `full` and `ha` profiles only
+> **NOTE:**`full` and `ha` profiles only
 
 ```puppet
 wildfly::modcluster::config { "Modcluster mybalancer":

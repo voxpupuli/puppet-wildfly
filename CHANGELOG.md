@@ -1,5 +1,9 @@
 # History
 
+## 2.0.1
+
+- Bring cache_dir back.
+
 ## 2.0.0
 
 - Introduce Puppet 4 features (epp, data types and etc)
