@@ -16,7 +16,11 @@ define wildfly::deployment(
 
   $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
 
-  file { "/opt/${file_name}":
+  file { $wildfly::deploy_cache_dir:
+    ensure => directory,
+  }
+
+  file { "${wildfly::deploy_cache_dir}/${file_name}":
     ensure => 'present',
     owner  => $wildfly::user,
     group  => $wildfly::group,
@@ -32,9 +36,9 @@ define wildfly::deployment(
     host              => $wildfly::setup::properties['jboss.bind.address.management'],
     port              => $wildfly::setup::properties['jboss.management.http.port'],
     timeout           => $timeout,
-    source            => "/opt/${file_name}",
+    source            => "${wildfly::deploy_cache_dir}/${file_name}",
     operation_headers => $operation_headers,
-    require           => [Service['wildfly'], File["/opt/${file_name}"]],
+    require           => [Service['wildfly'], File["${wildfly::deploy_cache_dir}/${file_name}"]],
   }
 
 }
