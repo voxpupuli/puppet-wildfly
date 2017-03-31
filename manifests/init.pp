@@ -14,6 +14,7 @@
 # @param host_config Sets Wildfly Host configuration file for initialization when you're using 'domain' mode.
 # @param init_system Sets initsystem for service configuration.
 # @param install_cache_dir The directory to be used for wget cache.
+# @param deploy_cache_dir The directory to be used for deployment cache.
 # @param install_download_timeout Sets the timeout for installer download.
 # @param install_source Source of Wildfly tarball installer.
 # @param java_home Sets the `JAVA_HOME` for Wildfly.
@@ -55,6 +56,7 @@ class wildfly(
   Stdlib::Unixpath $java_home                                 = '/usr/java/default',
   Stdlib::Unixpath $console_log                               = '/var/log/wildfly/console.log',
   Stdlib::Unixpath $install_cache_dir                         = '/var/cache/wget',
+  Stdlib::Unixpath $deploy_cache_dir                          = '/opt',
   Boolean $manage_user                                        = true,
   String $user                                                = 'wildfly',
   String $group                                               = 'wildfly',
