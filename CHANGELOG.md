@@ -4,6 +4,7 @@
 
 - Bring cache_dir back.
 - Introduce deployment cache dir.
+- Remove WILDFLY_HOME management with package installation in order to proper support packages. 
 
 ## 2.0.0
 
