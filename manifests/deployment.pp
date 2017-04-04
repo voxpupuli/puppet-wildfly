@@ -14,11 +14,7 @@ define wildfly::deployment(
   Optional[String] $server_group = undef,
   $operation_headers             = {}) {
 
-  $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
-
-  file { $wildfly::deploy_cache_dir:
-    ensure => directory,
-  }
+  $file_name = basename($source)
 
   file { "${wildfly::deploy_cache_dir}/${file_name}":
     ensure => 'present',
