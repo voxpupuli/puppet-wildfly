@@ -3,6 +3,7 @@
 ## 2.0.1
 
 - Bring cache_dir back.
+- Introduce deployment cache dir.
 
 ## 2.0.0
 
