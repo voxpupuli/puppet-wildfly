@@ -19,7 +19,7 @@ define wildfly::patch::online(
     environment => "JAVA_HOME=${wildfly::java_home}",
     require     => Service['wildfly'],
   }
-  ~>
-  wildfly::restart { "Restart for patch ${title}":
+
+  ~> wildfly::restart { "Restart for patch ${title}":
   }
 }

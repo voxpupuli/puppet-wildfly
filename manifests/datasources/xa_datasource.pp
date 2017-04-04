@@ -12,8 +12,8 @@ define wildfly::datasources::xa_datasource(
     recursive => true,
     profile   => $target_profile,
   }
-  ->
-  wildfly::cli { "Enable ${title}":
+
+  -> wildfly::cli { "Enable ${title}":
     command => "${profile_path}/subsystem=datasources/xa-data-source=${title}:enable",
     unless  => "(result == true) of ${profile_path}/subsystem=datasources/xa-data-source=${title}:read-attribute(name=enabled)",
   }

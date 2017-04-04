@@ -32,8 +32,8 @@ class wildfly::service {
     ensure  => present,
     content => epp($conf_template),
   }
-  ~>
-  service { 'wildfly':
+
+  ~> service { 'wildfly':
     ensure     => $wildfly::service_ensure,
     name       => $service_name,
     enable     => $wildfly::service_enable,

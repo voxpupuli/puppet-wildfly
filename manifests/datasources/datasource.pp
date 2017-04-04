@@ -11,8 +11,8 @@ define wildfly::datasources::datasource(
     content => $config,
     profile => $target_profile
   }
-  ->
-  wildfly::cli { "Enable ${title}":
+
+  -> wildfly::cli { "Enable ${title}":
     command => "${profile_path}/subsystem=datasources/data-source=${title}:enable",
     unless  => "(result == true) of ${profile_path}/subsystem=datasources/data-source=${title}:read-attribute(name=enabled)",
   }

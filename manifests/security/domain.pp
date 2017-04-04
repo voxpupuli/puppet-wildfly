@@ -28,15 +28,15 @@ define wildfly::security::domain(
     content => {
       'cache-type' => 'default',
     },
-  } ->
+  }
 
-  wildfly::resource { "/subsystem=security/security-domain=${domain_name}/authentication=classic":
+  -> wildfly::resource { "/subsystem=security/security-domain=${domain_name}/authentication=classic":
     content => {},
   }
 
   create_resources('wildfly::security::login_module', $login_modules)
 
-  Wildfly::Resource[ "/subsystem=security/security-domain=${domain_name}/authentication=classic"] ->
-    Wildfly::Security::Login_module<|tag == 'wildfly'|>
+  Wildfly::Resource[ "/subsystem=security/security-domain=${domain_name}/authentication=classic"]
+    -> Wildfly::Security::Login_module<|tag == 'wildfly'|>
 
 }

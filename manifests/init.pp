@@ -110,8 +110,8 @@ class wildfly(
   include wildfly::setup
   include wildfly::service
 
-  Class['wildfly::prepare'] ->
-    Class['wildfly::install'] ->
-      Class['wildfly::setup'] ->
-        Class['wildfly::service']
+  Class['wildfly::prepare']
+    -> Class['wildfly::install']
+      -> Class['wildfly::setup']
+        -> Class['wildfly::service']
 }
