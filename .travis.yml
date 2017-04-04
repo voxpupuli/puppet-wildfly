@@ -9,8 +9,6 @@ rvm:
   - 2.2.6
   - 2.3.3
 bundler_args: --without acceptance
-before_install:
-  -  gem update --system 2.1.11
 script:
   - bundle exec rake syntax
   - bundle exec rake lint
