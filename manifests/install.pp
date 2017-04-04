@@ -7,7 +7,7 @@ class wildfly::install  {
     }
   } else {
     $install_source = $wildfly::install_source
-    $install_file = inline_template('<%=File.basename(URI::parse(@install_source).path)%>')
+    $install_file = basename($install_source)
 
     file { "${wildfly::install_cache_dir}/${install_file}":
       source => $install_source,

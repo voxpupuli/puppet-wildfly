@@ -36,7 +36,7 @@ define wildfly::config::module(
   if $source == '.' {
     $file_name = '.'
   } else {
-    $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
+    $file_name = basename($source)
   }
 
   file { "${dir_path}/${file_name}":
