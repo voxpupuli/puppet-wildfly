@@ -21,12 +21,16 @@ class wildfly::prepare {
     }
   }
 
-  file { $wildfly::dirname :
-    ensure  => directory,
-    owner   => $wildfly::user,
-    group   => $wildfly::group,
-    mode    => '0755',
-    require => User[$wildfly::user],
+  unless $wildfly::package_name {
+
+    file { $wildfly::dirname :
+      ensure  => directory,
+      owner   => $wildfly::user,
+      group   => $wildfly::group,
+      mode    => '0755',
+      require => User[$wildfly::user],
+    }
+
   }
 
   if $wildfly::package_ensure {

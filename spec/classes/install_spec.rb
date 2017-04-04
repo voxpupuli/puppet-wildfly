@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 describe 'wildfly::install' do
-  let :pre_condition do
-    'class { "wildfly": }'
+  let(:facts) do
+    { :operatingsystem => 'CentOS',
+      :kernel => 'Linux',
+      :osfamily => 'RedHat',
+      :operatingsystemmajrelease => '7',
+      :initsystem => 'systemd' }
   end
 
   context 'install wildfly' do
-    let(:facts) do
-      { :operatingsystem => 'CentOS',
-        :kernel => 'Linux',
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '7',
-        :initsystem => 'systemd' }
+    let :pre_condition do
+      'class { "wildfly": }'
     end
 
     it { is_expected.to contain_class('wildfly::install') }
@@ -26,5 +26,17 @@ describe 'wildfly::install' do
         'creates' => '/opt/wildfly/jboss-modules.jar'
       )
     end
+  end
+
+  context 'install wildfly from package' do
+    let :pre_condition do
+      "class { 'wildfly':
+        package_name    => 'wildfly',
+        package_version => '10.1.0',
+      }"
+    end
+
+    it { is_expected.to contain_class('wildfly::install') }
+    it { is_expected.to contain_package('wildfly').with('ensure' => '10.1.0') }
   end
 end

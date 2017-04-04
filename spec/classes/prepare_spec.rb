@@ -49,4 +49,23 @@ describe 'wildfly::prepare' do
     end
     it { is_expected.to contain_package('libaio1') }
   end
+
+  context 'do not managed WILDFLY_HOME with package installation' do
+    let(:facts) do
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
+    end
+
+    let :pre_condition do
+      "class { 'wildfly':
+        package_name    => 'wildfly',
+        package_version => '10.1.0',
+      }"
+    end
+
+    it { is_expected.not_to contain_file('/opt/wildfly') }
+  end
 end
