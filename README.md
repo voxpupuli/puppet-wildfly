@@ -21,7 +21,7 @@
     * [Keycloak](#keycloak)
     * [apiman](#apiman)
     * [Infinispan Server](#infinispan-server)
-    * [Wildfly's Configuration Management](#wildfly-configuration-management)
+    * [Wildfly's Configuration Management](#wildflys-configuration-management)
     * [Patch management](#patch-management)
     * [Unmanaged installation](#unmanaged-installation)
     * [Domain Mode](#domain-mode)
