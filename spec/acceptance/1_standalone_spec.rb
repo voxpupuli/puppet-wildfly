@@ -2,7 +2,6 @@ require 'spec_helper_acceptance'
 
 describe "Standalone mode with #{test_data['distribution']}:#{test_data['version']}" do
   context 'Initial install Wildfly and verification' do
-
     it 'applies the manifest without error' do
       pp = <<-EOS
           class { 'wildfly':
@@ -37,6 +36,24 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
             onlyif => '(result == reload-required) of :read-attribute(name=server-state)',
           }
 
+
+          wildfly::resource { '/subsystem=ee' :
+            content => {
+              'global-modules' => [{
+                  'name' => 'org.postgresql',
+                  'slot' => 'main'
+              },
+              {
+                  'name' => 'org.eclipse.persistence',
+                  'slot' => 'main'
+              },
+              {
+                  'name' => 'org.apache.commons.lang3',
+                  'slot' => 'main'
+              }
+              ]
+            }
+          }
       EOS
 
       apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
