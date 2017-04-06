@@ -1,5 +1,10 @@
 # History
 
+## 2.0.2
+
+- Fix wildfly_resource's with array of hashes values.
+- Allow custom templates or file for module.xml.
+
 ## 2.0.1
 
 - Bring cache_dir back.
