@@ -40,15 +40,11 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
           wildfly::resource { '/subsystem=ee' :
             content => {
               'global-modules' => [{
-                  'name' => 'org.postgresql',
+                  'name' => 'org.bouncycastle',
                   'slot' => 'main'
               },
               {
-                  'name' => 'org.eclipse.persistence',
-                  'slot' => 'main'
-              },
-              {
-                  'name' => 'org.apache.commons.lang3',
+                  'name' => 'org.joda.time',
                   'slot' => 'main'
               }
               ]
