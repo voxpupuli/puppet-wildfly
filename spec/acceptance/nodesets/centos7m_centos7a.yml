@@ -1,0 +1,19 @@
+HOSTS:
+  centos-72-master:
+    roles:
+      - master
+      - agent
+      - dashboard
+      - database
+    platform: el-7-x86_64
+    box : puppetlabs/centos-7.2-64-nocm
+    hypervisor : vagrant
+  centos-72-agent:
+    roles:
+      - agent 
+      - default
+    platform: el-7-x86_64
+    box : puppetlabs/centos-7.2-64-nocm
+    hypervisor : vagrant
+CONFIG:
+  vagrant_memsize: 4096 

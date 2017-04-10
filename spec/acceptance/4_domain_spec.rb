@@ -29,8 +29,8 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
 
       EOS
 
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 15')
     end
 

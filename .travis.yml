@@ -22,6 +22,7 @@ env:
   - PUPPET_VERSION=4.6.2
   - PUPPET_VERSION=4.8.2
   - PUPPET_VERSION=4.9.4
+  - PUPPET_VERSION=4.10.0
 matrix:
   include:
     - rvm: 2.3.3

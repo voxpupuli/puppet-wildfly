@@ -27,4 +27,5 @@ group :acceptance do
   gem 'beaker-puppet_install_helper'
   gem 'beaker-rspec'
   gem 'serverspec', '>= 2.0.0'
+  gem 'beaker-testmode_switcher'
 end
