@@ -7,9 +7,10 @@ module JBossCLI extend RSpec::Core::SharedContext
                 let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
 end
 
+PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+
 def install_with_dependencies(host)
-  project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-  copy_module_to(host, :source => project_root, :module_name => 'wildfly')
+  copy_module_to(host, :source => PROJECT_ROOT, :module_name => 'wildfly')
 
   on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '4.13.1')
   on host, puppet('module', 'install', 'jethrocarr-initfact')
