@@ -34,6 +34,7 @@
     * [Messaging](#messaging)
     * [Logging](#logging)
     * [Modcluster](#modcluster)
+    * [JGroups](#jgroups)
 6. [Limitations - OS compatibility, etc.](#limitations)
 7. [Development - Guide for contributing to the module](#development)
 8. [Documentation](#documentation)
@@ -800,6 +801,24 @@ wildfly::modcluster::config { "Modcluster mybalancer":
 ```
 
 > **NOTE:** For apache/httpd mod_cluster configuration check [::apache::mod::cluster](https://github.com/puppetlabs/puppetlabs-apache#class-apachemodcluster)
+
+### JGroups
+
+> **NOTE:** `ha` profiles only
+
+```puppet
+wildfly::jgroups::stack::tcpgossip { 'TCPGOSSIP':
+  initial_hosts       => '172.28.128.1[12001]',
+  num_initial_members => 2
+}
+```
+
+```puppet
+wildfly::jgroups::stack::tcpping { 'TCPPING':
+  initial_hosts       => '172.28.128.10[7600],17228.128.20[7600]',
+  num_initial_members => 2
+}
+```
 
 ## Limitations
 
