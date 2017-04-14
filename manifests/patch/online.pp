@@ -6,7 +6,7 @@
 # @param preserve List of files to be preserved.
 define wildfly::patch::online(
   Stdlib::Unixpath $source,
-  Optional[Boolean] $override_all = false,
+  Boolean $override_all = false,
   Array $override = [],
   Array $preserve = []) {
 

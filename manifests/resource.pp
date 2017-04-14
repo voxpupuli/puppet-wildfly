@@ -15,7 +15,7 @@ define wildfly::resource(
   Hash $operation_headers = {},
   Optional[String] $profile = undef) {
 
-  $profile_path = profile_path($profile)
+  $profile_path = wildfly::profile_path($profile)
 
   wildfly_resource { "${profile_path}${title}":
     ensure            => $ensure,

@@ -5,7 +5,7 @@ define wildfly::datasources::xa_datasource(
   $config = undef,
   $target_profile = undef) {
 
-  $profile_path = profile_path($target_profile)
+  $profile_path = wildfly::profile_path($target_profile)
 
   wildfly::resource { "/subsystem=datasources/xa-data-source=${title}":
     content   => $config,
