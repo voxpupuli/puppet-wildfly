@@ -5,6 +5,7 @@
 - Fix wildfly_resource's with array of hashes values.
 - Allow custom templates or file for module.xml.
 - Support for jgroups stacks.
+- Rewrite functions in Puppet language.
 
 ## 2.0.1
 

@@ -1,7 +1,7 @@
 # Manages Wildfly service.
 class wildfly::service {
 
-  $config = service_config($wildfly::distribution, $wildfly::version, $wildfly::mode, $wildfly::init_system)
+  $config = wildfly::service_config($wildfly::distribution, $wildfly::version, $wildfly::mode, $wildfly::init_system)
 
   debug("${wildfly::distribution}.${wildfly::version}.${wildfly::mode}.${wildfly::init_system}: ${config}")
 
@@ -9,9 +9,7 @@ class wildfly::service {
   $conf_template = pick($wildfly::conf_template, $config['conf_template'])
   $service_name = pick($wildfly::service_name, $config['service_name'])
   $service_file = pick($wildfly::service_file, $config['service_file'])
-
-  $systemd_template = $config['systemd_template']
-  $systemd_native = $config['systemd_native']
+  $systemd_template = pick($wildfly::systemd_template, $config['systemd_template'], 'wildfly/wildfly.sysvinit.service')
 
   if !$wildfly::package_name {
     contain "wildfly::service::${wildfly::init_system}"

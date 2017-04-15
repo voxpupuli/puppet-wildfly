@@ -1,9 +1,9 @@
 # Wildfly systemd configuration
 #
 class wildfly::service::systemd {
-  $systemd_template = pick($wildfly::systemd_template, $wildfly::service::systemd_template)
 
-  if $wildfly::service::systemd_native {
+  if $wildfly::service::systemd_template == 'wildfly/wildfly.systemd.service' {
+    # Use native script
     file { "${wildfly::dirname}/bin/launch.sh" :
       ensure  => present,
       mode    => '0755',
