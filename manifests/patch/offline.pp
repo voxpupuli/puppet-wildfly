@@ -1,6 +1,7 @@
 #
 # Applies patches offline.
 #
+# @param source path to patch file.
 # @param override_all Whether it should solve all conflicts by overriding current files.
 # @param override List of files to be overridden.
 # @param preserve List of files to be preserved.

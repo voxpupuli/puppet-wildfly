@@ -1,3 +1,11 @@
+# Default service configuration for a specific distribution, version
+#   execution mode and initsystem.
+#
+# @param distribution Wildfly distribution: 'wildfly' or 'jboss-eap'.
+# @param version Wildfly version.
+# @param mode Wildfly execution mode will run, 'standalone' or 'domain'.
+# @param init_system System's initsystem.
+# @return Hash[String, String] service configuration: name, configuration file and template and bundled init scripts.
 function wildfly::service_config(
   Enum['wildfly', 'jboss-eap'] $distribution,
   String $version,
