@@ -4,8 +4,8 @@ HOSTS:
       - agent
       - default
     platform: el-7-x86_64
-    box : puppetlabs/centos-7.2-64-nocm
-    hypervisor : vagrant
+    box: puppetlabs/centos-7.2-64-nocm
+    hypervisor: vagrant
 
 CONFIG:
   type: aio
