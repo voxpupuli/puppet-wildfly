@@ -22,7 +22,7 @@ class wildfly::service::systemd {
     ensure  => present,
     mode    => '0755',
     content => epp($wildfly::service::systemd_template),
-    before  => Service[$wildfly::service::service_name],
+    before  => Service['wildfly'],
   }
 
 }
