@@ -4,7 +4,7 @@
 # @param override_all Whether it should solve all conflicts by overriding current files.
 # @param override List of files to be overridden.
 # @param preserve List of files to be preserved.
-# @return args for patch command.
+# @return [String] args for patch command.
 function wildfly::patch_args(
   Stdlib::Unixpath $source,
   Boolean $override_all,
