@@ -7,9 +7,9 @@
 # @param init_system System's initsystem.
 # @return [Hash[String, String]] service configuration: name, configuration file and template and bundled init scripts.
 function wildfly::service_config(
-  Enum['wildfly', 'jboss-eap'] $distribution,
+  Wildfly::Distribution $distribution,
   String $version,
-  Enum['standalone', 'domain'] $mode,
+  Wildfly::Mode $mode,
   Enum['sysvinit', 'systemd', 'upstart'] $init_system) {
 
   case $distribution {
