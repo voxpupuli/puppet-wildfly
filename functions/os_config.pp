@@ -4,7 +4,7 @@
 # @param version Wildfly version.
 # @return [Hash[String, String]] OS configuration: user, group, dirname and console_log.
 function os_config(
-  Wildfly::Distribution $distribution,
+  String $distribution,
   String $version) {
 
   case $distribution {
