@@ -1,1 +1,1 @@
-type Wildfly::Config_file = Pattern[/^\w*-?\w*\.xml$/]
+type Wildfly::Config_file = Pattern[/^\w*(-?\w*)*\.xml$/]
