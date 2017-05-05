@@ -5,8 +5,6 @@ class wildfly::setup {
     password => $wildfly::mgmt_user['password'],
   }
 
-  $properties = $wildfly::properties
-
   file { "${wildfly::dirname}/jboss.properties":
     ensure  => file,
     owner   => $wildfly::user,
