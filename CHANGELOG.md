@@ -1,5 +1,11 @@
 # History
 
+## 2.0.3
+
+- Introduce data types.
+- Remove unnecessary v1 code.
+- Introduce external facts.
+
 ## 2.0.2
 
 - Fix wildfly_resource's with array of hashes values.
