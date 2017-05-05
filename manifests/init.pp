@@ -109,9 +109,11 @@ class wildfly(
   include wildfly::install
   include wildfly::setup
   include wildfly::service
+  include wildfly::external_facts
 
   Class['wildfly::prepare']
     -> Class['wildfly::install']
       -> Class['wildfly::setup']
         -> Class['wildfly::service']
+          -> Class['wildfly::external_facts']
 }
