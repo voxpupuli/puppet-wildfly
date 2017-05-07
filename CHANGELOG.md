@@ -5,6 +5,7 @@
 - Introduce data types.
 - Remove unnecessary v1 code.
 - Introduce external facts.
+- Fix patch::online
 
 ## 2.0.2
 
