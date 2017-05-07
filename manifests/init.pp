@@ -9,6 +9,7 @@
 # @param distribution Sets the Wildfly distribution: 'wildfly' or 'jboss-eap'.
 # @param dirname `JBOSS_HOME`. i.e. The directory where your Wildfly will live.
 # @param domain_config Sets Wildfly configuration file for initialization when you're using 'domain' mode.
+# @param external_facts Whether it should deploy external facts.
 # @param gid Sets managed group ID.
 # @param group Group to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed.
 # @param host_config Sets Wildfly Host configuration file for initialization when you're using 'domain' mode.
@@ -71,6 +72,7 @@ class wildfly(
   Boolean $service_ensure                                     = true,
   Boolean $service_enable                                     = true,
   Boolean $remote_debug                                       = false,
+  Boolean $external_facts                                     = false,
   Integer $remote_debug_port                                  = 8787,
   Integer $startup_wait                                       = 30,
   Integer $shutdown_wait                                      = 30,
@@ -109,11 +111,13 @@ class wildfly(
   include wildfly::install
   include wildfly::setup
   include wildfly::service
-  include wildfly::external_facts
+
+  if $external_facts {
+    include wildfly::external_facts
+  }
 
   Class['wildfly::prepare']
     -> Class['wildfly::install']
       -> Class['wildfly::setup']
         -> Class['wildfly::service']
-          -> Class['wildfly::external_facts']
 }
