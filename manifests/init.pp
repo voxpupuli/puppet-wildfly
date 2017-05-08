@@ -107,10 +107,10 @@ class wildfly(
   Optional[String] $jboss_opts                                = undef,
 ) {
 
-  include wildfly::prepare
-  include wildfly::install
-  include wildfly::setup
-  include wildfly::service
+  contain wildfly::prepare
+  contain wildfly::install
+  contain wildfly::setup
+  contain wildfly::service
 
   if $external_facts {
     include wildfly::external_facts
