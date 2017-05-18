@@ -2,12 +2,10 @@ require 'spec_helper'
 
 describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   let(:path) { '/subsystem=dummy' }
-
   let(:resource) { Puppet::Type.type(:wildfly_resource).new :title => path }
+  let(:state) { described_class.new(:resource => resource) }
 
-  describe 'when testing wether the state is in sync without recursive' do
-    let(:state) { described_class.new(:resource => resource) }
-
+  describe 'when testing whether the state is in sync without recursive' do
     it 'is not in sync if hashes do not match' do
       state.should = { 'name' => 'dummy', 'value' => 'anotherResource' }
 
@@ -25,9 +23,9 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
     end
 
     it 'is synced if hashes are equal including array values' do
-      state.should = { 'name' => 'dummy', 'value' => %w(a b c) }
+      state.should = { 'name' => 'dummy', 'value' => %w[a b c] }
 
-      is = { 'value' => %w(a b c), 'name' => 'dummy' }
+      is = { 'value' => %w[a b c], 'name' => 'dummy' }
 
       expect(state.insync?(is)).to be true
     end
@@ -38,11 +36,17 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       is = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false }
       expect(state.insync?(is)).to be true
     end
+
+    it 'is in sync if _should_ is undef and _is_ is nil' do
+      state.should = { 'name' => 'dummy', 'value' => :undef }
+
+      is = { 'name' => 'dummy', 'value' => nil }
+
+      expect(state.insync?(is)).to be true
+    end
   end
 
-  describe 'when testing wether the state is in sync with recursive' do
-    let(:state) { described_class.new(:resource => resource) }
-
+  describe 'when testing whether the state is in sync with recursive' do
     it 'is not in sync if nested hashes do not match' do
       state.should = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'match' } }
 
@@ -68,9 +72,9 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
     end
 
     it 'is synced if hashes and inner arrays are equal' do
-      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => %w(a b c) } }
+      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => %w[a b c] } }
 
-      is = { 'nested-hash' => { 'value' => %w(a b c) }, 'name' => 'dummy' }
+      is = { 'nested-hash' => { 'value' => %w[a b c] }, 'name' => 'dummy' }
 
       expect(state.insync?(is)).to be true
     end
@@ -79,6 +83,14 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => [true, false, true] } }
 
       is = { 'nested-hash' => { 'value' => [true, false, true] }, 'name' => 'dummy' }
+
+      expect(state.insync?(is)).to be true
+    end
+
+    it 'is in sync if _should_ is undef and _is_ is nil' do
+      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => :undef } }
+
+      is = { 'name' => 'dummy', 'nested-hash' => { 'value' => nil } }
 
       expect(state.insync?(is)).to be true
     end
@@ -97,5 +109,4 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       expect(state.insync?(is)).to be true
     end
   end
-
 end

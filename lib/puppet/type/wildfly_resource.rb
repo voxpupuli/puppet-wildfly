@@ -83,7 +83,7 @@ Puppet::Type.newtype(:wildfly_resource) do
     ]
   end
 
-  newproperty(:state, :parent => Puppet::Property::DeepHash) do
+  newproperty(:state, :parent => DeepHash) do
     desc 'Resource state'
     defaultto {}
 

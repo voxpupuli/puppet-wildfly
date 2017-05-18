@@ -1,14 +1,15 @@
 require 'puppet/property'
 
 class DeepHash < Puppet::Property
-  def deep_intersect(is, should)
+
+  def _deep_intersect(current_state, desired_state)
     diff = {}
 
-    is.each do |key, value|
-      next if should[key].nil?
+    current_state.each do |key, value|
+      next unless desired_state.keys.include? key
       if value.is_a? Hash
-        diff[key] = deep_intersect(value, should[key])
-      elsif should.keys.include? key
+        diff[key] = _deep_intersect(value, desired_state[key])
+      else
         diff[key] = value
       end
     end
@@ -16,8 +17,26 @@ class DeepHash < Puppet::Property
     diff
   end
 
+  def _deep_transform_values_in_object(object, &block)
+    case object
+    when Hash
+      object.each_with_object({}) do |(key, value), result|
+        result[key] = _deep_transform_values_in_object(value, &block)
+      end
+    when Array
+      object.map { |e| _deep_transform_values_in_object(e, &block) }
+    else
+      yield(object)
+    end
+  end
+
+  def should
+    _deep_transform_values_in_object(super) { |value| value == :undef ? nil : value }
+  end
+
   def insync?(is)
-    deep_intersect(is, should) == should
+    desired_state = should
+    _deep_intersect(is, desired_state) == desired_state
   end
 
   def change_to_s(current_value, new_value)

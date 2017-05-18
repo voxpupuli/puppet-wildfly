@@ -5,17 +5,25 @@
 #
 # @param ensure Whether the resource should exist (`present`) or not (`absent`).
 # @param recursive Whether it should manage the resource recursively or not.
+# @param undefine_attributes Whether it should undefine attributes with undef value.
 # @param content Sets the content/state of the target resource.
 # @param operation_headers Sets [operation-headers](https://docs.jboss.org/author/display/WFLY9/Admin+Guide#AdminGuide-OperationHeaders) (e.g. `{ 'allow-resource-service-restart' => true, 'rollback-on-runtime-failure' => false, 'blocking-timeout' => 600}`) to be used when creating/destroying this resource.
 # @param profile Sets the target profile to prefix resource name. Requires domain mode.
 define wildfly::resource(
   Enum[present, absent] $ensure = present,
   Boolean $recursive = false,
+  Boolean $undefine_attributes = false,
   Hash $content = {},
   Hash $operation_headers = {},
   Optional[String] $profile = undef) {
 
   $profile_path = wildfly::profile_path($profile)
+
+  if $undefine_attributes {
+    $attributes = $content
+  } else {
+    $attributes = delete_undef_values($content)
+  }
 
   wildfly_resource { "${profile_path}${title}":
     ensure            => $ensure,
@@ -25,7 +33,7 @@ define wildfly::resource(
     host              => $wildfly::properties['jboss.bind.address.management'],
     port              => $wildfly::properties['jboss.management.http.port'],
     recursive         => $recursive,
-    state             => delete_undef_values($content),
+    state             => $attributes,
     operation_headers => $operation_headers,
     require           => Service['wildfly'],
   }
