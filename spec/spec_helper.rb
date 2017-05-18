@@ -4,6 +4,7 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 require 'coveralls'
 require 'simplecov'
 require 'simplecov-console'
+require 'pry'
 
 SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,

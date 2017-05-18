@@ -28,7 +28,10 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
               'connection-url' => 'jdbc:postgresql://localhost/postgres',
               'jndi-name'      => 'java:jboss/datasources/DemoDS',
               'user-name'      => 'postgres',
-              'password'       => 'postgres'
+              'password'       => 'postgres',
+              'jta'            => true,
+              'min-pool-size'  => 15,
+              'max-pool-size'  => 30,
             }
           }
           ->

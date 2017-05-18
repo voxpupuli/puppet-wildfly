@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'json'
 
 describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   let(:path) { '/subsystem=dummy' }
@@ -25,33 +24,11 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       expect(state.insync?(is)).to be true
     end
 
-    it 'is synced if hashes are equal but in different order' do
-      state.should = { 'name' => 'dummy', 'value' => 'resource' }
-
-      is = { 'value' => 'resource', 'name' => 'dummy' }
-
-      expect(state.insync?(is)).to be true
-    end
-
-    it 'is synced if hashes and inner arrays are equal but in different order' do
-      state.should = { 'name' => 'dummy', 'value' => %w(b c a) }
+    it 'is synced if hashes are equal including array values' do
+      state.should = { 'name' => 'dummy', 'value' => %w(a b c) }
 
       is = { 'value' => %w(a b c), 'name' => 'dummy' }
 
-      expect(state.insync?(is)).to be true
-    end
-
-    it 'is synced if desired state is typed but string comparison succeed' do
-      state.should = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false }
-
-      is = { 'name' => 'dummy', 'port' => '8080', 'enabled' => 'false' }
-      expect(state.insync?(is)).to be true
-    end
-
-    it 'is synced if current state is typed but string comparison succeed' do
-      state.should = { 'name' => 'dummy', 'port' => '8080', 'enabled' => 'false' }
-
-      is = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false }
       expect(state.insync?(is)).to be true
     end
 
@@ -66,7 +43,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   describe 'when testing wether the state is in sync with recursive' do
     let(:state) { described_class.new(:resource => resource) }
 
-    it 'is not in sync if hashes do not match' do
+    it 'is not in sync if nested hashes do not match' do
       state.should = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'match' } }
 
       is = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'matchzzz' } }
@@ -74,7 +51,7 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       expect(state.insync?(is)).to be false
     end
 
-    it 'is synced if hashes are equal' do
+    it 'is synced if nested hashes are equal' do
       state.should = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'match' } }
 
       is = { 'name' => 'dummy', 'nested-hash' => { 'my-resource' => 'match' } }
@@ -90,40 +67,19 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
       expect(state.insync?(is)).to be true
     end
 
-    it 'is synced if hashes and inner arrays are equal but in different order' do
-      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => %w(b c a) } }
+    it 'is synced if hashes and inner arrays are equal' do
+      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => %w(a b c) } }
 
       is = { 'nested-hash' => { 'value' => %w(a b c) }, 'name' => 'dummy' }
 
       expect(state.insync?(is)).to be true
     end
 
-    it 'is synced if hashes and inner arrays are typed but string comparison succeed' do
-      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => %w(true false true) } }
+    it 'is synced if hashes and typed inner arrays are equal' do
+      state.should = { 'name' => 'dummy', 'nested-hash' => { 'value' => [true, false, true] } }
 
       is = { 'nested-hash' => { 'value' => [true, false, true] }, 'name' => 'dummy' }
 
-      expect(state.insync?(is)).to be true
-    end
-
-    it 'is synced if desired state is typed but string comparison succeed' do
-      state.should = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 } }
-
-      is = { 'name' => 'dummy', 'port' => '8080', 'enabled' => 'false', 'nested-hash' => { 'enabled' => 'true', 'a-numeric-resource' => '42' } }
-      expect(state.insync?(is)).to be true
-    end
-
-    it 'is synced if desired state is typed but string comparison succeed with hash inside array' do
-      state.should = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'values' => ['nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 }] }
-
-      is = { 'name' => 'dummy', 'port' => '8080', 'enabled' => 'false', 'values' => ['nested-hash' => { 'enabled' => 'true', 'a-numeric-resource' => '42' }] }
-      expect(state.insync?(is)).to be true
-    end
-
-    it 'is synced if current state is typed but string comparison succeed' do
-      state.should = { 'name' => 'dummy', 'port' => '8080', 'enabled' => 'false', 'nested-hash' => { 'enabled' => 'true', 'a-numeric-resource' => '42' } }
-
-      is = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 } }
       expect(state.insync?(is)).to be true
     end
 
@@ -142,46 +98,4 @@ describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
     end
   end
 
-  describe 'when testing state change notification' do
-    let(:state) { described_class.new(:resource => resource) }
-
-    it 'obfuscates sensitive data' do
-      current_value = { 'name' => 'dummy', 'nested-hash' => { 'enabled' => true } }
-      new_value = { 'name' => 'dummy', 'password' => 'wildflyRocks', 'enabled' => false }
-
-      message = state.change_to_s(current_value, new_value)
-
-      matches = /state changed '(.*)' to '(.*)'/.match(message)
-
-      captured_new_value = JSON.parse(matches[2].gsub('=>', ':'))
-
-      expect(captured_new_value['password']).to eq('******')
-    end
-
-    it 'obfuscates new state sensitive data' do
-      current_value = { 'name' => 'dummy', 'nested-hash' => { 'enabled' => true } }
-      new_value = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42, 'password' => 'gq!&+Q@!Cy%6Aq>D' } }
-
-      message = state.change_to_s(current_value, new_value)
-
-      matches = /state changed '(.*)' to '(.*)'/.match(message)
-
-      captured_new_value = JSON.parse(matches[2].gsub('=>', ':'))
-
-      expect(captured_new_value['nested-hash']['password']).to eq('******')
-    end
-
-    it 'obfuscates current state sensitive data' do
-      current_value = { 'name' => 'dummy', 'nested-hash' => { 'enabled' => true, 'password' => 'gq!&+Q@!Cy%6Aq>D' } }
-      new_value = { 'name' => 'dummy', 'port' => 8080, 'enabled' => false, 'nested-hash' => { 'enabled' => true, 'a-numeric-resource' => 42 } }
-
-      message = state.change_to_s(current_value, new_value)
-
-      matches = /state changed '(.*)' to '(.*)'/.match(message)
-
-      captured_current_value = JSON.parse(matches[1].gsub('=>', ':'))
-
-      expect(captured_current_value['nested-hash']['password']).to eq('******')
-    end
-  end
 end
