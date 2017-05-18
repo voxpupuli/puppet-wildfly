@@ -12,6 +12,7 @@
 4. [Upgrade](#upgrade)
     * [to 1.2.0](#to-120)
     * [to 2.0.0](#to-200)
+    * [to 2.1.0](#to-210)
 5. [Usage - Configuration options and additional functionality](#usage)
     * [Wildfly 10.1.0](#wildfly-1010)
     * [Wildfly 9.0.2](#wildfly-902)
@@ -127,6 +128,11 @@ All resources from `wildfly::util` were moved to `wildfly`, hence you need to se
 This version requires Puppet 4.4+ and heavily uses Puppet 4 new features: data types, epp templates and Ruby 2.1+, but there is no breaking change per se. Meaning that if you're using 1.x version with Puppet 4 you should be able to migrate without any problems.
 
 If you're still using Puppet 3.x with Ruby 1.8.7+ check version 1.2.x.
+
+
+## to 2.1.0
+
+This version will no longer stringify values for `wildfly_resource`'s state or sort arrays. In other words, you'll have to declare attributes using a type that matches Wildfly's Management Model type and in the same order returned by the API in case of an array/LIST.
 
 ## Usage
 

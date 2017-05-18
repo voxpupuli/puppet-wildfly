@@ -1,5 +1,14 @@
 # History
 
+## 2.1.0
+
+- Fix class containment in init.pp
+- Fix undefined comparison for wildfly::cli
+- Remove string comparison support.
+- Remove sorting of array elements.
+- Remove data obfuscation for sensitive values.
+- Refactor wildfly_resource to use Puppet::Property subclass.
+
 ## 2.0.3
 
 - Introduce data types.
