@@ -50,7 +50,7 @@ Install, configures and manages Wildfly.
 
 Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 10.0, 9.0, 8.2, 8.1 & 8.0 and with JBoss EAP (tested on 6.1/6.2/6.3/6.4 and 7.0). Some defines may work only in certain versions.
 
-[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgres db.
+[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2, Apache AJP and PostgreSQL.
 
 [Vagrant CentOS Standalone HA + Gossip Router example](https://github.com/jairojunior/wildfly-ha-tcpgossip-vagrant-puppet) with two nodes, a gossip router and a load balancer (httpd + mod_cluster).
 
@@ -107,7 +107,7 @@ class { '::wildfly':
 }
 ```
 
-`distribution` was introduced to provided out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier to manage a properties file than Wildfly's XML through augeas)
+`distribution` was introduced to provide out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier - and more reliable - to manage a properties file than Wildfly's XML through augeas)
 
 `users_mgmt` was replaced by `mgmt_user`, and additional users should be managed by `wildfly::config::mgtm_user` defined type. The hash format and default value also changed.
 
@@ -127,12 +127,11 @@ All resources from `wildfly::util` were moved to `wildfly`, hence you need to se
 
 This version requires Puppet 4.4+ and heavily uses Puppet 4 new features: data types, epp templates and Ruby 2.1+, but there is no breaking change per se. Meaning that if you're using 1.x version with Puppet 4 you should be able to migrate without any problems.
 
-If you're still using Puppet 3.x with Ruby 1.8.7+ check version 1.2.x.
-
+If you're still using Puppet 3.x with Ruby 1.8.7+ check version 1.2.x (**unsupported**).
 
 ## to 2.1.0
 
-This version will no longer stringify values for `wildfly_resource`'s state or sort arrays. In other words, you'll have to declare attributes using a type that matches Wildfly's Management Model type and in the same order returned by the API in case of an array/LIST.
+This version will no longer stringify values for `wildfly_resource`'s state or sort arrays values. In other words, you'll have to declare attributes using a type that matches Wildfly's Management Model type and in the same order returned by the API (in case of an array/LIST).
 
 ## Usage
 
@@ -828,13 +827,13 @@ wildfly::jgroups::stack::tcpping { 'TCPPING':
 
 ## Limitations
 
-Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) are built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::resource`.
+Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) were built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::resource`.
 
 One discussed approach would be to generate defined types based on Wildfly's configuration schemas (`$WILDFLY_HOME/docs/schema`) or DMR (See [Issue 174](https://github.com/biemond/biemond-wildfly/issues/174)).
 
 JBoss EAP only works with RHEL-based OS's unless you provide custom scripts.
 
-[This bug](https://bugzilla.redhat.com/show_bug.cgi?id=1224170) might also be a problem for `standalone-full-ha` users in JBoss EAP.
+[This bug](https://bugzilla.redhat.com/show_bug.cgi?id=1224170) might also be a problem for `standalone-full-ha` users of JBoss EAP < 7.
 
 ## Development
 
