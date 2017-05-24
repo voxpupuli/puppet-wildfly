@@ -7,7 +7,7 @@
 # @param system Whether this is a system (`system/layers/base`) module or not.
 # @param custom_file Sets a file source for module.xml. If set, template is ignored.
 define wildfly::config::module(
-  Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
+  Variant[Pattern[/^\./], Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
   String $template = 'wildfly/module.xml',
   Optional[Boolean] $system = true,
   Optional[Array] $dependencies = [],
@@ -19,6 +19,11 @@ define wildfly::config::module(
 
   if $system {
     $module_dir = 'system/layers/base'
+  }
+
+  File {
+    owner => $wildfly::user,
+    group => $wildfly::group
   }
 
   $dir_path = "${wildfly::dirname}/modules/${module_dir}/${namespace_path}/main"
@@ -43,23 +48,44 @@ define wildfly::config::module(
     $file_name = basename($source)
   }
 
-  file { "${dir_path}/${file_name}":
-    ensure => 'file',
-    owner  => $wildfly::user,
-    group  => $wildfly::group,
-    mode   => '0655',
-    source => $source,
+  case $source {
+    '.': {
+    }
+    /^(file:|puppet:)/: {
+      file { "${dir_path}/${file_name}":
+        ensure => file,
+        owner  => $::wildfly::user,
+        group  => $::wildfly::group,
+        mode   => '0655',
+        source => $source
+      }
+    }
+    default : {
+      exec { "download module from ${source}":
+        command  => "wget -N -P ${dir_path} ${source} --max-redirect=5",
+        path     => ['/bin','/usr/bin', '/sbin'],
+        loglevel => 'notice',
+        creates  => "${dir_path}/${file_name}",
+        require  => File[$wildfly::dirname],
+      }
+
+      file { "${dir_path}/${file_name}":
+        ensure  => file,
+        owner   => $::wildfly::user,
+        group   => $::wildfly::group,
+        mode    => '0655',
+        require => Exec["download module from ${source}"],
+      }
+    }
   }
 
   if $custom_file {
-
     file { "${dir_path}/module.xml":
       ensure  => file,
       owner   => $wildfly::user,
       group   => $wildfly::group,
       content => file($custom_file),
     }
-
   } else {
     $params = {
       'file_name'    => $file_name,
@@ -73,8 +99,5 @@ define wildfly::config::module(
       group   => $wildfly::group,
       content => epp($template, $params),
     }
-
   }
-
-
 }
