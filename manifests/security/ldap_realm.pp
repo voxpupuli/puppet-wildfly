@@ -152,8 +152,8 @@ define wildfly::security::ldap_realm(
   $authorization_user_recursive         = false,
   $apply_to_management_interface        = false,
   $cache_type                           = 'by-access-time',
-  $max_cache_size                       = '1000',
-  $cache_eviction_time                  = '900',
+  Integer[0] $max_cache_size            = 1000,
+  Integer[0] $cache_eviction_time       = 900,
   $cache_failures                       = false,
 ) {
 
@@ -207,33 +207,33 @@ define wildfly::security::ldap_realm(
       'connection'     => "${realm_name}-LDAPConnection",
       'group-search'   => {
         'group-to-principal' => {
+          'base-dn'                    => $authorization_group_base_dn,
+          'group-dn-attribute'         => $authorization_group_dn_attribute,
           'group-name'                 => $authorization_group_name,
           'group-name-attribute'       => $authorization_group_name_attribute,
-          'group-dn-attribute'         => $authorization_group_dn_attribute,
-          'base-dn'                    => $authorization_group_base_dn,
-          'search-by'                  => $authorization_group_search_by,
-          'principal-attribute'        => $authorization_principal_attribute,
-          'recursive'                  => $authorization_group_recursive,
           'iterative'                  => $authorization_group_iterative,
           'prefer-original-connection' => $authorization_prefer_original_conn,
+          'principal-attribute'        => $authorization_principal_attribute,
+          'recursive'                  => $authorization_group_recursive,
+          'search-by'                  => $authorization_group_search_by,
           'cache'                      => {
             "${cache_type}" => {
-              'max-cache-size' => $max_cache_size,
-              'eviction-time'  => $cache_eviction_time,
               'cache-failures' => $cache_failures,
+              'eviction-time'  => $cache_eviction_time,
+              'max-cache-size' => $max_cache_size,
       }}}},
       'username-to-dn' => {
         'username-filter' => {
-          'base-dn'           => $ldap_user_base_dn,
           'attribute'         => $authorization_user_name_attribute,
-          'user-dn-attribute' => $authorization_user_dn_attribute,
+          'base-dn'           => $ldap_user_base_dn,
           'force'             => $authorization_user_force,
           'recursive'         => $authorization_user_recursive,
+          'user-dn-attribute' => $authorization_user_dn_attribute,
           'cache'             => {
             "${cache_type}" => {
-              'max-cache-size' => $max_cache_size,
-              'eviction-time'  => $cache_eviction_time,
               'cache-failures' => $cache_failures,
+              'eviction-time'  => $cache_eviction_time,
+              'max-cache-size' => $max_cache_size,
       }}}},
     },
   }
