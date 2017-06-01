@@ -35,10 +35,7 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
             }
           }
           ->
-          wildfly::cli { ':reload':
-            onlyif => '(result == reload-required) of :read-attribute(name=server-state)',
-          }
-
+          wildfly::reload { 'reload if necessary': }
 
           wildfly::resource { '/subsystem=ee' :
             content => {

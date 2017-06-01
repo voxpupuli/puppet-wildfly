@@ -14,6 +14,9 @@ def install_with_dependencies(host)
 
   on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '4.13.1')
   on host, puppet('module', 'install', 'jethrocarr-initfact')
+  on host, puppet('resource', 'package', 'treetop', 'provider=puppet_gem')
+  on host, puppet('resource', 'package', 'net-digest-http_auth', 'provider=puppet_gem')
+  on host, puppet('resource', 'package', 'wildfly', 'source=/etc/puppetlabs/code/modules/wildfly/wildfly-1.0.0.gem', 'provider=puppet_gem')
 end
 
 def install_java(host)
