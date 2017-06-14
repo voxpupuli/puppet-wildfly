@@ -719,7 +719,7 @@ Some configurations like SSL and modcluster requires a server reload (i.e. `serv
 ```puppet
 ## a_resource_that_requires_reload_when_changed {}
 ~>
-widlfly::reload { 'Reload if necessary':
+wildfly::reload { 'Reload if necessary':
   retries => 2,
   wait    => 15,
 }
