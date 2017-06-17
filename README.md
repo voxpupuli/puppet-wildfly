@@ -449,6 +449,8 @@ class { 'wildfly':
 }
 ```
 
+>**NOTE:** Host Controller name has to match a mgmt user name in Domain Controller, since, by default, HC uses it own name as the username for connecting with DC. You can always set a different one by overriding `remote_username` parameter.
+
 #### Domain Management
 
 Make sure you remove default resources (server-groups and server-config) if you're not going to use it.
