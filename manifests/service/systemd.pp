@@ -20,7 +20,7 @@ class wildfly::service::systemd {
 
   file { "/etc/systemd/system/${wildfly::service::service_name}.service":
     ensure  => present,
-    mode    => '0755',
+    mode    => '0644',
     content => epp($wildfly::service::systemd_template),
     before  => Service['wildfly'],
   }
