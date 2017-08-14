@@ -36,6 +36,8 @@ module PuppetX
           retry
         end
 
+        sleep 0.05 # We've been returned an auth token.  But if we don't wait a small amount of time before using it, we might stil get a 401. :(
+
         if response['www-authenticate'] =~ /digest/i
           digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
         else
