@@ -11,12 +11,24 @@ define wildfly::cli(
   Optional[String] $unless = undef,
   Optional[String] $onlyif = undef) {
 
+  if $wildfly::secure_mgmt_api {
+    $mgmt_port  = $wildfly::properties['jboss.management.https.port']
+    $mgmt_protocol = 'https'
+  }
+
+  else {
+    $mgmt_port = $wildfly::properties['jboss.management.http.port']
+    $mgmt_protocol = 'http'
+  }
+
+
   wildfly_cli { $title:
     command  => $command,
     username => $wildfly::mgmt_user['username'],
     password => $wildfly::mgmt_user['password'],
     host     => $wildfly::properties['jboss.bind.address.management'],
-    port     => $wildfly::properties['jboss.management.http.port'],
+    port     => $mgmt_port,
+    protocol => $mgmt_protocol,
     unless   => $unless,
     onlyif   => $onlyif,
     require  => Service['wildfly'],

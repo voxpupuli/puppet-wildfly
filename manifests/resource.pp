@@ -24,6 +24,15 @@ define wildfly::resource(
   } else {
     $attributes = delete_undef_values($content)
   }
+  if $wildfly::secure_mgmt_api {
+    $mgmt_port = $wildfly::properties['jboss.management.https.port']
+    $mgmt_protocol = 'https'
+  }
+
+  else {
+    $mgmt_port = $wildfly::properties['jboss.management.http.port']
+    $mgmt_protocol = 'http'
+  }
 
   wildfly_resource { "${profile_path}${title}":
     ensure            => $ensure,
@@ -31,11 +40,11 @@ define wildfly::resource(
     username          => $wildfly::mgmt_user['username'],
     password          => $wildfly::mgmt_user['password'],
     host              => $wildfly::properties['jboss.bind.address.management'],
-    port              => $wildfly::properties['jboss.management.http.port'],
+    port              => $mgmt_port,
+    protocol          => $mgmt_protocol,
     recursive         => $recursive,
     state             => $attributes,
     operation_headers => $operation_headers,
     require           => Service['wildfly'],
   }
-
 }

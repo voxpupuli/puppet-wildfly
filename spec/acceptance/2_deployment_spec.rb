@@ -10,6 +10,7 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
+            secure_mgmt_api => true,
           }
 
           wildfly::deployment { 'hawtio.war':

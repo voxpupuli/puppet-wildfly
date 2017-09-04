@@ -9,14 +9,24 @@ define wildfly::restart(
   Integer $retries = 3,
   Integer $wait = 20) {
 
+  if $wildfly::secure_mgmt_api {
+    $mgmt_port = $wildfly::properties['jboss.management.https.port']
+    $mgmt_protocol = 'https'
+  }
+
+  else {
+    $mgmt_port = $wildfly::properties['jboss.management.http.port']
+    $mgmt_protocol = 'http'
+  }
+
   wildfly_restart { $title:
     username => $wildfly::mgmt_user['username'],
     password => $wildfly::mgmt_user['password'],
     host     => $wildfly::properties['jboss.bind.address.management'],
-    port     => $wildfly::properties['jboss.management.http.port'],
+    port     => $mgmt_port,
+    protocol => $mgmt_protocol,
     retries  => $retries,
     wait     => $wait,
     require  => Service['wildfly'],
   }
-
 }

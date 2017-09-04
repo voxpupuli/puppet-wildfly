@@ -24,17 +24,27 @@ define wildfly::deployment(
     source => $source
   }
 
+  if $wildfly::secure_mgmt_api {
+    $mgmt_port = $wildfly::properties['jboss.management.https.port']
+    $mgmt_protocol = 'https'
+  }
+
+  else {
+    $mgmt_port = $wildfly::properties['jboss.management.http.port']
+    $mgmt_protocol = 'http'
+  }
+
   wildfly_deployment { $title:
     ensure            => $ensure,
     server_group      => $server_group,
     username          => $wildfly::mgmt_user['username'],
     password          => $wildfly::mgmt_user['password'],
     host              => $wildfly::properties['jboss.bind.address.management'],
-    port              => $wildfly::properties['jboss.management.http.port'],
+    port              => $mgmt_port,
+    protocol          => $mgmt_protocol,
     timeout           => $timeout,
     source            => "${wildfly::deploy_cache_dir}/${file_name}",
     operation_headers => $operation_headers,
     require           => [Service['wildfly'], File["${wildfly::deploy_cache_dir}/${file_name}"]],
   }
-
 }

@@ -37,6 +37,7 @@
 # @param remote_debug_port Sets the port to be used by remote debug.
 # @param remote_username Sets remote username in host config.
 # @param secret_value Sets the secret value in host config.
+# @param secure_mgmt_api Use HTTPS calls to the management API.
 # @param service_ensure Sets Wildfly's service 'ensure'.
 # @param service_enable Sets Wildfly's service 'enable'.
 # @param service_file Sets a file to be used for service management.
@@ -73,6 +74,7 @@ class wildfly(
   Boolean $service_enable                                     = true,
   Boolean $remote_debug                                       = false,
   Boolean $external_facts                                     = false,
+  Boolean $secure_mgmt_api                                    = false,
   Integer $remote_debug_port                                  = 8787,
   Integer $startup_wait                                       = 30,
   Integer $shutdown_wait                                      = 30,
@@ -105,6 +107,8 @@ class wildfly(
   Optional[String] $package_version                           = undef,
   Optional[String] $java_opts                                 = undef,
   Optional[String] $jboss_opts                                = undef,
+  Optional[Stdlib::Unixpath] $mgmt_ssl_cert                   = undef,
+  Optional[Stdlib::Unixpath] $mgmt_ssl_key                    = undef,
 ) {
 
   contain wildfly::prepare
@@ -114,6 +118,10 @@ class wildfly(
 
   if $external_facts {
     include wildfly::external_facts
+  }
+
+  if $secure_mgmt_api {
+    include wildfly::secure_mgmt_api
   }
 
   Class['wildfly::prepare']

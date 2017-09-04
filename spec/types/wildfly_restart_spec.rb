@@ -8,6 +8,6 @@ describe Puppet::Type.type(:wildfly_restart) do
   end
 
   it 'has expected parameters' do
-    expect(reload.parameters).to include(:name, :username, :password, :host, :port, :wait, :retries)
+    expect(reload.parameters).to include(:name, :username, :password, :host, :port, :wait, :retries, :protocol)
   end
 end

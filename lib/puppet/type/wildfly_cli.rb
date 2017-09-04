@@ -33,6 +33,11 @@ Puppet::Type.newtype(:wildfly_cli) do
     defaultto 9990
   end
 
+  newparam(:protocol) do
+    desc 'Use http or https to connect to the management API'
+    defaultto 'http'
+  end
+
   newproperty(:executed) do
     desc 'Whether the command should be executed or not'
 

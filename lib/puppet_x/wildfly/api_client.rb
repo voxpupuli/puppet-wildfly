@@ -7,16 +7,19 @@ require 'net/http/digest_auth'
 module PuppetX
   module Wildfly
     class APIClient
-      def initialize(address, port, user, password, timeout)
+      def initialize(address, port, user, password, timeout, protocol)
         @username = user
         @password = password
 
-        @uri = URI.parse "http://#{address}:#{port}/management"
+        @uri = URI.parse "#{protocol}://#{address}:#{port}/management"
         @uri.user = CGI.escape(user)
         @uri.password = CGI.escape(password)
 
         @http_client = Net::HTTP.new @uri.host, @uri.port, nil
         @http_client.read_timeout = timeout
+        return unless protocol == 'https'
+        @http_client.use_ssl = true
+        @http_client.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
 
       def authz_header
