@@ -1,11 +1,11 @@
 #
 # Configures EE Subsystem
 #
-# @ param deployments hash of the Global EE Deployments Attributes - 
+# @ param deployments hash of the Global EE Deployments Attributes
 # @ param default_bindings hash of the Global EE Default Bindings Attributes
 #
 
-define wildfly::subsystem::ee(
+define wildfly::subsystem::ee (
   Struct[{annotation-property-replacement => Optional[Boolean],
           ear-subdeployments-isolated => Optional[Boolean],
           jboss-descriptor-property-replacement => Optional[Boolean],
@@ -20,12 +20,12 @@ define wildfly::subsystem::ee(
 ){
 
   if $deployments {
-    wildfly::resource{'/subsystem=ee':
+    wildfly::resource { '/subsystem=ee':
       content => $deployments,
     }
   }
   if $default_bindings {
-    wildfly::resource {'/subsystem=ee/service=default-bindings':
+    wildfly::resource { '/subsystem=ee/service=default-bindings':
       content => $default_bindings,
     }
   }
