@@ -18,14 +18,11 @@ define wildfly::system::socket_binding_group (
     },
   }
   $socket_bindings.each | $socket, $hash | {
-    if $hash['fixed-port'] and !$hash['fixed-port'].is_a(Integer) {
-      fail('fixed-port must be of type Integer')
-    }
     if $hash['multicast-port'] and !$hash['multicast-port'].is_a(Integer) {
       fail('multicast-port must be of type Integer')
     }
-    if $hash['port'] and !$hash['port'].is_a(Integer) {
-      fail('port must be of type Integer')
+    if $hash['port'] and (!$hash['port'].is_a(Integer) or !$hash['port'].is_a(Hash)) {
+      fail('port must be of type Integer or Hash')
     }
     wildfly::resource { "/socket-binding-group=${title}/socket-binding=${socket}":
       content => {
