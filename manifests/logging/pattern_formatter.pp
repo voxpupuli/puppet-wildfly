@@ -12,6 +12,6 @@ define wildfly::logging::pattern_formatter (
       'color-map' => $color_map,
       'pattern'   => $pattern
     },
-    $target_profile = undef,
+    target_profile => undef,
   }
 }
