@@ -14,10 +14,9 @@ define wildfly::system::socket_binding_group (
   wildfly::resource { "/socket-binding-group=${title}":
     content => {
       'default-interface' => $default_interface,
-      'port-offset' => { 'EXPRESSION_VALUE' => $port_offset }
+      'port-offset'       => { 'EXPRESSION_VALUE' => $port_offset }
     },
   }
-  
   $socket_bindings.each | $socket, $hash | {
     if $hash['fixed-port'] and !$hash['fixed-port'].is_a(Integer) {
       fail('fixed-port must be of type Integer')
@@ -30,12 +29,12 @@ define wildfly::system::socket_binding_group (
     }
     wildfly::resource { "/socket-binding-group=${title}/socket-binding=${socket}":
       content => {
-        'client-mappings' => $hash['client-mappings'],
-        'fixed-port' => $hash['fixed-port'],
-        'interface' => $hash['interface'],
+        'client-mappings'   => $hash['client-mappings'],
+        'fixed-port'        => $hash['fixed-port'],
+        'interface'         => $hash['interface'],
         'multicast-address' => $hash['multicast-address'],
-        'multicast-port' => $hash['multicast-port'],
-        'port' => $hash['port']
+        'multicast-port'    => $hash['multicast-port'],
+        'port'              => $hash['port']
       }
     }
   }
