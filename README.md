@@ -31,6 +31,7 @@
     * [Module installation](#module-installation)
     * [Datasources](#datasources)
     * [HTTPS/SSL](#httpsssl)
+	* [Management over HTTPS/SSL](#mgmtssl)
     * [Server reload](#server-reload)
     * [Messaging](#messaging)
     * [Logging](#logging)
@@ -713,6 +714,40 @@ java_ks { 'demo:/opt/identitystore.jks':
   password    => 'changeit',
 }
 ```
+
+### Management over HTTPS/SSL
+
+This feature is currently implemented for standalone mode only.  The default http management console and API can be changed using HTTPS/TLS.  
+
+#### Basic use with a self signed certificate
+This will generate and use a basic self signed certificate for the Management interface.  Requires the puppetlabs/java_ks module:
+
+```puppet
+class { 'wildfly': 
+	secure_mgmt_api => true,
+}
+```
+
+#### Providing your own certificate 
+The module will create the approprate keystores, truststores, and configuration if given paths to the private key and certificate.  Use your favorite method to ensure the key and certificate exist on the endpoint.  Requires the puppetlabs/java_ks module:
+
+```puppet
+class { 'wildfly':
+	secure_mgmt_api => true,
+	mgmt_ssl_key => '/etc/pki/tls/private/key.pem',
+	mgmt_ssl_cert => '/etc/pki/tls/certs/cert.pem',
+}
+```
+
+#### Using managed keystores
+If preferred, the management API can use HTTPS using already defined keystores.  Ensure these exist before running the wildfly class.  
+
+
+
+
+#### Replacing ManagementRealm with your own realm
+
+
 
 ### Server Reload
 

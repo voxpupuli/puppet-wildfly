@@ -59,10 +59,13 @@ class wildfly(
   Stdlib::Unixpath $console_log                               = '/var/log/wildfly/console.log',
   Stdlib::Unixpath $install_cache_dir                         = '/var/cache/wget',
   Stdlib::Unixpath $deploy_cache_dir                          = '/opt',
+  Stdlib::Unixpath $mgmt_keystore                             = "${dirname}/${mode}/configuration/mgmt.jks",
   Boolean $manage_user                                        = true,
   String $user                                                = 'wildfly',
   String $group                                               = 'wildfly',
   String $mode_template                                       = "wildfly/${mode}.conf",
+  String $mgmt_keystore_pass                                  = 'changeit',
+  String $mgmt_keystore_alias                                 = 'mgmt',
   Wildfly::Config_file $config                                = 'standalone.xml',
   Wildfly::Config_file $domain_config                         = 'domain.xml',
   Wildfly::Config_file $host_config                           = 'host.xml',
@@ -75,6 +78,7 @@ class wildfly(
   Boolean $remote_debug                                       = false,
   Boolean $external_facts                                     = false,
   Boolean $secure_mgmt_api                                    = false,
+  Boolean $mgmt_create_keystores                              = true,
   Integer $remote_debug_port                                  = 8787,
   Integer $startup_wait                                       = 30,
   Integer $shutdown_wait                                      = 30,
@@ -109,6 +113,7 @@ class wildfly(
   Optional[String] $jboss_opts                                = undef,
   Optional[Stdlib::Unixpath] $mgmt_ssl_cert                   = undef,
   Optional[Stdlib::Unixpath] $mgmt_ssl_key                    = undef,
+
 ) {
 
   contain wildfly::prepare
