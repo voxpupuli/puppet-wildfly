@@ -9,7 +9,6 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
-            secure_mgmt_api => true,
           }
 
           wildfly::config::module { 'org.postgresql':

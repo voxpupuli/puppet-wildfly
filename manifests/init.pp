@@ -27,6 +27,12 @@
 # @param jboss_opts Sets `JBOSS_OPTS`, allowing to override several JBoss properties. It only works with Wildfly 8.2+.
 # @param manage_user Whether this module should manage wildfly user and group.
 # @param mgmt_user Hash containing a Wildfly's management user to be used internally.
+# @param mgmt_create_keystore Enables or disables the creation of keystores for TLS enabled ManagementRealm.
+# @param mgmt_keystore Path to a pre-defined keystore to be used for a TLS enabled ManagementRealm.
+# @param mgmt_keystore_alias The java keystore 'alias' to be used for a TLS enabled ManagementRealm.
+# @param mgmt_keystore_pass The java keystore password to be used for a TLS enabled ManagementRealm.
+# @param mgmt_ssl_cert Path to the certificate used for setting up the ManagementRealm keystore.
+# @param mgmt_ssl_key Path to the private key used for setting up the ManagementRealm keystore.
 # @param mode Sets Wildfly execution mode will run, 'standalone' or 'domain'.
 # @param mode_template Sets epp template for standalone.conf or domain.conf.
 # @param package_ensure Wheter it should manage required packages.
@@ -37,7 +43,7 @@
 # @param remote_debug_port Sets the port to be used by remote debug.
 # @param remote_username Sets remote username in host config.
 # @param secret_value Sets the secret value in host config.
-# @param secure_mgmt_api Use HTTPS calls to the management API.
+# @param secure_mgmt_api Setup and use HTTPS calls to the management API.
 # @param service_ensure Sets Wildfly's service 'ensure'.
 # @param service_enable Sets Wildfly's service 'enable'.
 # @param service_file Sets a file to be used for service management.

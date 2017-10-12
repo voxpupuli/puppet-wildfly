@@ -9,7 +9,6 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
-            secure_mgmt_api => true,
           }
 
           wildfly::config::module { 'org.postgresql':
