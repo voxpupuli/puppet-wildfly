@@ -20,7 +20,7 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
 
       exec { 'generate_mgmt_ssl_cert':
         command => "openssl req -newkey rsa:4096 -nodes -sha256 -keyout ${ks_key} -x509 -days 3650 -out ${ks_cert} -subj '/CN=${::fqdn}'",
-        creates => [ "${wildfly::dirname}/${wildfly::mode}/configuration/mgmt.key", "${wildfly::dirname}/${wildfly::mode}/configuration/mgmt.crt" ],
+        creates => [ $ks_key, $ks_cert ],
         path    => [ '/bin', '/usr/bin', '/sbin', '/usr/sbin' ],
         user    => $wildfly::user,
       }
@@ -76,9 +76,9 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
   }
 
   exec { 'Set https management interface':
-    command     => "jboss-cli.sh -c '/core-service=management/management-interface=http-interface:write-attribute(name=secure-socket-binding, value=management-https)'",
-    unless      => "grep -c \'https=\"management-https\"\' ${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::config}",
-    path        => ['/bin', '/usr/bin', '/sbin', "${wildfly::dirname}/bin", "${wildfly::java_home}/bin"],
+    command => "jboss-cli.sh -c '/core-service=management/management-interface=http-interface:write-attribute(name=secure-socket-binding, value=management-https)'",
+    unless  => "grep -c \'https=\"management-https\"\' ${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::config}",
+    path    => ['/bin', '/usr/bin', '/sbin', "${wildfly::dirname}/bin", "${wildfly::java_home}/bin"],
   }
 
   exec { 'Set Realm to use SSL':

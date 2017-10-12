@@ -24,6 +24,7 @@ define wildfly::resource(
   } else {
     $attributes = delete_undef_values($content)
   }
+
   if $wildfly::secure_mgmt_api {
     $mgmt_port = $wildfly::properties['jboss.management.https.port']
     $mgmt_protocol = 'https'
@@ -47,4 +48,5 @@ define wildfly::resource(
     operation_headers => $operation_headers,
     require           => Service['wildfly'],
   }
+
 }

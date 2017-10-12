@@ -29,4 +29,5 @@ define wildfly::restart(
     wait     => $wait,
     require  => Service['wildfly'],
   }
+
 }

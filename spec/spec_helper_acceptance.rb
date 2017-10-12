@@ -14,7 +14,6 @@ def install_with_dependencies(host)
 
   on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '4.13.1')
   on host, puppet('module', 'install', 'jethrocarr-initfact')
-  on host, puppet('module', 'install', 'puppetlabs-java_ks')
 end
 
 def install_java(host)

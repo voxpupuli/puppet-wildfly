@@ -47,4 +47,5 @@ define wildfly::deployment(
     operation_headers => $operation_headers,
     require           => [Service['wildfly'], File["${wildfly::deploy_cache_dir}/${file_name}"]],
   }
+
 }

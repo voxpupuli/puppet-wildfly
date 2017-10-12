@@ -31,7 +31,7 @@
     * [Module installation](#module-installation)
     * [Datasources](#datasources)
     * [HTTPS/SSL](#httpsssl)
-	* [Management over HTTPS/SSL](#mgmtssl)
+    * [Management over HTTPS/SSL](#mgmtssl)
     * [Server reload](#server-reload)
     * [Messaging](#messaging)
     * [Logging](#logging)
