@@ -7,13 +7,21 @@
 # @param timeout Sets the timeout to deploy this resource.
 # @param server_group Sets the target `server-group` for this deployment.
 # @param operation_headers Sets [operation-headers](https://docs.jboss.org/author/display/WFLY9/Admin+Guide#AdminGuide-OperationHeaders) (e.g. `{ 'allow-resource-service-restart' => true, 'rollback-on-runtime-failure' => false, 'blocking-timeout' => 600}`) to be used when creating/destroying this deployment.
+# @param username Wildfly's management user to be used internally.
+# @param password The password for Wildfly's management user.
+# @param host The IP address or FQDN of the JBoss Management service.
+# @param port The port of the JBoss Management service.
 define wildfly::deployment(
   Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
-  Enum[present, absent] $ensure = present,
+  Enum[present, absent] $ensure  = present,
   Optional[Integer] $timeout     = undef,
   Optional[String] $server_group = undef,
-  $operation_headers             = {}) {
-
+  $operation_headers             = {},
+  String $username               = $wildfly::mgmt_user['username'],
+  String $password               = $wildfly::mgmt_user['password'],
+  String $host                   = $wildfly::properties['jboss.bind.address.management'],
+  String $port                   = $wildfly::properties['jboss.management.http.port'],
+) {
   $file_name = basename($source)
 
   file { "${wildfly::deploy_cache_dir}/${file_name}":
@@ -27,10 +35,10 @@ define wildfly::deployment(
   wildfly_deployment { $title:
     ensure            => $ensure,
     server_group      => $server_group,
-    username          => $wildfly::mgmt_user['username'],
-    password          => $wildfly::mgmt_user['password'],
-    host              => $wildfly::properties['jboss.bind.address.management'],
-    port              => $wildfly::properties['jboss.management.http.port'],
+    username          => $username,
+    password          => $password,
+    host              => $host,
+    port              => $port,
     timeout           => $timeout,
     source            => "${wildfly::deploy_cache_dir}/${file_name}",
     operation_headers => $operation_headers,
