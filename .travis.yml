@@ -32,7 +32,6 @@ matrix:
       script: bundle exec rake beaker
       services: docker
       sudo: required
-      group: edge
       bundler_args: --with acceptance
     - rvm: 2.3.3
       dist: trusty
@@ -40,7 +39,6 @@ matrix:
       script: bundle exec rake beaker
       services: docker
       sudo: required
-      group: edge
       bundler_args: --with acceptance
     - rvm: 2.3.3
       dist: trusty
@@ -48,7 +46,6 @@ matrix:
       script: bundle exec rake beaker
       services: docker
       sudo: required
-      group: edge
       bundler_args: --with acceptance
     - rvm: 2.3.3
       dist: trusty
@@ -56,7 +53,6 @@ matrix:
       script: bundle exec rake beaker
       services: docker
       sudo: required
-      group: edge
       bundler_args: --with acceptance
     - rvm: 2.3.3
       dist: trusty
@@ -64,7 +60,6 @@ matrix:
       script: bundle exec rake beaker
       services: docker
       sudo: required
-      group: edge
       bundler_args: --with acceptance
     - rvm: 2.3.3
       dist: trusty
@@ -72,5 +67,4 @@ matrix:
       script: bundle exec rake beaker
       services: docker
       sudo: required
-      group: edge
       bundler_args: --with acceptance
