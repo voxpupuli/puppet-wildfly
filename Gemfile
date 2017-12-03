@@ -24,7 +24,7 @@ gem 'pry-byebug'
 
 group :acceptance do
   gem 'fog', '>= 1.25.0'
-  gem 'beaker', '3.5.0' if RUBY_VERSION >= '2.3.0'
+  gem 'beaker', '3.29.0' if RUBY_VERSION >= '2.3.0'
   gem 'beaker-puppet_install_helper'
   gem 'beaker-rspec'
   gem 'serverspec', '>= 2.0.0'
