@@ -1,5 +1,12 @@
 # History
 
+## 2.2.0
+
+- Fix title patterns.
+- Fix unauthorized race condition.
+- Fix systemd service permissions
+- JMS Connection Factory
+
 ## 2.1.0
 
 - Fix class containment in init.pp
@@ -20,14 +27,14 @@
 
 - Fix wildfly_resource's with array of hashes values.
 - Allow custom templates or file for module.xml.
-- Support for jgroups stacks.
+- Support for jgroups stacks
 - Rewrite functions in Puppet language.
 
 ## 2.0.1
 
 - Bring cache_dir back.
 - Introduce deployment cache dir.
-- Remove WILDFLY_HOME management with package installation in order to proper support packages. 
+- Remove WILDFLY_HOME management with package installation in order to proper support packages.
 
 ## 2.0.0
 
