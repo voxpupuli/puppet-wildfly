@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['= 4.4.2']
+puppetversion = ENV.key?('PUPPET_VERSION') ? "= #{ENV['PUPPET_VERSION']}" : ['= 4.8.2']
 
 gem 'coveralls', :require => false
 gem 'simplecov', :require => false
@@ -8,7 +8,6 @@ gem 'simplecov-console'
 gem 'puppet-lint'
 gem 'puppet', puppetversion
 gem 'rspec', '>= 3.4.4'
-gem 'rspec-puppet', '>= 2.1.0'
 gem 'rspec-system-puppet'
 gem 'puppetlabs_spec_helper'
 gem 'puppet-syntax'
@@ -21,6 +20,10 @@ gem 'google-api-client', '>= 0.9'
 gem 'activesupport', '4.2.7.1'
 gem 'puppet-strings'
 gem 'pry-byebug'
+
+gem 'semantic_puppet'
+gem 'rspec-puppet', '~> 2.5.0'
+
 
 group :acceptance do
   gem 'fog', '>= 1.25.0'
