@@ -42,9 +42,9 @@ Puppet::Type.newtype(:wildfly_resource) do
     isnamevar
   end
 
-  newparam(:protocol) do
-    desc 'Use HTTP or HTTPS to communicate with Management API'
-    defaultto 'http'
+  newparam(:secure) do
+    desc 'Use TLS to connect with the management API'
+    defaultto false 
   end
 
   newparam(:recursive) do

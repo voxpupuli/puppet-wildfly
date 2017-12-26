@@ -38,9 +38,9 @@ Puppet::Type.newtype(:wildfly_deployment) do
     defaultto 9990
   end
   
-  newparam(:protocol) do
-    desc 'Use either HTTP or HTTPS to communicate with Management API'
-    defaultto 'http'
+  newparam(:secure) do
+    desc 'Use TLS to connect with the management API'
+    defaultto false
   end
 
   newparam(:timeout) do
