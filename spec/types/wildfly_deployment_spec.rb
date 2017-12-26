@@ -8,7 +8,7 @@ describe Puppet::Type.type(:wildfly_deployment) do
   end
 
   it 'has expected parameters' do
-    expect(deployment.parameters).to include(:name, :source, :server_group, :username, :password, :host, :port, :timeout, :protocol, :operation_headers)
+    expect(deployment.parameters).to include(:name, :source, :server_group, :username, :password, :host, :port, :timeout, :secure, :operation_headers)
   end
 
   describe 'when testing wheter content checksum is in sync' do

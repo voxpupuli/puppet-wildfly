@@ -26,12 +26,12 @@ define wildfly::deployment(
 
   if $wildfly::secure_mgmt_api {
     $mgmt_port = $wildfly::properties['jboss.management.https.port']
-    $mgmt_secure = true 
+    $mgmt_secure = true
   }
 
   else {
     $mgmt_port = $wildfly::properties['jboss.management.http.port']
-    $mgmt_secure = false 
+    $mgmt_secure = false
   }
 
   wildfly_deployment { $title:

@@ -88,7 +88,7 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
     path        => ['/bin', '/usr/bin', '/sbin', "${wildfly::dirname}/bin", "${wildfly::java_home}/bin"],
     environment => "JAVA_HOME=${wildfly::java_home}",
     before      => Augeas['set_jboss_cli_xml_https'],
-    subscribe       => Exec['Set https management interface'],
+    subscribe   => Exec['Set https management interface'],
     notify      => Exec['secure mgmt reload'],
   }
 
