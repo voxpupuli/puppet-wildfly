@@ -24,6 +24,7 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
         base_dir     => "${wildfly::dirname}/${wildfly::mode}/configuration",
         owner        => $wildfly::user,
         group        => $wildfly::group,
+        notify       => Java_ks["${wildfly::mgmt_keystore_alias}:mgmtks"],
       }
     }
 
@@ -34,7 +35,7 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
       target      => $wildfly::mgmt_keystore,
       password    => $wildfly::mgmt_keystore_pass,
       path        => ["${wildfly::java_home}/bin"],
-      notify      => Exec['secure mgmt reload'],
+      before      => Exec['Set https management interface'],
     }
 
     file { $wildfly::mgmt_keystore:
@@ -49,7 +50,7 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
       password    => 'cli_truststore',
       target      => '/root/.jboss-cli.truststore',
       path        => ["${wildfly::java_home}/bin"],
-      require     => Exec['secure mgmt reload'],
+      before      => Exec['Set https management interface'],
     }
 
     java_ks { 'wfcli:truststore':
@@ -58,7 +59,7 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
       password    => 'cli_truststore',
       target      => "/home/${wildfly::user}/.jboss-cli.truststore",
       path        => ["${wildfly::java_home}/bin"],
-      require     => Exec['secure mgmt reload'],
+      before      => Exec['Set https management interface'],
     }
 
     file { "/home/${wildfly::user}/.jboss-cli.truststore":
@@ -70,13 +71,14 @@ $mgmt_port = $wildfly::properties['jboss.management.https.port']
   }
 
   exec { 'secure mgmt reload':
-    command     => "jboss-cli.sh -c ':reload'",
+    command     => "jboss-cli.sh -c ':reload'; sleep 5",
     refreshonly => true,
+    returns     => ['0', '1'],
     path        => ['/bin', '/usr/bin', '/sbin', "${wildfly::dirname}/bin", "${wildfly::java_home}/bin"],
   }
 
   exec { 'Set https management interface':
-    command => "jboss-cli.sh -c '/core-service=management/management-interface=http-interface:write-attribute(name=secure-socket-binding, value=management-https)'",
+    command => "sleep 5; jboss-cli.sh -c '/core-service=management/management-interface=http-interface:write-attribute(name=secure-socket-binding, value=management-https)'",
     unless  => "grep -c \'https=\"management-https\"\' ${wildfly::dirname}/${wildfly::mode}/configuration/${wildfly::config}",
     path    => ['/bin', '/usr/bin', '/sbin', "${wildfly::dirname}/bin", "${wildfly::java_home}/bin"],
     before  => Augeas['set_jboss_cli_xml_https'],
