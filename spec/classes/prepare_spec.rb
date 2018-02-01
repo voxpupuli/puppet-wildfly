@@ -68,4 +68,25 @@ describe 'wildfly::prepare' do
 
     it { is_expected.not_to contain_file('/opt/wildfly') }
   end
+
+  context 'over-riding user_home' do
+    let(:facts) do
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
+    end
+
+    let :pre_condition do
+      "class { 'wildfly':
+        user_home => '/opt/wildfly'
+      }"
+    end
+
+    it do
+      is_expected.to contain_user('wildfly')
+        .with_home('/opt/wildfly')
+    end
+  end
 end
