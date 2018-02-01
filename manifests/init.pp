@@ -46,6 +46,7 @@
 # @param systemd_template Sets a custom systemd template.
 # @param uid Sets managed user ID.
 # @param user User to own `JBOSS_HOME`. If `manage_user` is `true`, this user will be managed.
+# @param user_home User home directory. Defaults to '/home/wildfly'
 # @param version Sets the Wildfly version managed in order to handle small differences among versions.
 class wildfly(
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/] $version           = '9.0.2',
@@ -60,6 +61,7 @@ class wildfly(
   Stdlib::Unixpath $deploy_cache_dir                          = '/opt',
   Boolean $manage_user                                        = true,
   String $user                                                = 'wildfly',
+  Stdlib::Unixpath $user_home                                 = '/home/wildfly',
   String $group                                               = 'wildfly',
   String $mode_template                                       = "wildfly/${mode}.conf",
   Wildfly::Config_file $config                                = 'standalone.xml',
