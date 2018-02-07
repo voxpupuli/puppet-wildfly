@@ -29,6 +29,7 @@
 # @param mgmt_user Hash containing a Wildfly's management user to be used internally.
 # @param mode Sets Wildfly execution mode will run, 'standalone' or 'domain'.
 # @param mode_template Sets epp template for standalone.conf or domain.conf.
+# @param overlay_class Sets a class to be applied between 'install' and 'setup' classes.
 # @param package_ensure Wheter it should manage required packages.
 # @param package_name Sets Wildfly package name.
 # @param package_version Sets Wildfly package version.
@@ -107,12 +108,21 @@ class wildfly(
   Optional[String] $package_version                           = undef,
   Optional[String] $java_opts                                 = undef,
   Optional[String] $jboss_opts                                = undef,
+  Optional[String] $overlay_class                             = undef,
 ) {
 
   contain wildfly::prepare
   contain wildfly::install
   contain wildfly::setup
   contain wildfly::service
+
+  if $overlay_class {
+    contain $overlay_class
+
+    Class['wildfly::install']
+      -> Class[$overlay_class]
+        -> Class['wildfly::setup']
+  }
 
   if $external_facts {
     include wildfly::external_facts
