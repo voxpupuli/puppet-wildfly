@@ -45,12 +45,21 @@ class wildfly(
   $shutdown_wait                = $wildfly::params::shutdown_wait,
   $secret_value                 = $wildfly::params::secret_value,
   $remote_username              = $wildfly::params::remote_username,
+  $overlay_class                = undef,
 ) inherits wildfly::params {
 
   include wildfly::prepare
   include wildfly::install
   include wildfly::setup
   include wildfly::service
+
+  if $overlay_class {
+    contain $overlay_class
+
+    Class['wildfly::install'] ->
+      Class[$overlay_class] ->
+        Class['wildfly::setup']
+  }
 
   Class['wildfly::prepare'] ->
     Class['wildfly::install'] ->
