@@ -78,7 +78,7 @@ class wildfly(
   Integer $shutdown_wait                                      = 30,
   Integer $install_download_timeout                           = 500,
   Hash[Pattern[/^\w*(\.\w*-?\w*)*$/], String] $properties     = {
-    'jboss.bind.address' => '0.0.0.0',
+    'jboss.bind.address' => '127.0.0.1',
     'jboss.bind.address.management' => '127.0.0.1',
     'jboss.management.http.port' => '9990',
     'jboss.management.https.port' => '9993',
