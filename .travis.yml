@@ -26,42 +26,42 @@ env:
   - PUPPET_VERSION=5.3.3
 matrix:
   include:
-    - rvm: 2.3.3
+    - rvm: 2.4.2
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/centos-7
       script: bundle exec rake beaker
       services: docker
       sudo: required
       bundler_args: --with acceptance
-    - rvm: 2.3.3
+    - rvm: 2.4.2
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/debian-7 bundle
       script: bundle exec rake beaker
       services: docker
       sudo: required
       bundler_args: --with acceptance
-    - rvm: 2.3.3
+    - rvm: 2.4.2
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent BEAKER_debug=true BEAKER_set=docker/ubuntu-1404 bundle
       script: bundle exec rake beaker
       services: docker
       sudo: required
       bundler_args: --with acceptance
-    - rvm: 2.3.3
+    - rvm: 2.4.2
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent TEST_profile=wildfly:11.0.0 BEAKER_debug=true BEAKER_set=docker/centos-7
       script: bundle exec rake beaker
       services: docker
       sudo: required
       bundler_args: --with acceptance
-    - rvm: 2.3.3
+    - rvm: 2.4.2
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent TEST_profile=wildfly:11.0.0 BEAKER_debug=true BEAKER_set=docker/debian-7
       script: bundle exec rake beaker
       services: docker
       sudo: required
       bundler_args: --with acceptance
-    - rvm: 2.3.3
+    - rvm: 2.4.2
       dist: trusty
       env: PUPPET_INSTALL_TYPE=agent TEST_profile=wildfly:11.0.0 BEAKER_debug=true BEAKER_set=docker/ubuntu-1404
       script: bundle exec rake beaker
