@@ -36,7 +36,7 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
@@ -52,7 +52,7 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
             :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
-      shell('curl localhost:8080/'.concat('hawtio/'), :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080/'.concat('hawtio/'), :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'hawtio'
       end
     end

@@ -51,7 +51,7 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
