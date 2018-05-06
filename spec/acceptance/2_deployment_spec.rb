@@ -10,6 +10,7 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
+            java_opts      => '-Djava.net.preferIPv4Stack=true',
           }
 
           wildfly::deployment { 'hawtio.war':
@@ -23,7 +24,7 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
 
       execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
       expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
-      shell('sleep 15')
+      shell('sleep 25')
     end
 
     it 'service wildfly' do
