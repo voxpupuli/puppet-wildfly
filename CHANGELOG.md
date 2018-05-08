@@ -1,5 +1,10 @@
 # History
 
+## 2.3.1
+
+- Fix install_source validation
+
+
 ## 2.3.0
 
 - Override wildfly user home
