@@ -51,7 +51,7 @@
 # @param version Sets the Wildfly version managed in order to handle small differences among versions.
 class wildfly(
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/] $version           = '9.0.2',
-  Variant[Stdlib::Httpurl, Stdlib::Httpsurl] $install_source  = "http://download.jboss.org/wildfly/${version}.Final/wildfly-${version}.Final.tar.gz",
+  Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $install_source = "http://download.jboss.org/wildfly/${version}.Final/wildfly-${version}.Final.tar.gz",
   Wildfly::Distribution $distribution                         = 'wildfly',
   Enum['sysvinit', 'systemd', 'upstart'] $init_system         = $facts['initsystem'],
   Wildfly::Mode $mode                                         = 'standalone',

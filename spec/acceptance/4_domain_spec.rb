@@ -9,6 +9,7 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
+            java_opts      => '-Djava.net.preferIPv4Stack=true',
             mode           => 'domain',
             host_config    => 'host-master.xml',
           }
@@ -31,7 +32,7 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
 
       execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
       expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
-      shell('sleep 15')
+      shell('sleep 25')
     end
 
     it 'service wildfly' do
@@ -44,7 +45,7 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
     end
 
     it 'protected management page' do
-      shell('curl -v localhost:9990/management 2>&1', :acceptable_exit_codes => 0) do |r|
+      shell('curl -v 127.0.0.1:9990/management 2>&1', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '401 Unauthorized'
       end
     end

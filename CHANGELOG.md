@@ -1,5 +1,18 @@
 # History
 
+## 2.3.1
+
+- Fix install_source validation
+
+
+## 2.3.0
+
+- Override wildfly user home
+- Support for overlays installation
+- Fixes for EL7 systemd unit file
+- Parameterized username, password, host and port on resource wrappers
+
+
 ## 2.2.0
 
 - Fix title patterns.
