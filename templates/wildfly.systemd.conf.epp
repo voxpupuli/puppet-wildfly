@@ -11,3 +11,7 @@ WILDFLY_HOME="<%= $wildfly::dirname %>"
 
 # Location of JDK
 JAVA_HOME=<%= $wildfly::java_home %>
+
+<% $wildfly::custom_config.each |$key, $value| -%>
+<%= $key %>="<%= $value %>"
+<% -%>
