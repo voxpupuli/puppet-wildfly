@@ -98,6 +98,7 @@ class wildfly(
   Optional[Stdlib::Unixpath] $conf_file                       = undef,
   Optional[String] $conf_template                             = undef,
   Optional[Stdlib::Unixpath] $service_file                    = undef,
+  Optional[Hash] $custom_config                               = undef,
   Optional[String] $systemd_template                          = undef,
   Optional[String] $service_name                              = undef,
   Optional[Boolean] $service_manage                           = true,
