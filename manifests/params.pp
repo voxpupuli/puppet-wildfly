@@ -55,7 +55,7 @@ class wildfly::params {
 
   $users_mgmt = {
     'wildfly' => {
-      password => 'wildfly',
+      password => hiera('wildfly_pwd'),
     },
   }
 
