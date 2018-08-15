@@ -99,6 +99,7 @@ class wildfly(
   Optional[Stdlib::Unixpath] $service_file                    = undef,
   Optional[String] $systemd_template                          = undef,
   Optional[String] $service_name                              = undef,
+  Optional[Tuple] $custom_config                              = undef,
   Optional[String] $custom_init                               = undef,
   Optional[Integer] $uid                                      = undef,
   Optional[Integer] $gid                                      = undef,
