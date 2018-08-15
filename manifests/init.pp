@@ -42,6 +42,7 @@
 # @param service_enable Sets Wildfly's service 'enable'.
 # @param service_file Sets a file to be used for service management.
 # @param service_name Sets Wildfly's service 'name'.
+# @param service_manage Reload Wildfly's service when changed config.
 # @param shutdown_wait Sets the time to wait for the process to be shutdown - sysvinit scripts only.
 # @param startup_wait Sets the time to wait for the process to be up - sysvinit scripts only.
 # @param systemd_template Sets a custom systemd template.
@@ -99,6 +100,7 @@ class wildfly(
   Optional[Stdlib::Unixpath] $service_file                    = undef,
   Optional[String] $systemd_template                          = undef,
   Optional[String] $service_name                              = undef,
+  Optional[Boolean] $service_manage                           = true,
   Optional[String] $custom_init                               = undef,
   Optional[Integer] $uid                                      = undef,
   Optional[Integer] $gid                                      = undef,
