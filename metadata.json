@@ -15,7 +15,7 @@
   "project_page": "https://github.com/biemond/biemond-wildfly",
   "source": "https://github.com/biemond/biemond-wildfly",
   "summary": "Install, configure and manage Wildfly (8/9/10/11), JBoss EAP (6.1+/7.0+) and some Wildfly based products like apiman, Keycloak and Infinispan.",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "tags": [
     "jboss",
     "wildfly",
