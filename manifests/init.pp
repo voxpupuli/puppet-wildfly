@@ -50,6 +50,7 @@
 # @param user User to own `JBOSS_HOME`. If `manage_user` is `true`, this user will be managed.
 # @param user_home User home directory. Defaults to '/home/wildfly'
 # @param version Sets the Wildfly version managed in order to handle small differences among versions.
+# @param working_dir Sets the working directory for the service.
 class wildfly(
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/] $version           = '9.0.2',
   Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $install_source = "http://download.jboss.org/wildfly/${version}.Final/wildfly-${version}.Final.tar.gz",
@@ -111,6 +112,7 @@ class wildfly(
   Optional[String] $java_opts                                 = undef,
   Optional[String] $jboss_opts                                = undef,
   Optional[String] $overlay_class                             = undef,
+  Optional[String] $working_dir                               = undef,
 ) {
 
   contain wildfly::prepare

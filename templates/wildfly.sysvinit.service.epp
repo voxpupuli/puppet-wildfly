@@ -6,6 +6,9 @@ After=syslog.target network.target
 Type=forking
 ExecStart=/etc/init.d/<%= $wildfly::service::service_name %> start
 ExecStop=/etc/init.d/<%= $wildfly::service::service_name %> stop
+<%- if $wildfly::working_dir {-%>
+WorkingDirectory=<%= $wildfly::working_dir %>
+<%- } -%>
 
 [Install]
 WantedBy=multi-user.target
