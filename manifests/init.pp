@@ -112,7 +112,7 @@ class wildfly(
   Optional[String] $java_opts                                 = undef,
   Optional[String] $jboss_opts                                = undef,
   Optional[String] $overlay_class                             = undef,
-  Optional[String] $working_dir                               = undef,
+  Optional[Stdlib::Unixpath] $working_dir                     = undef,
 ) {
 
   contain wildfly::prepare
