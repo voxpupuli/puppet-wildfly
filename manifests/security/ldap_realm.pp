@@ -241,24 +241,53 @@ define wildfly::security::ldap_realm(
 
   # Prepare the authorization system for Wildfly role <-> LDAP group mappings
   # These are the Wildfly default authentication roles
-  -> wildfly::resource { [
-    '/core-service=management/access=authorization/role-mapping=Administrator',
-    '/core-service=management/access=authorization/role-mapping=Auditor',
-    '/core-service=management/access=authorization/role-mapping=Deployer',
-    '/core-service=management/access=authorization/role-mapping=Maintainer',
-    '/core-service=management/access=authorization/role-mapping=Monitor',
-    '/core-service=management/access=authorization/role-mapping=Operator',
-    '/core-service=management/access=authorization/role-mapping=SuperUser',
-  ]:
-    content => {},
-  }
+  ensure_resource('wildfly::resource', [
+      '/core-service=management/access=authorization/role-mapping=Administrator',
+      '/core-service=management/access=authorization/role-mapping=Auditor',
+      '/core-service=management/access=authorization/role-mapping=Deployer',
+      '/core-service=management/access=authorization/role-mapping=Maintainer',
+      '/core-service=management/access=authorization/role-mapping=Monitor',
+      '/core-service=management/access=authorization/role-mapping=Operator',
+      '/core-service=management/access=authorization/role-mapping=SuperUser',
+    ],
+    {
+      content => {},
+    },
+  )
+
+  # depends on authorization=ldaps
+  Wildfly::Resource["/core-service=management/security-realm=${realm_name}/authorization=ldap"]
+  -> Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Administrator']
+  Wildfly::Resource["/core-service=management/security-realm=${realm_name}/authorization=ldap"]
+  -> Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Auditor']
+  Wildfly::Resource["/core-service=management/security-realm=${realm_name}/authorization=ldap"]
+  -> Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Deployer']
+  Wildfly::Resource["/core-service=management/security-realm=${realm_name}/authorization=ldap"]
+  -> Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Maintainer']
+  Wildfly::Resource["/core-service=management/security-realm=${realm_name}/authorization=ldap"]
+  -> Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Monitor']
+  Wildfly::Resource["/core-service=management/security-realm=${realm_name}/authorization=ldap"]
+  -> Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Operator']
+  Wildfly::Resource["/core-service=management/security-realm=${realm_name}/authorization=ldap"]
+  -> Wildfly::Resource['/core-service=management/access=authorization/role-mapping=SuperUser']
 
   # Configure Wildfly to use RBAC authorization
-  -> wildfly::resource { '/core-service=management/access=authorization':
-    content => {
-      'provider' => 'rbac',
-    }
-  }
+  ensure_resource('wildfly::resource', [
+      '/core-service=management/access=authorization',
+    ],
+    {
+      content => {'provider' => 'rbac'},
+      require => [
+        Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Administrator'],
+        Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Auditor'],
+        Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Deployer'],
+        Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Maintainer'],
+        Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Monitor'],
+        Wildfly::Resource['/core-service=management/access=authorization/role-mapping=Operator'],
+        Wildfly::Resource['/core-service=management/access=authorization/role-mapping=SuperUser'],
+      ]
+    },
+  )
 
   if str2bool($apply_to_management_interface) {
     # Apply our newly created realm to the management interfaces
