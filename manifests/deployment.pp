@@ -11,16 +11,18 @@
 # @param password The password for Wildfly's management user.
 # @param host The IP address or FQDN of the JBoss Management service.
 # @param port The port of the JBoss Management service.
+# @param undeploy_first Instead of 'updating' a deployment, should the existing deployment be undeployed and then redeployed?
 define wildfly::deployment(
   Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
-  Enum[present, absent] $ensure  = present,
-  Optional[Integer] $timeout     = undef,
-  Optional[String] $server_group = undef,
-  $operation_headers             = {},
-  String $username               = $wildfly::mgmt_user['username'],
-  String $password               = $wildfly::mgmt_user['password'],
-  String $host                   = $wildfly::properties['jboss.bind.address.management'],
-  String $port                   = $wildfly::properties['jboss.management.http.port'],
+  Enum[present, absent] $ensure     = present,
+  Optional[Integer] $timeout        = undef,
+  Optional[String] $server_group    = undef,
+  $operation_headers                = {},
+  String $username                  = $wildfly::mgmt_user['username'],
+  String $password                  = $wildfly::mgmt_user['password'],
+  String $host                      = $wildfly::properties['jboss.bind.address.management'],
+  String $port                      = $wildfly::properties['jboss.management.http.port'],
+  Optional[Boolean] $undeploy_first = undef,
 ) {
   $file_name = basename($source)
 
@@ -42,6 +44,7 @@ define wildfly::deployment(
     timeout           => $timeout,
     source            => "${wildfly::deploy_cache_dir}/${file_name}",
     operation_headers => $operation_headers,
+    undeploy_first    => $undeploy_first,
     require           => [Service['wildfly'], File["${wildfly::deploy_cache_dir}/${file_name}"]],
   }
 

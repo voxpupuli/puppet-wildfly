@@ -24,7 +24,12 @@ Puppet::Type.type(:wildfly_deployment).provide :http_api, :parent => Puppet::Pro
 
   def content=(value)
     debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
-    cli.update_deploy(@resource[:name], @resource[:source], @resource[:server_group], @resource[:operation_headers])
+    if @resource[:undeploy_first]
+      destroy
+      create
+    else
+      cli.update_deploy(@resource[:name], @resource[:source], @resource[:server_group], @resource[:operation_headers])
+    end
   end
 
   def server_group_address

@@ -8,10 +8,10 @@ describe Puppet::Type.type(:wildfly_deployment) do
   end
 
   it 'has expected parameters' do
-    expect(deployment.parameters).to include(:name, :source, :server_group, :username, :password, :host, :port, :timeout, :operation_headers)
+    expect(deployment.parameters).to include(:name, :source, :server_group, :username, :password, :host, :port, :timeout, :operation_headers, :undeploy_first)
   end
 
-  describe 'when testing wheter content checksum is in sync' do
+  describe 'when testing whether content checksum is in sync' do
     let(:resource) { described_class.new(:name => 'app.ear') }
 
     it 'is if deployed content SHA1 checksum matches source checksum' do
