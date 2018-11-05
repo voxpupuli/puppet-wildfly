@@ -1,5 +1,10 @@
 # History
 
+## 2.3.2
+
+- Fixes to CLI parser
+- Improve init paramters
+
 ## 2.3.1
 
 - Fix install_source validation
