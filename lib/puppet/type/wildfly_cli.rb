@@ -1,5 +1,5 @@
 Puppet::Type.newtype(:wildfly_cli) do
-  @doc = 'Executes JBoss-CLI commmands'
+  desc 'Executes JBoss-CLI commmands'
 
   @isomorphic = false
 

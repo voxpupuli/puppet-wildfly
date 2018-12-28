@@ -47,16 +47,16 @@ fi
 # Specify options to pass to the Java VM.
 #
 if [ "x$JAVA_OPTS" = "x" ]; then
-   JAVA_OPTS="-Xms<%= scope.lookupvar('wildfly::java_xms') %> -Xmx<%= scope.lookupvar('wildfly::java_xmx') %> -XX:MaxPermSize=<%= scope.lookupvar('wildfly::java_maxpermsize') %>"
-   JAVA_OPTS="$JAVA_OPTS <%= scope.lookupvar('wildfly::java_opts') %>"
+   JAVA_OPTS="-Xms<%= $wildfly::java_xms %> -Xmx<%= $wildfly::java_xmx %> -XX:MaxPermSize=<%= $wildfly::java_maxpermsize %>"
+   JAVA_OPTS="$JAVA_OPTS <%= $wildfly::java_opts %>"
 else
    echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
 fi
 
 # Sample JPDA settings for remote socket debugging
-<% if scope.lookupvar('wildfly::remote_debug') -%>
-JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,address=<%= scope.lookupvar('wildfly::remote_debug_port') %>,server=y,suspend=n"
-<% end -%>
+<% if $wildfly::remote_debug { -%>
+JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,address=<%= $wildfly::remote_debug_port %>,server=y,suspend=n"
+<% } -%>
 
 # Sample JPDA settings for shared memory debugging
 #JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_shmem,server=y,suspend=n,address=jboss"

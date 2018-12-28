@@ -1,4 +1,3 @@
-#
 # Wildfly sysvinit configuration
 #
 class wildfly::service::sysvinit {
@@ -9,8 +8,8 @@ class wildfly::service::sysvinit {
     file { "/etc/init.d/${wildfly::service::service_name}":
       ensure  => present,
       mode    => '0755',
-      content => template($service_file),
-      notify  => Service[$wildfly::service::service_name],
+      content => epp($service_file),
+      notify  => Service['wildfly'],
     }
   } else {
     # Use/Copy default initd script from installation
@@ -18,7 +17,7 @@ class wildfly::service::sysvinit {
       ensure => present,
       mode   => '0755',
       source => $service_file,
-      notify => Service[$wildfly::service::service_name],
+      notify => Service['wildfly'],
     }
   }
 

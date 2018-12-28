@@ -1,10 +1,17 @@
 #
-# Module installation
+# Manages a Wildfly module (`$WILDFLY_HOME/modules`).
 #
+# @param source Sets the source for this module, either a local file `file://`, a remote one `http://` or `puppet://`.
+# @param template Sets the EPP template to module.xml file. Default to 'wildfly/module.xml'.
+# @param dependencies Sets the dependencies for this module e.g. `javax.transaction`.
+# @param system Whether this is a system (`system/layers/base`) module or not.
+# @param custom_file Sets a file source for module.xml. If set, template is ignored.
 define wildfly::config::module(
-  $system = true,
-  $source = undef,
-  $dependencies = []) {
+  Variant[Pattern[/^\./], Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
+  String $template = 'wildfly/module.xml',
+  Optional[Boolean] $system = true,
+  Optional[Array] $dependencies = [],
+  Optional[String] $custom_file = undef) {
 
   require wildfly::install
 
@@ -16,7 +23,7 @@ define wildfly::config::module(
 
   File {
     owner => $wildfly::user,
-    group => $wildfly::group,
+    group => $wildfly::group
   }
 
   $dir_path = "${wildfly::dirname}/modules/${module_dir}/${namespace_path}/main"
@@ -30,13 +37,15 @@ define wildfly::config::module(
   }
 
   file { $dir_path:
-    ensure  => directory,
+    ensure => directory,
+    owner  => $wildfly::user,
+    group  => $wildfly::group,
   }
 
   if $source == '.' {
     $file_name = '.'
   } else {
-    $file_name = inline_template('<%= File.basename(URI::parse(@source).path) %>')
+    $file_name = basename($source)
   }
 
   case $source {
@@ -44,11 +53,11 @@ define wildfly::config::module(
     }
     /^(file:|puppet:)/: {
       file { "${dir_path}/${file_name}":
-        ensure => 'file',
+        ensure => file,
         owner  => $::wildfly::user,
         group  => $::wildfly::group,
-        mode   => '0755',
-        source => $source,
+        mode   => '0655',
+        source => $source
       }
     }
     default : {
@@ -61,18 +70,34 @@ define wildfly::config::module(
       }
 
       file { "${dir_path}/${file_name}":
-        ensure  => 'file',
+        ensure  => file,
         owner   => $::wildfly::user,
         group   => $::wildfly::group,
-        mode    => '0755',
+        mode    => '0655',
         require => Exec["download module from ${source}"],
       }
     }
   }
 
-  file { "${dir_path}/module.xml":
-    ensure  => file,
-    content => template('wildfly/module.xml.erb'),
-  }
+  if $custom_file {
+    file { "${dir_path}/module.xml":
+      ensure  => file,
+      owner   => $wildfly::user,
+      group   => $wildfly::group,
+      content => file($custom_file),
+    }
+  } else {
+    $params = {
+      'file_name'    => $file_name,
+      'dependencies' => $dependencies,
+      'name'         => $title
+    }
 
+    file { "${dir_path}/module.xml":
+      ensure  => file,
+      owner   => $wildfly::user,
+      group   => $wildfly::group,
+      content => epp($template, $params),
+    }
+  }
 }

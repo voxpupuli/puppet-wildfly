@@ -30,13 +30,13 @@ define wildfly::modcluster::config(
     content => $config,
     profile => $target_profile,
   }
-  ->
-  wildfly::resource { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
+
+  -> wildfly::resource { '/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration':
     content => {},
     profile => $target_profile,
   }
-  ->
-  wildfly::resource { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
+
+  -> wildfly::resource { "/subsystem=modcluster/mod-cluster-config=configuration/dynamic-load-provider=configuration/load-metric=${type}":
     content => {
       'type' => $type
     },

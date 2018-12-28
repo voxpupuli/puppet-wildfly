@@ -152,8 +152,8 @@ define wildfly::security::ldap_realm(
   $authorization_user_recursive         = false,
   $apply_to_management_interface        = false,
   $cache_type                           = 'by-access-time',
-  $max_cache_size                       = '1000',
-  $cache_eviction_time                  = '900',
+  Integer[0] $max_cache_size            = 1000,
+  Integer[0] $cache_eviction_time       = 900,
   $cache_failures                       = false,
 ) {
 
@@ -164,30 +164,30 @@ define wildfly::security::ldap_realm(
       'search-dn'         => $ldap_search_dn,
       'search-credential' => $ldap_search_credential,
     },
-  } ->
+  }
 
   # Define the security realm
-  wildfly::resource { "/core-service=management/security-realm=${realm_name}":
+  -> wildfly::resource { "/core-service=management/security-realm=${realm_name}":
     content => {},
-  } ->
+  }
 
   # Make sure the 'properties' authentication method is removed. Only 1 authentication method
   # is allowed in a security realm at one time
-  wildfly::resource { "/core-service=management/security-realm=${realm_name}/authentication=properties":
+  -> wildfly::resource { "/core-service=management/security-realm=${realm_name}/authentication=properties":
     ensure  => absent,
     content => {},
-  } ->
+  }
 
   # Bypass LDAP authentication when accessing management interface locally
-  wildfly::resource { "/core-service=management/security-realm=${realm_name}/authentication=local":
+  -> wildfly::resource { "/core-service=management/security-realm=${realm_name}/authentication=local":
     content => {
       'default-user'       => '$local',
       'skip-group-loading' => true,
     },
-  } ->
+  }
 
   # Specify LDAP authentication for the security realm
-  wildfly::resource { "/core-service=management/security-realm=${realm_name}/authentication=ldap":
+  -> wildfly::resource { "/core-service=management/security-realm=${realm_name}/authentication=ldap":
     content => {
       'connection'            => "${realm_name}-LDAPConnection",
       'base-dn'               => $ldap_user_base_dn,
@@ -197,51 +197,51 @@ define wildfly::security::ldap_realm(
       'recursive'             => $authentication_recursive,
       'allow-empty-passwords' => $authentication_allow_empty_passwords,
     },
-  } ->
+  }
 
   # Configure the LDAP parameters so it can find the groups a user belongs to
   # lint:ignore:arrow_alignment
-  wildfly::resource { "/core-service=management/security-realm=${realm_name}/authorization=ldap":
+  -> wildfly::resource { "/core-service=management/security-realm=${realm_name}/authorization=ldap":
     recursive => true,
     content   => {
       'connection'     => "${realm_name}-LDAPConnection",
       'group-search'   => {
         'group-to-principal' => {
+          'base-dn'                    => $authorization_group_base_dn,
+          'group-dn-attribute'         => $authorization_group_dn_attribute,
           'group-name'                 => $authorization_group_name,
           'group-name-attribute'       => $authorization_group_name_attribute,
-          'group-dn-attribute'         => $authorization_group_dn_attribute,
-          'base-dn'                    => $authorization_group_base_dn,
-          'search-by'                  => $authorization_group_search_by,
-          'principal-attribute'        => $authorization_principal_attribute,
-          'recursive'                  => $authorization_group_recursive,
           'iterative'                  => $authorization_group_iterative,
           'prefer-original-connection' => $authorization_prefer_original_conn,
+          'principal-attribute'        => $authorization_principal_attribute,
+          'recursive'                  => $authorization_group_recursive,
+          'search-by'                  => $authorization_group_search_by,
           'cache'                      => {
             "${cache_type}" => {
-              'max-cache-size' => $max_cache_size,
-              'eviction-time'  => $cache_eviction_time,
               'cache-failures' => $cache_failures,
+              'eviction-time'  => $cache_eviction_time,
+              'max-cache-size' => $max_cache_size,
       }}}},
       'username-to-dn' => {
         'username-filter' => {
-          'base-dn'           => $ldap_user_base_dn,
           'attribute'         => $authorization_user_name_attribute,
-          'user-dn-attribute' => $authorization_user_dn_attribute,
+          'base-dn'           => $ldap_user_base_dn,
           'force'             => $authorization_user_force,
           'recursive'         => $authorization_user_recursive,
+          'user-dn-attribute' => $authorization_user_dn_attribute,
           'cache'             => {
             "${cache_type}" => {
-              'max-cache-size' => $max_cache_size,
-              'eviction-time'  => $cache_eviction_time,
               'cache-failures' => $cache_failures,
+              'eviction-time'  => $cache_eviction_time,
+              'max-cache-size' => $max_cache_size,
       }}}},
     },
-  } ->
+  }
   # lint:endignore
 
   # Prepare the authorization system for Wildfly role <-> LDAP group mappings
   # These are the Wildfly default authentication roles
-  wildfly::resource { [
+  -> wildfly::resource { [
     '/core-service=management/access=authorization/role-mapping=Administrator',
     '/core-service=management/access=authorization/role-mapping=Auditor',
     '/core-service=management/access=authorization/role-mapping=Deployer',
@@ -251,10 +251,10 @@ define wildfly::security::ldap_realm(
     '/core-service=management/access=authorization/role-mapping=SuperUser',
   ]:
     content => {},
-  } ->
+  }
 
   # Configure Wildfly to use RBAC authorization
-  wildfly::resource { '/core-service=management/access=authorization':
+  -> wildfly::resource { '/core-service=management/access=authorization':
     content => {
       'provider' => 'rbac',
     }
@@ -270,8 +270,8 @@ define wildfly::security::ldap_realm(
       },
     }
 
-    Wildfly::Resource['/core-service=management/access=authorization'] ->
-      Wildfly::Resource['/core-service=management/management-interface=http-interface']
+    Wildfly::Resource['/core-service=management/access=authorization']
+      -> Wildfly::Resource['/core-service=management/management-interface=http-interface']
   }
 
 }

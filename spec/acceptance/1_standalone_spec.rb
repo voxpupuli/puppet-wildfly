@@ -2,8 +2,6 @@ require 'spec_helper_acceptance'
 
 describe "Standalone mode with #{test_data['distribution']}:#{test_data['version']}" do
   context 'Initial install Wildfly and verification' do
-    let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
-
     it 'applies the manifest without error' do
       pp = <<-EOS
           class { 'wildfly':
@@ -11,6 +9,7 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
+            java_opts      => '-Djava.net.preferIPv4Stack=true',
           }
 
           wildfly::config::module { 'org.postgresql':
@@ -30,7 +29,10 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
               'connection-url' => 'jdbc:postgresql://localhost/postgres',
               'jndi-name'      => 'java:jboss/datasources/DemoDS',
               'user-name'      => 'postgres',
-              'password'       => 'postgres'
+              'password'       => 'postgres',
+              'jta'            => true,
+              'min-pool-size'  => 15,
+              'max-pool-size'  => 30,
             }
           }
           ->
@@ -38,11 +40,25 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
             onlyif => '(result == reload-required) of :read-attribute(name=server-state)',
           }
 
+
+          wildfly::resource { '/subsystem=ee' :
+            content => {
+              'global-modules' => [{
+                  'name' => 'org.bouncycastle',
+                  'slot' => 'main'
+              },
+              {
+                  'name' => 'org.joda.time',
+                  'slot' => 'main'
+              }
+              ]
+            }
+          }
       EOS
 
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
-      shell('sleep 15')
+      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      shell('sleep 25')
     end
 
     it 'service wildfly' do
@@ -55,7 +71,7 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end

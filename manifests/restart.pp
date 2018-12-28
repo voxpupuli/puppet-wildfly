@@ -1,12 +1,28 @@
-define wildfly::restart(
-  $retries = 3,
-  $wait = 20) {
+#
+# Performs a full restart system when a restart is required `server-state=restart-required`.
+#   This define is a wrapper for `wildfly_restart` that defaults to your local Wildfly installation.
+#   It is commonly used as a subscriber of a resource that requires restart.
+#
+# @param retries Sets the number of retries to check if service is available.
+# @param wait Sets the amount of time in seconds that this resource will wait for the service to be available before a attempt.
+# @param username Wildfly's management user to be used internally.
+# @param password The password for Wildfly's management user.
+# @param host The IP address or FQDN of the JBoss Management service.
+# @param port The port of the JBoss Management service.
+define wildfly::restart (
+  Integer $retries = 3,
+  Integer $wait    = 20,
+  String $username = $wildfly::mgmt_user['username'],
+  String $password = $wildfly::mgmt_user['password'],
+  String $host     = $wildfly::properties['jboss.bind.address.management'],
+  String $port     = $wildfly::properties['jboss.management.http.port'],
+) {
 
   wildfly_restart { $title:
-    username => $wildfly::mgmt_user['username'],
-    password => $wildfly::mgmt_user['password'],
-    host     => $wildfly::setup::properties['jboss.bind.address.management'],
-    port     => $wildfly::setup::properties['jboss.management.http.port'],
+    username => $username,
+    password => $password,
+    host     => $host,
+    port     => $port,
     retries  => $retries,
     wait     => $wait,
     require  => Service['wildfly'],

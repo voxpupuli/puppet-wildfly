@@ -6,12 +6,12 @@ define wildfly::datasources::datasource(
   $config = undef,
   $target_profile = undef) {
 
-  $profile_path = profile_path($target_profile)
+  $profile_path = wildfly::profile_path($target_profile)
 
   wildfly::resource { "/subsystem=datasources/data-source=${title}":
     ensure  => $ensure,
     content => $config,
-    profile => $target_profile
+    profile => $target_profile,
   }
 
   if ($ensure != 'absent') {

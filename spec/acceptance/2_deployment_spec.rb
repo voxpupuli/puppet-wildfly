@@ -10,16 +10,21 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
+            java_opts      => '-Djava.net.preferIPv4Stack=true',
           }
 
           wildfly::deployment { 'hawtio.war':
             source => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war'
           }
+
+          wildfly::deployment { 'sample.war':
+            source => 'http://central.maven.org/maven2/org/codehaus/cargo/simple-war/1.6.2/simple-war-1.6.2.war'
+          }
       EOS
 
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
-      shell('sleep 15')
+      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      shell('sleep 25')
     end
 
     it 'service wildfly' do
@@ -32,23 +37,23 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
 
     it 'downloaded WAR file' do
-      shell('ls -la /tmp/hawtio-web-1.4.66.war', :acceptable_exit_codes => 0) do |r|
-        expect(r.stdout).to include '/tmp/hawtio-web-1.4.66.war'
+      shell('ls -la /opt/hawtio-web-1.4.66.war', :acceptable_exit_codes => 0) do |r|
+        expect(r.stdout).to include '/opt/hawtio-web-1.4.66.war'
       end
     end
 
     it 'deployed application' do
-      shell("JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect '/deployment=hawtio.war:read-resource(recursive=true)'",
+      shell("#{jboss_cli} '/deployment=hawtio.war:read-resource(recursive=true)'",
             :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
-      shell('curl localhost:8080/'.concat('hawtio/'), :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080/'.concat('hawtio/'), :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'hawtio'
       end
     end

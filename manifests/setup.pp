@@ -1,19 +1,15 @@
-#
-# Wildfly setup class
-#
+# Manages Wildfly configuration required to run in service mode.
 class wildfly::setup {
 
   wildfly::config::mgmt_user { $wildfly::mgmt_user['username']:
     password => $wildfly::mgmt_user['password'],
   }
 
-  $properties = merge($wildfly::params::properties, $wildfly::properties)
-
   file { "${wildfly::dirname}/jboss.properties":
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    content => template('wildfly/jboss.properties.erb'),
+    content => epp('wildfly/jboss.properties'),
     notify  => Service['wildfly'],
   }
 
@@ -21,7 +17,7 @@ class wildfly::setup {
     ensure  => file,
     owner   => $wildfly::user,
     group   => $wildfly::group,
-    content => template($wildfly::mode_template),
+    content => epp($wildfly::mode_template),
     notify  => Service['wildfly'],
   }
 

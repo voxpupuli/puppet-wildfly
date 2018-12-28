@@ -37,7 +37,6 @@ describe 'wildfly::prepare' do
     end
 
     it { is_expected.to contain_package('libaio') }
-    it { is_expected.to contain_package('wget') }
   end
 
   context 'install dependencies for Debian' do
@@ -49,6 +48,45 @@ describe 'wildfly::prepare' do
         :initsystem => 'systemd' }
     end
     it { is_expected.to contain_package('libaio1') }
-    it { is_expected.to contain_package('wget') }
+  end
+
+  context 'do not managed WILDFLY_HOME with package installation' do
+    let(:facts) do
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
+    end
+
+    let :pre_condition do
+      "class { 'wildfly':
+        package_name    => 'wildfly',
+        package_version => '10.1.0',
+      }"
+    end
+
+    it { is_expected.not_to contain_file('/opt/wildfly') }
+  end
+
+  context 'over-riding user_home' do
+    let(:facts) do
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
+    end
+
+    let :pre_condition do
+      "class { 'wildfly':
+        user_home => '/opt/wildfly'
+      }"
+    end
+
+    it do
+      is_expected.to contain_user('wildfly')
+        .with_home('/opt/wildfly')
+    end
   end
 end

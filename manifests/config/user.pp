@@ -1,5 +1,4 @@
-#
-# add wildlfy user
+# Generic Wildfly user management.
 #
 define wildfly::config::user(
   $password,

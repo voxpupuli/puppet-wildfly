@@ -1,0 +1,12 @@
+HOSTS:
+  oel-73-x64:
+    roles:
+      - agent
+      - default
+    platform: el-7-x86_64
+    box: oel-7.3-64-nocm
+    box_url: http://yum.oracle.com/boxes/oraclelinux/ol73/ol73.box
+    hypervisor: vagrant
+
+CONFIG:
+  type: aio

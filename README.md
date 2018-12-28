@@ -11,6 +11,8 @@
     * [Setup requirements](#setup-requirements)
 4. [Upgrade](#upgrade)
     * [to 1.2.0](#to-120)
+    * [to 2.0.0](#to-200)
+    * [to 2.1.0](#to-210)
 5. [Usage - Configuration options and additional functionality](#usage)
     * [Wildfly 10.1.0](#wildfly-1010)
     * [Wildfly 9.0.2](#wildfly-902)
@@ -20,7 +22,7 @@
     * [Keycloak](#keycloak)
     * [apiman](#apiman)
     * [Infinispan Server](#infinispan-server)
-    * [Wildfly's Configuration Management](#wildfly-configuration-management)
+    * [Wildfly's Configuration Management](#wildflys-configuration-management)
     * [Patch management](#patch-management)
     * [Unmanaged installation](#unmanaged-installation)
     * [Domain Mode](#domain-mode)
@@ -33,12 +35,10 @@
     * [Messaging](#messaging)
     * [Logging](#logging)
     * [Modcluster](#modcluster)
-6. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-    * [Public classes](#public-classes)
-    * [Private classes](#private-classes)
-    * [Public defined types](#public-defined-types)
-7. [Limitations - OS compatibility, etc.](#limitations)
-8. [Development - Guide for contributing to the module](#development)
+    * [JGroups](#jgroups)
+6. [Limitations - OS compatibility, etc.](#limitations)
+7. [Development - Guide for contributing to the module](#development)
+8. [Documentation](#documentation)
 
 ## Overview
 
@@ -50,13 +50,11 @@ Install, configures and manages Wildfly.
 
 Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 10.0, 9.0, 8.2, 8.1 & 8.0 and with JBoss EAP (tested on 6.1/6.2/6.3/6.4 and 7.0). Some defines may work only in certain versions.
 
-[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2 and Apache AJP, Postgres db.
+[Vagrant Fedora 21, Puppet 4.2.1 example](https://github.com/biemond/vagrant-fedora20-puppet) with Wildfly 8.2, Apache AJP and PostgreSQL.
 
 [Vagrant CentOS Standalone HA + Gossip Router example](https://github.com/jairojunior/wildfly-ha-tcpgossip-vagrant-puppet) with two nodes, a gossip router and a load balancer (httpd + mod_cluster).
 
 [Vagrant CentOS 7.2 Domain Mode](https://github.com/jairojunior/wildfly-domain-vagrant-puppet) with two nodes (Domain master and slave) and a load balancer.
-
-[MCollective JBoss Agent Plugin](https://github.com/jairojunior/mcollective-jboss-agent) might be useful if you want to make consistent large scale changes.
 
 ## Module Description
 
@@ -109,7 +107,7 @@ class { '::wildfly':
 }
 ```
 
-`distribution` was introduced to provided out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier to manage a properties file than Wildfly's XML through augeas)
+`distribution` was introduced to provide out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier - and more reliable - to manage a properties file than Wildfly's XML through augeas)
 
 `users_mgmt` was replaced by `mgmt_user`, and additional users should be managed by `wildfly::config::mgtm_user` defined type. The hash format and default value also changed.
 
@@ -121,9 +119,19 @@ class { '::wildfly':
 
 All resources from `wildfly::util` were moved to `wildfly`, hence you need to search and replace them, I suggest you execute these commands in your environment:
 
-`find . -type f -exec sed -i 's/wildfly::util::exec_cli/wildfly::cli/g' {} +`
+`find . -name '*.pp' -type f -exec sed -i 's/wildfly::util::exec_cli/wildfly::cli/g' {} +`
 
-`find . -type f -exec sed -i 's/wildfly::util/wildfly/g' {} +`
+`find . -name '*.pp' -type f -exec sed -i 's/wildfly::util/wildfly/g' {} +`
+
+## to 2.0.0
+
+This version requires Puppet 4.4+ and heavily uses Puppet 4 new features: data types, epp templates and Ruby 2.1+, but there is no breaking change per se. Meaning that if you're using 1.x version with Puppet 4 you should be able to migrate without any problems.
+
+If you're still using Puppet 3.x with Ruby 1.8.7+ check version 1.2.x (**unsupported**).
+
+## to 2.1.0
+
+This version will no longer stringify values for `wildfly_resource`'s state or sort arrays values. In other words, you'll have to declare attributes using a type that matches Wildfly's Management Model type and in the same order returned by the API (in case of an array/LIST).
 
 ## Usage
 
@@ -202,7 +210,7 @@ class { 'wildfly':
 ```
 > **NOTE:** Just make sure to point to the right version/distribution it was built upon.
 
-Some Keycloak configuration can be managed in the same way of a regular Wildfly/Jboss configuration:
+Some Keycloak configuration can be managed in the same way as a regular Wildfly/Jboss configuration:
 
 ```puppet
 wildfly::datasources::datasource { 'KeycloakDS':
@@ -224,12 +232,12 @@ wildfly::datasources::datasource { 'KeycloakDS':
 
 [apiman](http://www.apiman.io) is an API Manager built on top of Wildfly/JBoss, therefore you should be able to use this module to install and config it.
 
-Currently there aren't no prebuilt packages, but download page provides instruction to build it for Wildfly 10, 9 and EAP 7.
+Currently there aren't no prebuilt packages, but [download page](http://www.apiman.io/latest/download.html) provides instruction to build it for Wildfly 10, 9 and EAP 7.
 
 
 #### Example
 
-```shell
+```sh
 wget http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip
 wget http://downloads.jboss.org/apiman/1.2.9.Final/apiman-distro-wildfly10-1.2.9.Final-overlay.zip
 unzip wildfly-10.1.0.Final.zip
@@ -440,6 +448,8 @@ class { 'wildfly':
     secret_value => 'd2lsZGZseQ==', #base64('wildfly'),
 }
 ```
+
+>**NOTE:** Host Controller name has to match a mgmt user name in Domain Controller, since, by default, HC uses it own name as the username for connecting with DC. You can always set a different one by overriding `remote_username` parameter.
 
 #### Domain Management
 
@@ -711,7 +721,7 @@ Some configurations like SSL and modcluster requires a server reload (i.e. `serv
 ```puppet
 ## a_resource_that_requires_reload_when_changed {}
 ~>
-widlfly::reload { 'Reload if necessary':
+wildfly::reload { 'Reload if necessary':
   retries => 2,
   wait    => 15,
 }
@@ -738,7 +748,7 @@ wildfly::resource { '/some=resource':
 
 ### Messaging
 
-> **NOTE** `full` profiles only
+> **NOTE:** `full` profiles only
 
 ```puppet
 wildfly::messaging::queue { 'DemoQueue':
@@ -786,7 +796,7 @@ wildfly::system::property { 'DemoSysProperty':
 
 ### Modcluster
 
-*`full` and `ha` profiles only
+> **NOTE:**`full` and `ha` profiles only
 
 ```puppet
 wildfly::modcluster::config { "Modcluster mybalancer":
@@ -799,428 +809,33 @@ wildfly::modcluster::config { "Modcluster mybalancer":
 
 > **NOTE:** For apache/httpd mod_cluster configuration check [::apache::mod::cluster](https://github.com/puppetlabs/puppetlabs-apache#class-apachemodcluster)
 
-## Reference
+### JGroups
 
-- [**Public classes**](#public-classes)
-    - [Class: wildfly](#class-wildfly)
-- [**Private classes**](#private-classes)
-    - [Class: wildfly::prepare](#class-wildflyprepare)
-    - [Class: wildfly::install](#class-wildflyinstall)
-    - [Class: wildfly::setup](#class-wildflysetup)
-    - [Class: wildfly::service](#class-wildflyservice)
-- [**Public defined types**](#public-defined-types)
-    - [Defined type: wildfly::resource](#defined-type-wildflyresource)
-    - [Defined type: wildfly::cli](#defined-type-wildflycli)
-    - [Defined type: wildfly::deployment](#defined-type-wildflydeployment)
-    - [Defined type: wildfly::reload](#defined-type-wildflyreload)
-    - [Defined type: wildfly::restart](#defined-type-wildflyrestart)
-    - [Defined type: wildfly::patch::offline](#defined-type-wildflypatchoffline)
-    - [Defined type: wildfly::patch::online](#defined-type-wildflypatchonline)
-    - [Defined type: wildfly::config::module](#defined-type-wildflyconfigmodule)
-    - [Defined type: wildfly::config::app_user](#defined-type-wildflyconfigapp_user)
-    - [Defined type: wildfly::config::mgmt_user](#defined-type-wildflyconfigmgmt_user)
-    - [Defined type: wildfly::config::user_groups](#defined-type-wildflyconfiguser_groups)
-    - [Defined type: wildfly::config::user_roles](#defined-type-wildflyconfiguser_roles)
+> **NOTE:** `ha` profiles only
 
-### Public classes
-
-#### Class: `wildfly`
-
-Guides the basic setup and installation of Wildfly on your system.
-
-When this class is declared with the default options, Puppet:
-
-- Download and installs Wildfly from a remote source in your system.
-- Installs required packages (wget e libaio)
-- Configures/starts the Wildfly service using bundled scripts.
-
-You can simply declare the default `wildfly` class:
-
-``` puppet
-class { 'wildfly': }
-```
-
-#### Parameters within `wildfly`
-
-##### `version`
-
-Sets the Wildfly version managed in order to handle small differences among versions. Default: `9.0.2`
-
-##### `distribution`
-
-Sets the Wildfly distribution: `wildfly` or `jboss-eap`. Default: `wildfly`
-
-##### `install_source`
-
-Source of Wildfly tarball installer. Default: `http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz`.
-
-##### `java_home`
-
-Sets the `JAVA_HOME` for Wildfly. Default '/usr/java/default'.
-
-##### `manage_user`
-
-Whether this module should manage wildfly user and group. Default `true`.
-
-##### `group`
-
-Group to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed. Default `wildfly`.
-
-##### `user`
-
-User to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed. Default `wildfly`.
-
-##### `dirname`
-
-`WILDFLY_HOME`. i.e. The directory where your Wildfly will live. Default `/opt/wildfly`.
-
-##### `package_ensure`
-
-Wether this module should manage required packages (wget and liaio). Default `present`.
-
-##### `service_name`
-
-Sets Wildfly's service `name`. Default `wildfly`.
-
-##### `service_ensure`
-
-Sets Wildfly's service `ensure`. Default `true`.
-
-##### `service_enable`
-
-Sets Wildfly's service `enable`. Default `true`.
-
-##### `mode`
-
-Sets Wildfly execution mode will run, `standalone` or `domain`. Default `standalone`.
-
-##### `config`
-
-Sets Wildfly configuration file for initialization when you're using `standalone` mode. Default `standalone.xml`.
-
-##### `domain_config`
-
-Sets Wildfly configuration file for initialization when you're using `domain` mode. Default `domain.xml`.
-
-##### `host_config`
-
-Sets Wildfly Host configuration file for initialization when you're using `domain` mode. Default `host.xml`.
-
-##### `console_log`
-
-Configures service log file. Default `/var/log/wildfly/console.log`.
-
-##### `properties`
-
-Sets properties for your service. Default:
-
-```
-{
-  'jboss.bind.address' => '0.0.0.0',
-  'jboss.bind.address.management' => '127.0.0.1',
-  'jboss.management.http.port' => '9990',
-  'jboss.management.https.port' => '9993',
-  'jboss.http.port' => '8080',
-  'jboss.https.port' => '8443',
-  'jboss.ajp.port' => '8009',
+```puppet
+wildfly::jgroups::stack::tcpgossip { 'TCPGOSSIP':
+  initial_hosts       => '172.28.128.1[12001]',
+  num_initial_members => 2
 }
 ```
 
-##### `java_xmx`
-
-Sets Java's `-Xmx` parameter. Default `512m`.
-
-##### `java_xms`
-
-Sets Java's `-Xms` parameter. Default `128m`.
-
-##### `java_maxpermsize`
-
-Sets Java's `-XX:MaxPermSize` parameter. Default `256m`.
-
-##### `java_opts`
-
-Sets `JAVA_OPTS`, allowing to override several Java params, like `Xmx`, `Xms` and `MaxPermSize`, e.g. `-Xms64m -Xmx512m -XX:MaxPermSize=256m`. Default `undef`.
-
-##### `jboss_opts`
-
-Sets `JBOSS_OPTS`, allowing to override several JBoss properties. It only works with Wildfly 8.2+. Default `undef`.
-
-##### `mgmt_user`
-
-Hash containing Wildfly's management users to be managed. Default `{ username => 'puppet', password => fqdn_rand_string(30) }`
-
-### Private classes
-
-#### Class: `wildfly::prepare`
-
-Manages Wildfly requirements.
-
-#### Class: `wildfly::install`
-
-Downloads and installs Wildfly from a remote source.
-
-#### Class: `wildfly::setup`
-
-Manages Wildfly configuration required to run in service mode.
-
-#### Class: `wildfly::service`
-
-Manages Wildfly service.
-
-### Public defined types
-
-#### Defined type: `wildfly::resource`
-
-Manages a Wildfly configuration resource: e.g `/subsystem=datasources/data-source=MyDS or /subsystem=datasources/jdbc-driver=postgresql`. Virtually anything in your configuration XML file that can be manipulated using JBoss-CLI could be managed by this defined type. This define is a wrapper for `wildfly_resource` that defaults to your local Wildfly installation.
-
-#### Parameters within `wildfly::resource`
-
-##### `name`
-
-The name of this resource using JBoss path syntax e.g. `/subsystem=datasources/data-source=MyDS`.
-
-##### `ensure`
-
-Whether the resource should exist (`present`) or not (`absent`). Default `present`.
-
-##### `recursive`
-
-Whether it should manage the resource recursively or not. Default `false`.
-
-##### `content`
-
-Sets the content/state of the target resource. Default `{}`.
-
-##### `operation_headers`
-
-Sets [operation-headers](https://docs.jboss.org/author/display/WFLY9/Admin+Guide#AdminGuide-OperationHeaders) (e.g. `{ 'allow-resource-service-restart' => true, 'rollback-on-runtime-failure' => false, 'blocking-timeout' => 600}`) to be used when creating/destroying this resource. Default `{}`.
-
-##### `profile`
-
-Sets the target profile to prefix resource name. Requires domain mode. Default `undef`.
-
-#### Defined type: `wildfly::cli`
-
-Executes an arbitrary JBoss-CLI command `# [node-type=node-name (/node-type=node-name)*] : operation-name ['('[name=value [, name=value]*]')'] [{header (;header)*}]`. This define is a wrapper for `wildfly_cli` that defaults to your local Wildfly installation.
-
-#### Parameters within `wildfly::cli`
-
-##### `command (namevar)`
-
-The actual command to execute. Example:
-
+```puppet
+wildfly::jgroups::stack::tcpping { 'TCPPING':
+  initial_hosts       => '172.28.128.10[7600],17228.128.20[7600]',
+  num_initial_members => 2
+}
 ```
-/subsystem=datasources/data-source=ExampleDS:disable()
-```
-
-##### `unless`
-
-If this parameter is set, then this `cli` will only run if this command condition is met. Example:
-
-```
-(result == false) of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)
-```
-
-##### `onlyif`
-
-If this parameter is set, then this `cli` will run unless this command condition is met. Example:
-
-```
-(result == true of /subsystem=datasources/data-source=ExampleDS:read-attribute(name=enabled)
-```
-
-#### Defined type: `wildfly::deployment`
-
-Manages a deployment (JAR, EAR, WAR) in Wildfly. This define is a wrapper for `wildfly_deployment` that defaults to your local Wildfly installation.
-
-#### Parameters within `wildfly::deployment`
-
-##### `name`
-
-The actual name of the deployment. (e.g. `hawtio.war` or `myapp.ear`)
-
-##### `ensure`
-
-Whether the deployment should exist (`present`) or not (`absent`). Default `present`.
-
-##### `source`
-
-Sets the source for this deployment, either a local file `file:/` or a remote file `http://`.
-
-##### `timeout`
-
-Sets the timeout to deploy this resource. Default `300`.
-
-##### `server_group`
-
-Sets the target `server-group` for this deployment. Requires domain mode. Default `undef`.
-
-##### `operation_headers`
-
-Sets [operation-headers](https://docs.jboss.org/author/display/WFLY9/Admin+Guide#AdminGuide-OperationHeaders) (e.g. `{ 'allow-resource-service-restart' => true, 'rollback-on-runtime-failure' => false, 'blocking-timeout' => 600}`) to be used when creating/destroying this deployment. Default `{}`.
-
-#### Defined type: `wildfly::reload`
-
-Performs a system reload when a reload is required `server-state=reload-required`. This define is a wrapper for `wildfly_restart` that defaults to your local Wildfly installation. It is commonly used as a subscriber of a resource that requires reload.
-
-#### Parameters within `wildfly::reload`
-
-##### `retries`
-
-Sets the number of retries to check if service is available. Default `3`.
-
-##### `wait`
-
-Sets the amount of time in seconds that this resource will wait for the service to be available before a attempt. Default `10`.
-
-#### Defined type: `wildfly::restart`
-
-Performs a full restart system when a restart is required `server-state=restart-required`. This define is a wrapper for `wildfly_restart` that defaults to your local Wildfly installation. It is commonly used as a subscriber of a resource that requires restart.
-
-#### Parameters within `wildfly::restart`
-
-##### `retries`
-
-Sets the number of retries to check if service is available. Default `3`.
-
-##### `wait`
-
-Sets the amount of time in seconds that this resource will wait for the service to be available before a attempt. Default `10`.
-
-#### Defined type: `wildfly::patch::offline`
-
-Applies patches offline.
-
-#### Parameters within `wildfly::patch::offline`
-
-##### `name`
-
-Sets the version of the patch to ensure that patch is present.
-
-##### `override_all`
-
-Whether it should solve all conflicts by overriding current files. Default `false`.
-
-##### `override`
-
-List of files to be overridden. Default `[]`.
-
-##### `preserve`
-
-List of files to be preserved. Default `[]`.
-
-#### Defined type: `wildfly::patch::online`
-
-Applies patches online. Requires server restart.
-
-#### Parameters within `wildfly::patch::online`
-
-##### `name`
-
-Sets the version of the patch to ensure that patch is present.
-
-##### `override_all`
-
-Whether it should solve all conflicts by overriding current files. Default `false`.
-
-##### `override`
-
-List of files to be overridden. Default `[]`.
-
-##### `preserve`
-
-List of files to be preserved. Default `[]`.
-
-#### Defined type: `wildfly::config::module`
-
-Manages a module (`$WILDFLY_HOME/modules`).
-
-#### Parameters within `wildfly::config::module`
-
-##### `name`
-
-The name of the module. e.g. `org.postgresql`
-
-##### `source`
-
-Sets the source for this module, either a local file `file:/`, a remote one `http://` or `puppet://`.
-
-##### `dependencies`
-
-Sets the dependencies for this module e.g. `javax.transaction`. Default `[]`
-
-##### `system`
-
-Whether this is a system (`system/layers/base`) module or not. Default `true`.
-
-#### Defined type: `wildfly::config::app_user`
-
-Manages an Application User (`application-users.properties`) for Wildfly.
-
-#### Parameters within `wildfly::config::app_user`
-
-##### `name`
-
-The user name.
-
-##### `password`
-
-The user password.
-
-#### Defined type: `wildfly::config::mgmt_user`
-
-Manages a Management User (`mgmt-users.properties`) for Wildfly.
-
-#### Parameters within `wildfly::config::mgmt_user`
-
-##### `name`
-
-The user name.
-
-##### `password`
-
-The user password.
-
-#### Defined type: `wildfly::config::user_groups`
-
-Manages groups for a Management User (`mgmt-groups.properties`).
-
-#### Parameters within `wildfly::config::user_groups`
-
-##### `name`
-
-The target user to manage groups.
-
-##### `groups`
-
-List of groups to associate with this user.
-
-#### Defined type: `wildfly::config::user_roles`
-
-Manages roles for an Application User (`application-roles.properties`).
-
-#### Parameters within `wildfly::config::user_roles`
-
-##### `name`
-
-The target user to manage roles.
-
-##### `groups`
-
-List of roles to associate with this user.
-
-> **NOTE:** Check [types tab](https://forge.puppet.com/biemond/wildfly/types) for more information about custom types/providers.
 
 ## Limitations
 
-Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) are built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::resource`.
+Some of this module public defined types  (`widfly::datasources`, `wildfly::messaging`, `wildfly::undertow`, etc) were built for Wildfly 8.x and may not work with other versions. When there is a proven alternative for a different version, examples might be provided, otherwise you'll need to build your own abstraction using `wildfly_resource` or `wildfly::resource`.
 
-One discussed approach would be to generate defined types based on Wildfly's configuration schemas (`$WILDFLY_HOME/docs/schema`).
+One discussed approach would be to generate defined types based on Wildfly's configuration schemas (`$WILDFLY_HOME/docs/schema`) or DMR (See [Issue 174](https://github.com/biemond/biemond-wildfly/issues/174)).
 
 JBoss EAP only works with RHEL-based OS's unless you provide custom scripts.
 
-[This bug](https://bugzilla.redhat.com/show_bug.cgi?id=1224170) might also be a problem for `standalone-full-ha` users in JBoss EAP.
+[This bug](https://bugzilla.redhat.com/show_bug.cgi?id=1224170) might also be a problem for `standalone-full-ha` users of JBoss EAP < 7.
 
 ## Development
 
@@ -1238,7 +853,7 @@ bundle exec rubocop
 bundle exec rake spec
 ```
 
-Acceptance tests (Beaker) can be executed using `./acceptance.sh`. There is a 4x4 matrix (Wildfly 8/8.2/9/10 X Centos 6/7 and Debian 7/8).
+Acceptance tests (Beaker) can be executed using `./acceptance.sh`. There is a 4x6 matrix (Wildfly 8/8.2/9/10 X Centos 6/7, Debian 7/8, Ubuntu 12.04/14.04).
 
 I suggest you create a `~/.vagrant.d/Vagrantfile` file and install `vagrant-cachier` plugin with the following content to speed up the execution:
 
@@ -1268,3 +883,7 @@ If you can't figure out how to achieve your configuration, feel free to open an 
 - Edwin Biemond (biemond at gmail dot com)
 - Jairo Junior (junior.jairo1 at gmail dot com)
 - [More](https://github.com/biemond/biemond-wildfly/graphs/contributors)
+
+## Documentation
+
+Comprehensive documentation generated by puppet-strings can be found [online](http://www.puppetmodule.info/github/biemond/biemond-wildfly/index)
