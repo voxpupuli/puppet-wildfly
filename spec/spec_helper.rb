@@ -1,4 +1,7 @@
-require 'rspec-puppet'
+RSpec.configure do |c|
+  c.mock_with :rspec
+end
+
 require 'puppetlabs_spec_helper/module_spec_helper'
 
 require 'coveralls'
@@ -27,7 +30,6 @@ support_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec/su
 Dir[support_path].each { |f| require f }
 
 RSpec.configure do |c|
-  c.mock_with :rspec
   c.config = '/doesnotexist'
   c.module_path  = File.expand_path(File.join(File.dirname(__FILE__), 'fixtures/modules'))
   c.manifest_dir = File.expand_path(File.join(File.dirname(__FILE__), 'fixtures/manifests'))
