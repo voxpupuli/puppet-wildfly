@@ -32,4 +32,5 @@ group :acceptance do
   gem 'beaker-rspec'
   gem 'serverspec', '>= 2.0.0'
   gem 'beaker-testmode_switcher'
+  gem 'vagrant-wrapper'
 end

@@ -18,7 +18,12 @@ define wildfly::cli(
   String $password         = $wildfly::mgmt_user['password'],
   String $host             = $wildfly::properties['jboss.bind.address.management'],
   String $port             = $wildfly::properties['jboss.management.http.port'],
+  Boolean $secure          = $wildfly::secure_mgmt_api,
 ) {
+
+  if $secure {
+    $port  = $wildfly::properties['jboss.management.https.port']
+  }
 
   wildfly_cli { $title:
     command  => $command,
@@ -26,6 +31,7 @@ define wildfly::cli(
     password => $password,
     host     => $host,
     port     => $port,
+    secure   => $secure, 
     unless   => $unless,
     onlyif   => $onlyif,
     require  => Service['wildfly'],

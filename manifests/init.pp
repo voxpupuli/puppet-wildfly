@@ -27,6 +27,12 @@
 # @param jboss_opts Sets `JBOSS_OPTS`, allowing to override several JBoss properties. It only works with Wildfly 8.2+.
 # @param manage_user Whether this module should manage wildfly user and group.
 # @param mgmt_user Hash containing a Wildfly's management user to be used internally.
+# @param mgmt_create_keystore Enables or disables the creation of keystores for TLS enabled ManagementRealm.
+# @param mgmt_keystore Path to a pre-defined keystore to be used for a TLS enabled ManagementRealm.
+# @param mgmt_keystore_alias The java keystore 'alias' to be used for a TLS enabled ManagementRealm.
+# @param mgmt_keystore_pass The java keystore password to be used for a TLS enabled ManagementRealm.
+# @param mgmt_ssl_cert Path to the certificate used for setting up the ManagementRealm keystore.
+# @param mgmt_ssl_key Path to the private key used for setting up the ManagementRealm keystore.
 # @param mode Sets Wildfly execution mode will run, 'standalone' or 'domain'.
 # @param mode_template Sets epp template for standalone.conf or domain.conf.
 # @param overlay_class Sets a class to be applied between 'install' and 'setup' classes.
@@ -38,6 +44,7 @@
 # @param remote_debug_port Sets the port to be used by remote debug.
 # @param remote_username Sets remote username in host config.
 # @param secret_value Sets the secret value in host config.
+# @param secure_mgmt_api Setup and use HTTPS calls to the management API.
 # @param service_ensure Sets Wildfly's service 'ensure'.
 # @param service_enable Sets Wildfly's service 'enable'.
 # @param service_file Sets a file to be used for service management.
@@ -61,11 +68,14 @@ class wildfly(
   Stdlib::Unixpath $console_log                               = '/var/log/wildfly/console.log',
   Stdlib::Unixpath $install_cache_dir                         = '/var/cache/wget',
   Stdlib::Unixpath $deploy_cache_dir                          = '/opt',
+  Stdlib::Unixpath $mgmt_keystore                             = "${dirname}/${mode}/configuration/mgmt.jks",
   Boolean $manage_user                                        = true,
   String $user                                                = 'wildfly',
   Stdlib::Unixpath $user_home                                 = '/home/wildfly',
   String $group                                               = 'wildfly',
   String $mode_template                                       = "wildfly/${mode}.conf",
+  String $mgmt_keystore_pass                                  = 'changeit',
+  String $mgmt_keystore_alias                                 = 'mgmt',
   Wildfly::Config_file $config                                = 'standalone.xml',
   Wildfly::Config_file $domain_config                         = 'domain.xml',
   Wildfly::Config_file $host_config                           = 'host.xml',
@@ -77,6 +87,8 @@ class wildfly(
   Boolean $service_enable                                     = true,
   Boolean $remote_debug                                       = false,
   Boolean $external_facts                                     = false,
+  Boolean $secure_mgmt_api                                    = false,
+  Boolean $mgmt_create_keystores                              = true,
   Integer $remote_debug_port                                  = 8787,
   Integer $startup_wait                                       = 30,
   Integer $shutdown_wait                                      = 30,
@@ -111,6 +123,8 @@ class wildfly(
   Optional[String] $java_opts                                 = undef,
   Optional[String] $jboss_opts                                = undef,
   Optional[String] $overlay_class                             = undef,
+  Optional[Stdlib::Unixpath] $mgmt_ssl_cert                   = undef,
+  Optional[Stdlib::Unixpath] $mgmt_ssl_key                    = undef,
 ) {
 
   contain wildfly::prepare
@@ -128,6 +142,10 @@ class wildfly(
 
   if $external_facts {
     include wildfly::external_facts
+  }
+
+  if $secure_mgmt_api {
+    include wildfly::secure_mgmt_api
   }
 
   Class['wildfly::prepare']

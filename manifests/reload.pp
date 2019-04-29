@@ -16,13 +16,19 @@ define wildfly::reload(
   String $password  = $wildfly::mgmt_user['password'],
   String $host      = $wildfly::properties['jboss.bind.address.management'],
   String $port      = $wildfly::properties['jboss.management.http.port'],
+  Boolean $secure   = $wildfly::secure_mgmt_api,
 ) {
+
+  if $secure {
+    $port  = $wildfly::properties['jboss.management.https.port']
+  }
 
   wildfly_restart { $title:
     username => $username,
     password => $password,
     host     => $host,
     port     => $port,
+    secure   => $secure,
     retries  => $retries,
     wait     => $wait,
     reload   => true,

@@ -33,6 +33,11 @@ Puppet::Type.newtype(:wildfly_cli) do
     defaultto 9990
   end
 
+  newparam(:secure) do
+    desc 'Use TLS to connect with the management API'
+    defaultto false
+  end
+
   newproperty(:executed) do
     desc 'Whether the command should be executed or not'
 
