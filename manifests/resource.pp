@@ -46,7 +46,6 @@ define wildfly::resource(
     password          => $password,
     host              => $host,
     port              => $port,
-    port              => $mgmt_port,
     secure            => $secure,
     recursive         => $recursive,
     state             => $attributes,

@@ -31,7 +31,7 @@ define wildfly::cli(
     password => $password,
     host     => $host,
     port     => $port,
-    secure   => $secure, 
+    secure   => $secure,
     unless   => $unless,
     onlyif   => $onlyif,
     require  => Service['wildfly'],
