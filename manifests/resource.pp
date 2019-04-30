@@ -36,7 +36,10 @@ define wildfly::resource(
   }
 
   if $secure {
-    $port = $wildfly::properties['jboss.management.https.port']
+    $_port = $wildfly::properties['jboss.management.https.port']
+  }
+  else {
+    $_port = $port
   }
 
   wildfly_resource { "${profile_path}${title}":
@@ -45,7 +48,7 @@ define wildfly::resource(
     username          => $username,
     password          => $password,
     host              => $host,
-    port              => $port,
+    port              => $_port,
     secure            => $secure,
     recursive         => $recursive,
     state             => $attributes,

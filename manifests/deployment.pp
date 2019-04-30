@@ -34,7 +34,10 @@ define wildfly::deployment(
   }
 
   if $secure {
-    $port = $wildfly::properties['jboss.management.https.port']
+    $_port = $wildfly::properties['jboss.management.https.port']
+  }
+  else {
+    $_port = $port
   }
 
   wildfly_deployment { $title:
@@ -43,7 +46,7 @@ define wildfly::deployment(
     username          => $username,
     password          => $password,
     host              => $host,
-    port              => $port,
+    port              => $_port,
     secure            => $secure,
     timeout           => $timeout,
     source            => "${wildfly::deploy_cache_dir}/${file_name}",

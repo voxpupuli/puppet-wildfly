@@ -22,7 +22,10 @@ define wildfly::cli(
 ) {
 
   if $secure {
-    $port  = $wildfly::properties['jboss.management.https.port']
+    $_port  = $wildfly::properties['jboss.management.https.port']
+  }
+  else {
+    $_port = $port
   }
 
   wildfly_cli { $title:
@@ -30,7 +33,7 @@ define wildfly::cli(
     username => $username,
     password => $password,
     host     => $host,
-    port     => $port,
+    port     => $_port,
     secure   => $secure,
     unless   => $unless,
     onlyif   => $onlyif,
