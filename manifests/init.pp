@@ -35,6 +35,7 @@
 # @param mgmt_ssl_key Path to the private key used for setting up the ManagementRealm keystore.
 # @param mode Sets Wildfly execution mode will run, 'standalone' or 'domain'.
 # @param mode_template Sets epp template for standalone.conf or domain.conf.
+# @param overlay_class Sets a class to be applied between 'install' and 'setup' classes.
 # @param package_ensure Wheter it should manage required packages.
 # @param package_name Sets Wildfly package name.
 # @param package_version Sets Wildfly package version.
@@ -48,15 +49,17 @@
 # @param service_enable Sets Wildfly's service 'enable'.
 # @param service_file Sets a file to be used for service management.
 # @param service_name Sets Wildfly's service 'name'.
+# @param service_manage Reload Wildfly's service when changed config.
 # @param shutdown_wait Sets the time to wait for the process to be shutdown - sysvinit scripts only.
 # @param startup_wait Sets the time to wait for the process to be up - sysvinit scripts only.
 # @param systemd_template Sets a custom systemd template.
 # @param uid Sets managed user ID.
 # @param user User to own `JBOSS_HOME`. If `manage_user` is `true`, this user will be managed.
+# @param user_home User home directory. Defaults to '/home/wildfly'
 # @param version Sets the Wildfly version managed in order to handle small differences among versions.
 class wildfly(
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/] $version           = '9.0.2',
-  Variant[Stdlib::Httpurl, Stdlib::Httpsurl] $install_source  = 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz',
+  Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $install_source = "http://download.jboss.org/wildfly/${version}.Final/wildfly-${version}.Final.tar.gz",
   Wildfly::Distribution $distribution                         = 'wildfly',
   Enum['sysvinit', 'systemd', 'upstart'] $init_system         = $facts['initsystem'],
   Wildfly::Mode $mode                                         = 'standalone',
@@ -68,6 +71,7 @@ class wildfly(
   Stdlib::Unixpath $mgmt_keystore                             = "${dirname}/${mode}/configuration/mgmt.jks",
   Boolean $manage_user                                        = true,
   String $user                                                = 'wildfly',
+  Stdlib::Unixpath $user_home                                 = '/home/wildfly',
   String $group                                               = 'wildfly',
   String $mode_template                                       = "wildfly/${mode}.conf",
   String $mgmt_keystore_pass                                  = 'changeit',
@@ -108,6 +112,7 @@ class wildfly(
   Optional[Stdlib::Unixpath] $service_file                    = undef,
   Optional[String] $systemd_template                          = undef,
   Optional[String] $service_name                              = undef,
+  Optional[Boolean] $service_manage                           = true,
   Optional[String] $custom_init                               = undef,
   Optional[Integer] $uid                                      = undef,
   Optional[Integer] $gid                                      = undef,
@@ -117,15 +122,23 @@ class wildfly(
   Optional[String] $package_version                           = undef,
   Optional[String] $java_opts                                 = undef,
   Optional[String] $jboss_opts                                = undef,
+  Optional[String] $overlay_class                             = undef,
   Optional[Stdlib::Unixpath] $mgmt_ssl_cert                   = undef,
   Optional[Stdlib::Unixpath] $mgmt_ssl_key                    = undef,
-
 ) {
 
   contain wildfly::prepare
   contain wildfly::install
   contain wildfly::setup
   contain wildfly::service
+
+  if $overlay_class {
+    contain $overlay_class
+
+    Class['wildfly::install']
+      -> Class[$overlay_class]
+        -> Class['wildfly::setup']
+  }
 
   if $external_facts {
     include wildfly::external_facts

@@ -9,6 +9,7 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
             version        => '#{test_data['version']}',
             install_source => '#{test_data['install_source']}',
             java_home      => '#{test_data['java_home']}',
+            java_opts      => '-Djava.net.preferIPv4Stack=true',
           }
 
           wildfly::config::module { 'org.postgresql':
@@ -38,7 +39,7 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
 
       execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
       expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
-      shell('sleep 15')
+      shell('sleep 25')
     end
 
     it 'service wildfly' do
@@ -51,7 +52,7 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
     end
 
     it 'welcome page' do
-      shell('curl localhost:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080', :acceptable_exit_codes => 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
