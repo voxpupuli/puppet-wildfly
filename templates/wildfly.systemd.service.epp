@@ -11,6 +11,7 @@ LimitNOFILE=102642
 ExecStart=<%= $wildfly::dirname %>/bin/launch.sh ${WILDFLY_MODE} ${WILDFLY_CONFIG}
 Restart=always
 RestartSec=20
+StandardOutput=null
 
 [Install]
 WantedBy=multi-user.target
