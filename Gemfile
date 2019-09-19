@@ -22,7 +22,7 @@ gem 'puppet-strings'
 gem 'pry-byebug'
 
 gem 'semantic_puppet'
-gem 'rspec-puppet', '~> 2.5.0'
+gem 'rspec-puppet', '~> 2.7.5'
 
 
 group :acceptance do
