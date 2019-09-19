@@ -50,7 +50,7 @@ Puppet::Type.newtype(:wildfly_cli) do
     end
 
     def sync
-      provider.exec_command unless refreshonly?
+      provider.exec_command unless resource.refreshonly?
     end
   end
 

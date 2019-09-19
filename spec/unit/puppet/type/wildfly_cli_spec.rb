@@ -14,6 +14,32 @@ describe Puppet::Type.type(:wildfly_cli) do
     expect(resource).to be_an_instance_of Puppet::Type::Wildfly_cli
   end
 
+  context 'executed' do
+    context 'when `refreshonly` parameter is `true`' do
+      before :each do
+        resource[:refreshonly] = true
+      end
+
+      it 'should not sync' do
+        expect(provider).not_to receive(:exec_command)
+
+        resource.property(:executed).sync
+      end
+    end
+
+    context 'when `refreshonly` parameter is `false`' do
+      before :each do
+        resource[:refreshonly] = false
+      end
+
+      it 'should sync' do
+        expect(provider).to receive(:exec_command)
+
+        resource.property(:executed).sync
+      end
+    end
+  end
+
   context 'when refreshed' do
     context 'when `refreshonly` parameter is `true`' do
       before :each do
