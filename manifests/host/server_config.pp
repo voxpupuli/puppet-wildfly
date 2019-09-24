@@ -46,7 +46,7 @@ define wildfly::host::server_config(
 
   if $ensure == present {
     if (!$server_group) {
-      fail("server_group is required")
+      fail('server_group is required')
     }
   }
 
@@ -54,19 +54,19 @@ define wildfly::host::server_config(
 
   if $need_to_connect_to_domain_controller {
     if (!$hostname) {
-      fail("hostname is required")
+      fail('hostname is required')
     }
 
     if (!$username) {
-      fail("username is required")
+      fail('username is required')
     }
 
     if (!$password) {
-      fail("password is required")
+      fail('password is required')
     }
 
     if (!$controller_address) {
-      fail("controller_address is required")
+      fail('controller_address is required')
     }
   }
 
@@ -102,11 +102,11 @@ define wildfly::host::server_config(
     debug("Wildfly is running? ${facts['wildfly_is_running']}")
 
     if (!$wildfly_dir) {
-      fail("wildfly_dir is required")
+      fail('wildfly_dir is required')
     }
 
     if (!$host_config) {
-      fail("host_config is required")
+      fail('host_config is required')
     }
 
     if $facts['wildfly_is_running'] {
@@ -119,8 +119,7 @@ define wildfly::host::server_config(
         host     => $controller_address,
         port     => $controller_mgmt_port,
       }
-      ->
-      wildfly_resource { "/host=${hostname}/server-config=${server_name}":
+      -> wildfly_resource { "/host=${hostname}/server-config=${server_name}":
         ensure   => absent,
         username => $username,
         password => $password,
