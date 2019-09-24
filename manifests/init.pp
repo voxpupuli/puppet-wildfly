@@ -127,7 +127,10 @@ class wildfly(
   }
 
   if $external_facts {
-    include wildfly::external_facts
+    contain wildfly::external_facts
+
+    Class['wildfly::external_facts']
+      -> Class['wildfly::install']
   }
 
   Class['wildfly::prepare']
