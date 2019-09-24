@@ -3,5 +3,8 @@ fixtures:
       stdlib:
         repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
         branch: "4.13.1"
+      augeas_core:
+        repo: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"
+        branch: "1.0.4"
   symlinks:
     wildfly: "#{source_dir}"
