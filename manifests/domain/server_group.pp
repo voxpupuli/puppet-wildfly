@@ -19,11 +19,11 @@ define wildfly::domain::server_group(
 
   if $ensure == present {
     if empty($profile) {
-      fail("profile is required")
+      fail('profile is required')
     }
 
     if empty($socket_binding_group) {
-      fail("socket_binding_group is required")
+      fail('socket_binding_group is required')
     }
 
     wildfly::resource { "/server-group=${server_group_name}":
@@ -33,8 +33,7 @@ define wildfly::domain::server_group(
         'socket-binding-port-offset' => $socket_binding_port_offset,
       },
     }
-    ->
-    wildfly::resource { "/server-group=${server_group_name}/jvm=${jvm_name}" :
+    -> wildfly::resource { "/server-group=${server_group_name}/jvm=${jvm_name}" :
       content => $jvm_config,
     }
   } elsif $ensure == absent {
