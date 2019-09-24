@@ -458,20 +458,70 @@ Make sure you remove default resources (server-groups and server-config) if you'
 Domain controller:
 
 ```puppet
-wildfly::resource { ['/server-group=main-server-group', '/server-group=other-server-group'] :
+wildfly::domain::server_group { ['main-server-group', 'other-server-group']:
   ensure => absent,
 }
 ```
 
 Host controller:
 
-``` puppet
-wildlfy::resource { ['/host=slave1/server-config=server-one', '/host=slave1/server-config=server-two']:
-  ensure => absent,
+```puppet
+wildfly::host::server_config { ['server-one', 'server-two']:
+ ensure   => absent,
+ hostname => $hostname,
+ username => $username,
+ password => $password,
+ require  => Class['wildfly::install'],
+ before   => Class['wildfly::setup'],
 }
 ```
 
-Then start managing your own `server-groups` and `server-config` with `wildfly::domain::server-group` and `wildfly::host::server_config`
+You can also use a `overlay_class` instead of use `require` and `before`.
+
+Host controller:
+
+```puppet
+class { 'wildfly':
+  # ...
+  overlay_class => 'app::cleanup'
+}
+
+class app::cleanup {
+  wildfly::host::server_config { ['server-one', 'server-two']:
+   ensure   => absent,
+   hostname => $hostname,
+   username => $username,
+   password => $password,
+  }
+}
+```
+
+`Username` and `password` are the credentials used to connect to domain controller and make the desired changes. In the first provision this resource will be applied with augeas and will not need that, but in the other these parameters will be required to guarantee that the server-configs no longer exists.
+
+After that, start managing your own `server-groups` and `server-config` with `wildfly::domain::server-group` and `wildfly::host::server_config`:
+
+Domain controller:
+
+```puppet
+wildfly::domain::server_group { 'app-server-group':
+  profile              => 'full-ha',
+  socket_binding_group => 'full-ha-sockets',
+}
+```
+
+Host controller:
+
+```puppet
+wildfly::host::server_config { 'app':
+  server_group       => 'app-server-group',
+  hostname           => $hostname,
+  username           => $username,
+  password           => $password,
+}
+```
+
+Please note that you'll need to enable external facts (`wildfly::external_facts`) since `wildfly::host::server_config` relies on `wildfly_is_running` fact to know if it should use augeas or connect to the domain controller to remove a server-config.
+
 
 ### Deployment
 
