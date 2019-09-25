@@ -42,6 +42,8 @@ define wildfly::host::server_config(
   Optional[Integer] $controller_mgmt_port      = 9990,
   Boolean $start_server_after_created          = true,
 ) {
+  require wildfly::install
+
   $server_name = $title
 
   if $ensure == present {
