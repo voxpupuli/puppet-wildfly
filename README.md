@@ -471,12 +471,11 @@ wildfly::host::server_config { ['server-one', 'server-two']:
  hostname => $hostname,
  username => $username,
  password => $password,
- require  => Class['wildfly::install'],
  before   => Class['wildfly::setup'],
 }
 ```
 
-You can also use a `overlay_class` instead of use `require` and `before`.
+You can also use a `overlay_class` instead of use `before`.
 
 Host controller:
 

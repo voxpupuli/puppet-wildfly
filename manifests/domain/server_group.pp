@@ -15,6 +15,8 @@ define wildfly::domain::server_group(
   String $jvm_name                       = 'default',
   Hash $jvm_config                       = {},
 ) {
+  require wildfly::install
+
   $server_group_name = $title
 
   if $ensure == present {
