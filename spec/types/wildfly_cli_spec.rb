@@ -8,6 +8,6 @@ describe Puppet::Type.type(:wildfly_cli) do
   end
 
   it 'has expected parameters' do
-    expect(cli.parameters).to include(:command, :unless, :onlyif, :username, :password, :host, :port)
+    expect(cli.parameters).to include(:command, :unless, :onlyif, :username, :password, :host, :port, :secure)
   end
 end

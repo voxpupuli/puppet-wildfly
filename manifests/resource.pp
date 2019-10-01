@@ -24,6 +24,7 @@ define wildfly::resource(
   String $password              = $wildfly::mgmt_user['password'],
   String $host                  = $wildfly::properties['jboss.bind.address.management'],
   String $port                  = $wildfly::properties['jboss.management.http.port'],
+  Boolean $secure               = $wildfly::secure_mgmt_api,
 ) {
 
   $profile_path = wildfly::profile_path($profile)
@@ -34,13 +35,21 @@ define wildfly::resource(
     $attributes = delete_undef_values($content)
   }
 
+  if $secure {
+    $_port = $wildfly::properties['jboss.management.https.port']
+  }
+  else {
+    $_port = $port
+  }
+
   wildfly_resource { "${profile_path}${title}":
     ensure            => $ensure,
     path              => "${profile_path}${title}",
     username          => $username,
     password          => $password,
     host              => $host,
-    port              => $port,
+    port              => $_port,
+    secure            => $secure,
     recursive         => $recursive,
     state             => $attributes,
     operation_headers => $operation_headers,

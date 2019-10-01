@@ -21,6 +21,7 @@ define wildfly::deployment(
   String $password               = $wildfly::mgmt_user['password'],
   String $host                   = $wildfly::properties['jboss.bind.address.management'],
   String $port                   = $wildfly::properties['jboss.management.http.port'],
+  Boolean $secure                = $wildfly::secure_mgmt_api,
 ) {
   $file_name = basename($source)
 
@@ -32,13 +33,21 @@ define wildfly::deployment(
     source => $source
   }
 
+  if $secure {
+    $_port = $wildfly::properties['jboss.management.https.port']
+  }
+  else {
+    $_port = $port
+  }
+
   wildfly_deployment { $title:
     ensure            => $ensure,
     server_group      => $server_group,
     username          => $username,
     password          => $password,
     host              => $host,
-    port              => $port,
+    port              => $_port,
+    secure            => $secure,
     timeout           => $timeout,
     source            => "${wildfly::deploy_cache_dir}/${file_name}",
     operation_headers => $operation_headers,

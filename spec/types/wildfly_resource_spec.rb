@@ -8,7 +8,7 @@ describe Puppet::Type.type(:wildfly_resource) do
   end
 
   it 'has expected parameters' do
-    expect(resource.parameters).to include(:path, :username, :password, :host, :port, :recursive, :operation_headers)
+    expect(resource.parameters).to include(:path, :username, :password, :host, :port, :recursive, :secure, :operation_headers)
   end
 
   it 'allow same path for different hosts' do
