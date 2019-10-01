@@ -37,6 +37,7 @@
     * [Logging](#logging)
     * [Modcluster](#modcluster)
     * [JGroups](#jgroups)
+    * [Systemd Custom Config](#systemd-custom-config)
 6. [Limitations - OS compatibility, etc.](#limitations)
 7. [Development - Guide for contributing to the module](#development)
 8. [Documentation](#documentation)
@@ -916,6 +917,15 @@ wildfly::jgroups::stack::tcpping { 'TCPPING':
   initial_hosts       => '172.28.128.10[7600],17228.128.20[7600]',
   num_initial_members => 2
 }
+```
+
+### Systemd Custom Config
+To add additional variables to the systemd EnvironmentFile by hiera:
+```puppet
+wildfly::custom_config:
+  - "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/sap/jco/sap_jco_3.0.16_64:/opt/oracle/instantclient_11_2/lib"
+  - "NLS_LANG=GERMAN_GERMANY.WE8ISO8859P15"
+  - "LANG=de_DE@euro"
 ```
 
 ## Limitations
