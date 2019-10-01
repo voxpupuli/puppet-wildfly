@@ -18,7 +18,7 @@ end
 
 def install_java(host)
   on host, puppet('resource', 'package', 'wget', 'ensure=installed')
-  on host, 'wget --header "Cookie: oraclelicense=accept-securebackup-cookie" -N -P /var/cache/wget https://download.oracle.com/otn-pub/java/jdk/8u191-b12/2787e4a523244c269598db4e85c51e0c/jdk-8u191-linux-x64.tar.gz && tar -C /opt -zxvf /var/cache/wget/jdk-8u191-linux-x64.tar.gz'
+  on host, 'wget https://doc-0o-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/7eelvqree5q8ski1d13625m75bahknja/1568980800000/18214363628765128033/*/1tkj8_kAFRCNxZLqOaqU6XRj6ac0iEjer?e=download -O /var/cache/wget/OpenJDK8U-jdk_x64_linux_hotspot_8u192b12.tar.gz && tar -C /opt -zxvf /var/cache/wget/OpenJDK8U-jdk_x64_linux_hotspot_8u192b12.tar.gz'
 end
 
 RSpec.configure do |c|
@@ -87,6 +87,6 @@ when 'custom'
   data['service_name'] = ENV['TEST_service_name']
 end
 
-data['java_home'] = '/opt/jdk1.8.0_191/'
+data['java_home'] = '/opt/jdk8u192-b12/'
 
 RSpec.configuration.test_data = data

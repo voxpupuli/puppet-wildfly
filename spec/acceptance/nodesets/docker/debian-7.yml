@@ -3,8 +3,8 @@ HOSTS:
     roles:
       - agent
       - default
-    platform: debian-7-amd64 
-    image: debian:7
+    platform: debian-7-amd64
+    image: debian/eol:wheezy
     hypervisor : docker
     docker_preserve_image: true
     docker_cmd: '["/sbin/init"]'
