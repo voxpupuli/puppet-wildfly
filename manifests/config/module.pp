@@ -32,7 +32,6 @@ define wildfly::config::module(
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "mkdir -p ${dir_path}",
     unless  => "test -d ${dir_path}",
-    user    => $wildfly::user,
     before  => [File[$dir_path]],
   }
 
