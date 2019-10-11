@@ -11,7 +11,9 @@ define wildfly::config::module(
   String $template = 'wildfly/module.xml',
   Optional[Boolean] $system = true,
   Optional[Array] $dependencies = [],
-  Optional[String] $custom_file = undef) {
+  Optional[String] $custom_file = undef,
+  Optional[String] $user = $::wildfly::user,
+  Optional[String] $group = $::wildfly::group) {
 
   require wildfly::install
 
@@ -22,8 +24,8 @@ define wildfly::config::module(
   }
 
   File {
-    owner => $wildfly::user,
-    group => $wildfly::group
+    owner => $user,
+    group => $group,
   }
 
   $dir_path = "${wildfly::dirname}/modules/${module_dir}/${namespace_path}/main"
@@ -32,14 +34,12 @@ define wildfly::config::module(
     path    => ['/bin','/usr/bin', '/sbin'],
     command => "mkdir -p ${dir_path}",
     unless  => "test -d ${dir_path}",
-    user    => $wildfly::user,
+    user    => $user,
     before  => [File[$dir_path]],
   }
 
   file { $dir_path:
     ensure => directory,
-    owner  => $wildfly::user,
-    group  => $wildfly::group,
   }
 
   if $source == '.' {
@@ -54,8 +54,6 @@ define wildfly::config::module(
     /^(file:|puppet:)/: {
       file { "${dir_path}/${file_name}":
         ensure => file,
-        owner  => $::wildfly::user,
-        group  => $::wildfly::group,
         mode   => '0655',
         source => $source
       }
@@ -71,8 +69,6 @@ define wildfly::config::module(
 
       file { "${dir_path}/${file_name}":
         ensure  => file,
-        owner   => $::wildfly::user,
-        group   => $::wildfly::group,
         mode    => '0655',
         require => Exec["download module from ${source}"],
       }
@@ -82,8 +78,6 @@ define wildfly::config::module(
   if $custom_file {
     file { "${dir_path}/module.xml":
       ensure  => file,
-      owner   => $wildfly::user,
-      group   => $wildfly::group,
       content => file($custom_file),
     }
   } else {
@@ -95,8 +89,6 @@ define wildfly::config::module(
 
     file { "${dir_path}/module.xml":
       ensure  => file,
-      owner   => $wildfly::user,
-      group   => $wildfly::group,
       content => epp($template, $params),
     }
   }
