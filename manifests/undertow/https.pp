@@ -10,23 +10,26 @@ define wildfly::undertow::https(
   $key_password = undef,
   $target_profile = undef,
   $enabled_protocols = undef,
-  $enabled_cipher_suites = undef) {
+  $enabled_cipher_suites = undef,
+  $record_request_start_time = undef) {
 
   if versioncmp($wildfly::version,'9.0.0') >= 0 {
     # Wildfly 9 and higher -> we need to set enable parameter
     $listener_content = {
-      'socket-binding'        => $socket_binding,
-      'security-realm'        => 'TLSRealm',
-      'enabled-protocols'     => $enabled_protocols,
-      'enabled-cipher-suites' => $enabled_cipher_suites,
-      'enabled'               => true,
+      'socket-binding'            => $socket_binding,
+      'security-realm'            => 'TLSRealm',
+      'enabled-protocols'         => $enabled_protocols,
+      'enabled-cipher-suites'     => $enabled_cipher_suites,
+      'record-request-start-time' => $record_request_start_time,
+      'enabled'                   => true,
     }
   } else {
     $listener_content = {
-      'socket-binding'        => $socket_binding,
-      'security-realm'        => 'TLSRealm',
-      'enabled-protocols'     => $enabled_protocols,
-      'enabled-cipher-suites' => $enabled_cipher_suites,
+      'socket-binding'            => $socket_binding,
+      'security-realm'            => 'TLSRealm',
+      'enabled-protocols'         => $enabled_protocols,
+      'enabled-cipher-suites'     => $enabled_cipher_suites,
+      'record-request-start-time' => $record_request_start_time,
     }
   }
 
