@@ -10,11 +10,12 @@ define wildfly::undertow::https(
   $key_password = undef,
   $target_profile = undef,
   $enabled_protocols = undef,
-  $enabled_cipher_suites = undef) {
+  $enabled_cipher_suites = undef,
+  $https_listener_content = undef) {
 
   if versioncmp($wildfly::version,'9.0.0') >= 0 {
     # Wildfly 9 and higher -> we need to set enable parameter
-    $listener_content = {
+    $listener_content = $https_listener_content + {
       'socket-binding'        => $socket_binding,
       'security-realm'        => 'TLSRealm',
       'enabled-protocols'     => $enabled_protocols,
@@ -22,7 +23,7 @@ define wildfly::undertow::https(
       'enabled'               => true,
     }
   } else {
-    $listener_content = {
+    $listener_content = $https_listener_content + {
       'socket-binding'        => $socket_binding,
       'security-realm'        => 'TLSRealm',
       'enabled-protocols'     => $enabled_protocols,
