@@ -8,6 +8,7 @@
 # @param custom_init Sets a custom init script.
 # @param distribution Sets the Wildfly distribution: 'wildfly' or 'jboss-eap'.
 # @param dirname `JBOSS_HOME`. i.e. The directory where your Wildfly will live.
+# @param dirmode The directory mode for JBOSS_HOME.
 # @param domain_config Sets Wildfly configuration file for initialization when you're using 'domain' mode.
 # @param external_facts Whether it should deploy external facts.
 # @param gid Sets managed group ID.
@@ -64,6 +65,7 @@ class wildfly(
   Enum['sysvinit', 'systemd', 'upstart'] $init_system         = $facts['initsystem'],
   Wildfly::Mode $mode                                         = 'standalone',
   Stdlib::Unixpath $dirname                                   = '/opt/wildfly',
+  String $dirmode                                             = '0775',
   Stdlib::Unixpath $java_home                                 = '/usr/java/default',
   Stdlib::Unixpath $console_log                               = '/var/log/wildfly/console.log',
   Stdlib::Unixpath $install_cache_dir                         = '/var/cache/wget',

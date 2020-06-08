@@ -27,7 +27,7 @@ class wildfly::prepare {
       ensure  => directory,
       owner   => $wildfly::user,
       group   => $wildfly::group,
-      mode    => '0755',
+      mode    => $wildfly::dirmode,
       require => User[$wildfly::user],
     }
 
