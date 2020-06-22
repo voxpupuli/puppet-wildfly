@@ -16,9 +16,8 @@ def install_with_dependencies(host)
   on host, puppet('module', 'install', 'jethrocarr-initfact')
 end
 
-def install_java(host)
+def install_wget(host)
   on host, puppet('resource', 'package', 'wget', 'ensure=installed')
-  on host, 'wget https://doc-0o-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/7eelvqree5q8ski1d13625m75bahknja/1568980800000/18214363628765128033/*/1tkj8_kAFRCNxZLqOaqU6XRj6ac0iEjer?e=download -O /var/cache/wget/OpenJDK8U-jdk_x64_linux_hotspot_8u192b12.tar.gz && tar -C /opt -zxvf /var/cache/wget/OpenJDK8U-jdk_x64_linux_hotspot_8u192b12.tar.gz'
 end
 
 RSpec.configure do |c|
@@ -33,7 +32,7 @@ RSpec.configure do |c|
     if master.nil?
       hosts.each do |host|
         install_with_dependencies(host)
-        install_java(host)
+        install_wget(host)
       end
     else
       install_with_dependencies(master)
@@ -46,7 +45,7 @@ RSpec.configure do |c|
       puppet_server_fqdn = fact_on('master', 'fqdn')
 
       hosts.agents.each do |agent|
-        install_java(agent)
+        install_wget(agent)
 
         config = {
           'main' => {
@@ -87,6 +86,6 @@ when 'custom'
   data['service_name'] = ENV['TEST_service_name']
 end
 
-data['java_home'] = '/opt/jdk8u192-b12/'
+data['java_home'] = '/usr/lib/jvm/jre-1.8.0-openjdk'
 
 RSpec.configuration.test_data = data

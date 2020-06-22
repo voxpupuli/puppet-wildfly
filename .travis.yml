@@ -6,6 +6,8 @@ cache:
   - wget_cache
 rvm:
   - 2.3.7
+jdk:
+  - openjdk8
 bundler_args: --without acceptance
 script:
   - bundle exec rake syntax
