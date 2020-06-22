@@ -531,7 +531,7 @@ Source supports these protocols: `http://`, `ftp://`, `puppet://`, `file://`
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
- source => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+ source => 'https://repo1.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war',
 }
 ```
 
@@ -551,7 +551,7 @@ wildfly::deployment { 'hawtio.war':
 
 ```puppet
 wildfly::deployment { 'hawtio.war':
- source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.48/hawtio-web-1.4.48.war',
+ source       => 'https://repo1.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war',
  server_group => 'main-server-group',
 }
 ```
@@ -609,7 +609,7 @@ Install a JAR module from a remote file system, puppet file server or local file
 
 ```puppet
 wildfly::config::module { 'org.postgresql':
-  source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+  source       => 'https://repo1.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
   dependencies => ['javax.api', 'javax.transaction.api']
 }
 ```
@@ -654,7 +654,7 @@ Alternatively, you can install a JDBC driver and module using deployment if your
 
 ```puppet
 wildfly::deployment { 'postgresql-9.3-1103-jdbc4.jar':
-  source => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar'
+  source => 'https://repo1.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar'
 }
 ->
 wildfly::datasources::datasource { 'DemoDS':
@@ -672,7 +672,7 @@ A postgresql normal & XA datasource example
 
 ```puppet
 wildfly::config::module { 'org.postgresql':
-  source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+  source       => 'https://repo1.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
   dependencies => ['javax.api', 'javax.transaction.api'],
   require      => Class['wildfly'],
 }

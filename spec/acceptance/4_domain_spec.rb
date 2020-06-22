@@ -24,7 +24,7 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
           }
 
           wildfly::deployment { 'hawtio.war':
-            source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war',
+            source       => 'https://repo1.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.warhawtio-web-1.4.66.war',
             server_group => 'main-server-group',
           }
 
