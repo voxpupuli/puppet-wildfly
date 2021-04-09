@@ -13,7 +13,7 @@ class wildfly::prepare {
       uid        => $wildfly::uid,
       gid        => $wildfly::gid,
       groups     => $wildfly::group,
-      shell      => '/bin/bash',
+      shell      => $wildfly::user_shell,
       home       => $wildfly::user_home,
       comment    => "${wildfly::user} user created by Puppet",
       managehome => true,
