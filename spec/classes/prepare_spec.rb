@@ -89,4 +89,25 @@ describe 'wildfly::prepare' do
         .with_home('/opt/wildfly')
     end
   end
+
+  context 'set custom user_shell' do
+    let(:facts) do
+      { :operatingsystem => 'CentOS',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :initsystem => 'systemd' }
+    end
+
+    let :pre_condition do
+      "class { 'wildfly':
+        user_shell => '/bin/false',
+      }"
+    end
+
+    it do
+      is_expected.to contain_user('wildfly')
+        .with_shell('/bin/false')
+    end
+  end
 end
