@@ -1,10 +1,11 @@
 #
 # Configures jgroups TCP-based stacks.
 #
-define wildfly::jgroups::stack::tcp(
+# @param properties TCP properties hash.
+#
+define wildfly::jgroups::stack::tcp (
   Hash $properties,
-  ) {
-
+) {
   $stack = downcase($title)
 
   wildfly::jgroups::stack { $stack:
@@ -21,20 +22,20 @@ define wildfly::jgroups::stack::tcp(
       'UFC',
       'MFC',
       'FRAG2',
-      'RSVP'
+      'RSVP',
     ],
     transport => {
       'TCP' => {
         'socket-binding' => 'jgroups-tcp',
-      }
-    }
+      },
+    },
   }
   -> wildfly::resource { "/subsystem=jgroups/stack=${stack}/protocol=${title}":
-    content => $properties
+    content => $properties,
   }
   -> wildfly::resource { '/subsystem=jgroups':
-    content =>  {
-      'default-stack' => $stack
-    }
+    content => {
+      'default-stack' => $stack,
+    },
   }
 }

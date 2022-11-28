@@ -11,26 +11,33 @@
 # @param password The password for Wildfly's management user.
 # @param host The IP address or FQDN of the JBoss Management service.
 # @param port The port of the JBoss Management service.
-define wildfly::deployment(
-  Variant[Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
-  Enum[present, absent] $ensure  = present,
-  Optional[Integer] $timeout     = undef,
-  Optional[String] $server_group = undef,
-  $operation_headers             = {},
-  String $username               = $wildfly::mgmt_user['username'],
-  String $password               = $wildfly::mgmt_user['password'],
-  String $host                   = $wildfly::properties['jboss.bind.address.management'],
-  String $port                   = $wildfly::properties['jboss.management.http.port'],
-  Boolean $secure                = $wildfly::secure_mgmt_api,
+# @param secure Use https port or http port.
+#
+define wildfly::deployment (
+  Variant[
+    Pattern[/^file:\/\//],
+    Pattern[/^puppet:\/\//],
+    Stdlib::Httpsurl,
+    Stdlib::Httpurl
+  ]                     $source,
+  Enum[present, absent] $ensure            = present,
+  Optional[Integer]     $timeout           = undef,
+  Optional[String]      $server_group      = undef,
+  Hash                  $operation_headers = {},
+  String                $username          = $wildfly::mgmt_user['username'],
+  String                $password          = $wildfly::mgmt_user['password'],
+  String                $host              = $wildfly::properties['jboss.bind.address.management'],
+  String                $port              = $wildfly::properties['jboss.management.http.port'],
+  Boolean               $secure            = $wildfly::secure_mgmt_api,
 ) {
   $file_name = basename($source)
 
   file { "${wildfly::deploy_cache_dir}/${file_name}":
-    ensure => 'present',
+    ensure => 'file',
     owner  => $wildfly::user,
     group  => $wildfly::group,
     mode   => '0655',
-    source => $source
+    source => $source,
   }
 
   if $secure {
@@ -53,5 +60,4 @@ define wildfly::deployment(
     operation_headers => $operation_headers,
     require           => [Service['wildfly'], File["${wildfly::deploy_cache_dir}/${file_name}"]],
   }
-
 }

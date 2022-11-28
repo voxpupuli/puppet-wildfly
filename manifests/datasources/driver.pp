@@ -15,9 +15,9 @@ define wildfly::datasources::driver (
   Optional[String] $target_profile                  = undef,
 ) {
   $params = {
-    'driver-name' => $driver_name,
-    'driver-module-name' => $driver_module_name,
-    'driver-class-name' => $driver_class_name,
+    'driver-name'                     => $driver_name,
+    'driver-module-name'              => $driver_module_name,
+    'driver-class-name'               => $driver_class_name,
     'driver-xa-datasource-class-name' => $driver_xa_datasource_class_name,
   }
 

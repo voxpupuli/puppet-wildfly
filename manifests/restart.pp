@@ -10,6 +10,7 @@
 # @param host The IP address or FQDN of the JBoss Management service.
 # @param port The port of the JBoss Management service.
 # @param secure Use https port or http port.
+#
 define wildfly::restart (
   Integer $retries  = 3,
   Integer $wait     = 20,

@@ -1,6 +1,7 @@
+#
 # Manages Wildfly service.
+#
 class wildfly::service {
-
   $config = wildfly::service_config($wildfly::distribution, $wildfly::version, $wildfly::mode, $wildfly::init_system)
 
   debug("${wildfly::distribution}.${wildfly::version}.${wildfly::mode}.${wildfly::init_system}: ${config}")
@@ -19,23 +20,21 @@ class wildfly::service {
   $conf_dir = dirname($conf_file)
 
   if $conf_dir != '/etc/default' {
-
     file { $conf_dir:
       ensure => directory,
       before => File[$conf_file],
     }
-
   }
 
   if $service_manage {
     file { $conf_file:
-      ensure  => present,
+      ensure  => file,
       content => epp($conf_template),
       notify  => Service['wildfly'],
     }
   } else {
     file { $conf_file:
-      ensure  => present,
+      ensure  => file,
       content => epp($conf_template),
     }
   }
@@ -47,5 +46,4 @@ class wildfly::service {
     hasrestart => true,
     hasstatus  => true,
   }
-
 }

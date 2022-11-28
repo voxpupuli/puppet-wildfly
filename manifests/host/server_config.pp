@@ -28,19 +28,20 @@
 # @param controller_address Domain controller address where the host will connect to configure the server-config.
 # @param controller_mgmt_port Sets domain controller management port.
 # @param start_server_after_created Sets if the server should be started right after created.
-define wildfly::host::server_config(
-  Enum[present, absent] $ensure                = present,
-  Optional[String] $server_group               = undef,
-  Integer $offset                              = 0,
-  Boolean $auto_start                          = true,
-  Stdlib::Unixpath $wildfly_dir                = $::wildfly::dirname,
-  Optional[Wildfly::Config_file] $host_config  = $::wildfly::host_config,
-  Optional[String] $hostname                   = undef,
-  Optional[String] $username                   = undef,
-  Optional[String] $password                   = undef,
-  Optional[String] $controller_address         = $::wildfly::properties['jboss.domain.master.address'],
-  Optional[Integer] $controller_mgmt_port      = 9990,
-  Boolean $start_server_after_created          = true,
+#
+define wildfly::host::server_config (
+  Enum[present, absent]          $ensure                     = present,
+  Integer                        $offset                     = 0,
+  Boolean                        $auto_start                 = true,
+  Stdlib::Unixpath               $wildfly_dir                = $wildfly::dirname,
+  Integer                        $controller_mgmt_port       = 9990,
+  Boolean                        $start_server_after_created = true,
+  Optional[Wildfly::Config_file] $host_config                = $wildfly::host_config,
+  Optional[String]               $controller_address         = $wildfly::properties['jboss.domain.master.address'],
+  Optional[String]               $server_group               = undef,
+  Optional[String]               $hostname                   = undef,
+  Optional[String]               $username                   = undef,
+  Optional[String]               $password                   = undef,
 ) {
   require wildfly::install
 
