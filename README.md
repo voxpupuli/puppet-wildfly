@@ -936,7 +936,8 @@ This module uses puppet-lint, rubocop, rspec-puppet, beaker and travis-ci. We ho
 
 ```shell
 gem install bundler --no-rdoc --no-ri
-bundle install --without development
+bundle config set --local without 'development'
+bundle install
 
 bundle exec rake syntax
 bundle exec rake lint
