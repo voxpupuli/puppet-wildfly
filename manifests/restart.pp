@@ -9,16 +9,17 @@
 # @param password The password for Wildfly's management user.
 # @param host The IP address or FQDN of the JBoss Management service.
 # @param port The port of the JBoss Management service.
+# @param secure Use https port or http port.
+#
 define wildfly::restart (
-  Integer $retries = 3,
-  Integer $wait    = 20,
-  String $username = $wildfly::mgmt_user['username'],
-  String $password = $wildfly::mgmt_user['password'],
-  String $host     = $wildfly::properties['jboss.bind.address.management'],
-  String $port     = $wildfly::properties['jboss.management.http.port'],
-  Boolean $secure  = $wildfly::secure_mgmt_api,
+  Integer $retries  = 3,
+  Integer $wait     = 20,
+  String  $username = $wildfly::mgmt_user['username'],
+  String  $password = $wildfly::mgmt_user['password'],
+  String  $host     = $wildfly::properties['jboss.bind.address.management'],
+  String  $port     = $wildfly::properties['jboss.management.http.port'],
+  Boolean $secure   = $wildfly::secure_mgmt_api,
 ) {
-
   if $secure {
     $_port = $wildfly::properties['jboss.management.https.port']
   }
@@ -36,5 +37,4 @@ define wildfly::restart (
     wait     => $wait,
     require  => Service['wildfly'],
   }
-
 }

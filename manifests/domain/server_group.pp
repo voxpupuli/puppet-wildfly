@@ -4,16 +4,16 @@
 # @param ensure Whether the resource should exist (`present`) or not (`absent`).
 # @param profile Sets profile referenced by the server-group.
 # @param socket_binding_group Sets socket-binding-group referenced by the server-group.
-# @param socket_binding_group_offset Sets socket-binding-port-offset server-config port offset.
+# @param socket_binding_port_offset Sets socket-binding-port-offset server-config port offset.
 # @param jvm_name Sets jvm name configured to the server-group.
 # @param jvm_config Sets jvm configurations like ``, `` etc.
-define wildfly::domain::server_group(
-  Enum[present, absent] $ensure          = present,
-  Optional[String] $profile              = undef,
-  Optional[String] $socket_binding_group = undef,
-  Integer $socket_binding_port_offset    = 0,
-  String $jvm_name                       = 'default',
-  Hash $jvm_config                       = {},
+define wildfly::domain::server_group (
+  Enum[present, absent] $ensure                     = present,
+  Integer               $socket_binding_port_offset = 0,
+  String                $jvm_name                   = 'default',
+  Hash                  $jvm_config                 = {},
+  Optional[String]      $profile                    = undef,
+  Optional[String]      $socket_binding_group       = undef,
 ) {
   require wildfly::install
 

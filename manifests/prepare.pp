@@ -1,8 +1,6 @@
 # Manages Wildfly requirements (user, group, dirs and packages)
 class wildfly::prepare {
-
   if $wildfly::manage_user {
-
     group { $wildfly::group :
       ensure => present,
       gid    => $wildfly::gid,
@@ -22,7 +20,6 @@ class wildfly::prepare {
   }
 
   unless $wildfly::package_name {
-
     file { $wildfly::dirname :
       ensure  => directory,
       owner   => $wildfly::user,
@@ -30,17 +27,15 @@ class wildfly::prepare {
       mode    => '0755',
       require => User[$wildfly::user],
     }
-
   }
 
   if $wildfly::package_ensure {
-    $libaiopackage  = $::osfamily ? {
+    $libaiopackage  = $facts['os']['family'] ? {
       'RedHat' => 'libaio',
       'Debian' => 'libaio1',
       default  => 'libaio',
     }
 
-    ensure_packages({ $libaiopackage => { 'ensure' => $wildfly::package_ensure } } )
+    ensure_packages( { $libaiopackage => { 'ensure' => $wildfly::package_ensure } })
   }
-
 }

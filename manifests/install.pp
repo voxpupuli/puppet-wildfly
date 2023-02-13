@@ -1,6 +1,5 @@
 # Downloads and installs Wildfly from a remote source or a system package.
-class wildfly::install  {
-
+class wildfly::install {
   if $wildfly::package_name {
     package { $wildfly::package_name :
       ensure => $wildfly::package_version,
@@ -15,7 +14,7 @@ class wildfly::install  {
 
     # Gunzip+Untar wildfly.tar.gz if download was successful.
     ~> exec { "untar ${install_file}":
-      command  => "tar --no-same-owner --no-same-permissions --strip-components=1 -C ${wildfly::dirname} -zxvf ${wildfly::install_cache_dir}/${install_file}",
+      command  => "tar --no-same-owner --no-same-permissions --strip-components=1 -C ${wildfly::dirname} -zxvf ${wildfly::install_cache_dir}/${install_file}", # lint:ignore:140chars
       path     => ['/bin', '/usr/bin', '/sbin'],
       loglevel => 'notice',
       creates  => "${wildfly::dirname}/jboss-modules.jar",

@@ -6,13 +6,19 @@
 # @param dependencies Sets the dependencies for this module e.g. `javax.transaction`.
 # @param system Whether this is a system (`system/layers/base`) module or not.
 # @param custom_file Sets a file source for module.xml. If set, template is ignored.
-define wildfly::config::module(
-  Variant[Pattern[/^\./], Pattern[/^file:\/\//], Pattern[/^puppet:\/\//], Stdlib::Httpsurl, Stdlib::Httpurl] $source,
-  String $template = 'wildfly/module.xml',
-  Optional[Boolean] $system = true,
-  Optional[Array] $dependencies = [],
-  Optional[String] $custom_file = undef) {
-
+define wildfly::config::module (
+  Variant[
+    Pattern[/^\./],
+    Pattern[/^file:\/\//],
+    Pattern[/^puppet:\/\//],
+    Stdlib::Httpsurl,
+    Stdlib::Httpurl
+  ]                 $source,
+  String            $template     = 'wildfly/module.xml',
+  Boolean           $system       = true,
+  Array             $dependencies = [],
+  Optional[String]  $custom_file  = undef,
+) {
   require wildfly::install
 
   $namespace_path = regsubst($title, '[.]', '/', 'G')
@@ -23,7 +29,7 @@ define wildfly::config::module(
 
   File {
     owner => $wildfly::user,
-    group => $wildfly::group
+    group => $wildfly::group,
   }
 
   $dir_path = "${wildfly::dirname}/modules/${module_dir}/${namespace_path}/main"
@@ -54,10 +60,10 @@ define wildfly::config::module(
     /^(file:|puppet:)/: {
       file { "${dir_path}/${file_name}":
         ensure => file,
-        owner  => $::wildfly::user,
-        group  => $::wildfly::group,
+        owner  => $wildfly::user,
+        group  => $wildfly::group,
         mode   => '0655',
-        source => $source
+        source => $source,
       }
     }
     default : {
@@ -71,8 +77,8 @@ define wildfly::config::module(
 
       file { "${dir_path}/${file_name}":
         ensure  => file,
-        owner   => $::wildfly::user,
-        group   => $::wildfly::group,
+        owner   => $wildfly::user,
+        group   => $wildfly::group,
         mode    => '0655',
         require => Exec["download module from ${source}"],
       }
@@ -90,7 +96,7 @@ define wildfly::config::module(
     $params = {
       'file_name'    => $file_name,
       'dependencies' => $dependencies,
-      'name'         => $title
+      'name'         => $title,
     }
 
     file { "${dir_path}/module.xml":

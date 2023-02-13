@@ -10,18 +10,19 @@
 # @param password The password for Wildfly's management user.
 # @param host The IP address or FQDN of the JBoss Management service.
 # @param port The port of the JBoss Management service.
-define wildfly::cli(
-  String $command          = $title,
-  Optional[String] $unless = undef,
-  Optional[String] $onlyif = undef,
+# @param secure Use https port or http port.
+#
+define wildfly::cli (
+  String            $command     = $title,
+  Optional[String]  $unless      = undef,
+  Optional[String]  $onlyif      = undef,
   Optional[Boolean] $refreshonly = undef,
-  String $username         = $wildfly::mgmt_user['username'],
-  String $password         = $wildfly::mgmt_user['password'],
-  String $host             = $wildfly::properties['jboss.bind.address.management'],
-  String $port             = $wildfly::properties['jboss.management.http.port'],
-  Boolean $secure          = $wildfly::secure_mgmt_api,
+  String            $username    = $wildfly::mgmt_user['username'],
+  String            $password    = $wildfly::mgmt_user['password'],
+  String            $host        = $wildfly::properties['jboss.bind.address.management'],
+  String            $port        = $wildfly::properties['jboss.management.http.port'],
+  Boolean           $secure      = $wildfly::secure_mgmt_api,
 ) {
-
   if $secure {
     $_port  = $wildfly::properties['jboss.management.https.port']
   }
@@ -41,5 +42,4 @@ define wildfly::cli(
     refreshonly => $refreshonly,
     require     => Service['wildfly'],
   }
-
 }

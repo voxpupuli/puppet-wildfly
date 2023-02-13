@@ -13,7 +13,9 @@
 # @param password The password for Wildfly's management user.
 # @param host The IP address or FQDN of the JBoss Management service.
 # @param port The port of the JBoss Management service.
-define wildfly::resource(
+# @param secure Use https port or http port.
+#
+define wildfly::resource (
   Enum[present, absent] $ensure = present,
   Boolean $recursive            = false,
   Boolean $undefine_attributes  = false,
@@ -26,7 +28,6 @@ define wildfly::resource(
   String $port                  = $wildfly::properties['jboss.management.http.port'],
   Boolean $secure               = $wildfly::secure_mgmt_api,
 ) {
-
   $profile_path = wildfly::profile_path($profile)
 
   if $undefine_attributes {
@@ -55,5 +56,4 @@ define wildfly::resource(
     operation_headers => $operation_headers,
     require           => Service['wildfly'],
   }
-
 }

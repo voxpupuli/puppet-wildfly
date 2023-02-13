@@ -1,11 +1,10 @@
 # Wildfly systemd configuration
 #
 class wildfly::service::systemd {
-
   if $wildfly::service::systemd_template == 'wildfly/wildfly.systemd.service' {
     # Use native script
     file { "${wildfly::dirname}/bin/launch.sh" :
-      ensure  => present,
+      ensure  => file,
       mode    => '0755',
       owner   => $wildfly::user,
       group   => $wildfly::group,
@@ -19,10 +18,9 @@ class wildfly::service::systemd {
   }
 
   file { "/etc/systemd/system/${wildfly::service::service_name}.service":
-    ensure  => present,
+    ensure  => file,
     mode    => '0644',
     content => epp($wildfly::service::systemd_template),
     before  => Service['wildfly'],
   }
-
 }
