@@ -772,12 +772,12 @@ This feature is currently implemented for standalone mode only.  The default htt
 This will generate and use a basic self signed certificate for the Management interface.  Requires the puppetlabs/java_ks module:
 
 ```puppet
-class { 'wildfly': 
+class { 'wildfly':
 	secure_mgmt_api => true,
 }
 ```
 
-#### Providing your own certificate 
+#### Providing your own certificate
 The module will create the approprate keystores, truststores, and configuration if given paths to the private key and certificate.  Use your favorite method to ensure the key and certificate exist on the endpoint.  Requires the puppetlabs/java_ks module:
 
 ```puppet
