@@ -772,12 +772,12 @@ This feature is currently implemented for standalone mode only.  The default htt
 This will generate and use a basic self signed certificate for the Management interface.  Requires the puppetlabs/java_ks module:
 
 ```puppet
-class { 'wildfly': 
+class { 'wildfly':
 	secure_mgmt_api => true,
 }
 ```
 
-#### Providing your own certificate 
+#### Providing your own certificate
 The module will create the approprate keystores, truststores, and configuration if given paths to the private key and certificate.  Use your favorite method to ensure the key and certificate exist on the endpoint.  Requires the puppetlabs/java_ks module:
 
 ```puppet
@@ -934,8 +934,31 @@ JBoss EAP only works with RHEL-based OS's unless you provide custom scripts.
 
 This module uses puppet-lint, rubocop, rspec-puppet, beaker and travis-ci. We hope you use them before submitting your PR.
 
+Hopefully, you'll need rvm to get the correct gems installed (and not messing with your computer's Ruby setup). Pls follow [official installation instructions](https://rvm.io/rvm/install), plus:
+
+```Shell
+sudo usermod -aG rvm $USER
+echo 'source "/etc/profile.d/rvm.sh"' >> ~/.bashrc
+```
+
+Reboot for all changes to take effect, then install Ruby 2.7:
+
 ```shell
-gem install bundler --no-rdoc --no-ri
+# Didn't work for installing Ruby 2.7, but looks wise:
+rvm autolibs enable
+# Ruby 2.7 dependency
+rvm pkg install openssl
+Beware, 'rvm pkg ...' is deprecated, read about the new autolibs feature: 'rvm help autolibs'.
+# Inside this project's root directory:
+rvm install ruby-2.7 --with-openssl-dir=/usr/share/rvm/usr
+rvm use ruby-2.7
+# Validate
+ruby -v
+ruby 2.7.x (20XX-YY-ZZ revision &lt;Hash&gt;) [x86_64-linux]
+```
+
+```shell
+gem install bundler --no-document
 bundle config set --local without 'development'
 bundle install
 
