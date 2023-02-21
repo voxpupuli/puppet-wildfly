@@ -941,7 +941,21 @@ sudo usermod -aG rvm $USER
 echo 'source "/etc/profile.d/rvm.sh"' >> ~/.bashrc
 ```
 
-Reboot for all changes to take effect
+Reboot for all changes to take effect, then install Ruby 2.7:
+
+```shell
+# Didn't work for installing Ruby 2.7, but looks wise:
+rvm autolibs enable
+# Ruby 2.7 dependency
+rvm pkg install openssl
+Beware, 'rvm pkg ...' is deprecated, read about the new autolibs feature: 'rvm help autolibs'.
+# Inside this project's root directory:
+rvm install ruby-2.7 --with-openssl-dir=/usr/share/rvm/usr
+rvm use ruby-2.7
+# Validate
+ruby -v
+ruby 2.7.x (20XX-YY-ZZ revision &lt;Hash&gt;) [x86_64-linux]
+```
 
 ```shell
 gem install bundler --no-rdoc --no-ri
