@@ -958,7 +958,7 @@ ruby 2.7.x (20XX-YY-ZZ revision &lt;Hash&gt;) [x86_64-linux]
 ```
 
 ```shell
-gem install bundler --no-rdoc --no-ri
+gem install bundler --no-document
 bundle config set --local without 'development'
 bundle install
 
