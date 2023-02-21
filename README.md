@@ -934,6 +934,15 @@ JBoss EAP only works with RHEL-based OS's unless you provide custom scripts.
 
 This module uses puppet-lint, rubocop, rspec-puppet, beaker and travis-ci. We hope you use them before submitting your PR.
 
+Hopefully, you'll need rvm to get the correct gems installed (and not messing with your computer's Ruby setup). Pls follow [official installation instructions](https://rvm.io/rvm/install), plus:
+
+```Shell
+sudo usermod -aG rvm $USER
+echo 'source "/etc/profile.d/rvm.sh"' >> ~/.bashrc
+```
+
+Reboot for all changes to take effect
+
 ```shell
 gem install bundler --no-rdoc --no-ri
 bundle config set --local without 'development'
