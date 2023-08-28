@@ -19,9 +19,10 @@
 # @param install_download_timeout Sets the timeout for installer download.
 # @param install_source Source of Wildfly tarball installer.
 # @param java_home Sets the `JAVA_HOME` for Wildfly.
-# @param java_opts Sets `JAVA_OPTS`, allowing to override several Java params, like `Xmx`, `Xms`,
+# @param java_opts Sets `JAVA_OPTS`, allowing to override several Java params, like `Xmx`, `Xms` and `MaxMetaspaceSize`,
 # @param java_xmx Sets Java's `-Xmx` parameter.
 # @param java_xms Sets Java's `-Xms` parameter.
+# @param java_maxmetaspace_size Sets Java's `-XX:MaxMetaspaceSize` parameter.
 # @param jboss_opts Sets `JBOSS_OPTS`, allowing to override several JBoss properties. It only works with Wildfly 8.2+.
 # @param manage_user Whether this module should manage wildfly user and group.
 # @param mgmt_user Hash containing a Wildfly's management user to be used internally.
@@ -83,6 +84,7 @@ class wildfly (
   Wildfly::Config_file                               $host_config                  = 'host.xml',
   String                                             $java_xmx                     = '512m',
   String                                             $java_xms                     = '256m',
+  String                                             $java_maxmetaspace_size       = '128m',
   String                                             $package_ensure               = 'present',
   Boolean                                            $service_ensure               = true,
   Boolean                                            $service_manage               = true,
