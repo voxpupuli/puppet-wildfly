@@ -522,6 +522,55 @@ wildfly::host::server_config { 'app':
 
 Please note that you'll need to enable external facts (`wildfly::external_facts`) since `wildfly::host::server_config` relies on `wildfly_is_running` fact to know if it should use augeas or connect to the domain controller to remove a server-config.
 
+#### Custom Java options
+
+Domain controller:
+
+```puppet
+class { 'wildfly':
+  ...,
+  java_opts                    => ['<java_opt_1>', '<java_opt_2>']
+  process_controller_java_opts => ['<controller_opt_1>', '<controller_opt_2>']
+}
+```
+
+Results in a `domain.conf` with:
+
+```shell
+if [ "x$JAVA_OPTS" = "x" ]; then
+    JAVA_OPTS=...
+    JAVA_OPTS="$JAVA_OPTS <java_opt_1> <java_opt_2>"
+    ...
+fi
+...
+if [ "x$PROCESS_CONTROLLER_JAVA_OPTS" = "x" ]; then
+    PROCESS_CONTROLLER_JAVA_OPTS="$JAVA_OPTS <controller_opt_1>, <controller_opt_2>"
+fi
+```
+
+Host controller:
+
+```puppet
+class { 'wildfly':
+  ...,
+  java_opts                 => ['<java_opt_1>', '<java_opt_2>']
+  host_controller_java_opts => ['<managed_opt_1>', '<managed_opt_2>']
+}
+```
+
+Results in a `domain.conf` with:
+
+```shell
+if [ "x$JAVA_OPTS" = "x" ]; then
+    JAVA_OPTS=...
+    JAVA_OPTS="$JAVA_OPTS <java_opt_1> <java_opt_2>"
+    ...
+fi
+...
+if [ "x$HOST_CONTROLLER_JAVA_OPTS" = "x" ]; then
+    HOST_CONTROLLER_JAVA_OPTS="$JAVA_OPTS <managed_opt_1> <managed_opt_2>"
+fi
+```
 
 ### Deployment
 
