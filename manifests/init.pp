@@ -120,7 +120,7 @@ class wildfly (
   Optional[String]                                   $remote_username              = undef,
   Optional[String]                                   $package_name                 = undef,
   Optional[String]                                   $package_version              = undef,
-  Optional[String]                                   $java_opts                    = undef,
+  Variant[Undef, String, Array]                      $java_opts                    = undef,
   Variant[Undef, String, Array]                      $process_controller_java_opts = undef,
   Variant[Undef, String, Array]                      $host_controller_java_opts    = undef,
   Optional[String]                                   $jboss_opts                   = undef,

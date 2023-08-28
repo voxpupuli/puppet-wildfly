@@ -43,7 +43,11 @@ fi
 #
 if [ "x$JAVA_OPTS" = "x" ]; then
     JAVA_OPTS="-Xms<%= $wildfly::java_xms %> -Xmx<%= $wildfly::java_xmx %>"
-    JAVA_OPTS="$JAVA_OPTS <%= $wildfly::java_opts %>"
+    JAVA_OPTS="$JAVA_OPTS <% if $wildfly::java_opts =~ Array { -%>
+<%= $wildfly::java_opts.join(" ") -%>
+<% } elsif $wildfly::java_opts =~ String { -%>
+<%= $wildfly::java_opts -%>
+<% } -%>""
 else
     echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
 fi
