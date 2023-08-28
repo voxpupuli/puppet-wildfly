@@ -125,6 +125,8 @@ class wildfly (
   Optional[String]                                   $overlay_class            = undef,
   Optional[Stdlib::Unixpath]                         $mgmt_ssl_cert            = undef,
   Optional[Stdlib::Unixpath]                         $mgmt_ssl_key             = undef,
+  Variant[Undef, String, Array]                      $process_controller_java_opts = undef,
+  Variant[Undef, String, Array]                      $host_controller_java_opts    = undef,
 ) {
   contain wildfly::prepare
   contain wildfly::install
