@@ -90,7 +90,7 @@ It should work on every operating system with the following init systems: sysvin
 
 ### wildfly class
 
-The main changes in `wildfly` class are bellow:
+The main changes in `wildfly` class are below:
 
 ```puppet
 class { '::wildfly':
