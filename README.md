@@ -26,6 +26,7 @@
     * [Patch management](#patch-management)
     * [Unmanaged installation](#unmanaged-installation)
     * [Domain Mode](#domain-mode)
+    * [Java Virtual Machine options](#java-virtual-machine-options)
     * [Deployment](#deployment)
     * [User management](#user-management)
     * [Module installation](#module-installation)
@@ -570,6 +571,19 @@ fi
 if [ "x$HOST_CONTROLLER_JAVA_OPTS" = "x" ]; then
     HOST_CONTROLLER_JAVA_OPTS="$JAVA_OPTS <managed_opt_1> <managed_opt_2>"
 fi
+```
+
+### Java Virtual Machine options
+
+To adjust [JVM heap memory settings](https://www.baeldung.com/jvm-parameters#explicit-heap-memory---xms-and-xmx-options), use `wildfly` class `java_xmx`, `java_xms` and/or `java_maxmetaspace_size` parameters:
+
+```puppet
+class { 'wildfly':
+  # ...
+  java_xms               => '<Minimum heap size>',
+  java_xmx               => '<Maximum heap size>',
+  java_maxmetaspace_size => '<Maximum Metaspace size>',
+}
 ```
 
 ### Deployment
