@@ -43,7 +43,11 @@ fi
 #
 if [ "x$JAVA_OPTS" = "x" ]; then
     JAVA_OPTS="-Xms<%= $wildfly::java_xms %> -Xmx<%= $wildfly::java_xmx %>"
-    JAVA_OPTS="$JAVA_OPTS <%= $wildfly::java_opts %>"
+    JAVA_OPTS="$JAVA_OPTS <% if $wildfly::java_opts =~ Array { -%>
+<%= $wildfly::java_opts.join(" ") -%>
+<% } elsif $wildfly::java_opts =~ String { -%>
+<%= $wildfly::java_opts -%>
+<% } -%>""
 else
     echo "JAVA_OPTS already set in environment; overriding default settings with values: $JAVA_OPTS"
 fi
@@ -56,12 +60,20 @@ fi
 
 # The ProcessController process uses its own set of java options
 if [ "x$PROCESS_CONTROLLER_JAVA_OPTS" = "x" ]; then
-    PROCESS_CONTROLLER_JAVA_OPTS="$JAVA_OPTS"
+    PROCESS_CONTROLLER_JAVA_OPTS="$JAVA_OPTS <% if $wildfly::process_controller_java_opts =~ Array { -%>
+<%= $wildfly::process_controller_java_opts.join(" ") -%>
+<% } elsif $wildfly::process_controller_java_opts =~ String { -%>
+<%= $wildfly::process_controller_java_opts -%>
+<% } -%>"
 fi
 
 # The HostController process uses its own set of java options
 if [ "x$HOST_CONTROLLER_JAVA_OPTS" = "x" ]; then
-    HOST_CONTROLLER_JAVA_OPTS="$JAVA_OPTS"
+    HOST_CONTROLLER_JAVA_OPTS="$JAVA_OPTS <% if $wildfly::host_controller_java_opts =~ Array { -%>
+<%= $wildfly::host_controller_java_opts.join(" ") -%>
+<% } elsif $wildfly::host_controller_java_opts =~ String { -%>
+<%= $wildfly::host_controller_java_opts -%>
+<% } -%>"
 fi
 
 # Sample JPDA settings for remote socket debuging.
