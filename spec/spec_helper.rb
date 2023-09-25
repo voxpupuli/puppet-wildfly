@@ -1,42 +1,20 @@
-RSpec.configure do |c|
-  c.mock_with :rspec
+# frozen_string_literal: true
+
+# Managed by modulesync - DO NOT EDIT
+# https://voxpupuli.org/docs/updating-files-managed-with-modulesync/
+
+# puppetlabs_spec_helper will set up coverage if the env variable is set.
+# We want to do this if lib exists and it hasn't been explicitly set.
+ENV['COVERAGE'] ||= 'yes' if Dir.exist?(File.expand_path('../lib', __dir__))
+
+require 'voxpupuli/test/spec_helper'
+
+add_mocked_facts!
+
+if File.exist?(File.join(__dir__, 'default_module_facts.yml'))
+  facts = YAML.safe_load(File.read(File.join(__dir__, 'default_module_facts.yml')))
+  facts&.each do |name, value|
+    add_custom_fact name.to_sym, value
+  end
 end
-
-require 'puppetlabs_spec_helper/module_spec_helper'
-
-require 'coveralls'
-require 'simplecov'
-require 'simplecov-console'
-require 'pry'
-
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::Console,
-  Coveralls::SimpleCov::Formatter
-]
-SimpleCov.start do
-  add_group 'Puppet Types', '/lib/puppet/type/'
-  add_group 'Puppet Providers', '/lib/puppet/provider/'
-  add_group 'Puppet Extensions', 'lib/puppet_x/'
-
-  add_filter '/spec'
-  add_filter 'lib/puppet/parser'
-  add_filter 'lib/puppet_x/wildfly/gems/'
-
-  track_files 'lib/**/*.rb'
-end
-
-support_path = File.expand_path(File.join(File.dirname(__FILE__), '..', 'spec/support/*.rb'))
-Dir[support_path].each { |f| require f }
-
-RSpec.configure do |c|
-  c.config = '/doesnotexist'
-  c.module_path  = File.expand_path(File.join(File.dirname(__FILE__), 'fixtures/modules'))
-  c.manifest_dir = File.expand_path(File.join(File.dirname(__FILE__), 'fixtures/manifests'))
-end
-
-def param_value(subject, type, title, param)
-  subject.resource(type, title).send(:parameters)[param.to_sym]
-end
-
-at_exit { RSpec::Puppet::Coverage.report! }
+Dir['./spec/support/spec/**/*.rb'].sort.each { |f| require f }
