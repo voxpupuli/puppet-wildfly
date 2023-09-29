@@ -29,16 +29,16 @@ describe 'wildfly::domain::server_group' do
       end
 
       it do
-        is_expected.to contain_wildfly__resource("/server-group=#{title}")
-          .with(content: {
+        is_expected.to contain_wildfly__resource("/server-group=#{title}").
+          with(content: {
             'profile' => 'full-ha',
             'socket-binding-group' => 'full-ha-sockets',
             'socket-binding-port-offset' => 0,
           })
         # FIXME jvm depende desse aqui de cima
 
-        is_expected.to contain_wildfly__resource("/server-group=#{title}/jvm=jvm")
-          .with(content: {})
+        is_expected.to contain_wildfly__resource("/server-group=#{title}/jvm=jvm").
+          with(content: {})
       end
     end
 

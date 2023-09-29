@@ -22,11 +22,11 @@ describe 'wildfly::deployment' do
     let(:pre_condition) { 'include wildfly' }
 
     it do
-      is_expected.to contain_wildfly_deployment(title)
-        .with(:username => 'puppet',
+      is_expected.to contain_wildfly_deployment(title).
+        with(:username => 'puppet',
               :host     => '127.0.0.1',
-              :port     => '9990')
-        .that_requires(['Service[wildfly]', 'File[/opt/hawtio.war]'])
+              :port     => '9990').
+        that_requires(['Service[wildfly]', 'File[/opt/hawtio.war]'])
     end
   end
 
@@ -47,12 +47,12 @@ describe 'wildfly::deployment' do
     end
 
     it do
-      is_expected.to contain_wildfly_deployment(title)
-        .with(:username => 'admin',
+      is_expected.to contain_wildfly_deployment(title).
+        with(:username => 'admin',
               :password => 'safepassword',
               :host     => '192.168.10.10',
-              :port     => '10090')
-        .that_requires(['Service[wildfly]', 'File[/opt/hawtio.war]'])
+              :port     => '10090').
+        that_requires(['Service[wildfly]', 'File[/opt/hawtio.war]'])
     end
   end
 

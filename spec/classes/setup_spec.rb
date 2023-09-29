@@ -18,16 +18,16 @@ describe 'wildfly::setup' do
     end
 
     it do
-      is_expected.to contain_file('/opt/wildfly/bin/standalone.conf')
-        .with(:owner => 'wildfly',
-              :group   => 'wildfly')
-        .that_notifies('Service[wildfly]')
+      is_expected.to contain_file('/opt/wildfly/bin/standalone.conf').
+        with(:owner => 'wildfly',
+              :group   => 'wildfly').
+        that_notifies('Service[wildfly]')
     end
     it do
-      is_expected.to contain_file('/opt/wildfly/jboss.properties')
-        .with(:owner => 'wildfly',
-              :group   => 'wildfly')
-        .that_notifies('Service[wildfly]')
+      is_expected.to contain_file('/opt/wildfly/jboss.properties').
+        with(:owner => 'wildfly',
+              :group   => 'wildfly').
+        that_notifies('Service[wildfly]')
     end
     it { is_expected.to contain_wildfly__config__mgmt_user('puppet') }
   end

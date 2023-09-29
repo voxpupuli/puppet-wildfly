@@ -87,8 +87,8 @@ describe 'wildfly::prepare' do
     end
 
     it do
-      is_expected.to contain_user('wildfly')
-        .with_home('/opt/wildfly')
+      is_expected.to contain_user('wildfly').
+        with_home('/opt/wildfly')
     end
   end
 end

@@ -57,8 +57,8 @@ describe 'wildfly::host::server_config' do
 
       describe 'with start_server_after_created = true' do
         it do
-          is_expected.to contain_wildfly_cli("/host=appserver.localdomain/server-config=#{title}:start(blocking=true)")
-            .with({
+          is_expected.to contain_wildfly_cli("/host=appserver.localdomain/server-config=#{title}:start(blocking=true)").
+            with({
               :onlyif => "(result != STARTED) of /host=appserver.localdomain/server-config=#{title}:read-attribute(name=status)"
             })
         end
@@ -87,13 +87,13 @@ describe 'wildfly::host::server_config' do
 
     describe 'with wildfly running' do
       it do
-        is_expected.to contain_wildfly_cli("/host=appserver.localdomain/server-config=#{title}:stop(blocking=true)")
-          .with({
+        is_expected.to contain_wildfly_cli("/host=appserver.localdomain/server-config=#{title}:stop(blocking=true)").
+          with({
               :onlyif => "(result != STOPPED) of /host=appserver.localdomain/server-config=#{title}:read-attribute(name=status)"
             })
 
-        is_expected.to contain_wildfly_resource("/host=appserver.localdomain/server-config=#{title}")
-          .with({ :ensure => 'absent' })
+        is_expected.to contain_wildfly_resource("/host=appserver.localdomain/server-config=#{title}").
+          with({ :ensure => 'absent' })
 
         is_expected.not_to contain_augeas("manage-host-controller-server-#{title}")
       end
@@ -107,8 +107,8 @@ describe 'wildfly::host::server_config' do
       end
 
       it do
-        is_expected.to contain_augeas("manage-host-controller-server-#{title}")
-          .with({
+        is_expected.to contain_augeas("manage-host-controller-server-#{title}").
+          with({
             :lens    => 'Xml.lns',
             :incl    => "/opt/wildfly/domain/configuration/host-slave.xml",
             :changes => "rm host/servers/server[#attribute/name='#{title}']",
