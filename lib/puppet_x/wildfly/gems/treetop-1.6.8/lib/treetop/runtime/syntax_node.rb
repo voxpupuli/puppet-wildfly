@@ -10,8 +10,8 @@ module Treetop
         @input = input
         @interval = interval
         return unless (@elements = elements)
-          @elements.each { |e| e.equal?(true) or e.parent = self }
-        
+
+        @elements.each { |e| e.equal?(true) or e.parent = self }
       end
 
       def elements
@@ -72,9 +72,9 @@ module Treetop
 
         indent +
           self.class.to_s.sub(%r{.*:}, '') +
-          em.map { |m| "+#{m.to_s.sub(%r{.*:}, '')}" } * '' \
-          " offset=#{interval.first}" \
-          ", #{tv.inspect}" +
+          (em.map { |m| "+#{m.to_s.sub(%r{.*:}, '')}" } * ' ' \
+                                                          "offset=#{interval.first}" \
+                                                          ", #{tv.inspect}") +
           im
       end
 
@@ -83,11 +83,9 @@ module Treetop
 
         ':' +
           elements.map do |e|
-            
-              "\n#{e.inspect("#{indent}  ")}"
-            rescue StandardError # Defend against inspect not taking a parameter
-              "\n#{indent} #{e.inspect}"
-            
+            "\n#{e.inspect("#{indent}  ")}"
+          rescue StandardError # Defend against inspect not taking a parameter
+            "\n#{indent} #{e.inspect}"
           end.
           join
       end
@@ -106,11 +104,11 @@ module Treetop
       def write_dot(io)
         io.puts "node#{dot_id} [label=\"'#{text_value}'\"];"
         return unless nonterminal?
-          elements.each do |x|
-            io.puts "node#{dot_id} -> node#{x.dot_id};"
-            x.write_dot(io)
-          end
-        
+
+        elements.each do |x|
+          io.puts "node#{dot_id} -> node#{x.dot_id};"
+          x.write_dot(io)
+        end
       end
 
       def write_dot_file(fname)

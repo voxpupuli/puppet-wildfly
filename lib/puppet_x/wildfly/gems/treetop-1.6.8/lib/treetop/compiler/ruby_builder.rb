@@ -49,9 +49,9 @@ module Treetop
 
       def assign(left, right)
         self << if left.instance_of? Array
-          "#{left.join(', ')} = #{right.join(', ')}"
-        else
-          "#{left} = #{right}"
+                  "#{left.join(', ')} = #{right.join(', ')}"
+                else
+                  "#{left} = #{right}"
                 end
       end
 

@@ -24,7 +24,7 @@ Puppet::Type.type(:wildfly_deployment).provide :http_api, parent: Puppet::Provid
     cli.deployment_checksum(@resource[:name])
   end
 
-  def content=(value)
+  def content=(_value)
     debug "Updating deploy #{@resource[:name]} with content from #{@resource[:source]}"
     cli.update_deploy(@resource[:name], @resource[:source], @resource[:server_group], @resource[:operation_headers])
   end

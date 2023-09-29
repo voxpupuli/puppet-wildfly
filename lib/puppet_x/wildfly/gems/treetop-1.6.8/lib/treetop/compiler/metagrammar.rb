@@ -74,7 +74,8 @@ module Treetop
             r2 = nil
           end
           break unless r2
-            s1 << r2
+
+          s1 << r2
         end
         r1 = instantiate_node(SyntaxNode, input, i1...index, s1)
         s0 << r1
@@ -149,10 +150,8 @@ module Treetop
                 r5 = nil
               end
               break unless r5
-                s4 << r5
 
-
-
+              s4 << r5
             end
             if s4.empty?
               @index = i4
@@ -173,10 +172,8 @@ module Treetop
                   r7 = nil
                 end
                 break unless r7
-                  s6 << r7
 
-
-
+                s6 << r7
               end
               if s6.empty?
                 @index = i6
@@ -356,10 +353,8 @@ module Treetop
               loop do
                 r9 = _nt_alphanumeric_char
                 break unless r9
-                  s8 << r9
 
-
-
+                s8 << r9
               end
               r8 = instantiate_node(SyntaxNode, input, i8...index, s8)
               s6 << r8
@@ -392,10 +387,8 @@ module Treetop
                       loop do
                         r15 = _nt_alphanumeric_char
                         break unless r15
-                          s14 << r15
 
-
-
+                        s14 << r15
                       end
                       r14 = instantiate_node(SyntaxNode, input, i14...index, s14)
                       s11 << r14
@@ -409,10 +402,8 @@ module Treetop
                     r11 = nil
                   end
                   break unless r11
-                    s10 << r11
 
-
-
+                  s10 << r11
                 end
                 r10 = instantiate_node(SyntaxNode, input, i10...index, s10)
                 s6 << r10
@@ -640,10 +631,8 @@ module Treetop
           loop do
             r3 = _nt_alphanumeric_char
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -731,10 +720,8 @@ module Treetop
               r4 = nil
             end
             break unless r4
-              s3 << r4
 
-
-
+            s3 << r4
           end
           r3 = instantiate_node(SyntaxNode, input, i3...index, s3)
           s1 << r3
@@ -876,10 +863,8 @@ module Treetop
                   end
                 end
                 break unless r5
-                  s4 << r5
 
-
-
+                s4 << r5
               end
               r4 = instantiate_node(SyntaxNode, input, i4...index, s4)
               s0 << r4
@@ -1144,10 +1129,8 @@ module Treetop
               r3 = nil
             end
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           if s2.empty?
             @index = i2
@@ -1335,10 +1318,8 @@ module Treetop
               r3 = nil
             end
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           if s2.empty?
             @index = i2
@@ -1435,7 +1416,7 @@ module Treetop
       end
 
       module Primary1
-        def compile(address, builder, parent_expression = nil)
+        def compile(address, builder, _parent_expression = nil)
           prefix.compile(address, builder, self)
         end
 
@@ -1471,7 +1452,7 @@ module Treetop
       end
 
       module Primary3
-        def compile(address, builder, parent_expression = nil)
+        def compile(address, builder, _parent_expression = nil)
           prefix.compile(address, builder, self)
         end
 
@@ -1507,7 +1488,7 @@ module Treetop
       end
 
       module Primary5
-        def compile(address, builder, parent_expression = nil)
+        def compile(address, builder, _parent_expression = nil)
           warn "Extraneous module ignored after suffix: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
           suffix.compile(address, builder, self)
         end
@@ -1548,7 +1529,7 @@ module Treetop
       end
 
       module Primary7
-        def compile(address, builder, parent_expression = nil)
+        def compile(address, builder, _parent_expression = nil)
           warn "Extraneous module ignored with nested atomic: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
           atomic.compile(address, builder, self)
         end
@@ -1805,8 +1786,8 @@ module Treetop
 
         def label_name
           return unless sequence_primary.instance_of?(Nonterminal)
-            sequence_primary.text_value
-          
+
+          sequence_primary.text_value
         end
       end
 
@@ -1913,10 +1894,8 @@ module Treetop
           loop do
             r4 = _nt_alphanumeric_char
             break unless r4
-              s3 << r4
 
-
-
+            s3 << r4
           end
           r3 = instantiate_node(SyntaxNode, input, i3...index, s3)
           s1 << r3
@@ -2027,7 +2006,7 @@ module Treetop
       end
 
       module SequencePrimary3
-        def compile(address, builder, parent_expression = nil)
+        def compile(address, builder, _parent_expression = nil)
           prefix.compile(address, builder, self)
         end
 
@@ -2375,10 +2354,8 @@ module Treetop
               r4 = nil
             end
             break unless r4
-              s3 << r4
 
-
-
+            s3 << r4
           end
           r3 = instantiate_node(SyntaxNode, input, i3...index, s3)
           s0 << r3
@@ -2403,10 +2380,8 @@ module Treetop
                   r7 = nil
                 end
                 break unless r7
-                  s6 << r7
 
-
-
+                s6 << r7
               end
               r6 = instantiate_node(SyntaxNode, input, i6...index, s6)
               s0 << r6
@@ -2624,10 +2599,10 @@ module Treetop
         i1 = index
         r2 = _nt_keyword_inside_grammar
         @index = i1
-r1 = if r2
-          nil
-        else
-          instantiate_node(SyntaxNode, input, index...index)
+        r1 = if r2
+               nil
+             else
+               instantiate_node(SyntaxNode, input, index...index)
              end
         s0 << r1
         if r1
@@ -2641,10 +2616,8 @@ r1 = if r2
             loop do
               r6 = _nt_alphanumeric_char
               break unless r6
-                s5 << r6
 
-
-
+              s5 << r6
             end
             r5 = instantiate_node(SyntaxNode, input, i5...index, s5)
             s3 << r5
@@ -2766,10 +2739,8 @@ r1 = if r2
               r5 = nil
             end
             break unless r5
-              s4 << r5
 
-
-
+            s4 << r5
           end
           r4 = instantiate_node(SyntaxNode, input, i4...index, s4)
           s0 << r4
@@ -2892,10 +2863,8 @@ r1 = if r2
               r3 = nil
             end
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -3027,10 +2996,8 @@ r1 = if r2
               r3 = nil
             end
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -3218,10 +3185,8 @@ r1 = if r2
               r3 = nil
             end
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           if s2.empty?
             @index = i2
@@ -3587,10 +3552,8 @@ r1 = if r2
                 r5 = nil
               end
               break unless r5
-                s4 << r5
 
-
-
+              s4 << r5
             end
             if s4.empty?
               @index = i4
@@ -3868,10 +3831,8 @@ r1 = if r2
               end
             end
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -3947,10 +3908,10 @@ r1 = if r2
           i4 = index
           r5 = _nt_non_space_char
           @index = i4
-r4 = if r5
-            nil
-          else
-            instantiate_node(SyntaxNode, input, index...index)
+          r4 = if r5
+                 nil
+               else
+                 instantiate_node(SyntaxNode, input, index...index)
                end
           s0 << r4
         end
@@ -3986,10 +3947,10 @@ r4 = if r5
         i1 = index
         r2 = _nt_space
         @index = i1
-r1 = if r2
-          nil
-        else
-          instantiate_node(SyntaxNode, input, index...index)
+        r1 = if r2
+               nil
+             else
+               instantiate_node(SyntaxNode, input, index...index)
              end
         s0 << r1
         if r1
@@ -4107,10 +4068,8 @@ r1 = if r2
             end
           end
           break unless r1
-            s0 << r1
 
-
-
+          s0 << r1
         end
         if s0.empty?
           @index = i0
@@ -4193,10 +4152,8 @@ r1 = if r2
               r3 = nil
             end
             break unless r3
-              s2 << r3
 
-
-
+            s2 << r3
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2

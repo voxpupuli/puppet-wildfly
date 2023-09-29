@@ -46,10 +46,10 @@ module Treetop
 
         'Expected ' +
           (if tf.size == 1
-  (tf[0].unexpected ? OtherThan : '') + tf[0].expected_string
-else
-  "one of #{tf.map { |f| (f.unexpected ? OtherThan : '') + f.expected_string }.uniq * ', '}"
-end
+             (tf[0].unexpected ? OtherThan : '') + tf[0].expected_string
+           else
+             "one of #{tf.map { |f| (f.unexpected ? OtherThan : '') + f.expected_string }.uniq * ', '}"
+           end
           ) +
           " at line #{failure_line}, column #{failure_column} (byte #{failure_index + 1})" +
           (failure_index.positive? ? " after #{input[index...failure_index]}" : '')

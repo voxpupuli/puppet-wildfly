@@ -29,10 +29,10 @@ module Treetop
         elements.first.compile(subexpression_address, builder)
         accumulate_subexpression_result
         return unless elements.size > 1
-          builder.if_ subexpression_success? do
-            compile_sequence_elements(elements[1..])
-          end
-        
+
+        builder.if_ subexpression_success? do
+          compile_sequence_elements(elements[1..])
+        end
       end
 
       def sequence_element_accessor_module
@@ -59,10 +59,12 @@ module Treetop
       def compile(idx, builder, rule)
         super
         builder.module_declaration(module_name) do
-          elements_by_name = sequence_elements.each_with_object({}) do |elem, acc| (acc[elem.label_name.to_s] ||= []) << elem
-  end
+          elements_by_name = sequence_elements.each_with_object({}) do |elem, acc|
+            (acc[elem.label_name.to_s] ||= []) << elem
+          end
           sequence_elements.each_with_index do |element, index|
             next unless element.label_name
+
             repetitions = elements_by_name[element.label_name.to_s]
             label_name = element.label_name + (repetitions.size > 1 ? (repetitions.index(element) + 1).to_s : '')
             builder.method_declaration(label_name) do

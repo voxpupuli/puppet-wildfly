@@ -10,8 +10,8 @@ module Treetop
       def inspect(indent = '')
         indent +
           self.class.to_s.sub(%r{.*:}, '') +
-          " offset=#{interval.first}" \
-          " #{text_value.inspect}"
+          " offset=#{interval.first} " \
+          "#{text_value.inspect}"
       end
     end
   end

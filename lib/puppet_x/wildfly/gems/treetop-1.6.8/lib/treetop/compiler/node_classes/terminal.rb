@@ -30,8 +30,8 @@ module Treetop
             # debugger if parent_expression and parent_expression.inline_modules.size > 0
             # extend_result_with_inline_module parent_expression
             parent_expression&.inline_modules&.each do |inline|
-                extend_result inline.module_name
-              end
+              extend_result inline.module_name
+            end
           else
             assign_lazily_instantiated_node
           end

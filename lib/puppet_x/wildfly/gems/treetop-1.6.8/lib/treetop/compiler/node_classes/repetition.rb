@@ -19,6 +19,7 @@ module Treetop
             builder.break
           end
           next unless max && !max.empty?
+
           builder.if_ "#{accumulator_var}.size == #{max.text_value}" do
             builder.break
           end
@@ -94,14 +95,14 @@ module Treetop
       # remove the last terminal_failure if we merely failed to reach the maximum
       def clean_unsaturated
         return unless !max.empty? && max.text_value.to_i.positive?
-          builder.if_ "#{accumulator_var}.size < #{max.text_value}" do
-            builder << '@terminal_failures.pop' # Ignore the last failure.
-          end
-        
+
+        builder.if_ "#{accumulator_var}.size < #{max.text_value}" do
+          builder << '@terminal_failures.pop' # Ignore the last failure.
+        end
       end
 
       def expected
-        parent_expression.atomic.expected && "at least #{min.text_value} " + parent_expression.atomic.expected
+        parent_expression.atomic.expected && ("at least #{min.text_value} " + parent_expression.atomic.expected)
       end
     end
   end

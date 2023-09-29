@@ -39,8 +39,8 @@ module Treetop
       def when_success
         assign_failure
         return unless (e = parent.atomic.expected)
-          builder << "terminal_parse_failure(#{e}, true)"
-        
+
+        builder << "terminal_parse_failure(#{e}, true)"
       end
 
       def when_failure

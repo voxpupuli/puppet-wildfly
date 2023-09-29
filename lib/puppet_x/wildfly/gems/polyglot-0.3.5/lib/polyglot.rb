@@ -25,21 +25,21 @@ module Polyglot
     end
   end
 
-  def self.find(file, *options, &block)
+  def self.find(file, *_options)
     is_absolute = Pathname.new(file).absolute?
     is_dot_relative = file =~ %r{\.[/\\]}
     paths = if is_absolute
-['']
-else
-Array(is_dot_relative ? '.' : nil) + $LOAD_PATH
-end
+              ['']
+            else
+              Array(is_dot_relative ? '.' : nil) + $LOAD_PATH
+            end
     paths.each do |lib|
       base = is_absolute ? '' : lib + File::SEPARATOR
       # In Windows, repeated SEPARATOR chars have a special meaning, avoid adding them
       matches = Dir["#{base}#{file}{,.#{@registrations.keys * ',.'}}"]
       # Revisit: Should we do more do if more than one candidate found?
       warn "Polyglot: found more than one candidate for #{file}: #{matches * ', '}" if matches.size > 1
-      if path = matches[0]
+      if (path = matches[0])
         return [path, @registrations[path.gsub(%r{.*\.}, '')]]
       end
     end
@@ -53,12 +53,13 @@ end
     begin
       source_file, loader = Polyglot.find(file, *a[1..], &b)
       raise PolyglotLoadError, "Failed to load #{file} using extensions #{(@registrations.keys + ['rb']).sort * ', '}" unless loader
-        begin
-          loader.load(source_file)
-          @loaded[file] = true
-        rescue LoadError => e
-          raise Polyglot::NestedLoadError, e
-        end
+
+      begin
+        loader.load(source_file)
+        @loaded[file] = true
+      rescue LoadError => e
+        raise Polyglot::NestedLoadError, e
+      end
     end
   end
 end

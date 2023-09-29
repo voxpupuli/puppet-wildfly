@@ -56,7 +56,7 @@ class Net::HTTP::DigestAuth
   ##
   # Creates a new DigestAuth header creator.
 
-  def initialize(ignored = :ignored)
+  def initialize(_ignored = :ignored)
     mon_initialize
     @nonce_count = -1
   end
@@ -129,8 +129,7 @@ class Net::HTTP::DigestAuth
       "Digest username=\"#{user}\"",
       "realm=\"#{params['realm']}\"",
       "algorithm=#{params['algorithm']}",
-      if qop.nil?
-      elsif iis
+      if iis
         "qop=\"#{qop}\""
       else
         "qop=#{qop}"

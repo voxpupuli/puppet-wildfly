@@ -5,9 +5,9 @@ require 'beaker-rspec/helpers/serverspec'
 require 'beaker/puppet_install_helper'
 require 'beaker/testmode_switcher/dsl'
 
-module JBossCLI 
+module JBossCLI
   extend RSpec::Core::SharedContext
-                let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
+  let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
 end
 
 PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))

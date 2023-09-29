@@ -50,6 +50,7 @@ describe 'wildfly::prepare' do
         operatingsystemmajrelease: '8',
         initsystem: 'systemd' }
     end
+
     it { is_expected.to contain_package('libaio1') }
   end
 

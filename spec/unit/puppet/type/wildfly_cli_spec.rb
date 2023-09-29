@@ -8,7 +8,7 @@ describe Puppet::Type.type(:wildfly_cli) do
   let(:resource) { Puppet::Type.type(:wildfly_cli).new(name: 'Example Command') }
   let(:provider) { Puppet::Provider.new(resource) }
 
-  before :each do
+  before do
     resource.provider = provider
   end
 
@@ -18,11 +18,11 @@ describe Puppet::Type.type(:wildfly_cli) do
 
   context 'executed' do
     context 'when `refreshonly` parameter is `true`' do
-      before :each do
+      before do
         resource[:refreshonly] = true
       end
 
-      it 'should not sync' do
+      it 'does not sync' do
         expect(provider).not_to receive(:exec_command)
 
         resource.property(:executed).sync
@@ -30,11 +30,11 @@ describe Puppet::Type.type(:wildfly_cli) do
     end
 
     context 'when `refreshonly` parameter is `false`' do
-      before :each do
+      before do
         resource[:refreshonly] = false
       end
 
-      it 'should sync' do
+      it 'syncs' do
         expect(provider).to receive(:exec_command)
 
         resource.property(:executed).sync
@@ -44,9 +44,10 @@ describe Puppet::Type.type(:wildfly_cli) do
 
   context 'when refreshed' do
     context 'when `refreshonly` parameter is `true`' do
-      before :each do
+      before do
         resource[:refreshonly] = true
       end
+
       context 'and `should_execute?` returns true' do
         it 'runs command' do
           expect(provider).to receive(:should_execute?).and_return(true)
@@ -55,6 +56,7 @@ describe Puppet::Type.type(:wildfly_cli) do
           resource.refresh
         end
       end
+
       context 'when `should_execute?` returns false' do
         it 'doesn\'t run command' do
           expect(provider).to receive(:should_execute?).and_return(false)
@@ -64,6 +66,7 @@ describe Puppet::Type.type(:wildfly_cli) do
         end
       end
     end
+
     context 'when `refreshonly` parameter is `false`' do
       it 'doesn\'t run command' do
         resource[:refreshonly] = false

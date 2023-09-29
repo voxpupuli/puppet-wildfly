@@ -97,7 +97,7 @@ module Treetop
         'instantiate_node(SyntaxNode,input, index...index)'
       end
 
-      def assign_failure(start_index_var)
+      def assign_failure(_start_index_var)
         assign_result('nil')
       end
 

@@ -5,7 +5,7 @@ module Treetop
     module InlineModuleMixin
       attr_reader :module_name
 
-      def compile(index, builder, rule)
+      def compile(index, _builder, rule)
         @module_name = "#{rule.name.treetop_camelize}#{index}"
       end
     end

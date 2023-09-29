@@ -63,8 +63,8 @@ Puppet::Type.newtype(:wildfly_cli) do
 
   def refresh
     return unless refreshonly? && provider.should_execute?
-      Puppet.debug 'Executing wildfly_cli because resource received a refresh signal and refreshonly is true'
-      provider.exec_command
-    
+
+    Puppet.debug 'Executing wildfly_cli because resource received a refresh signal and refreshonly is true'
+    provider.exec_command
   end
 end

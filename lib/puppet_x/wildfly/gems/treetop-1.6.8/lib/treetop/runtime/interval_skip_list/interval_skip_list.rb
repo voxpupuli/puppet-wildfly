@@ -27,10 +27,11 @@ class IntervalSkipList
     markers, first_node = containing_with_node(range.first)
 
     cur_node = first_node
-    begin
+    loop do
       markers.concat(cur_node.forward_markers.flatten)
       cur_node = cur_node.forward[0]
-    end while cur_node.key < range.last
+      break unless cur_node.key < range.last
+    end
 
     [markers.uniq, cur_node]
   end
@@ -82,10 +83,10 @@ class IntervalSkipList
 
     last_node.endpoint_of.delete(marker)
     return unless last_node.endpoint_of.empty?
-      path_to_last_node = make_path
-      find(range.last, path_to_last_node)
-      last_node.delete(path_to_last_node)
-    
+
+    path_to_last_node = make_path
+    find(range.last, path_to_last_node)
+    last_node.delete(path_to_last_node)
   end
 
   protected
@@ -96,10 +97,8 @@ class IntervalSkipList
     path = make_path
     found_node = find(key, path)
     return found_node if found_node && found_node.key == key
-      
-    
-      Node.new(key, next_node_height, path)
-    
+
+    Node.new(key, next_node_height, path)
   end
 
   def containing_with_node(n)
