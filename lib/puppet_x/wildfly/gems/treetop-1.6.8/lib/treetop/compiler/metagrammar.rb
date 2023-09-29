@@ -687,7 +687,7 @@ module Treetop
         end
 
         def tail
-          super.elements.map { |elt| elt.declaration }
+          super.elements.map(&:declaration)
         end
       end
 
@@ -1078,7 +1078,7 @@ module Treetop
         end
 
         def tail
-          super.elements.map { |elt| elt.alternative }
+          super.elements.map(&:alternative)
         end
 
         def parent_modules
@@ -1086,7 +1086,7 @@ module Treetop
         end
 
         def inline_modules
-          (alternatives.map { |alt| alt.inline_modules }).flatten
+          (alternatives.map(&:inline_modules)).flatten
         end
 
         def inline_module
@@ -1196,7 +1196,7 @@ module Treetop
         end
 
         def inline_modules
-          (sequence_elements.map { |elt| elt.inline_modules }).flatten +
+          (sequence_elements.map(&:inline_modules)).flatten +
             [sequence_element_accessor_module] +
             parent_modules
         end
@@ -1297,7 +1297,7 @@ module Treetop
 
       module VariableLengthSequenceBody2
         def tail
-          super.elements.map { |elt| elt.optionally_labeled_sequence_primary }
+          super.elements.map(&:optionally_labeled_sequence_primary)
         end
       end
 
