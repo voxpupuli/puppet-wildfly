@@ -6,7 +6,7 @@ module Treetop
       def compile
         builder = RubyBuilder.new
 
-        builder.module_declaration "#{grammar_name.text_value}" do
+        builder.module_declaration grammar_name.text_value.to_s do
           builder.in(indent_level) # account for initial indentation of grammar declaration
           builder << 'include Treetop::Runtime'
           builder.newline

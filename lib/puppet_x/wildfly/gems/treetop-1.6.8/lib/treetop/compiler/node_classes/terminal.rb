@@ -9,9 +9,9 @@ module Treetop
         insensitive = modifiers.text_value.include? 'i'
         re = modifiers.text_value.include? 'r'
         if re
-          grounded_regexp = "#{("\\A#{eval(string)}").inspect}"
+          grounded_regexp = ("\\A#{eval(string)}").inspect.to_s
           cache_key = "'__#{modifiers.text_value}__'+(gr = #{grounded_regexp})"
-          re_modifiers = "#{insensitive ? 'Regexp::IGNORECASE' : 0}"
+          re_modifiers = (insensitive ? 'Regexp::IGNORECASE' : 0).to_s
           str = "@regexps[#{cache_key}] ||= Regexp.new(gr, #{re_modifiers})"
           mode = ':regexp'
         elsif insensitive
