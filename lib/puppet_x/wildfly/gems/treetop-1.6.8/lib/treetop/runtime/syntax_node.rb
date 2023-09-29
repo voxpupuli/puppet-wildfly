@@ -89,7 +89,7 @@ module Treetop
               "\n#{indent} #{e.inspect}"
             end
           end.
-          join('')
+          join
       end
 
       def inspect(indent = '')
