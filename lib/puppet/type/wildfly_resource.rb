@@ -16,7 +16,7 @@ Puppet::Type.newtype(:wildfly_resource) do
     isnamevar
 
     validate do |value|
-      raise("Invalid resource path #{value}") unless value =~ %r{(\/[\w\-]+=[\w\-]+)}
+      raise("Invalid resource path #{value}") unless value =~ %r{(/[\w-]+=[\w-]+)}
     end
   end
 
