@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'puppet_x/wildfly/deep_hash'))
 
 Puppet::Type.newtype(:wildfly_resource) do

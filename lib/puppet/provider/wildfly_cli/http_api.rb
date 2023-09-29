@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'wildfly'))
 
 Puppet::Type.type(:wildfly_cli).provide :http_api, :parent => Puppet::Provider::Wildfly do

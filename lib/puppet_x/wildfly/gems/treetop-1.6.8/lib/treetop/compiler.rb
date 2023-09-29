@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'treetop/ruby_extensions'
 
 require 'treetop/compiler/lexical_address_space'

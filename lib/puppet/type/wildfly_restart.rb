@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Puppet::Type.newtype(:wildfly_restart) do
   desc 'Manage JBoss restarts.'
 

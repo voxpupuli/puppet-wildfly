@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'treetop'
 require 'puppet_x/wildfly/jboss_cli'
 

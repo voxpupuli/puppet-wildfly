@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'wildfly::patch_args' do
   it { is_expected.to run.with_params('/tmp/patch', false, [], []).and_return('/tmp/patch') }
   it { is_expected.to run.with_params('/tmp/patch', true, [], []).and_return('/tmp/patch --override-all') }

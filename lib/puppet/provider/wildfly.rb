@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def local_load(*gems)
   gems.each do |gem|
     path = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'puppet_x/wildfly/gems/', gem, '/lib'))

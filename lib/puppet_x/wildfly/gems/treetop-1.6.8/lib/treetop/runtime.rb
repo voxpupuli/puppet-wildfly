@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'treetop/ruby_extensions'
 
 require 'treetop/runtime/compiled_parser'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe "Domain mode with #{test_data['distribution']}:#{test_data['version']} and custom server-group" do

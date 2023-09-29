@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe "Standalone mode with complex/recursive resources and #{test_data['distribution']}:#{test_data['version']}" do

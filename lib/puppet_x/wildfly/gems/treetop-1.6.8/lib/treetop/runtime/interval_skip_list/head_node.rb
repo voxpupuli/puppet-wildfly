@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IntervalSkipList
   class HeadNode
     attr_reader :height, :forward, :forward_markers

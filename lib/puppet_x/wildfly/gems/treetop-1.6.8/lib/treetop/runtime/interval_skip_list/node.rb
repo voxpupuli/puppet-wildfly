@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IntervalSkipList
   class Node < HeadNode
     attr_accessor :key

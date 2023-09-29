@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'digest'
 
 Puppet::Type.newtype(:wildfly_deployment) do

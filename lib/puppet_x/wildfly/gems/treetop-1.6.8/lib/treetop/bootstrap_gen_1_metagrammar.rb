@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file's job is to load a Treetop::Compiler::Metagrammar and Treetop::Compiler::MetagrammarParser
 # into the environment by compiling the current metagrammar.treetop using a trusted version of Treetop.
 

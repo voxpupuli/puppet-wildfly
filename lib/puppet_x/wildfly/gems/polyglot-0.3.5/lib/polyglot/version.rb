@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Polyglot #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 0

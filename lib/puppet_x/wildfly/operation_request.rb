@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'base64'
 require 'puppet_x/wildfly/api_client'
 require 'puppet_x/wildfly/cli_command'

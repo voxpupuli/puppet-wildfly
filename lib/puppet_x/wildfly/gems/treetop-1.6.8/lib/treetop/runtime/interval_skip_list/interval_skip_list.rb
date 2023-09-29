@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IntervalSkipList
   attr_reader :probability
 

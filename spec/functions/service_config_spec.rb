@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'wildfly::service_config' do
   context 'Wildfly 10' do
     let(:distribution) { 'wildfly' }

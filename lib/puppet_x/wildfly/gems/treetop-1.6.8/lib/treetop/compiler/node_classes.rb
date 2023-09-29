@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'treetop/compiler/node_classes/parsing_expression'
 require 'treetop/compiler/node_classes/atomic_expression'
 require 'treetop/compiler/node_classes/inline_module'

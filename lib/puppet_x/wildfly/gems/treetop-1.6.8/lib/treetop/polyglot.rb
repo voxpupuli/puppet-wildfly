@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Treetop
   module Polyglot
     VALID_GRAMMAR_EXT = ['treetop', 'tt']

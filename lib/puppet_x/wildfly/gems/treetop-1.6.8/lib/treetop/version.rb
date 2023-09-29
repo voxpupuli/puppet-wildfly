@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Treetop #:nodoc:
   module VERSION #:nodoc:
     MAJOR = 1

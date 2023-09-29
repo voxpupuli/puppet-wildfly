@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class String
   def column_of(index)
     return 1 if index == 0
