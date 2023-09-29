@@ -105,7 +105,7 @@ module Treetop
 
       def write_dot(io)
         io.puts "node#{dot_id} [label=\"'#{text_value}'\"];"
-        if nonterminal? then
+        if nonterminal?
           elements.each do |x|
             io.puts "node#{dot_id} -> node#{x.dot_id};"
             x.write_dot(io)

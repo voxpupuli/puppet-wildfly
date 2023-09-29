@@ -108,7 +108,7 @@ class Net::HTTP::DigestAuth
     qop = params['qop']
     cnonce = make_cnonce if qop or sess
 
-    a1 = if sess then
+    a1 = if sess
            [algorithm.hexdigest("#{user}:#{params['realm']}:#{password}"),
             params['nonce'],
             cnonce,].join ':'
@@ -128,22 +128,22 @@ class Net::HTTP::DigestAuth
       "Digest username=\"#{user}\"",
       "realm=\"#{params['realm']}\"",
       "algorithm=#{params['algorithm']}",
-      if qop.nil? then
-      elsif iis then
+      if qop.nil?
+      elsif iis
         "qop=\"#{qop}\""
       else
         "qop=#{qop}"
       end,
       "uri=\"#{uri.request_uri}\"",
       "nonce=\"#{params['nonce']}\"",
-      if qop then
+      if qop
         [
           "nc=#{'%08x' % @nonce_count}",
           "cnonce=\"#{cnonce}\"",
         ]
       end,
       "response=\"#{algorithm.hexdigest(request_digest)[0, 32]}\"",
-      if params.key? 'opaque' then
+      if params.key? 'opaque'
         "opaque=\"#{params['opaque']}\""
       end
     ].compact
