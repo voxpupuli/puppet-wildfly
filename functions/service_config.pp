@@ -10,22 +10,21 @@ function wildfly::service_config(
   String $distribution,
   String $version,
   String $mode,
-  Enum['sysvinit', 'systemd', 'upstart'] $init_system) {
-
+  Enum['sysvinit', 'systemd', 'upstart'] $init_system,
+) {
   case $distribution {
-
     # intentionally not using $facts (see rspec-puppet #503)
 
-    'wildfly' : {
-      $conf_file = $::osfamily ? {
+    'wildfly': {
+      $conf_file = $facts['os']['family'] ? {
         'Debian' => '/etc/default/wildfly',
         default  => '/etc/default/wildfly.conf'
       }
 
-      $service_file = "wildfly-init-${downcase($::osfamily)}.sh"
+      $service_file = "wildfly-init-${downcase($facts['os']['family'])}.sh"
 
       case [versioncmp($version, '10'), $init_system] {
-        [-1, default] : {
+        [-1, default]: {
           {
             'service_name'     => 'wildfly',
             'conf_file'        => $conf_file,
@@ -33,7 +32,7 @@ function wildfly::service_config(
             'service_file'     => "bin/init.d/${service_file}",
           }
         }
-        [default, 'systemd'] : {
+        [default, 'systemd']: {
           {
             'service_name'     => 'wildfly',
             'conf_file'        => '/etc/wildfly/wildfly.conf',
@@ -42,7 +41,7 @@ function wildfly::service_config(
             'systemd_template' => 'wildfly/wildfly.systemd.service',
           }
         }
-        [default, default] : {
+        [default, default]: {
           {
             'service_name'     => 'wildfly',
             'conf_file'        => $conf_file,
@@ -52,9 +51,9 @@ function wildfly::service_config(
         }
       }
     }
-    'jboss-eap' : {
+    'jboss-eap': {
       case versioncmp($version, '7') {
-        -1 : {
+        -1: {
           {
             'service_name'     => 'jboss-as',
             'conf_file'        => '/etc/jboss-as/jboss-as.conf',
@@ -62,7 +61,7 @@ function wildfly::service_config(
             'service_file'     => "bin/init.d/jboss-as-${mode}.sh",
           }
         }
-        default : {
+        default: {
           {
             'service_name'     => 'jboss-eap',
             'conf_file'        => '/etc/default/jboss-eap.conf',
@@ -71,6 +70,9 @@ function wildfly::service_config(
           }
         }
       }
+    }
+    default: {
+      fail("Unsupported distribution: ${distribution}")
     }
   }
 }

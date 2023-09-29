@@ -5,12 +5,12 @@
 # @return [Hash[String, String]] OS configuration: user, group, dirname and console_log.
 function os_config(
   String $distribution,
-  String $version) {
-
+  String $version,
+) {
   case $distribution {
     'jboss-eap': {
       case [versioncmp($version, '7')] {
-        [-1] : {
+        [-1]: {
           {
             'user'        => 'jboss-as',
             'group'       => 'jboss-as',
@@ -18,7 +18,7 @@ function os_config(
             'console_log' => '/var/log/jboss-as/console.log',
           }
         }
-        [default] : {
+        [default]: {
           {
             'user'        => 'jboss-eap',
             'group'       => 'jboss-eap',
