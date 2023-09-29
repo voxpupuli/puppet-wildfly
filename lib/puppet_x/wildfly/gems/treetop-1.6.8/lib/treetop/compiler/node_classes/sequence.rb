@@ -28,11 +28,11 @@ module Treetop
         obtain_new_subexpression_address
         elements.first.compile(subexpression_address, builder)
         accumulate_subexpression_result
-        if elements.size > 1
+        return unless elements.size > 1
           builder.if_ subexpression_success? do
             compile_sequence_elements(elements[1..-1])
           end
-        end
+        
       end
 
       def sequence_element_accessor_module

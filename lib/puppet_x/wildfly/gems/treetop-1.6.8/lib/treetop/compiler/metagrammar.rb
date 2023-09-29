@@ -74,11 +74,8 @@ module Treetop
             @index = i2
             r2 = nil
           end
-          if r2
+          break unless r2
             s1 << r2
-          else
-            break
-          end
         end
         r1 = instantiate_node(SyntaxNode, input, i1...index, s1)
         s0 << r1
@@ -162,11 +159,11 @@ module Treetop
                 terminal_parse_failure('[ \\t]')
                 r5 = nil
               end
-              if r5
+              break unless r5
                 s4 << r5
-              else
-                break
-              end
+
+
+
             end
             if s4.empty?
               @index = i4
@@ -185,11 +182,11 @@ module Treetop
                   terminal_parse_failure('[^\\n\\r]')
                   r7 = nil
                 end
-                if r7
+                break unless r7
                   s6 << r7
-                else
-                  break
-                end
+
+
+
               end
               if s6.empty?
                 @index = i6
@@ -364,11 +361,11 @@ module Treetop
               s8, i8 = [], index
               loop do
                 r9 = _nt_alphanumeric_char
-                if r9
+                break unless r9
                   s8 << r9
-                else
-                  break
-                end
+
+
+
               end
               r8 = instantiate_node(SyntaxNode, input, i8...index, s8)
               s6 << r8
@@ -397,11 +394,11 @@ module Treetop
                       s14, i14 = [], index
                       loop do
                         r15 = _nt_alphanumeric_char
-                        if r15
+                        break unless r15
                           s14 << r15
-                        else
-                          break
-                        end
+
+
+
                       end
                       r14 = instantiate_node(SyntaxNode, input, i14...index, s14)
                       s11 << r14
@@ -414,11 +411,11 @@ module Treetop
                     @index = i11
                     r11 = nil
                   end
-                  if r11
+                  break unless r11
                     s10 << r11
-                  else
-                    break
-                  end
+
+
+
                 end
                 r10 = instantiate_node(SyntaxNode, input, i10...index, s10)
                 s6 << r10
@@ -648,11 +645,11 @@ module Treetop
           s2, i2 = [], index
           loop do
             r3 = _nt_alphanumeric_char
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -737,11 +734,11 @@ module Treetop
               @index = i4
               r4 = nil
             end
-            if r4
+            break unless r4
               s3 << r4
-            else
-              break
-            end
+
+
+
           end
           r3 = instantiate_node(SyntaxNode, input, i3...index, s3)
           s1 << r3
@@ -880,11 +877,11 @@ module Treetop
                     r5 = nil
                   end
                 end
-                if r5
+                break unless r5
                   s4 << r5
-                else
-                  break
-                end
+
+
+
               end
               r4 = instantiate_node(SyntaxNode, input, i4...index, s4)
               s0 << r4
@@ -1155,11 +1152,11 @@ module Treetop
               @index = i3
               r3 = nil
             end
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           if s2.empty?
             @index = i2
@@ -1342,11 +1339,11 @@ module Treetop
               @index = i3
               r3 = nil
             end
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           if s2.empty?
             @index = i2
@@ -1921,11 +1918,11 @@ module Treetop
           s3, i3 = [], index
           loop do
             r4 = _nt_alphanumeric_char
-            if r4
+            break unless r4
               s3 << r4
-            else
-              break
-            end
+
+
+
           end
           r3 = instantiate_node(SyntaxNode, input, i3...index, s3)
           s1 << r3
@@ -2385,11 +2382,11 @@ module Treetop
               terminal_parse_failure('[0-9]')
               r4 = nil
             end
-            if r4
+            break unless r4
               s3 << r4
-            else
-              break
-            end
+
+
+
           end
           r3 = instantiate_node(SyntaxNode, input, i3...index, s3)
           s0 << r3
@@ -2412,11 +2409,11 @@ module Treetop
                   terminal_parse_failure('[0-9]')
                   r7 = nil
                 end
-                if r7
+                break unless r7
                   s6 << r7
-                else
-                  break
-                end
+
+
+
               end
               r6 = instantiate_node(SyntaxNode, input, i6...index, s6)
               s0 << r6
@@ -2655,11 +2652,11 @@ module Treetop
             s5, i5 = [], index
             loop do
               r6 = _nt_alphanumeric_char
-              if r6
+              break unless r6
                 s5 << r6
-              else
-                break
-              end
+
+
+
             end
             r5 = instantiate_node(SyntaxNode, input, i5...index, s5)
             s3 << r5
@@ -2778,11 +2775,11 @@ module Treetop
               terminal_parse_failure('[ir]')
               r5 = nil
             end
-            if r5
+            break unless r5
               s4 << r5
-            else
-              break
-            end
+
+
+
           end
           r4 = instantiate_node(SyntaxNode, input, i4...index, s4)
           s0 << r4
@@ -2901,11 +2898,11 @@ module Treetop
               @index = i3
               r3 = nil
             end
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -3033,11 +3030,11 @@ module Treetop
               @index = i3
               r3 = nil
             end
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -3219,11 +3216,11 @@ module Treetop
               @index = i3
               r3 = nil
             end
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           if s2.empty?
             @index = i2
@@ -3588,11 +3585,11 @@ module Treetop
                 @index = i5
                 r5 = nil
               end
-              if r5
+              break unless r5
                 s4 << r5
-              else
-                break
-              end
+
+
+
             end
             if s4.empty?
               @index = i4
@@ -3864,11 +3861,11 @@ module Treetop
                 r3 = nil
               end
             end
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2
@@ -4102,11 +4099,11 @@ module Treetop
               r1 = nil
             end
           end
-          if r1
+          break unless r1
             s0 << r1
-          else
-            break
-          end
+
+
+
         end
         if s0.empty?
           @index = i0
@@ -4185,11 +4182,11 @@ module Treetop
               @index = i3
               r3 = nil
             end
-            if r3
+            break unless r3
               s2 << r3
-            else
-              break
-            end
+
+
+
           end
           r2 = instantiate_node(SyntaxNode, input, i2...index, s2)
           s0 << r2

@@ -83,11 +83,11 @@ class IntervalSkipList
     end
 
     last_node.endpoint_of.delete(marker)
-    if last_node.endpoint_of.empty?
+    return unless last_node.endpoint_of.empty?
       path_to_last_node = make_path
       find(range.last, path_to_last_node)
       last_node.delete(path_to_last_node)
-    end
+    
   end
 
   protected
@@ -97,11 +97,11 @@ class IntervalSkipList
   def insert_node(key)
     path = make_path
     found_node = find(key, path)
-    if found_node && found_node.key == key
-      return found_node
-    else
+    return found_node if found_node && found_node.key == key
+      
+    
       return Node.new(key, next_node_height, path)
-    end
+    
   end
 
   def containing_with_node(n)

@@ -9,9 +9,9 @@ module Treetop
       def initialize(input, interval, elements = nil)
         @input = input
         @interval = interval
-        if (@elements = elements)
+        return unless (@elements = elements)
           @elements.each { |e| e.equal?(true) or e.parent = self }
-        end
+        
       end
 
       def elements
@@ -105,12 +105,12 @@ module Treetop
 
       def write_dot(io)
         io.puts "node#{dot_id} [label=\"'#{text_value}'\"];"
-        if nonterminal?
+        return unless nonterminal?
           elements.each do |x|
             io.puts "node#{dot_id} -> node#{x.dot_id};"
             x.write_dot(io)
           end
-        end
+        
       end
 
       def write_dot_file(fname)
