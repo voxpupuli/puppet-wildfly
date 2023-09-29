@@ -106,7 +106,8 @@ module Treetop
       end
 
       def var_initialization
-        left, right = [], []
+        left = []
+        right = []
         var_symbols.each do |symbol|
           if init_value(symbol)
             left << var(symbol)

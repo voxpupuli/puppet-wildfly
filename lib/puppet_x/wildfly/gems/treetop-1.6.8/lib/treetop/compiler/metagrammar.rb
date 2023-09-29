@@ -52,10 +52,13 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
-        s1, i1 = [], index
+        i0 = index
+        s0 = []
+        s1 = []
+        i1 = index
         loop do
-          i2, s2 = index, []
+          i2 = index
+          s2 = []
           r4 = _nt_space
           if r4
             r3 = r4
@@ -132,7 +135,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r2 = _nt_space
         if r2
           r1 = r2
@@ -150,7 +154,8 @@ module Treetop
           end
           s0 << r3
           if r3
-            s4, i4 = [], index
+            s4 = []
+            i4 = index
             loop do
               if has_terminal?(@regexps[gr = '\A[ \\t]'] ||= Regexp.new(gr), :regexp, index)
                 r5 = true
@@ -173,7 +178,8 @@ module Treetop
             end
             s0 << r4
             if r4
-              s6, i6 = [], index
+              s6 = []
+              i6 = index
               loop do
                 if has_terminal?(@regexps[gr = '\A[^\\n\\r]'] ||= Regexp.new(gr), :regexp, index)
                   r7 = true
@@ -314,8 +320,10 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
-        i1, s1 = index, []
+        i0 = index
+        s0 = []
+        i1 = index
+        s1 = []
         i2 = index
         if (match_len = has_terminal?('module', false, index))
           r3 = instantiate_node(SyntaxNode, input, index...(index + match_len))
@@ -348,7 +356,8 @@ module Treetop
           r5 = _nt_space
           s1 << r5
           if r5
-            i6, s6 = index, []
+            i6 = index
+            s6 = []
             if has_terminal?(@regexps[gr = '\A[A-Z]'] ||= Regexp.new(gr), :regexp, index)
               r7 = true
               @index += 1
@@ -358,7 +367,8 @@ module Treetop
             end
             s6 << r7
             if r7
-              s8, i8 = [], index
+              s8 = []
+              i8 = index
               loop do
                 r9 = _nt_alphanumeric_char
                 break unless r9
@@ -370,9 +380,11 @@ module Treetop
               r8 = instantiate_node(SyntaxNode, input, i8...index, s8)
               s6 << r8
               if r8
-                s10, i10 = [], index
+                s10 = []
+                i10 = index
                 loop do
-                  i11, s11 = index, []
+                  i11 = index
+                  s11 = []
                   if (match_len = has_terminal?('::', false, index))
                     r12 = instantiate_node(SyntaxNode, input, index...(index + match_len))
                     @index += match_len
@@ -391,7 +403,8 @@ module Treetop
                     end
                     s11 << r13
                     if r13
-                      s14, i14 = [], index
+                      s14 = []
+                      i14 = index
                       loop do
                         r15 = _nt_alphanumeric_char
                         break unless r15
@@ -461,7 +474,8 @@ module Treetop
           end
           s0 << r17
           if r17
-            i20, s20 = index, []
+            i20 = index
+            s20 = []
             r21 = _nt_space
             s20 << r21
             if r21
@@ -533,7 +547,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('grammar', false, index))
           r1 = instantiate_node(SyntaxNode, input, index...(index + match_len))
           @index += match_len
@@ -552,7 +567,8 @@ module Treetop
               r4 = _nt_space
               s0 << r4
               if r4
-                i6, s6 = index, []
+                i6 = index
+                s6 = []
                 if (match_len = has_terminal?('do', false, index))
                   r7 = instantiate_node(SyntaxNode, input, index...(index + match_len))
                   @index += match_len
@@ -632,7 +648,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if has_terminal?(@regexps[gr = '\A[A-Z]'] ||= Regexp.new(gr), :regexp, index)
           r1 = true
           @index += 1
@@ -642,7 +659,8 @@ module Treetop
         end
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
             r3 = _nt_alphanumeric_char
             break unless r3
@@ -714,13 +732,16 @@ module Treetop
         end
 
         i0 = index
-        i1, s1 = index, []
+        i1 = index
+        s1 = []
         r2 = _nt_declaration
         s1 << r2
         if r2
-          s3, i3 = [], index
+          s3 = []
+          i3 = index
           loop do
-            i4, s4 = index, []
+            i4 = index
+            s4 = []
             r5 = _nt_space
             s4 << r5
             if r5
@@ -832,7 +853,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('include', false, index))
           r1 = instantiate_node(SyntaxNode, input, index...(index + match_len))
           @index += match_len
@@ -854,7 +876,8 @@ module Treetop
             end
             s0 << r3
             if r3
-              s4, i4 = [], index
+              s4 = []
+              i4 = index
               loop do
                 i5 = index
                 r6 = _nt_alphanumeric_char
@@ -941,7 +964,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('rule', false, index))
           r1 = instantiate_node(SyntaxNode, input, index...(index + match_len))
           @index += match_len
@@ -960,7 +984,8 @@ module Treetop
               r4 = _nt_space
               s0 << r4
               if r4
-                i6, s6 = index, []
+                i6 = index
+                s6 = []
                 if (match_len = has_terminal?('do', false, index))
                   r7 = instantiate_node(SyntaxNode, input, index...(index + match_len))
                   @index += match_len
@@ -1108,13 +1133,16 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r1 = _nt_alternative
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
-            i3, s3 = index, []
+            i3 = index
+            s3 = []
             r5 = _nt_space
             if r5
               r4 = r5
@@ -1229,7 +1257,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r1 = _nt_sequence_body
         s0 << r1
         if r1
@@ -1319,13 +1348,16 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r1 = _nt_optionally_labeled_sequence_primary
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
-            i3, s3 = index, []
+            i3 = index
+            s3 = []
             r4 = _nt_space
             s3 << r4
             if r4
@@ -1595,7 +1627,8 @@ module Treetop
         end
 
         i0 = index
-        i1, s1 = index, []
+        i1 = index
+        s1 = []
         r2 = _nt_prefix
         s1 << r2
         if r2
@@ -1614,7 +1647,8 @@ module Treetop
           r1 = SyntaxNode.new(input, (index - 1)...index) if r1 == true
           r0 = r1
         else
-          i4, s4 = index, []
+          i4 = index
+          s4 = []
           r5 = _nt_prefix
           s4 << r5
           if r5
@@ -1642,7 +1676,8 @@ module Treetop
             r4 = SyntaxNode.new(input, (index - 1)...index) if r4 == true
             r0 = r4
           else
-            i9, s9 = index, []
+            i9 = index
+            s9 = []
             r10 = _nt_atomic
             s9 << r10
             if r10
@@ -1665,7 +1700,8 @@ module Treetop
               r9 = SyntaxNode.new(input, (index - 1)...index) if r9 == true
               r0 = r9
             else
-              i13, s13 = index, []
+              i13 = index
+              s13 = []
               r14 = _nt_atomic
               s13 << r14
               if r14
@@ -1767,7 +1803,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r1 = _nt_named_label
         s0 << r1
         if r1
@@ -1831,7 +1868,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r1 = _nt_null_label
         s0 << r1
         if r1
@@ -1910,12 +1948,15 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
-        i1, s1 = index, []
+        i0 = index
+        s0 = []
+        i1 = index
+        s1 = []
         r2 = _nt_alpha_char
         s1 << r2
         if r2
-          s3, i3 = [], index
+          s3 = []
+          i3 = index
           loop do
             r4 = _nt_alphanumeric_char
             break unless r4
@@ -2094,7 +2135,8 @@ module Treetop
         end
 
         i0 = index
-        i1, s1 = index, []
+        i1 = index
+        s1 = []
         r2 = _nt_prefix
         s1 << r2
         if r2
@@ -2113,7 +2155,8 @@ module Treetop
           r1 = SyntaxNode.new(input, (index - 1)...index) if r1 == true
           r0 = r1
         else
-          i4, s4 = index, []
+          i4 = index
+          s4 = []
           r5 = _nt_prefix
           s4 << r5
           if r5
@@ -2141,7 +2184,8 @@ module Treetop
             r4 = SyntaxNode.new(input, (index - 1)...index) if r4 == true
             r0 = r4
           else
-            i9, s9 = index, []
+            i9 = index
+            s9 = []
             r10 = _nt_atomic
             s9 << r10
             if r10
@@ -2272,7 +2316,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r1 = _nt_node_class_expression
         s0 << r1
         if r1
@@ -2364,7 +2409,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         r2 = _nt_space
         if r2
           r1 = r2
@@ -2373,7 +2419,8 @@ module Treetop
         end
         s0 << r1
         if r1
-          s3, i3 = [], index
+          s3 = []
+          i3 = index
           loop do
             if has_terminal?(@regexps[gr = '\A[0-9]'] ||= Regexp.new(gr), :regexp, index)
               r4 = true
@@ -2400,7 +2447,8 @@ module Treetop
             end
             s0 << r5
             if r5
-              s6, i6 = [], index
+              s6 = []
+              i6 = index
               loop do
                 if has_terminal?(@regexps[gr = '\A[0-9]'] ||= Regexp.new(gr), :regexp, index)
                   r7 = true
@@ -2558,7 +2606,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('(', false, index))
           r1 = true
           @index += match_len
@@ -2633,7 +2682,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         i1 = index
         r2 = _nt_keyword_inside_grammar
         if r2
@@ -2645,11 +2695,13 @@ module Treetop
         end
         s0 << r1
         if r1
-          i3, s3 = index, []
+          i3 = index
+          s3 = []
           r4 = _nt_alpha_char
           s3 << r4
           if r4
-            s5, i5 = [], index
+            s5 = []
+            i5 = index
             loop do
               r6 = _nt_alphanumeric_char
               break unless r6
@@ -2748,7 +2800,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         i1 = index
         r2 = _nt_single_quoted_string
         if r2
@@ -2766,7 +2819,8 @@ module Treetop
         end
         s0 << r1
         if r1
-          s4, i4 = [], index
+          s4 = []
+          i4 = index
           loop do
             if has_terminal?(@regexps[gr = '\A[ir]'] ||= Regexp.new(gr), :regexp, index)
               r5 = true
@@ -2818,7 +2872,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('"', false, index))
           r1 = true
           @index += match_len
@@ -2828,9 +2883,11 @@ module Treetop
         end
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
-            i3, s3 = index, []
+            i3 = index
+            s3 = []
             i4 = index
             if (match_len = has_terminal?('"', false, index))
               r5 = true
@@ -2950,7 +3007,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?("'", false, index))
           r1 = true
           @index += match_len
@@ -2960,9 +3018,11 @@ module Treetop
         end
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
-            i3, s3 = index, []
+            i3 = index
+            s3 = []
             i4 = index
             if (match_len = has_terminal?("'", false, index))
               r5 = true
@@ -3094,7 +3154,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('[', false, index))
           r1 = true
           @index += match_len
@@ -3104,9 +3165,11 @@ module Treetop
         end
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
-            i3, s3 = index, []
+            i3 = index
+            s3 = []
             i4 = index
             if (match_len = has_terminal?(']', false, index))
               r5 = true
@@ -3127,7 +3190,8 @@ module Treetop
             s3 << r4
             if r4
               i6 = index
-              i7, s7 = index, []
+              i7 = index
+              s7 = []
               if (match_len = has_terminal?('\\', false, index))
                 r8 = true
                 @index += match_len
@@ -3162,7 +3226,8 @@ module Treetop
                   r10 = SyntaxNode.new(input, (index - 1)...index) if r10 == true
                   r6 = r10
                 else
-                  i11, s11 = index, []
+                  i11 = index
+                  s11 = []
                   i12 = index
                   if (match_len = has_terminal?('\\', false, index))
                     r13 = true
@@ -3268,7 +3333,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('[:', false, index))
           r1 = instantiate_node(SyntaxNode, input, index...(index + match_len))
           @index += match_len
@@ -3534,7 +3600,8 @@ module Treetop
         end
 
         i0 = index
-        i1, s1 = index, []
+        i1 = index
+        s1 = []
         r2 = _nt_space
         s1 << r2
         if r2
@@ -3547,9 +3614,11 @@ module Treetop
           end
           s1 << r3
           if r3
-            s4, i4 = [], index
+            s4 = []
+            i4 = index
             loop do
-              i5, s5 = index, []
+              i5 = index
+              s5 = []
               i6 = index
               if (match_len = has_terminal?('>', false, index))
                 r7 = true
@@ -3698,7 +3767,8 @@ module Treetop
         end
 
         i0 = index
-        i1, s1 = index, []
+        i1 = index
+        s1 = []
         r2 = _nt_space
         s1 << r2
         if r2
@@ -3756,7 +3826,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('', false, index))
           r1 = true
           @index += match_len
@@ -3799,7 +3870,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('{', false, index))
           r1 = true
           @index += match_len
@@ -3809,7 +3881,8 @@ module Treetop
         end
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
             i3 = index
             r4 = _nt_inline_module
@@ -3817,7 +3890,8 @@ module Treetop
               r4 = SyntaxNode.new(input, (index - 1)...index) if r4 == true
               r3 = r4
             else
-              i5, s5 = index, []
+              i5 = index
+              s5 = []
               i6 = index
               if has_terminal?(@regexps[gr = '\A[{}]'] ||= Regexp.new(gr), :regexp, index)
                 r7 = true
@@ -3907,7 +3981,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         i1 = index
         if (match_len = has_terminal?('rule', false, index))
           r2 = instantiate_node(SyntaxNode, input, index...(index + match_len))
@@ -3975,7 +4050,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         i1 = index
         r2 = _nt_space
         if r2
@@ -4082,7 +4158,8 @@ module Treetop
           return cached
         end
 
-        s0, i0 = [], index
+        s0 = []
+        i0 = index
         loop do
           i1 = index
           r2 = _nt_white
@@ -4134,7 +4211,8 @@ module Treetop
           return cached
         end
 
-        i0, s0 = index, []
+        i0 = index
+        s0 = []
         if (match_len = has_terminal?('#', false, index))
           r1 = true
           @index += match_len
@@ -4144,9 +4222,11 @@ module Treetop
         end
         s0 << r1
         if r1
-          s2, i2 = [], index
+          s2 = []
+          i2 = index
           loop do
-            i3, s3 = index, []
+            i3 = index
+            s3 = []
             i4 = index
             if (match_len = has_terminal?("\n", false, index))
               r5 = true
