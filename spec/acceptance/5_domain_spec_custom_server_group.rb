@@ -55,7 +55,7 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']} 
       end
     end
 
-    # TODO it 'has hawtio deployed at app-server-group'
+    # TODO: it 'has hawtio deployed at app-server-group'
     it 'has hawtio deployed at app-server-group' do
       shell("#{jboss_cli} '/server-group=app-server-group/deployment=hawtio.war:read-resource'",
             acceptable_exit_codes: 1) do |r|

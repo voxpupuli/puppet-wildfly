@@ -35,7 +35,7 @@ describe 'wildfly::domain::server_group' do
                  'socket-binding-group' => 'full-ha-sockets',
                  'socket-binding-port-offset' => 0,
                })
-        # FIXME jvm depende desse aqui de cima
+        # FIXME: jvm depende desse aqui de cima
 
         is_expected.to contain_wildfly__resource("/server-group=#{title}/jvm=jvm").
           with(content: {})
