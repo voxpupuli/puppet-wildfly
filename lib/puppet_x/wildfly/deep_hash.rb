@@ -7,7 +7,7 @@ module PuppetX
         diff = {}
 
         current_state.each do |key, value|
-          next unless desired_state.is_a? Hash and desired_state.keys.include? key
+          next unless desired_state.is_a?(Hash) && desired_state.keys.include?(key)
 
           diff[key] = if value.is_a? Hash
                         _deep_intersect(value, desired_state[key])
@@ -22,8 +22,8 @@ module PuppetX
       def _deep_transform_values_in_object(object, &block)
         case object
         when Hash
-          object.each_with_object({}) do |(key, value), result|
-            result[key] = _deep_transform_values_in_object(value, &block)
+          object.transform_values do |value|
+            _deep_transform_values_in_object(value, &block)
           end
         when Array
           object.map { |e| _deep_transform_values_in_object(e, &block) }
@@ -42,7 +42,7 @@ module PuppetX
       end
 
       def change_to_s(current_value, new_value)
-        changed_keys = (new_value.to_a - current_value.to_a).collect { |key, _| key }
+        changed_keys = (new_value.to_a - current_value.to_a).map { |key, _| key }
 
         current_value = current_value.delete_if { |key, _| !changed_keys.include? key }.inspect
         new_value = new_value.delete_if { |key, _| !changed_keys.include? key }.inspect

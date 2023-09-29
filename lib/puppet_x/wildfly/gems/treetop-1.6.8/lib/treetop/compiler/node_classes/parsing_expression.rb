@@ -80,7 +80,7 @@ module Treetop
         extend_result declared_module_name if declared_module_name
       end
 
-      def extend_result_with_inline_module parent_expression = nil
+      def extend_result_with_inline_module(parent_expression = nil)
         if parent_expression && !parent_expression.parent_modules.empty?
           parent_expression.parent_modules.each do |inline|
             extend_result inline.module_name
@@ -134,7 +134,6 @@ module Treetop
         case var_symbol
         when :accumulator then '[]'
         when :start_index then 'index'
-        else nil
         end
       end
 

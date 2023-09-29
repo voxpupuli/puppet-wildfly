@@ -26,7 +26,7 @@ module Treetop
       def indented(depth = 2)
         self.in(depth)
         yield
-        self.out(depth)
+        out(depth)
       end
 
       def class_declaration(name, &block)

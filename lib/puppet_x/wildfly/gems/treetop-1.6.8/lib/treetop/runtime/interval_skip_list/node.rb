@@ -27,7 +27,7 @@ class IntervalSkipList
 
     def propagate_length_change(length_change)
       cur_node = self
-      while cur_node do
+      while cur_node
         cur_node.key += length_change
         cur_node = cur_node.forward[0]
       end

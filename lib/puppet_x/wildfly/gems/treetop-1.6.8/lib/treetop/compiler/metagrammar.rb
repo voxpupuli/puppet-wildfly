@@ -692,8 +692,7 @@ module Treetop
       end
 
       module DeclarationSequence3
-        def compile(builder)
-        end
+        def compile(builder); end
       end
 
       def _nt_declaration_sequence
@@ -1086,7 +1085,7 @@ module Treetop
         end
 
         def inline_modules
-          (alternatives.map(&:inline_modules)).flatten
+          alternatives.map(&:inline_modules).flatten
         end
 
         def inline_module
@@ -1196,7 +1195,7 @@ module Treetop
         end
 
         def inline_modules
-          (sequence_elements.map(&:inline_modules)).flatten +
+          sequence_elements.map(&:inline_modules).flatten +
             [sequence_element_accessor_module] +
             parent_modules
         end
@@ -1509,7 +1508,7 @@ module Treetop
 
       module Primary5
         def compile(address, builder, parent_expression = nil)
-          STDERR.puts "Extraneous module ignored after suffix: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
+          warn "Extraneous module ignored after suffix: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
           suffix.compile(address, builder, self)
         end
 
@@ -1550,7 +1549,7 @@ module Treetop
 
       module Primary7
         def compile(address, builder, parent_expression = nil)
-          STDERR.puts "Extraneous module ignored with nested atomic: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
+          warn "Extraneous module ignored with nested atomic: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
           atomic.compile(address, builder, self)
         end
 
@@ -1805,11 +1804,9 @@ module Treetop
         end
 
         def label_name
-          if sequence_primary.instance_of?(Nonterminal)
+          return unless sequence_primary.instance_of?(Nonterminal)
             sequence_primary.text_value
-          else
-            nil
-          end
+          
         end
       end
 

@@ -8,7 +8,7 @@ module Treetop
       attr_reader :input, :index, :max_terminal_failure_index
       attr_writer :root
       attr_accessor :consume_all_input
-      alias :consume_all_input? :consume_all_input
+      alias consume_all_input? consume_all_input
 
       def initialize
         self.consume_all_input = true
@@ -19,7 +19,7 @@ module Treetop
         @index = options[:index] if options[:index]
         result = send("_nt_#{options[:root] || root}")
         should_consume_all = options.include?(:consume_all_input) ? options[:consume_all_input] : consume_all_input?
-        if (should_consume_all && index != input.size)
+        if should_consume_all && index != input.size
           terminal_parse_failure('<END OF INPUT>', true) if index > max_terminal_failure_index # Otherwise the failure is already explained
           return nil
         end
@@ -72,7 +72,7 @@ end
         @input = input
         @input_length = input.length
         reset_index
-        @node_cache = Hash.new { |hash, key| hash[key] = Hash.new }
+        @node_cache = Hash.new { |hash, key| hash[key] = {} }
         @regexps = {}
         @terminal_failures = []
         @max_terminal_failure_index = 0
@@ -104,7 +104,7 @@ end
       def has_terminal?(terminal, mode, index)
         case mode
         when :regexp    # A Regexp has been passed in, either a character class or a literel regex 'foo'r
-          (terminal =~ input[index..-1]).zero? && ::Regexp.last_match(0).length
+          (terminal =~ input[index..]).zero? && ::Regexp.last_match(0).length
         when false      # The terminal is a string which must match exactly
           input[index, terminal.size] == terminal && terminal.size
         when :insens    # The terminal is a downcased string which must match input downcased

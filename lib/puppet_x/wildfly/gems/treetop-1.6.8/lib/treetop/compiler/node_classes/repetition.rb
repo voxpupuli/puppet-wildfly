@@ -18,10 +18,9 @@ module Treetop
           builder.else_ do
             builder.break
           end
-          if max && !max.empty?
-            builder.if_ "#{accumulator_var}.size == #{max.text_value}" do
-              builder.break
-            end
+          next unless max && !max.empty?
+          builder.if_ "#{accumulator_var}.size == #{max.text_value}" do
+            builder.break
           end
         end
       end
@@ -30,7 +29,7 @@ module Treetop
         parent_expression.inline_module_name
       end
 
-      def assign_and_extend_result parent_expression
+      def assign_and_extend_result(parent_expression)
         assign_result "instantiate_node(#{node_class_name},input, #{start_index_var}...index, #{accumulator_var})"
         extend_result_with_inline_module parent_expression
       end

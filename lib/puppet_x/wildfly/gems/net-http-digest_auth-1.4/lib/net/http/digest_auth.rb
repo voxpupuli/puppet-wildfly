@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 require 'cgi'
 require 'digest'
 require 'monitor'
@@ -55,7 +56,7 @@ class Net::HTTP::DigestAuth
   ##
   # Creates a new DigestAuth header creator.
 
-  def initialize ignored = :ignored
+  def initialize(ignored = :ignored)
     mon_initialize
     @nonce_count = -1
   end
@@ -74,7 +75,7 @@ class Net::HTTP::DigestAuth
   # IIS servers handle the "qop" parameter of digest authentication
   # differently so you may need to set +iis+ to true for such servers.
 
-  def auth_header uri, www_authenticate, method, iis = false
+  def auth_header(uri, www_authenticate, method, iis = false)
     nonce_count = next_nonce
 
     user     = CGI.unescape uri.user
@@ -106,7 +107,7 @@ class Net::HTTP::DigestAuth
     end
 
     qop = params['qop']
-    cnonce = make_cnonce if qop or sess
+    cnonce = make_cnonce if qop || sess
 
     a1 = if sess
            [algorithm.hexdigest("#{user}:#{params['realm']}:#{password}"),
@@ -138,7 +139,7 @@ class Net::HTTP::DigestAuth
       "nonce=\"#{params['nonce']}\"",
       if qop
         [
-          "nc=#{'%08x' % @nonce_count}",
+          "nc=#{format('%08x', @nonce_count)}",
           "cnonce=\"#{cnonce}\"",
         ]
       end,
@@ -156,7 +157,7 @@ class Net::HTTP::DigestAuth
   def make_cnonce
     Digest::MD5.hexdigest [
       Time.now.to_i,
-      $$,
+      $PROCESS_ID,
       SecureRandom.random_number(2**32),
     ].join ':'
   end

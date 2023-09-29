@@ -26,7 +26,7 @@ module Treetop
             reset_index
             assign_failure start_index_var
           else
-            compile_alternatives(alternatives[1..-1], parent_expression)
+            compile_alternatives(alternatives[1..], parent_expression)
           end
         end
       end

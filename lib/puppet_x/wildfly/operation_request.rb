@@ -69,7 +69,7 @@ module PuppetX
       end
 
       def split(resource, state)
-        child_hashes = state.reject { |_, v| !v.is_a?(Hash) }
+        child_hashes = state.select { |_, v| v.is_a?(Hash) }
         child_resources = child_hashes.reduce([]) { |resources, (k, v)| resources.concat(v.reduce([]) { |r2, (k2, v2)| r2.concat(split("#{resource}/#{k}=#{k2}", v2)) }) }
         base_state = [resource, state.reject { |_, v| v.is_a?(Hash) }]
         [base_state].concat(child_resources)
@@ -92,7 +92,7 @@ module PuppetX
         bytes_value = response['content'].first['hash']['BYTES_VALUE']
         decoded = Base64.decode64(bytes_value)
 
-        decoded.unpack('H*').first
+        decoded.unpack1('H*')
       end
 
       def deploy(name, source, server_group, headers)

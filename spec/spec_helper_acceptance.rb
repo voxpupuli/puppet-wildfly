@@ -5,7 +5,8 @@ require 'beaker-rspec/helpers/serverspec'
 require 'beaker/puppet_install_helper'
 require 'beaker/testmode_switcher/dsl'
 
-module JBossCLI extend RSpec::Core::SharedContext
+module JBossCLI 
+  extend RSpec::Core::SharedContext
                 let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
 end
 
@@ -83,10 +84,10 @@ when %r{(jboss-eap):(\d{1,}\.\d{1,})}
   data['install_source'] = "http://10.0.2.2:9090/jboss-eap-#{data['version']}.tar.gz"
   data['service_name'] = (data['version'].to_f < 7.0 ? 'jboss-as' : 'jboss-eap')
 when 'custom'
-  data['distribution'] = ENV['TEST_distribution']
-  data['version'] = ENV['TEST_version']
-  data['install_source'] = ENV['TEST_install_source']
-  data['service_name'] = ENV['TEST_service_name']
+  data['distribution'] = ENV.fetch('TEST_distribution', nil)
+  data['version'] = ENV.fetch('TEST_version', nil)
+  data['install_source'] = ENV.fetch('TEST_install_source', nil)
+  data['service_name'] = ENV.fetch('TEST_service_name', nil)
 end
 
 data['java_home'] = '/opt/jdk8u192-b12/'

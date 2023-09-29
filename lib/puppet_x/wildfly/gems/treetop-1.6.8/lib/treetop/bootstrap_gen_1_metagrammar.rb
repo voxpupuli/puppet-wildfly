@@ -23,7 +23,7 @@ $exclude_metagrammar = true
 require File.expand_path('../treetop')
 
 # Compile and evaluate freshly generated metagrammar source
-METAGRAMMAR_PATH = File.expand_path('../compiler/metagrammar.treetop', __FILE__)
+METAGRAMMAR_PATH = File.expand_path('compiler/metagrammar.treetop', __dir__)
 compiled_metagrammar_source = Trusted::Treetop::Compiler::GrammarCompiler.new.ruby_source(METAGRAMMAR_PATH)
 Object.class_eval(compiled_metagrammar_source)
 

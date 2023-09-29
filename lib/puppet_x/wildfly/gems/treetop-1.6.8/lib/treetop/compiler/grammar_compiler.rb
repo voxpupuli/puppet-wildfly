@@ -25,7 +25,7 @@ module Treetop
       def ruby_source_from_string(s)
         parser = MetagrammarParser.new
         result = parser.parse(s)
-        raise RuntimeError.new(parser.failure_reason) unless result
+        raise parser.failure_reason unless result
 
         result.compile
       end
@@ -40,7 +40,7 @@ module Treetop
     end
     File.open(path) do |source_file|
       source = source_file.read
-      source.gsub!(%r{\b__FILE__\b}, %Q{"#{path}"})
+      source.gsub!(%r{\b__FILE__\b}, %("#{path}"))
       load_from_string(source)
     end
   end

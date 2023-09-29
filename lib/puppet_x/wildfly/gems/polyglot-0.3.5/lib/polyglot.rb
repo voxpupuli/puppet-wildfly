@@ -9,7 +9,7 @@ module Polyglot
   class PolyglotLoadError < LoadError; end
 
   class NestedLoadError < LoadError
-    def initialize le
+    def initialize(le)
       @le = le
     end
 
@@ -19,22 +19,26 @@ module Polyglot
   end
 
   def self.register(extension, klass)
-    extension = [extension] unless Array === extension
-    extension.each { |e|
+    extension = [extension] unless extension.is_a?(Array)
+    extension.each do |e|
       @registrations[e] = klass
-    }
+    end
   end
 
   def self.find(file, *options, &block)
     is_absolute = Pathname.new(file).absolute?
     is_dot_relative = file =~ %r{\.[/\\]}
-    paths = is_absolute ? [''] : Array(is_dot_relative ? '.' : nil) + $:
+    paths = if is_absolute
+['']
+else
+Array(is_dot_relative ? '.' : nil) + $LOAD_PATH
+end
     paths.each do |lib|
       base = is_absolute ? '' : lib + File::SEPARATOR
       # In Windows, repeated SEPARATOR chars have a special meaning, avoid adding them
       matches = Dir["#{base}#{file}{,.#{@registrations.keys * ',.'}}"]
       # Revisit: Should we do more do if more than one candidate found?
-      $stderr.puts "Polyglot: found more than one candidate for #{file}: #{matches * ', '}" if matches.size > 1
+      warn "Polyglot: found more than one candidate for #{file}: #{matches * ', '}" if matches.size > 1
       if path = matches[0]
         return [path, @registrations[path.gsub(%r{.*\.}, '')]]
       end
@@ -47,13 +51,13 @@ module Polyglot
     return if @loaded[file] # Check for $: changes or file time changes and reload?
 
     begin
-      source_file, loader = Polyglot.find(file, *a[1..-1], &b)
-      raise PolyglotLoadError.new("Failed to load #{file} using extensions #{(@registrations.keys + ['rb']).sort * ', '}") unless loader
+      source_file, loader = Polyglot.find(file, *a[1..], &b)
+      raise PolyglotLoadError, "Failed to load #{file} using extensions #{(@registrations.keys + ['rb']).sort * ', '}" unless loader
         begin
           loader.load(source_file)
           @loaded[file] = true
         rescue LoadError => e
-          raise Polyglot::NestedLoadError.new(e)
+          raise Polyglot::NestedLoadError, e
         end
     end
   end

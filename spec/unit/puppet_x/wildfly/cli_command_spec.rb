@@ -63,7 +63,7 @@ describe PuppetX::Wildfly::CLICommand do
 
     it 'creates a request with a LIST parameter' do
       detyped_request = described_class.new('/subsystem=modcluster/mod-cluster-config=configuration:add(proxies=[host1, host2])').to_detyped_request
-      expect(detyped_request).to eq(:operation => 'add', :address => [{ 'subsystem' => 'modcluster' }, { 'mod-cluster-config' => 'configuration' }], 'proxies' => %w(host1 host2))
+      expect(detyped_request).to eq(:operation => 'add', :address => [{ 'subsystem' => 'modcluster' }, { 'mod-cluster-config' => 'configuration' }], 'proxies' => %w[host1 host2])
     end
 
     it 'creates a request for a resource named with special character' do
