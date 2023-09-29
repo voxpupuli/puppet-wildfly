@@ -104,14 +104,14 @@ module Treetop
       def has_terminal?(terminal, mode, index)
         case mode
         when :regexp    # A Regexp has been passed in, either a character class or a literel regex 'foo'r
-          (terminal =~ input[index..-1]).zero? && $&.length
+          (terminal =~ input[index..-1]).zero? && ::Regexp.last_match(0).length
         when false      # The terminal is a string which must match exactly
           input[index, terminal.size] == terminal && terminal.size
         when :insens    # The terminal is a downcased string which must match input downcased
           input[index, terminal.size].downcase == terminal && terminal.size
         when true       # Only occurs with old compiled grammars, for character classes
           rx = @regexps[terminal] ||= Regexp.new(terminal)
-          input.index(rx, index) == index && $&.length
+          input.index(rx, index) == index && ::Regexp.last_match(0).length
         end
       end
 

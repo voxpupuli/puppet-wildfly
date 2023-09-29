@@ -82,17 +82,17 @@ class Net::HTTP::DigestAuth
 
     www_authenticate =~ %r{^(\w+) (.*)}
 
-    challenge = $2
+    challenge = ::Regexp.last_match(2)
 
     params = {}
-    challenge.gsub(%r{(\w+)="(.*?)"}) { params[$1] = $2 }
+    challenge.gsub(%r{(\w+)="(.*?)"}) { params[::Regexp.last_match(1)] = ::Regexp.last_match(2) }
 
     challenge =~ %r{algorithm="?(.*?)"?([, ]|$)}
 
-    params['algorithm'] = $1 || 'MD5'
+    params['algorithm'] = ::Regexp.last_match(1) || 'MD5'
 
     if params['algorithm'] =~ %r{(.*?)(-sess)?$}
-      algorithm = case $1
+      algorithm = case ::Regexp.last_match(1)
                   when 'MD5'    then Digest::MD5
                   when 'SHA1'   then Digest::SHA1
                   when 'SHA2'   then Digest::SHA2
@@ -100,9 +100,9 @@ class Net::HTTP::DigestAuth
                   when 'SHA384' then Digest::SHA384
                   when 'SHA512' then Digest::SHA512
                   when 'RMD160' then Digest::RMD160
-                  else raise Error, "unknown algorithm \"#{$1}\""
+                  else raise Error, "unknown algorithm \"#{::Regexp.last_match(1)}\""
                   end
-      sess = $2
+      sess = ::Regexp.last_match(2)
     end
 
     qop = params['qop']

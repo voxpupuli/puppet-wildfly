@@ -26,7 +26,7 @@ class String
   def tabto(n)
     if self =~ %r{^( *)\S}
       # Inlined due to collision with ActiveSupport 4.0: indent(n - $1.length)
-      m = n - $1.length
+      m = n - ::Regexp.last_match(1).length
       if m >= 0
         gsub(%r{^}, ' ' * m)
       else
@@ -38,6 +38,6 @@ class String
   end
 
   def treetop_camelize
-    to_s.gsub(%r{/(.?)}) { "::#{$1.upcase}" }.gsub(%r{(^|_)(.)}) { $2.upcase }
+    to_s.gsub(%r{/(.?)}) { "::#{::Regexp.last_match(1).upcase}" }.gsub(%r{(^|_)(.)}) { ::Regexp.last_match(2).upcase }
   end
 end
