@@ -34,7 +34,7 @@ module Polyglot
       # In Windows, repeated SEPARATOR chars have a special meaning, avoid adding them
       matches = Dir["#{base}#{file}{,.#{@registrations.keys * ',.'}}"]
       # Revisit: Should we do more do if more than one candidate found?
-      $stderr.puts "Polyglot: found more than one candidate for #{file}: #{matches * ", "}" if matches.size > 1
+      $stderr.puts "Polyglot: found more than one candidate for #{file}: #{matches * ', '}" if matches.size > 1
       if path = matches[0]
         return [path, @registrations[path.gsub(%r{.*\.}, '')]]
       end
@@ -48,7 +48,7 @@ module Polyglot
 
     begin
       source_file, loader = Polyglot.find(file, *a[1..-1], &b)
-      raise PolyglotLoadError.new("Failed to load #{file} using extensions #{(@registrations.keys + ["rb"]).sort * ", "}") unless (loader)
+      raise PolyglotLoadError.new("Failed to load #{file} using extensions #{(@registrations.keys + ['rb']).sort * ', '}") unless (loader)
         begin
           loader.load(source_file)
           @loaded[file] = true

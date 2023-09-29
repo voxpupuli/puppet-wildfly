@@ -66,7 +66,7 @@ module Treetop
       def inspect_self(indent = '')
         em = extension_modules
         interesting_methods = methods - [em.last ? em.last.methods : nil] - self.class.instance_methods
-        im = !interesting_methods.empty? ? " (#{interesting_methods.join(",")})" : ''
+        im = !interesting_methods.empty? ? " (#{interesting_methods.join(',')})" : ''
         tv = text_value
         tv = "...#{tv[-20..-1]}" if tv.size > 20
 

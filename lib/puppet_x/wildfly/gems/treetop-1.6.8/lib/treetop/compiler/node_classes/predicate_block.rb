@@ -11,7 +11,7 @@ module Treetop
         # the parent's accumulator variable.
         p = parent
         p = p.parent while p && !p.respond_to?(:accumulator_var)
-        assign_result "lambda #{text_value}.call(#{p ? p.accumulator_var : ""})"
+        assign_result "lambda #{text_value}.call(#{p ? p.accumulator_var : ''})"
         builder.if_ "!#{result_var}" do
           builder << "terminal_parse_failure(#{expected})"
         end
