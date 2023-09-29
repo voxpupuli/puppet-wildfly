@@ -38,7 +38,7 @@ module PuppetX
 
         begin
           response = @http_client.request authz_request
-        rescue => e
+        rescue StandardError => e
           raise e unless retried + 1 < 6
 
           retried += 1

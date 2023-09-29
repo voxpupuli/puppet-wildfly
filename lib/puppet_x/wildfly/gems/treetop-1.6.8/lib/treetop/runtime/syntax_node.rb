@@ -85,7 +85,7 @@ module Treetop
           elements.map do |e|
             
               "\n#{e.inspect("#{indent}  ")}"
-            rescue # Defend against inspect not taking a parameter
+            rescue StandardError # Defend against inspect not taking a parameter
               "\n#{indent} #{e.inspect}"
             
           end.
