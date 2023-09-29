@@ -49,16 +49,12 @@ class IntervalSkipList
     cur_node = first_node
     cur_level = first_node.top_level
     while next_node_at_level_inside_range?(cur_node, cur_level, range)
-      while can_ascend_from?(cur_node, cur_level) && next_node_at_level_inside_range?(cur_node, cur_level + 1, range)
-        cur_level += 1
-      end
+      cur_level += 1 while can_ascend_from?(cur_node, cur_level) && next_node_at_level_inside_range?(cur_node, cur_level + 1, range)
       cur_node = mark_forward_path_at_level(cur_node, cur_level, marker)
     end
 
     while node_inside_range?(cur_node, range)
-      while can_descend_from?(cur_level) && next_node_at_level_outside_range?(cur_node, cur_level, range)
-        cur_level -= 1
-      end
+      cur_level -= 1 while can_descend_from?(cur_level) && next_node_at_level_outside_range?(cur_node, cur_level, range)
       cur_node = mark_forward_path_at_level(cur_node, cur_level, marker)
     end
   end
@@ -71,16 +67,12 @@ class IntervalSkipList
     cur_node = first_node
     cur_level = first_node.top_level
     while next_node_at_level_inside_range?(cur_node, cur_level, range)
-      while can_ascend_from?(cur_node, cur_level) && next_node_at_level_inside_range?(cur_node, cur_level + 1, range)
-        cur_level += 1
-      end
+      cur_level += 1 while can_ascend_from?(cur_node, cur_level) && next_node_at_level_inside_range?(cur_node, cur_level + 1, range)
       cur_node = unmark_forward_path_at_level(cur_node, cur_level, marker)
     end
 
     while node_inside_range?(cur_node, range)
-      while can_descend_from?(cur_level) && next_node_at_level_outside_range?(cur_node, cur_level, range)
-        cur_level -= 1
-      end
+      cur_level -= 1 while can_descend_from?(cur_level) && next_node_at_level_outside_range?(cur_node, cur_level, range)
       cur_node = unmark_forward_path_at_level(cur_node, cur_level, marker)
     end
     last_node = cur_node
@@ -151,9 +143,7 @@ class IntervalSkipList
 
   def next_node_height
     height = 1
-    while rand < probability && height < max_height
-      height += 1
-    end
+    height += 1 while rand < probability && height < max_height
     height
   end
 
