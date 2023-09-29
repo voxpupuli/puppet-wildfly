@@ -83,11 +83,11 @@ module Treetop
 
         ':' +
           elements.map do |e|
-            begin
+            
               "\n#{e.inspect("#{indent}  ")}"
             rescue # Defend against inspect not taking a parameter
               "\n#{indent} #{e.inspect}"
-            end
+            
           end.
           join
       end
