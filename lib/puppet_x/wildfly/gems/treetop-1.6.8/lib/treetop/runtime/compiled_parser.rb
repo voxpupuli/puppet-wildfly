@@ -44,7 +44,7 @@ module Treetop
 
       OtherThan = 'something other than '
       def failure_reason
-        return nil unless (tf = terminal_failures) && tf.size > 0
+        return nil unless (tf = terminal_failures) && !tf.empty?
 
         'Expected ' +
           (tf.size == 1 ?
@@ -52,7 +52,7 @@ module Treetop
                  "one of #{tf.map { |f| (f.unexpected ? OtherThan : '') + f.expected_string }.uniq * ', '}"
           ) +
           " at line #{failure_line}, column #{failure_column} (byte #{failure_index + 1})" +
-          (failure_index > 0 ? " after #{input[index...failure_index]}" : '')
+          (failure_index.positive? ? " after #{input[index...failure_index]}" : '')
       end
 
       def terminal_failures
@@ -104,7 +104,7 @@ module Treetop
       def has_terminal?(terminal, mode, index)
         case mode
         when :regexp    # A Regexp has been passed in, either a character class or a literel regex 'foo'r
-          (terminal =~ input[index..-1]) == 0 && $&.length
+          (terminal =~ input[index..-1]).zero? && $&.length
         when false      # The terminal is a string which must match exactly
           input[index, terminal.size] == terminal && terminal.size
         when :insens    # The terminal is a downcased string which must match input downcased

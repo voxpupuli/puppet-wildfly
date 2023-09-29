@@ -94,7 +94,7 @@ module Treetop
 
       # remove the last terminal_failure if we merely failed to reach the maximum
       def clean_unsaturated
-        if !max.empty? && max.text_value.to_i > 0
+        if !max.empty? && max.text_value.to_i.positive?
           builder.if_ "#{accumulator_var}.size < #{max.text_value}" do
             builder << '@terminal_failures.pop' # Ignore the last failure.
           end

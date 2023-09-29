@@ -25,7 +25,7 @@ module Treetop
         end
 
         builder.if__ "(match_len = has_terminal?(#{str}, #{mode}, index))" do
-          if address == 0 || decorated? || mode != 'false' || string_length > 1
+          if address.zero? || decorated? || mode != 'false' || string_length > 1
             assign_result "instantiate_node(#{node_class_name},input, index...(index + match_len))"
             # debugger if parent_expression and parent_expression.inline_modules.size > 0
             # extend_result_with_inline_module parent_expression

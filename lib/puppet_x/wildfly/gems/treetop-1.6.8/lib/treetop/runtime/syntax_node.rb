@@ -56,7 +56,7 @@ module Treetop
           class << self
             included_modules - Object.included_modules
           end
-        if local_extensions.size > 0
+        if !local_extensions.empty?
           local_extensions
         else
           [] # There weren't any; must be a literal node
@@ -66,7 +66,7 @@ module Treetop
       def inspect_self(indent = '')
         em = extension_modules
         interesting_methods = methods - [em.last ? em.last.methods : nil] - self.class.instance_methods
-        im = interesting_methods.size > 0 ? " (#{interesting_methods.join(",")})" : ''
+        im = !interesting_methods.empty? ? " (#{interesting_methods.join(",")})" : ''
         tv = text_value
         tv = "...#{tv[-20..-1]}" if tv.size > 20
 
@@ -79,7 +79,7 @@ module Treetop
       end
 
       def inspect_children(indent = '')
-        return '' unless elements && elements.size > 0
+        return '' unless elements && !elements.empty?
 
         ':' +
           elements.map do |e|

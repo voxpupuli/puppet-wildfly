@@ -7,7 +7,7 @@ module Treetop
         super
 
         builder.if__ "has_terminal?(@regexps[gr = #{grounded_regexp(text_value)}] ||= Regexp.new(gr), :regexp, index)" do
-          if address == 0 || decorated?
+          if address.zero? || decorated?
             assign_result "instantiate_node(#{node_class_name},input, index...(index + 1))"
             extend_result_with_inline_module parent_expression
           else

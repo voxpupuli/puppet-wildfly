@@ -2,7 +2,7 @@
 
 class String
   def column_of(index)
-    return 1 if index == 0
+    return 1 if index.zero?
 
     newline_index = rindex("\n", index - 1)
     if newline_index

@@ -162,7 +162,7 @@ class IntervalSkipList
   end
 
   def can_descend_from?(level)
-    level > 0
+    level.positive?
   end
 
   def node_inside_range?(node, range)
