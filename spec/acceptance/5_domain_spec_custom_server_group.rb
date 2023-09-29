@@ -28,8 +28,8 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']} 
 
       EOS
 
-      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      execute_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      expect(execute_manifest(pp, catch_failures: true).exit_code).to be_zero
       shell('sleep 25')
     end
 
@@ -43,14 +43,14 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']} 
     end
 
     it 'protected management page' do
-      shell('curl -v 127.0.0.1:9990/management 2>&1', :acceptable_exit_codes => 0) do |r|
+      shell('curl -v 127.0.0.1:9990/management 2>&1', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '401 Unauthorized'
       end
     end
 
     it 'is a Domain Controller' do
       shell("#{jboss_cli} 'ls'",
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'process-type=Domain Controller'
       end
     end
@@ -58,7 +58,7 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']} 
     # TODO it 'has hawtio deployed at app-server-group'
     it 'has hawtio deployed at app-server-group' do
       shell("#{jboss_cli} '/server-group=app-server-group/deployment=hawtio.war:read-resource'",
-            :acceptable_exit_codes => 1) do |r|
+            acceptable_exit_codes: 1) do |r|
         expect(r.stdout).to include 'success'
       end
     end

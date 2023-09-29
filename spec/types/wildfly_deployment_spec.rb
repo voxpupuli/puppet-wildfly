@@ -14,7 +14,7 @@ describe Puppet::Type.type(:wildfly_deployment) do
   end
 
   describe 'when testing wheter content checksum is in sync' do
-    let(:resource) { described_class.new(:name => 'app.ear') }
+    let(:resource) { described_class.new(name: 'app.ear') }
 
     it 'is if deployed content SHA1 checksum matches source checksum' do
       resource[:source] = 'file:/tmp/app.ear'
@@ -23,7 +23,7 @@ describe Puppet::Type.type(:wildfly_deployment) do
 
   describe 'when validating parameters' do
     let(:catalog) { Puppet::Resource::Catalog.new }
-    let(:resource) { described_class.new(:name => 'app.war', :catalog => catalog) }
+    let(:resource) { described_class.new(name: 'app.war', catalog: catalog) }
 
     it 'operation headers is valid if it is a Hash' do
       expect { resource[:operation_headers] = {} }.not_to raise_error
@@ -35,8 +35,8 @@ describe Puppet::Type.type(:wildfly_deployment) do
   end
 
   describe 'content property' do
-    let(:file_deployment) { described_class.new(:name => 'file', :source => File.expand_path('LICENSE')) }
-    let(:content) { described_class.attrclass(:content).new(:resource => file_deployment) }
+    let(:file_deployment) { described_class.new(name: 'file', source: File.expand_path('LICENSE')) }
+    let(:content) { described_class.attrclass(:content).new(resource: file_deployment) }
 
     it 'is in sync if checksum is equal' do
       expect(content.insync?('2b8b815229aa8a61e483fb4ba0588b8b6c491890')).to be(true)

@@ -12,7 +12,7 @@ end
 PROJECT_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
 def install_with_dependencies(host)
-  copy_module_to(host, :source => PROJECT_ROOT, :module_name => 'wildfly')
+  copy_module_to(host, source: PROJECT_ROOT, module_name: 'wildfly')
 
   on host, puppet('module', 'install', 'puppetlabs-stdlib', '--force', '--version', '4.13.1')
   on host, puppet('module', 'install', 'jethrocarr-initfact')
@@ -25,7 +25,7 @@ end
 
 RSpec.configure do |c|
   c.include JBossCLI
-  c.add_setting :test_data, :default => {}
+  c.add_setting :test_data, default: {}
   c.formatter = :documentation
   c.before :suite do
     run_puppet_install_helper

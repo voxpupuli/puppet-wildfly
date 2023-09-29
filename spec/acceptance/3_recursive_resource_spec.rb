@@ -39,8 +39,8 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
 
       EOS
 
-      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      execute_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      expect(execute_manifest(pp, catch_failures: true).exit_code).to be_zero
       shell('sleep 25')
     end
 
@@ -54,13 +54,13 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
     end
 
     it 'welcome page' do
-      shell('curl 127.0.0.1:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
 
     it 'contains postgresql module' do
-      shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', :acceptable_exit_codes => 0) do |r|
+      shell('ls -la /opt/wildfly/modules/system/layers/base/org/postgresql/main', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'postgresql-9.3-1103-jdbc4.jar'
         expect(r.stdout).to include 'module.xml'
       end
@@ -68,21 +68,21 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
 
     it 'postgresql driver exists' do
       shell("#{jboss_cli} '/subsystem=datasources/jdbc-driver=postgresql:read-resource'",
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'XA datasource exists' do
       shell("#{jboss_cli} '/subsystem=datasources/xa-data-source=petshopDSXa:read-resource'",
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
     end
 
     it 'XA datasource is enabled' do
       shell("#{jboss_cli} '/subsystem=datasources/xa-data-source=petshopDSXa:read-attribute(name=enabled)'",
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"result" => true'
       end
     end

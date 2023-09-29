@@ -10,7 +10,7 @@ Puppet::Type.newtype(:wildfly_deployment) do
     defaultto :present
   end
 
-  newparam(:name, :namevar => true) do
+  newparam(:name, namevar: true) do
     desc 'Deployable name'
   end
 

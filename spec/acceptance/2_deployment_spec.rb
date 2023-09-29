@@ -24,8 +24,8 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
           }
       EOS
 
-      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      execute_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      expect(execute_manifest(pp, catch_failures: true).exit_code).to be_zero
       shell('sleep 25')
     end
 
@@ -39,23 +39,23 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
     end
 
     it 'welcome page' do
-      shell('curl 127.0.0.1:8080', :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'Welcome'
       end
     end
 
     it 'downloaded WAR file' do
-      shell('ls -la /opt/hawtio-web-1.4.66.war', :acceptable_exit_codes => 0) do |r|
+      shell('ls -la /opt/hawtio-web-1.4.66.war', acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '/opt/hawtio-web-1.4.66.war'
       end
     end
 
     it 'deployed application' do
       shell("#{jboss_cli} '/deployment=hawtio.war:read-resource(recursive=true)'",
-            :acceptable_exit_codes => 0) do |r|
+            acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include '"outcome" => "success"'
       end
-      shell('curl 127.0.0.1:8080/'.concat('hawtio/'), :acceptable_exit_codes => 0) do |r|
+      shell('curl 127.0.0.1:8080/'.concat('hawtio/'), acceptable_exit_codes: 0) do |r|
         expect(r.stdout).to include 'hawtio'
       end
     end

@@ -4,8 +4,8 @@ require 'spec_helper'
 
 describe Puppet::Type.type(:wildfly_resource).attrclass(:state) do
   let(:path) { '/subsystem=dummy' }
-  let(:resource) { Puppet::Type.type(:wildfly_resource).new :title => path }
-  let(:state) { described_class.new(:resource => resource) }
+  let(:resource) { Puppet::Type.type(:wildfly_resource).new title: path }
+  let(:state) { described_class.new(resource: resource) }
 
   describe 'when testing whether the state is in sync without recursive' do
     it 'is not in sync if hashes do not match' do

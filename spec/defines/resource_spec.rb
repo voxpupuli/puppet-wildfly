@@ -4,12 +4,12 @@ require 'spec_helper'
 
 describe 'wildfly::resource' do
   let(:facts) do
-    { :operatingsystem => 'CentOS',
-      :kernel => 'Linux',
-      :osfamily => 'RedHat',
-      :operatingsystemmajrelease => '7',
-      :initsystem => 'systemd',
-      :fqdn => 'appserver.localdomain' }
+    { operatingsystem: 'CentOS',
+      kernel: 'Linux',
+      osfamily: 'RedHat',
+      operatingsystemmajrelease: '7',
+      initsystem: 'systemd',
+      fqdn: 'appserver.localdomain' }
   end
 
   let(:title) { '/subsystem=web' }
@@ -19,9 +19,9 @@ describe 'wildfly::resource' do
 
     it do
       is_expected.to contain_wildfly_resource(title).
-        with(:username => 'puppet',
-             :host => '127.0.0.1',
-             :port => '9990').
+        with(username: 'puppet',
+             host: '127.0.0.1',
+             port: '9990').
         that_requires('Service[wildfly]')
     end
   end
@@ -44,10 +44,10 @@ describe 'wildfly::resource' do
 
     it do
       is_expected.to contain_wildfly_resource(title).
-        with(:username => 'admin',
-             :password => 'safepassword',
-             :host => '192.168.10.10',
-             :port => '10090').
+        with(username: 'admin',
+             password: 'safepassword',
+             host: '192.168.10.10',
+             port: '10090').
         that_requires('Service[wildfly]')
     end
   end

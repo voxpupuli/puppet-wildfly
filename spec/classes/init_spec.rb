@@ -5,11 +5,11 @@ require 'spec_helper'
 describe 'wildfly' do
   context 'with defaults for all parameters' do
     let(:facts) do
-      { :operatingsystem => 'CentOS',
-        :kernel => 'Linux',
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '7',
-        :initsystem => 'systemd' }
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: '7',
+        initsystem: 'systemd' }
     end
 
     it { is_expected.to contain_class('wildfly') }
@@ -21,11 +21,11 @@ describe 'wildfly' do
 
   context 'with overlay_class' do
     let(:facts) do
-      { :operatingsystem => 'CentOS',
-        :kernel => 'Linux',
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '7',
-        :initsystem => 'systemd' }
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: '7',
+        initsystem: 'systemd' }
     end
 
     let(:pre_condition) { "class profile::jboss::overlay { notify { 'hello :D': } }" }

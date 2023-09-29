@@ -7,7 +7,7 @@ Puppet::Type.newtype(:wildfly_cli) do
 
   @isomorphic = false
 
-  newparam(:command, :namevar => true) do
+  newparam(:command, namevar: true) do
     desc 'The actual commmand to execute'
   end
 
@@ -19,7 +19,7 @@ Puppet::Type.newtype(:wildfly_cli) do
     desc 'If this parameter is set, then CLI command will only run if this command returns false'
   end
 
-  newparam(:refreshonly, :boolean => true, :parent => Puppet::Parameter::Boolean) do
+  newparam(:refreshonly, boolean: true, parent: Puppet::Parameter::Boolean) do
     desc 'If this parameter is set, then CLI command will only run if the resource was notified'
     defaultto false
   end

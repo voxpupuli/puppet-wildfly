@@ -6,7 +6,7 @@ describe 'wildfly::service_config' do
     let(:version) { '10.0' }
 
     let(:facts) do
-      { :osfamily => 'RedHat' }
+      { osfamily: 'RedHat' }
     end
 
     it 'using sysvinit' do
@@ -23,7 +23,7 @@ describe 'wildfly::service_config' do
     let(:version) { '9.0.2' }
 
     let(:facts) do
-      { :osfamily => 'RedHat' }
+      { osfamily: 'RedHat' }
     end
 
     it 'using sysvinit' do

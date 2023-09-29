@@ -7,7 +7,7 @@ module PuppetX
     class OperationBuilder
       def initialize
         @detyped_request = {
-          :address => []
+          address: []
         }
       end
 
@@ -46,28 +46,28 @@ module PuppetX
 
       def remove_content(name)
         @detyped_request[:operation] = :remove
-        @detyped_request[:address] << { :deployment => name }
+        @detyped_request[:address] << { deployment: name }
         self
       end
 
       def add_content(name, source)
         @detyped_request[:operation] = :add
-        @detyped_request[:content] = [:url => "file:#{source}"]
-        @detyped_request[:address] << { :deployment => name }
+        @detyped_request[:content] = [url: "file:#{source}"]
+        @detyped_request[:address] << { deployment: name }
         self
       end
 
       def deploy(name)
         operation = @detyped_request[:address].empty? ? :deploy : :add
         @detyped_request[:operation] = operation
-        @detyped_request[:address] << { :deployment => name }
+        @detyped_request[:address] << { deployment: name }
         self
       end
 
       def undeploy(name)
         operation = @detyped_request[:address].empty? ? :undeploy : :remove
         @detyped_request[:operation] = operation
-        @detyped_request[:address] << { :deployment => name }
+        @detyped_request[:address] << { deployment: name }
         self
       end
 

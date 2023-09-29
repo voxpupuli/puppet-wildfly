@@ -8,13 +8,13 @@ describe PuppetX::Wildfly::CLICommand do
     it 'creates a request for a paramless no parentheses operation' do
       detyped_request = described_class.new(':reload').to_detyped_request
 
-      expect(detyped_request).to eq(:operation => 'reload', :address => [])
+      expect(detyped_request).to eq(operation: 'reload', address: [])
     end
 
     it 'creates a request for a plain operation' do
       detyped_request = described_class.new('reload').to_detyped_request
 
-      expect(detyped_request).to eq(:operation => 'reload', :address => [])
+      expect(detyped_request).to eq(operation: 'reload', address: [])
     end
 
     it 'fails for a request with invalid syntax' do
@@ -23,7 +23,7 @@ describe PuppetX::Wildfly::CLICommand do
 
     it 'creates a request for a paramless operation' do
       detyped_request = described_class.new(':shutdown').to_detyped_request
-      expect(detyped_request).to eq(:operation => 'shutdown', :address => [])
+      expect(detyped_request).to eq(operation: 'shutdown', address: [])
     end
 
     it 'creates a request for a single param operation' do
@@ -43,12 +43,12 @@ describe PuppetX::Wildfly::CLICommand do
 
     it 'creates a request with a target address' do
       detyped_request = described_class.new('/subsystem=web:read-operation-names()').to_detyped_request
-      expect(detyped_request).to eq(:operation => 'read-operation-names', :address => [{ 'subsystem' => 'web' }])
+      expect(detyped_request).to eq(operation: 'read-operation-names', address: [{ 'subsystem' => 'web' }])
     end
 
     it 'creates a request with a complex target address' do
       detyped_request = described_class.new('/subsystem=web/modcluster=configuration:read-operation-names()').to_detyped_request
-      expect(detyped_request).to eq(:operation => 'read-operation-names', :address => [{ 'subsystem' => 'web' }, { 'modcluster' => 'configuration' }])
+      expect(detyped_request).to eq(operation: 'read-operation-names', address: [{ 'subsystem' => 'web' }, { 'modcluster' => 'configuration' }])
     end
 
     it 'creates a request with a OBJECT parameter' do
@@ -68,7 +68,7 @@ describe PuppetX::Wildfly::CLICommand do
 
     it 'creates a request for a resource named with special character' do
       detyped_request = described_class.new('/subsystem=naming/binding="java:global/ldap/resource":add()').to_detyped_request
-      expect(detyped_request).to eq(:operation => 'add', :address => [{ 'subsystem' => 'naming' }, { 'binding' => 'java:global/ldap/resource' }])
+      expect(detyped_request).to eq(operation: 'add', address: [{ 'subsystem' => 'naming' }, { 'binding' => 'java:global/ldap/resource' }])
     end
 
     it 'creates a request for a complex operation with complex path' do

@@ -2,7 +2,7 @@
 
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'wildfly'))
 
-Puppet::Type.type(:wildfly_cli).provide :http_api, :parent => Puppet::Provider::Wildfly do
+Puppet::Type.type(:wildfly_cli).provide :http_api, parent: Puppet::Provider::Wildfly do
   desc 'Uses JBoss HTTP API to execute a JBoss-CLI command'
 
   def exec_command

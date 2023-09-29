@@ -30,7 +30,7 @@ describe PuppetX::Wildfly::OperationRequest do
 
     it 'reads a resource' do
       resource = '/subsystem=web'
-      allow(api_client).to receive(:submit).with(PuppetX::Wildfly::OperationBuilder.new.read(resource).with(:recursive => false).build).and_return('result' => {})
+      allow(api_client).to receive(:submit).with(PuppetX::Wildfly::OperationBuilder.new.read(resource).with(recursive: false).build).and_return('result' => {})
       request.read(resource)
     end
 

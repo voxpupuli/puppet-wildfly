@@ -4,11 +4,11 @@ require 'spec_helper'
 
 describe 'wildfly::install' do
   let(:facts) do
-    { :operatingsystem => 'CentOS',
-      :kernel => 'Linux',
-      :osfamily => 'RedHat',
-      :operatingsystemmajrelease => '7',
-      :initsystem => 'systemd' }
+    { operatingsystem: 'CentOS',
+      kernel: 'Linux',
+      osfamily: 'RedHat',
+      operatingsystemmajrelease: '7',
+      initsystem: 'systemd' }
   end
 
   context 'install wildfly' do

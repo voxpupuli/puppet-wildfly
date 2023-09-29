@@ -9,11 +9,11 @@ describe 'wildfly::prepare' do
 
   context 'add group, user, create home with default params' do
     let(:facts) do
-      { :operatingsystem => 'CentOS',
-        :kernel => 'Linux',
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '7',
-        :initsystem => 'systemd' }
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: '7',
+        initsystem: 'systemd' }
     end
 
     it { is_expected.to contain_class('wildfly::prepare') }
@@ -31,11 +31,11 @@ describe 'wildfly::prepare' do
 
   context 'install dependencies for Redhat' do
     let(:facts) do
-      { :operatingsystem => 'CentOS',
-        :kernel => 'Linux',
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '7',
-        :initsystem => 'systemd' }
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: '7',
+        initsystem: 'systemd' }
     end
 
     it { is_expected.to contain_package('libaio') }
@@ -43,22 +43,22 @@ describe 'wildfly::prepare' do
 
   context 'install dependencies for Debian' do
     let(:facts) do
-      { :operatingsystem => 'Debian',
-        :kernel => 'Linux',
-        :osfamily => 'Debian',
-        :operatingsystemmajrelease => '8',
-        :initsystem => 'systemd' }
+      { operatingsystem: 'Debian',
+        kernel: 'Linux',
+        osfamily: 'Debian',
+        operatingsystemmajrelease: '8',
+        initsystem: 'systemd' }
     end
     it { is_expected.to contain_package('libaio1') }
   end
 
   context 'do not managed WILDFLY_HOME with package installation' do
     let(:facts) do
-      { :operatingsystem => 'CentOS',
-        :kernel => 'Linux',
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '7',
-        :initsystem => 'systemd' }
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: '7',
+        initsystem: 'systemd' }
     end
 
     let :pre_condition do
@@ -73,11 +73,11 @@ describe 'wildfly::prepare' do
 
   context 'over-riding user_home' do
     let(:facts) do
-      { :operatingsystem => 'CentOS',
-        :kernel => 'Linux',
-        :osfamily => 'RedHat',
-        :operatingsystemmajrelease => '7',
-        :initsystem => 'systemd' }
+      { operatingsystem: 'CentOS',
+        kernel: 'Linux',
+        osfamily: 'RedHat',
+        operatingsystemmajrelease: '7',
+        initsystem: 'systemd' }
     end
 
     let :pre_condition do

@@ -23,7 +23,7 @@ module PuppetX
         condition, command = command.split(/\sof\s/)
         variable, operator, value = condition.gsub(/[()]/, '').split("\s")
 
-        response = exec(command, :ignore_failed_outcome => true)
+        response = exec(command, ignore_failed_outcome: true)
 
         return response[variable].nil? if value == 'undefined'
 
@@ -39,12 +39,12 @@ module PuppetX
       # resource
 
       def exists?(resource)
-        response = @api_client.submit(operation.read(resource).build, :ignore_failed_outcome => true)
+        response = @api_client.submit(operation.read(resource).build, ignore_failed_outcome: true)
         response['outcome'] == 'success'
       end
 
       def read(resource, recursive = false)
-        response = @api_client.submit(operation.read(resource).with(:recursive => recursive).build)
+        response = @api_client.submit(operation.read(resource).with(recursive: recursive).build)
         response['result']
       end
 
