@@ -32,7 +32,7 @@ class IntervalSkipList
       cur_node = cur_node.forward[0]
     end while cur_node.key < range.last
 
-    return markers.uniq, cur_node
+    [markers.uniq, cur_node]
   end
 
   def containing(n)
@@ -100,7 +100,7 @@ class IntervalSkipList
     return found_node if found_node && found_node.key == key
       
     
-      return Node.new(key, next_node_height, path)
+      Node.new(key, next_node_height, path)
     
   end
 
@@ -117,7 +117,7 @@ class IntervalSkipList
       containing.concat(cur_node.forward_markers[cur_level])
     end
 
-    return containing, cur_node
+    [containing, cur_node]
   end
 
   def delete_node(key)

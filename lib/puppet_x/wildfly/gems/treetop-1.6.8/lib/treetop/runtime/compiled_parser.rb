@@ -27,7 +27,7 @@ module Treetop
         end
         return SyntaxNode.new(input, index...(index + 1)) if result == true
 
-        return result
+        result
       end
 
       def failure_index
@@ -123,7 +123,7 @@ module Treetop
           @terminal_failures = []
         end
         @terminal_failures << [index, expected_string, unexpected]
-        return nil
+        nil
       end
     end
   end

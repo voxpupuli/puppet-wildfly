@@ -39,7 +39,7 @@ module Polyglot
         return [path, @registrations[path.gsub(%r{.*\.}, '')]]
       end
     end
-    return nil
+    nil
   end
 
   def self.load(*a, &b)
