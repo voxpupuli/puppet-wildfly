@@ -143,9 +143,7 @@ class Net::HTTP::DigestAuth
         ]
       end,
       "response=\"#{algorithm.hexdigest(request_digest)[0, 32]}\"",
-      if params.key? 'opaque'
-        "opaque=\"#{params['opaque']}\""
-      end
+      ("opaque=\"#{params['opaque']}\"" if params.key? 'opaque')
     ].compact
 
     header.join ', '

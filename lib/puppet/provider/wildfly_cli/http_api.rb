@@ -14,13 +14,9 @@ Puppet::Type.type(:wildfly_cli).provide :http_api, parent: Puppet::Provider::Wil
     unless_eval = true
     onlyif_eval = false
 
-    unless @resource[:unless].nil?
-      unless_eval = cli.evaluate(@resource[:unless])
-    end
+    unless_eval = cli.evaluate(@resource[:unless]) unless @resource[:unless].nil?
 
-    unless @resource[:onlyif].nil?
-      onlyif_eval = cli.evaluate(@resource[:onlyif])
-    end
+    onlyif_eval = cli.evaluate(@resource[:onlyif]) unless @resource[:onlyif].nil?
 
     onlyif_eval || !unless_eval || (@resource[:unless].nil? && @resource[:onlyif].nil?)
   end

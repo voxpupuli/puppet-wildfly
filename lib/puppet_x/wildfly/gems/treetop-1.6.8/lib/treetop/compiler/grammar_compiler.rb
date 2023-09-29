@@ -25,9 +25,7 @@ module Treetop
       def ruby_source_from_string(s)
         parser = MetagrammarParser.new
         result = parser.parse(s)
-        unless result
-          raise RuntimeError.new(parser.failure_reason)
-        end
+        raise RuntimeError.new(parser.failure_reason) unless result
 
         result.compile
       end

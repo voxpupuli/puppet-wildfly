@@ -78,9 +78,7 @@ class IntervalSkipList
     last_node = cur_node
 
     first_node.endpoint_of.delete(marker)
-    if first_node.endpoint_of.empty?
-      first_node.delete(path_to_first_node)
-    end
+    first_node.delete(path_to_first_node) if first_node.endpoint_of.empty?
 
     last_node.endpoint_of.delete(marker)
     return unless last_node.endpoint_of.empty?
@@ -110,9 +108,7 @@ class IntervalSkipList
     (max_height - 1).downto(0) do |cur_level|
       while (next_node = cur_node.forward[cur_level]) && next_node.key <= n
         cur_node = next_node
-        if cur_node.key == n
-          return containing + (cur_node.markers - cur_node.endpoint_of), cur_node
-        end
+        return containing + (cur_node.markers - cur_node.endpoint_of), cur_node if cur_node.key == n
       end
       containing.concat(cur_node.forward_markers[cur_level])
     end

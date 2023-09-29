@@ -1545,9 +1545,7 @@ module Treetop
 
       module Primary5
         def compile(address, builder, parent_expression = nil)
-          if node_class_declarations.inline_module && atomic.inline_module
-            STDERR.puts "Extraneous module ignored after suffix: #{input[interval].inspect}"
-          end
+          STDERR.puts "Extraneous module ignored after suffix: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
           suffix.compile(address, builder, self)
         end
 
@@ -1588,9 +1586,7 @@ module Treetop
 
       module Primary7
         def compile(address, builder, parent_expression = nil)
-          if node_class_declarations.inline_module && atomic.inline_module
-            STDERR.puts "Extraneous module ignored with nested atomic: #{input[interval].inspect}"
-          end
+          STDERR.puts "Extraneous module ignored with nested atomic: #{input[interval].inspect}" if node_class_declarations.inline_module && atomic.inline_module
           atomic.compile(address, builder, self)
         end
 

@@ -20,9 +20,7 @@ module Treetop
         result = send("_nt_#{options[:root] || root}")
         should_consume_all = options.include?(:consume_all_input) ? options[:consume_all_input] : consume_all_input?
         if (should_consume_all && index != input.size)
-          if index > max_terminal_failure_index # Otherwise the failure is already explained
-            terminal_parse_failure('<END OF INPUT>', true)
-          end
+          terminal_parse_failure('<END OF INPUT>', true) if index > max_terminal_failure_index # Otherwise the failure is already explained
           return nil
         end
         return SyntaxNode.new(input, index...(index + 1)) if result == true

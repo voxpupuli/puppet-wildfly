@@ -69,9 +69,7 @@ module PuppetX
         http_response = @http_client.request http_request
         response = JSON.parse(http_response.body)
 
-        unless response['outcome'] == 'success' || ignore_failed_outcome
-          raise "Failed with: #{response['failure-description']} for #{body.to_json}"
-        end
+        raise "Failed with: #{response['failure-description']} for #{body.to_json}" unless response['outcome'] == 'success' || ignore_failed_outcome
 
         response
       end

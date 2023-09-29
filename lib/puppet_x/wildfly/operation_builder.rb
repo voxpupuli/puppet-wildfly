@@ -12,9 +12,7 @@ module PuppetX
       end
 
       def target(name)
-        unless name.nil?
-          @detyped_request[:address] << { 'server-group' => name }
-        end
+        @detyped_request[:address] << { 'server-group' => name } unless name.nil?
         self
       end
 
