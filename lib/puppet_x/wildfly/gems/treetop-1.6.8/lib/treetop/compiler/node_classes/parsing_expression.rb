@@ -116,7 +116,7 @@ module Treetop
         if left.empty?
           ''
         else
-          left.join(', ') + ' = ' + right.join(', ')
+          "#{left.join(', ')} = #{right.join(', ')}"
         end
       end
 

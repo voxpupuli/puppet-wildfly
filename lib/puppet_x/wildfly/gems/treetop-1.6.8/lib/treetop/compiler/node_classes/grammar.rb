@@ -23,7 +23,7 @@ module Treetop
       end
 
       def parser_name
-        grammar_name.text_value + 'Parser'
+        "#{grammar_name.text_value}Parser"
       end
     end
   end

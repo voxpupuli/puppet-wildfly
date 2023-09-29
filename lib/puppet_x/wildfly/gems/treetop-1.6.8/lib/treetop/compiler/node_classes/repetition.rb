@@ -66,7 +66,7 @@ module Treetop
       end
 
       def expected
-        parent_expression.atomic.expected && '"at least one "+' + parent_expression.atomic.expected
+        parent_expression.atomic.expected && "\"at least one \"+#{parent_expression.atomic.expected}"
       end
     end
 

@@ -22,7 +22,7 @@ module Treetop
       end
 
       def expected
-        single_quote('[' + characters + ']')
+        single_quote("[#{characters}]")
       end
 
       def inline_module

@@ -302,7 +302,7 @@ module Treetop
         end
 
         def parser_name
-          module_prefix.name.text_value + '::' + module_contents.parser_name
+          "#{module_prefix.name.text_value}::#{module_contents.parser_name}"
         end
       end
 

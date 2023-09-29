@@ -38,6 +38,6 @@ class String
   end
 
   def treetop_camelize
-    to_s.gsub(/\/(.?)/) { '::' + $1.upcase }.gsub(/(^|_)(.)/) { $2.upcase }
+    to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(^|_)(.)/) { $2.upcase }
   end
 end

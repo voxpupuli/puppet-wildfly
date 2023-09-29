@@ -72,7 +72,7 @@ module Treetop
 
         indent +
           self.class.to_s.sub(/.*:/, '') +
-          em.map { |m| '+' + m.to_s.sub(/.*:/, '') } * '' +
+          em.map { |m| "+#{m.to_s.sub(/.*:/, '')}" } * '' +
           " offset=#{interval.first}" +
           ", #{tv.inspect}" +
           im
@@ -84,9 +84,9 @@ module Treetop
         ':' +
           elements.map do |e|
             begin
-              "\n" + e.inspect(indent + '  ')
+              "\n#{e.inspect("#{indent}  ")}"
             rescue # Defend against inspect not taking a parameter
-              "\n" + indent + ' ' + e.inspect
+              "\n#{indent} #{e.inspect}"
             end
           end.
           join('')
@@ -114,7 +114,7 @@ module Treetop
       end
 
       def write_dot_file(fname)
-        File.open(fname + '.dot', 'w') do |file|
+        File.open("#{fname}.dot", 'w') do |file|
           file.puts 'digraph G {'
           write_dot(file)
           file.puts '}'

@@ -4,14 +4,14 @@
 require 'optparse'
 require 'rubygems'
 
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/../lib'))
+$LOAD_PATH.unshift(File.expand_path("#{File.dirname(__FILE__)}/../lib"))
 require 'treetop'
 require 'treetop/version'
 require 'treetop/polyglot'
 
 options = {}
 parser = OptionParser.new do |opts|
-  exts = Treetop::Polyglot::VALID_GRAMMAR_EXT.collect { |i| '.' + i }
+  exts = Treetop::Polyglot::VALID_GRAMMAR_EXT.collect { |i| ".#{i}" }
 
   opts.banner = 'Treetop Parsing Expression Grammar (PEG) Comand Line Compiler'
   opts.define_head "Usage: tt [options] grammar_file[#{exts.join('|')}] ..."
