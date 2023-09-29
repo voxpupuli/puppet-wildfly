@@ -72,12 +72,12 @@ data = {}
 
 case profile
 
-when /(wildfly):(\d{1,}\.\d{1,}\.\d{1,})/
+when %r{(wildfly):(\d{1,}\.\d{1,}\.\d{1,})}
   data['distribution'] = Regexp.last_match(1)
   data['version'] = Regexp.last_match(2)
   data['install_source'] = "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
   data['service_name'] = 'wildfly'
-when /(jboss-eap):(\d{1,}\.\d{1,})/
+when %r{(jboss-eap):(\d{1,}\.\d{1,})}
   data['distribution'] = Regexp.last_match(1)
   data['version'] = Regexp.last_match(2)
   data['install_source'] = "http://10.0.2.2:9090/jboss-eap-#{data['version']}.tar.gz"

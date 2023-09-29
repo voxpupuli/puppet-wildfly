@@ -80,18 +80,18 @@ class Net::HTTP::DigestAuth
     user     = CGI.unescape uri.user
     password = CGI.unescape uri.password
 
-    www_authenticate =~ /^(\w+) (.*)/
+    www_authenticate =~ %r{^(\w+) (.*)}
 
     challenge = $2
 
     params = {}
-    challenge.gsub(/(\w+)="(.*?)"/) { params[$1] = $2 }
+    challenge.gsub(%r{(\w+)="(.*?)"}) { params[$1] = $2 }
 
-    challenge =~ /algorithm="?(.*?)"?([, ]|$)/
+    challenge =~ %r{algorithm="?(.*?)"?([, ]|$)}
 
     params['algorithm'] = $1 || 'MD5'
 
-    if params['algorithm'] =~ /(.*?)(-sess)?$/
+    if params['algorithm'] =~ %r{(.*?)(-sess)?$}
       algorithm = case $1
                   when 'MD5'    then Digest::MD5
                   when 'SHA1'   then Digest::SHA1

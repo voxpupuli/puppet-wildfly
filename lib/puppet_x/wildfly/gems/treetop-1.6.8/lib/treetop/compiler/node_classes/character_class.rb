@@ -31,7 +31,7 @@ module Treetop
 
       def grounded_regexp(string)
         # Double any backslashes, then backslash any single-quotes:
-        "'\\A#{string.gsub(/\\/) { '\\\\' }.gsub(/'/) { "\\'" }}'"
+        "'\\A#{string.gsub(%r{\\}) { '\\\\' }.gsub(%r{'}) { "\\'" }}'"
       end
     end
   end

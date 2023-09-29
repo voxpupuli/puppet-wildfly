@@ -3,7 +3,7 @@
 module Treetop
   module Polyglot
     VALID_GRAMMAR_EXT = ['treetop', 'tt']
-    VALID_GRAMMAR_EXT_REGEXP = /\.(#{VALID_GRAMMAR_EXT.join('|')})\Z/o
+    VALID_GRAMMAR_EXT_REGEXP = %r{\.(#{VALID_GRAMMAR_EXT.join('|')})\Z}o
   end
 end
 

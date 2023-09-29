@@ -48,7 +48,7 @@ module PuppetX
 
         sleep 0.05 # We've been returned an auth token.  But if we don't wait a small amount of time before using it, we might stil get a 401. :(
 
-        if response['www-authenticate'] =~ /digest/i
+        if response['www-authenticate'] =~ %r{digest}i
           digest_auth.auth_header @uri, response['www-authenticate'], 'POST'
         else
           response['www-authenticate']
@@ -59,7 +59,7 @@ module PuppetX
         http_request = Net::HTTP::Post.new @uri.request_uri
         http_request.add_field 'Content-type', 'application/json'
         authz = authz_header
-        if authz =~ /digest/i
+        if authz =~ %r{digest}i
           http_request.add_field 'Authorization', authz
         else
           http_request.basic_auth @username, @password

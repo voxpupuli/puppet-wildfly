@@ -8,7 +8,7 @@ shared_examples 'missing required parameter should raise error' do |parameter_na
       super().merge({ "#{parameter_name}": :undef })
     end
 
-    it { is_expected.to compile.and_raise_error(/#{parameter_name} is required/) }
+    it { is_expected.to compile.and_raise_error(%r{#{parameter_name} is required}) }
   end
 end
 

@@ -20,8 +20,8 @@ module PuppetX
       end
 
       def evaluate(command)
-        condition, command = command.split(/\sof\s/)
-        variable, operator, value = condition.gsub(/[()]/, '').split("\s")
+        condition, command = command.split(%r{\sof\s})
+        variable, operator, value = condition.gsub(%r{[()]}, '').split("\s")
 
         response = exec(command, ignore_failed_outcome: true)
 

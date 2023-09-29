@@ -71,8 +71,8 @@ module Treetop
         tv = "...#{tv[-20..-1]}" if tv.size > 20
 
         indent +
-          self.class.to_s.sub(/.*:/, '') +
-          em.map { |m| "+#{m.to_s.sub(/.*:/, '')}" } * '' +
+          self.class.to_s.sub(%r{.*:}, '') +
+          em.map { |m| "+#{m.to_s.sub(%r{.*:}, '')}" } * '' +
           " offset=#{interval.first}" +
           ", #{tv.inspect}" +
           im

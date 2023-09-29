@@ -16,7 +16,7 @@ module Treetop
       def compile(index, builder, rule)
         super
         builder.module_declaration(module_name) do
-          builder << ruby_code.gsub(/\A\n/, '').rstrip
+          builder << ruby_code.gsub(%r{\A\n}, '').rstrip
         end
       end
 

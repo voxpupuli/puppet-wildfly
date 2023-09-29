@@ -27,7 +27,7 @@ module Polyglot
 
   def self.find(file, *options, &block)
     is_absolute = Pathname.new(file).absolute?
-    is_dot_relative = file =~ /\.[\/\\]/
+    is_dot_relative = file =~ %r{\.[/\\]}
     paths = is_absolute ? [''] : Array(is_dot_relative ? '.' : nil) + $:
     paths.each do |lib|
       base = is_absolute ? '' : lib + File::SEPARATOR
@@ -36,7 +36,7 @@ module Polyglot
       # Revisit: Should we do more do if more than one candidate found?
       $stderr.puts "Polyglot: found more than one candidate for #{file}: #{matches * ", "}" if matches.size > 1
       if path = matches[0]
-        return [path, @registrations[path.gsub(/.*\./, '')]]
+        return [path, @registrations[path.gsub(%r{.*\.}, '')]]
       end
     end
     return nil

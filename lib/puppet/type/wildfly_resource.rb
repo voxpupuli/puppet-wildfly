@@ -66,7 +66,7 @@ Puppet::Type.newtype(:wildfly_resource) do
   def self.title_patterns
     [
       [
-        /^(.*):(.*):(.*)$/,
+        %r{^(.*):(.*):(.*)$},
         [
           [:path],
           [:host],
@@ -74,14 +74,14 @@ Puppet::Type.newtype(:wildfly_resource) do
         ]
       ],
       [
-        /^(.*):(.*)$/,
+        %r{^(.*):(.*)$},
         [
           [:path],
           [:host]
         ]
       ],
       [
-        /^([^:]+)$/,
+        %r{^([^:]+)$},
         [
           [:path]
         ]

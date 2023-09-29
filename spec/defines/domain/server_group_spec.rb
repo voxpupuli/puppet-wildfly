@@ -47,7 +47,7 @@ describe 'wildfly::domain::server_group' do
         { socket_binding_group: 'full-ha-sockets' }
       end
 
-      it { is_expected.to compile.and_raise_error(/profile is required/) }
+      it { is_expected.to compile.and_raise_error(%r{profile is required}) }
     end
 
     describe 'with socket_binding_group missing' do
@@ -55,7 +55,7 @@ describe 'wildfly::domain::server_group' do
         { profile: 'full-ha' }
       end
 
-      it { is_expected.to compile.and_raise_error(/socket_binding_group is required/) }
+      it { is_expected.to compile.and_raise_error(%r{socket_binding_group is required}) }
     end
   end
 

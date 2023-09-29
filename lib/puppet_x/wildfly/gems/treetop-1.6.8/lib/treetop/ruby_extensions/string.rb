@@ -24,13 +24,13 @@ class String
 
   # The following methods are lifted from Facets 2.0.2
   def tabto(n)
-    if self =~ /^( *)\S/
+    if self =~ %r{^( *)\S}
       # Inlined due to collision with ActiveSupport 4.0: indent(n - $1.length)
       m = n - $1.length
       if m >= 0
-        gsub(/^/, ' ' * m)
+        gsub(%r{^}, ' ' * m)
       else
-        gsub(/^ {0,#{-m}}/, '')
+        gsub(%r{^ {0,#{-m}}}, '')
       end
     else
       self
@@ -38,6 +38,6 @@ class String
   end
 
   def treetop_camelize
-    to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(^|_)(.)/) { $2.upcase }
+    to_s.gsub(%r{/(.?)}) { "::#{$1.upcase}" }.gsub(%r{(^|_)(.)}) { $2.upcase }
   end
 end
