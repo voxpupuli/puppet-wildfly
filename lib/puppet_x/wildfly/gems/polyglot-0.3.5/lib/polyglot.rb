@@ -30,7 +30,7 @@ module Polyglot
     is_dot_relative = file =~ /\.[\/\\]/
     paths = is_absolute ? [''] : Array(is_dot_relative ? '.' : nil) + $:
     paths.each do |lib|
-      base = is_absolute ? "" : lib + File::SEPARATOR
+      base = is_absolute ? '' : lib + File::SEPARATOR
       # In Windows, repeated SEPARATOR chars have a special meaning, avoid adding them
       matches = Dir["#{base}#{file}{,.#{@registrations.keys * ',.'}}"]
       # Revisit: Should we do more do if more than one candidate found?

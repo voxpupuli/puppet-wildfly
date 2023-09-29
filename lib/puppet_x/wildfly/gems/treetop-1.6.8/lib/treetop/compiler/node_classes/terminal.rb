@@ -37,7 +37,7 @@ module Treetop
           else
             assign_lazily_instantiated_node
           end
-          builder << "@index += match_len"
+          builder << '@index += match_len'
         end
         builder.else_ do
           builder << "terminal_parse_failure(#{expected})"

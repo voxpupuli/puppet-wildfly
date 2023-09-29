@@ -144,7 +144,7 @@ module Treetop
         end
         s0 << r1
         if r1
-          if (match_len = has_terminal?("require", false, index))
+          if (match_len = has_terminal?('require', false, index))
             r3 = instantiate_node(SyntaxNode, input, index...(index + match_len))
             @index += match_len
           else
@@ -2854,7 +2854,7 @@ module Treetop
             s3 << r4
             if r4
               i6 = index
-              if (match_len = has_terminal?("\\\\", false, index))
+              if (match_len = has_terminal?('\\\\', false, index))
                 r7 = instantiate_node(SyntaxNode, input, index...(index + match_len))
                 @index += match_len
               else
@@ -2880,7 +2880,7 @@ module Treetop
                     r9 = true
                     @index += 1
                   else
-                    terminal_parse_failure("any character")
+                    terminal_parse_failure('any character')
                     r9 = nil
                   end
                   if r9
@@ -2986,7 +2986,7 @@ module Treetop
             s3 << r4
             if r4
               i6 = index
-              if (match_len = has_terminal?("\\\\", false, index))
+              if (match_len = has_terminal?('\\\\', false, index))
                 r7 = instantiate_node(SyntaxNode, input, index...(index + match_len))
                 @index += match_len
               else
@@ -3012,7 +3012,7 @@ module Treetop
                     r9 = true
                     @index += 1
                   else
-                    terminal_parse_failure("any character")
+                    terminal_parse_failure('any character')
                     r9 = nil
                   end
                   if r9
@@ -3144,7 +3144,7 @@ module Treetop
                   r9 = true
                   @index += 1
                 else
-                  terminal_parse_failure("any character")
+                  terminal_parse_failure('any character')
                   r9 = nil
                 end
                 s7 << r9
@@ -3189,7 +3189,7 @@ module Treetop
                       r14 = true
                       @index += 1
                     else
-                      terminal_parse_failure("any character")
+                      terminal_parse_failure('any character')
                       r14 = nil
                     end
                     s11 << r14
@@ -3576,7 +3576,7 @@ module Treetop
                   r8 = true
                   @index += 1
                 else
-                  terminal_parse_failure("any character")
+                  terminal_parse_failure('any character')
                   r8 = nil
                 end
                 s5 << r8
@@ -3844,7 +3844,7 @@ module Treetop
                   r8 = true
                   @index += 1
                 else
-                  terminal_parse_failure("any character")
+                  terminal_parse_failure('any character')
                   r8 = nil
                 end
                 s5 << r8
@@ -3994,7 +3994,7 @@ module Treetop
             r3 = true
             @index += 1
           else
-            terminal_parse_failure("any character")
+            terminal_parse_failure('any character')
             r3 = nil
           end
           s0 << r3
@@ -4173,7 +4173,7 @@ module Treetop
                 r6 = true
                 @index += 1
               else
-                terminal_parse_failure("any character")
+                terminal_parse_failure('any character')
                 r6 = nil
               end
               s3 << r6

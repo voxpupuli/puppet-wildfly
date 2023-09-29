@@ -18,7 +18,7 @@ class String
 
   unless method_defined?(:blank?)
     def blank?
-      self == ""
+      self == ''
     end
   end
 
@@ -30,7 +30,7 @@ class String
       if m >= 0
         gsub(/^/, ' ' * m)
       else
-        gsub(/^ {0,#{-m}}/, "")
+        gsub(/^ {0,#{-m}}/, '')
       end
     else
       self
@@ -38,6 +38,6 @@ class String
   end
 
   def treetop_camelize
-    to_s.gsub(/\/(.?)/) { "::" + $1.upcase }.gsub(/(^|_)(.)/) { $2.upcase }
+    to_s.gsub(/\/(.?)/) { '::' + $1.upcase }.gsub(/(^|_)(.)/) { $2.upcase }
   end
 end

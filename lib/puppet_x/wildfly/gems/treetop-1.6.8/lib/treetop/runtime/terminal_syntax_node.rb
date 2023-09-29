@@ -7,7 +7,7 @@ module Treetop
         super(input, interval, [])
       end
 
-      def inspect(indent = "")
+      def inspect(indent = '')
         indent +
           self.class.to_s.sub(/.*:/, '') +
           " offset=#{interval.first}" +

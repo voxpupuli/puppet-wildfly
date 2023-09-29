@@ -36,7 +36,7 @@ module Treetop
         builder.if_ "node_cache[:#{name}].has_key?(index)" do
           cache_address = "node_cache[:#{name}][index]"
           builder.assign 'cached', cache_address
-          builder.if_ "cached" do
+          builder.if_ 'cached' do
             # Handle lazily instantiated nodes:
             builder << "#{cache_address} = cached = SyntaxNode.new(input, index...(index + 1)) if cached == true"
             builder << '@index = cached.interval.end'

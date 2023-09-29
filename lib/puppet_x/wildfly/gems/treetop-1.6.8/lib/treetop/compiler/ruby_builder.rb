@@ -10,7 +10,7 @@ module Treetop
       def initialize
         @level = 0
         @address_space = LexicalAddressSpace.new
-        @ruby = ""
+        @ruby = ''
       end
 
       def <<(ruby_line)
@@ -32,19 +32,19 @@ module Treetop
       def class_declaration(name, &block)
         self << "class #{name}"
         indented(&block)
-        self << "end"
+        self << 'end'
       end
 
       def module_declaration(name, &block)
         self << "module #{name}"
         indented(&block)
-        self << "end"
+        self << 'end'
       end
 
       def method_declaration(name, &block)
         self << "def #{name}"
         indented(&block)
-        self << "end"
+        self << 'end'
       end
 
       def assign(left, right)
@@ -110,7 +110,7 @@ module Treetop
       private
 
       def indent
-        " " * level
+        ' ' * level
       end
     end
   end

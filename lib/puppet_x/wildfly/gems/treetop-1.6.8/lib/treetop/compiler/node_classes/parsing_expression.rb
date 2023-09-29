@@ -94,15 +94,15 @@ module Treetop
       end
 
       def epsilon_node
-        "instantiate_node(SyntaxNode,input, index...index)"
+        'instantiate_node(SyntaxNode,input, index...index)'
       end
 
       def assign_failure(start_index_var)
-        assign_result("nil")
+        assign_result('nil')
       end
 
       def assign_lazily_instantiated_node
-        assign_result("true")
+        assign_result('true')
       end
 
       def var_initialization
@@ -114,7 +114,7 @@ module Treetop
           end
         end
         if left.empty?
-          ""
+          ''
         else
           left.join(', ') + ' = ' + right.join(', ')
         end

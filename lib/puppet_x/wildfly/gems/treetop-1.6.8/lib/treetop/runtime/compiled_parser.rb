@@ -46,7 +46,7 @@ module Treetop
       def failure_reason
         return nil unless (tf = terminal_failures) && tf.size > 0
 
-        "Expected " +
+        'Expected ' +
           (tf.size == 1 ?
            (tf[0].unexpected ? OtherThan : '') + tf[0].expected_string :
                  "one of #{tf.map { |f| (f.unexpected ? OtherThan : '') + f.expected_string }.uniq * ', '}"
@@ -89,7 +89,7 @@ module Treetop
           @index += 1
           result
         else
-          terminal_parse_failure("any character")
+          terminal_parse_failure('any character')
         end
       end
 

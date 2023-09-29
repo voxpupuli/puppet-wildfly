@@ -110,7 +110,7 @@ describe 'wildfly::host::server_config' do
         is_expected.to contain_augeas("manage-host-controller-server-#{title}").
           with({
                  lens: 'Xml.lns',
-                 incl: "/opt/wildfly/domain/configuration/host-slave.xml",
+                 incl: '/opt/wildfly/domain/configuration/host-slave.xml',
                  changes: "rm host/servers/server[#attribute/name='#{title}']",
                  onlyif: "match host/servers/server[#attribute/name='#{title}'] size != 0",
                })
