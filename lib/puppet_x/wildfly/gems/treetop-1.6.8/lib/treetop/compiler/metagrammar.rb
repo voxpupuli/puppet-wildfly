@@ -60,11 +60,7 @@ module Treetop
           i2 = index
           s2 = []
           r4 = _nt_space
-          r3 = if r4
-            r4
-          else
-            instantiate_node(SyntaxNode, input, index...index)
-               end
+          r3 = r4 || instantiate_node(SyntaxNode, input, index...index)
           s2 << r3
           if r3
             r5 = _nt_require_statement
@@ -84,22 +80,14 @@ module Treetop
         s0 << r1
         if r1
           r7 = _nt_space
-          r6 = if r7
-            r7
-          else
-            instantiate_node(SyntaxNode, input, index...index)
-               end
+          r6 = r7 || instantiate_node(SyntaxNode, input, index...index)
           s0 << r6
           if r6
             r8 = _nt_module_or_grammar
             s0 << r8
             if r8
               r10 = _nt_space
-              r9 = if r10
-                r10
-              else
-                instantiate_node(SyntaxNode, input, index...index)
-                   end
+              r9 = r10 || instantiate_node(SyntaxNode, input, index...index)
               s0 << r9
             end
           end
@@ -138,11 +126,7 @@ module Treetop
         i0 = index
         s0 = []
         r2 = _nt_space
-        r1 = if r2
-          r2
-        else
-          instantiate_node(SyntaxNode, input, index...index)
-             end
+        r1 = r2 || instantiate_node(SyntaxNode, input, index...index)
         s0 << r1
         if r1
           if (match_len = has_terminal?('require', false, index))
@@ -588,22 +572,14 @@ module Treetop
                   @index = i6
                   r6 = nil
                 end
-                r5 = if r6
-                  r6
-                else
-                  instantiate_node(SyntaxNode, input, index...index)
-                     end
+                r5 = r6 || instantiate_node(SyntaxNode, input, index...index)
                 s0 << r5
                 if r5
                   r9 = _nt_declaration_sequence
                   s0 << r9
                   if r9
                     r11 = _nt_space
-                    r10 = if r11
-                      r11
-                    else
-                      instantiate_node(SyntaxNode, input, index...index)
-                          end
+                    r10 = r11 || instantiate_node(SyntaxNode, input, index...index)
                     s0 << r10
                     if r10
                       if (match_len = has_terminal?('end', false, index))
@@ -1005,11 +981,7 @@ module Treetop
                   @index = i6
                   r6 = nil
                 end
-                r5 = if r6
-                  r6
-                else
-                  instantiate_node(SyntaxNode, input, index...index)
-                     end
+                r5 = r6 || instantiate_node(SyntaxNode, input, index...index)
                 s0 << r5
                 if r5
                   r9 = _nt_parsing_expression
@@ -1144,11 +1116,7 @@ module Treetop
             i3 = index
             s3 = []
             r5 = _nt_space
-            r4 = if r5
-              r5
-            else
-              instantiate_node(SyntaxNode, input, index...index)
-                 end
+            r4 = r5 || instantiate_node(SyntaxNode, input, index...index)
             s3 << r4
             if r4
               if (match_len = has_terminal?('/', false, index))
@@ -1161,11 +1129,7 @@ module Treetop
               s3 << r6
               if r6
                 r8 = _nt_space
-                r7 = if r8
-                  r8
-                else
-                  instantiate_node(SyntaxNode, input, index...index)
-                     end
+                r7 = r8 || instantiate_node(SyntaxNode, input, index...index)
                 s3 << r7
                 if r7
                   r9 = _nt_alternative
@@ -1649,11 +1613,7 @@ module Treetop
           s4 << r5
           if r5
             r7 = _nt_space
-            r6 = if r7
-              r7
-            else
-              instantiate_node(SyntaxNode, input, index...index)
-                 end
+            r6 = r7 || instantiate_node(SyntaxNode, input, index...index)
             s4 << r6
             if r6
               r8 = _nt_predicate_block
@@ -2157,11 +2117,7 @@ module Treetop
           s4 << r5
           if r5
             r7 = _nt_space
-            r6 = if r7
-              r7
-            else
-              instantiate_node(SyntaxNode, input, index...index)
-                 end
+            r6 = r7 || instantiate_node(SyntaxNode, input, index...index)
             s4 << r6
             if r6
               r8 = _nt_predicate_block
@@ -2408,11 +2364,7 @@ module Treetop
         i0 = index
         s0 = []
         r2 = _nt_space
-        r1 = if r2
-          r2
-        else
-          instantiate_node(SyntaxNode, input, index...index)
-             end
+        r1 = r2 || instantiate_node(SyntaxNode, input, index...index)
         s0 << r1
         if r1
           s3 = []
@@ -2614,22 +2566,14 @@ module Treetop
         s0 << r1
         if r1
           r3 = _nt_space
-          r2 = if r3
-            r3
-          else
-            instantiate_node(SyntaxNode, input, index...index)
-               end
+          r2 = r3 || instantiate_node(SyntaxNode, input, index...index)
           s0 << r2
           if r2
             r4 = _nt_parsing_expression
             s0 << r4
             if r4
               r6 = _nt_space
-              r5 = if r6
-                r6
-              else
-                instantiate_node(SyntaxNode, input, index...index)
-                   end
+              r5 = r6 || instantiate_node(SyntaxNode, input, index...index)
               s0 << r5
               if r5
                 if (match_len = has_terminal?(')', false, index))
@@ -3346,11 +3290,7 @@ r1 = if r2
             terminal_parse_failure('\'^\'')
             r3 = nil
           end
-          r2 = if r3
-            r3
-          else
-            instantiate_node(SyntaxNode, input, index...index)
-               end
+          r2 = r3 || instantiate_node(SyntaxNode, input, index...index)
           s0 << r2
           if r2
             i4 = index
