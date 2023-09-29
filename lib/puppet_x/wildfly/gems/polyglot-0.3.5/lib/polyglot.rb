@@ -48,7 +48,7 @@ module Polyglot
 
     begin
       source_file, loader = Polyglot.find(file, *a[1..-1], &b)
-      raise PolyglotLoadError.new("Failed to load #{file} using extensions #{(@registrations.keys + ['rb']).sort * ', '}") unless (loader)
+      raise PolyglotLoadError.new("Failed to load #{file} using extensions #{(@registrations.keys + ['rb']).sort * ', '}") unless loader
         begin
           loader.load(source_file)
           @loaded[file] = true
