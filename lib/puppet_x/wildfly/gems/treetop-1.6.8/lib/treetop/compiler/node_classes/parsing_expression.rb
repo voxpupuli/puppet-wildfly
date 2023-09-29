@@ -12,15 +12,15 @@ module Treetop
       end
 
       def node_class_name
-        parent_expression && parent_expression.node_class_name || 'SyntaxNode'
+        parent_expression&.node_class_name || 'SyntaxNode'
       end
 
       def declared_module_name
-        parent_expression && parent_expression.node_class_name
+        parent_expression&.node_class_name
       end
 
       def inline_module_name
-        parent_expression && parent_expression.inline_module_name
+        parent_expression&.inline_module_name
       end
 
       def decorated?

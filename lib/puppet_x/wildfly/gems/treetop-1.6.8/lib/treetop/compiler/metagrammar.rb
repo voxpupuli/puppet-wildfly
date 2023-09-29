@@ -2297,7 +2297,7 @@ module Treetop
         end
 
         def inline_module_name
-          inline_module.module_name if inline_module
+          inline_module&.module_name
         end
       end
 
