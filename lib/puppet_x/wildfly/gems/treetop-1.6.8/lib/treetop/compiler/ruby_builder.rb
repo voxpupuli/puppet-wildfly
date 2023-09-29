@@ -48,11 +48,11 @@ module Treetop
       end
 
       def assign(left, right)
-        if left.instance_of? Array
-          self << "#{left.join(', ')} = #{right.join(', ')}"
+        self << if left.instance_of? Array
+          "#{left.join(', ')} = #{right.join(', ')}"
         else
-          self << "#{left} = #{right}"
-        end
+          "#{left} = #{right}"
+                end
       end
 
       def extend(var, module_name)
