@@ -72,8 +72,8 @@ module Treetop
 
         indent +
           self.class.to_s.sub(%r{.*:}, '') +
-          em.map { |m| "+#{m.to_s.sub(%r{.*:}, '')}" } * '' +
-          " offset=#{interval.first}" +
+          em.map { |m| "+#{m.to_s.sub(%r{.*:}, '')}" } * '' \
+          " offset=#{interval.first}" \
           ", #{tv.inspect}" +
           im
       end
