@@ -2682,11 +2682,10 @@ module Treetop
         s0 = []
         i1 = index
         r2 = _nt_keyword_inside_grammar
-        if r2
-          @index = i1
+        @index = i1
+if r2
           r1 = nil
         else
-          @index = i1
           r1 = instantiate_node(SyntaxNode, input, index...index)
         end
         s0 << r1
@@ -4010,11 +4009,10 @@ module Treetop
         if r1
           i4 = index
           r5 = _nt_non_space_char
-          if r5
-            @index = i4
+          @index = i4
+if r5
             r4 = nil
           else
-            @index = i4
             r4 = instantiate_node(SyntaxNode, input, index...index)
           end
           s0 << r4
@@ -4050,11 +4048,10 @@ module Treetop
         s0 = []
         i1 = index
         r2 = _nt_space
-        if r2
-          @index = i1
+        @index = i1
+if r2
           r1 = nil
         else
-          @index = i1
           r1 = instantiate_node(SyntaxNode, input, index...index)
         end
         s0 << r1
