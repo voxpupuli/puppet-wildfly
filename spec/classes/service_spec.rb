@@ -20,6 +20,7 @@ describe 'wildfly::service' do
 
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
+
     it do
       is_expected.to contain_service('wildfly').with(
         'ensure'     => true,
@@ -27,6 +28,7 @@ describe 'wildfly::service' do
         'hasstatus'  => true
       )
     end
+
     it { is_expected.to contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
   end
 
@@ -42,6 +44,7 @@ describe 'wildfly::service' do
     it { is_expected.to contain_class('wildfly::service::systemd') }
     it { is_expected.to contain_file('/etc/default/wildfly.conf') }
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
+
     it do
       is_expected.to contain_service('wildfly').with(
         'ensure'     => true,
@@ -49,6 +52,7 @@ describe 'wildfly::service' do
         'hasstatus'  => true
       )
     end
+
     it { is_expected.to contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
     it { is_expected.to contain_file('/etc/systemd/system/wildfly.service') }
   end
@@ -65,6 +69,7 @@ describe 'wildfly::service' do
     it { is_expected.to contain_class('wildfly::service::systemd') }
     it { is_expected.to contain_file('/etc/default/wildfly') }
     it { is_expected.to contain_file('/etc/init.d/wildfly') }
+
     it do
       is_expected.to contain_service('wildfly').with(
         'ensure'     => true,

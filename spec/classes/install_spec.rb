@@ -17,11 +17,13 @@ describe 'wildfly::install' do
     end
 
     it { is_expected.to contain_class('wildfly::install') }
+
     it do
       is_expected.to contain_file('/var/cache/wget/wildfly-9.0.2.Final.tar.gz').with(
         'source' => 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz'
       )
     end
+
     it do
       is_expected.to contain_exec('untar wildfly-9.0.2.Final.tar.gz').with(
         'command' => 'tar --no-same-owner --no-same-permissions --strip-components=1 -C /opt/wildfly -zxvf /var/cache/wget/wildfly-9.0.2.Final.tar.gz',

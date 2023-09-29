@@ -19,6 +19,7 @@ describe 'wildfly::prepare' do
     it { is_expected.to contain_class('wildfly::prepare') }
     it { is_expected.to contain_group('wildfly') }
     it { is_expected.to contain_user('wildfly') }
+
     it do
       is_expected.to contain_file('/opt/wildfly').with(
         'ensure' => 'directory',
