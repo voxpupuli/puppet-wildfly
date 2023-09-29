@@ -56,17 +56,17 @@ module Treetop
           class << self
             included_modules - Object.included_modules
           end
-        if !local_extensions.empty?
-          local_extensions
-        else
+        if local_extensions.empty?
           [] # There weren't any; must be a literal node
+        else
+          local_extensions
         end
       end
 
       def inspect_self(indent = '')
         em = extension_modules
         interesting_methods = methods - [em.last ? em.last.methods : nil] - self.class.instance_methods
-        im = !interesting_methods.empty? ? " (#{interesting_methods.join(',')})" : ''
+        im = interesting_methods.empty? ? '' : " (#{interesting_methods.join(',')})"
         tv = text_value
         tv = "...#{tv[-20..-1]}" if tv.size > 20
 
