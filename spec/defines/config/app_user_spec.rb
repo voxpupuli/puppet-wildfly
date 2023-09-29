@@ -23,6 +23,6 @@ describe 'wildfly::config::app_user' do
   it do
     is_expected.to contain_wildfly__config__user('wildfly:ApplicationRealm').
       with(:password => 'safepass',
-            :file_name => 'application-users.properties')
+           :file_name => 'application-users.properties')
   end
 end

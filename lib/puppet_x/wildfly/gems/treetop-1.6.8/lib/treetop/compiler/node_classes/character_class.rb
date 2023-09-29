@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Treetop
-  module Compiler    
+  module Compiler
     class CharacterClass < AtomicExpression
       def compile(address, builder, parent_expression = nil)
         super
@@ -13,7 +13,7 @@ module Treetop
           else
             assign_lazily_instantiated_node
           end
-          builder << "@index += 1"  # Always one character
+          builder << "@index += 1" # Always one character
         end
         builder.else_ do
           builder << "terminal_parse_failure(#{expected})"
@@ -22,7 +22,7 @@ module Treetop
       end
 
       def expected
-        single_quote('['+characters+']')
+        single_quote('[' + characters + ']')
       end
 
       def inline_module
@@ -31,7 +31,7 @@ module Treetop
 
       def grounded_regexp(string)
         # Double any backslashes, then backslash any single-quotes:
-        "'\\A#{string.gsub(/\\/) { '\\\\' }.gsub(/'/) { "\\'"}}'"
+        "'\\A#{string.gsub(/\\/) { '\\\\' }.gsub(/'/) { "\\'" }}'"
       end
     end
   end

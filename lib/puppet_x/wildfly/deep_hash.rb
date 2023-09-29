@@ -8,6 +8,7 @@ module PuppetX
 
         current_state.each do |key, value|
           next unless desired_state.is_a? Hash and desired_state.keys.include? key
+
           diff[key] = if value.is_a? Hash
                         _deep_intersect(value, desired_state[key])
                       else

@@ -7,7 +7,7 @@ class IntervalSkipList
     def initialize(height)
       @height = height
       @forward = Array.new(height, nil)
-      @forward_markers = Array.new(height) {|i| []}
+      @forward_markers = Array.new(height) { |i| [] }
     end
 
     def top_level

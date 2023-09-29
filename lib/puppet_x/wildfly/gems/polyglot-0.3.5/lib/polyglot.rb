@@ -12,6 +12,7 @@ module Polyglot
     def initialize le
       @le = le
     end
+
     def reraise
       raise @le
     end
@@ -19,7 +20,7 @@ module Polyglot
 
   def self.register(extension, klass)
     extension = [extension] unless Array === extension
-    extension.each{|e|
+    extension.each { |e|
       @registrations[e] = klass
     }
   end
@@ -29,13 +30,13 @@ module Polyglot
     is_dot_relative = file =~ /\.[\/\\]/
     paths = is_absolute ? [''] : Array(is_dot_relative ? '.' : nil) + $:
     paths.each do |lib|
-      base = is_absolute ? "" : lib+File::SEPARATOR
+      base = is_absolute ? "" : lib + File::SEPARATOR
       # In Windows, repeated SEPARATOR chars have a special meaning, avoid adding them
-      matches = Dir["#{base}#{file}{,.#{@registrations.keys*',.'}}"]
+      matches = Dir["#{base}#{file}{,.#{@registrations.keys * ',.'}}"]
       # Revisit: Should we do more do if more than one candidate found?
-      $stderr.puts "Polyglot: found more than one candidate for #{file}: #{matches*", "}" if matches.size > 1
+      $stderr.puts "Polyglot: found more than one candidate for #{file}: #{matches * ", "}" if matches.size > 1
       if path = matches[0]
-        return [ path, @registrations[path.gsub(/.*\./,'')]]
+        return [path, @registrations[path.gsub(/.*\./, '')]]
       end
     end
     return nil
@@ -44,6 +45,7 @@ module Polyglot
   def self.load(*a, &b)
     file = a[0].to_s
     return if @loaded[file] # Check for $: changes or file time changes and reload?
+
     begin
       source_file, loader = Polyglot.find(file, *a[1..-1], &b)
       if (loader)
@@ -54,7 +56,7 @@ module Polyglot
           raise Polyglot::NestedLoadError.new(e)
         end
       else
-        raise PolyglotLoadError.new("Failed to load #{file} using extensions #{(@registrations.keys+["rb"]).sort*", "}")
+        raise PolyglotLoadError.new("Failed to load #{file} using extensions #{(@registrations.keys + ["rb"]).sort * ", "}")
       end
     end
   end

@@ -26,6 +26,7 @@ module Treetop
           return nil
         end
         return SyntaxNode.new(input, index...(index + 1)) if result == true
+
         return result
       end
 
@@ -44,23 +45,23 @@ module Treetop
       OtherThan = 'something other than '
       def failure_reason
         return nil unless (tf = terminal_failures) && tf.size > 0
+
         "Expected " +
           (tf.size == 1 ?
-           (tf[0].unexpected ? OtherThan : '')+tf[0].expected_string :
-                 "one of #{tf.map{|f| (f.unexpected ? OtherThan : '')+f.expected_string}.uniq*', '}"
+           (tf[0].unexpected ? OtherThan : '') + tf[0].expected_string :
+                 "one of #{tf.map { |f| (f.unexpected ? OtherThan : '') + f.expected_string }.uniq * ', '}"
           ) +
-                " at line #{failure_line}, column #{failure_column} (byte #{failure_index+1})" +
-                (failure_index > 0 ? " after #{input[index...failure_index]}" : '')
+          " at line #{failure_line}, column #{failure_column} (byte #{failure_index + 1})" +
+          (failure_index > 0 ? " after #{input[index...failure_index]}" : '')
       end
 
       def terminal_failures
         if @terminal_failures.empty? || @terminal_failures[0].is_a?(TerminalParseFailure)
           @terminal_failures
         else
-          @terminal_failures.map! {|tf_ary| TerminalParseFailure.new(*tf_ary) }
+          @terminal_failures.map! { |tf_ary| TerminalParseFailure.new(*tf_ary) }
         end
       end
-
 
       protected
 
@@ -71,7 +72,7 @@ module Treetop
         @input = input
         @input_length = input.length
         reset_index
-        @node_cache = Hash.new {|hash, key| hash[key] = Hash.new}
+        @node_cache = Hash.new { |hash, key| hash[key] = Hash.new }
         @regexps = {}
         @terminal_failures = []
         @max_terminal_failure_index = 0
@@ -83,7 +84,7 @@ module Treetop
 
       def parse_anything(node_class = SyntaxNode, inline_module = nil)
         if index < input.length
-          result = instantiate_node(node_class,input, index...(index + 1))
+          result = instantiate_node(node_class, input, index...(index + 1))
           result.extend(inline_module) if inline_module
           @index += 1
           result
@@ -92,7 +93,7 @@ module Treetop
         end
       end
 
-      def instantiate_node(node_type,*args)
+      def instantiate_node(node_type, *args)
         if node_type.respond_to? :new
           node_type.new(*args)
         else
@@ -116,6 +117,7 @@ module Treetop
 
       def terminal_parse_failure(expected_string, unexpected = false)
         return nil if index < max_terminal_failure_index
+
         if index > max_terminal_failure_index
           @max_terminal_failure_index = index
           @terminal_failures = []

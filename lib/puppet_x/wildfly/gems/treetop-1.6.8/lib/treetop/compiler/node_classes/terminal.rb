@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Treetop
-  module Compiler    
+  module Compiler
     class Terminal < AtomicExpression
       def compile(address, builder, parent_expression = nil)
         super
@@ -9,7 +9,7 @@ module Treetop
         insensitive = modifiers.text_value.include? 'i'
         re = modifiers.text_value.include? 'r'
         if re
-          grounded_regexp = "#{('\A'+eval(string)).inspect}"
+          grounded_regexp = "#{('\A' + eval(string)).inspect}"
           cache_key = "'__#{modifiers.text_value}__'+(gr = #{grounded_regexp})"
           re_modifiers = "#{insensitive ? 'Regexp::IGNORECASE' : 0}"
           str = "@regexps[#{cache_key}] ||= Regexp.new(gr, #{re_modifiers})"

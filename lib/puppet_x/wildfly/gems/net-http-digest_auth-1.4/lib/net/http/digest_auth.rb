@@ -40,7 +40,6 @@ require 'securerandom'
 #   res = h.request req
 
 class Net::HTTP::DigestAuth
-
   include MonitorMixin
 
   ##
@@ -110,10 +109,9 @@ class Net::HTTP::DigestAuth
     cnonce = make_cnonce if qop or sess
 
     a1 = if sess then
-           [ algorithm.hexdigest("#{user}:#{params['realm']}:#{password}"),
-             params['nonce'],
-             cnonce,
-           ].join ':'
+           [algorithm.hexdigest("#{user}:#{params['realm']}:#{password}"),
+            params['nonce'],
+            cnonce,].join ':'
          else
            "#{user}:#{params['realm']}:#{password}"
          end
@@ -170,6 +168,4 @@ class Net::HTTP::DigestAuth
       @nonce_count += 1
     end
   end
-
 end
-

@@ -23,6 +23,7 @@ module PuppetX
         @http_client = Net::HTTP.new @uri.host, @uri.port, nil
         @http_client.read_timeout = timeout
         return unless secure == true
+
         @http_client.use_ssl = true
         @http_client.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
@@ -39,6 +40,7 @@ module PuppetX
           response = @http_client.request authz_request
         rescue => e
           raise e unless retried + 1 < 6
+
           retried += 1
           sleep 10
           retry

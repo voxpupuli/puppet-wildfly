@@ -24,8 +24,8 @@ describe 'wildfly::config::user' do
   it do
     is_expected.to contain_file_line(title).
       with(:path => '/opt/wildfly/standalone/configuration/mgmt-users.properties',
-            :line => 'wildfly=76cfbe638ea42545686593864689fb85',
-            :match => '^wildfly=.*$').
+           :line => 'wildfly=76cfbe638ea42545686593864689fb85',
+           :match => '^wildfly=.*$').
       that_notifies('Service[wildfly]')
   end
 end

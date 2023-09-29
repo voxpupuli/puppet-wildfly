@@ -8,7 +8,7 @@ module Treetop
         use_vars :result
         obtain_new_subexpression_address
         parent_expression.atomic.compile(subexpression_address, builder)
-        
+
         builder.if__ subexpression_success? do
           assign_result subexpression_result_var
         end

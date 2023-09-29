@@ -20,8 +20,8 @@ describe 'wildfly::resource' do
     it do
       is_expected.to contain_wildfly_resource(title).
         with(:username => 'puppet',
-              :host     => '127.0.0.1',
-              :port     => '9990').
+             :host => '127.0.0.1',
+             :port => '9990').
         that_requires('Service[wildfly]')
     end
   end
@@ -39,15 +39,15 @@ describe 'wildfly::resource' do
           password => 'safepassword',
         }
       }
-    EOS
+      EOS
     end
 
     it do
       is_expected.to contain_wildfly_resource(title).
         with(:username => 'admin',
-              :password => 'safepassword',
-              :host     => '192.168.10.10',
-              :port     => '10090').
+             :password => 'safepassword',
+             :host => '192.168.10.10',
+             :port => '10090').
         that_requires('Service[wildfly]')
     end
   end

@@ -52,7 +52,7 @@ class IntervalSkipList
         incoming_markers.each do |marker|
           if can_be_promoted_higher?(marker, i)
             new_promoted.push(marker)
-            forward[i].delete_marker_from_path(marker, i, forward[i+1])
+            forward[i].delete_marker_from_path(marker, i, forward[i + 1])
           else
             forward_markers[i].push(marker)
           end
@@ -61,7 +61,7 @@ class IntervalSkipList
         promoted.each do |marker|
           if can_be_promoted_higher?(marker, i)
             new_promoted.push(marker)
-            forward[i].delete_marker_from_path(marker, i, forward[i+1])
+            forward[i].delete_marker_from_path(marker, i, forward[i + 1])
           else
             forward_markers[i].push(marker)
           end
@@ -71,7 +71,6 @@ class IntervalSkipList
         new_promoted = []
       end
     end
-
 
     def can_be_promoted_higher?(marker, level)
       level < top_level && forward[level + 1] && forward[level + 1].markers.include?(marker)

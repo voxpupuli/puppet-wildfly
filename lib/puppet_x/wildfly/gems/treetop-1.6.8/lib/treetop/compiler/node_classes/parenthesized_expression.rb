@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Treetop
-  module Compiler    
+  module Compiler
     class ParenthesizedExpression < ParsingExpression
       def compile(address, builder, parent_expression = nil)
         elements[2].compile(address, builder, parent_expression)

@@ -27,7 +27,7 @@ Puppet::Type.newtype(:wildfly_restart) do
 
   newparam(:secure) do
     desc 'Use TLS  to connect with the management API'
-    defaultto false 
+    defaultto false
   end
 
   newparam(:retries) do

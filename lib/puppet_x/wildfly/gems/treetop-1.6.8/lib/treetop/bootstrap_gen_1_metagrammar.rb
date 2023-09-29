@@ -10,6 +10,7 @@ TREETOP_VERSION_REQUIRED_TO_BOOTSTRAP = '>= 1.1.5'
 # Loading trusted version of Treetop to compile the compiler
 gem_spec = Gem.source_index.find_name('treetop', TREETOP_VERSION_REQUIRED_TO_BOOTSTRAP).last
 raise "Install a Treetop Gem version #{TREETOP_VERSION_REQUIRED_TO_BOOTSTRAP} to bootstrap." unless gem_spec
+
 require "#{gem_spec.full_gem_path}/lib/treetop"
 
 # Relocating trusted version of Treetop to Trusted::Treetop
@@ -34,7 +35,7 @@ Object.class_eval(compiled_metagrammar_source)
 # Treetop::Compiler::Metagrammar.module_eval do
 #   include Trusted::Treetop::Runtime
 # end
-# 
+#
 # Treetop::Compiler.send(:remove_const, :MetagrammarParser)
 # class Treetop::Compiler::MetagrammarParser < Trusted::Treetop::Runtime::CompiledParser
 #   include Treetop::Compiler::Metagrammar

@@ -13,18 +13,18 @@ module Treetop
         builder.else_ { when_failure }
         end_comment(parent_expression)
       end
-      
+
       def assign_failure
         reset_index
         super(start_index_var)
       end
-      
+
       def assign_success
         reset_index
         assign_result epsilon_node
       end
     end
-    
+
     class AndPredicate < Predicate
       def when_success
         assign_success
@@ -34,7 +34,7 @@ module Treetop
         assign_failure
       end
     end
-    
+
     class NotPredicate < Predicate
       def when_success
         assign_failure
@@ -42,7 +42,7 @@ module Treetop
           builder << "terminal_parse_failure(#{e}, true)"
         end
       end
-      
+
       def when_failure
         if (e = parent.atomic.expected)
           builder << "@terminal_failures.pop"

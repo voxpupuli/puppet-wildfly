@@ -3,6 +3,7 @@
 class String
   def column_of(index)
     return 1 if index == 0
+
     newline_index = rindex("\n", index - 1)
     if newline_index
       index - newline_index
@@ -10,7 +11,7 @@ class String
       index + 1
     end
   end
-  
+
   def line_of(index)
     self[0...index].count("\n") + 1
   end
@@ -37,6 +38,6 @@ class String
   end
 
   def treetop_camelize
-    to_s.gsub(/\/(.?)/){ "::" + $1.upcase }.gsub(/(^|_)(.)/){ $2.upcase }
+    to_s.gsub(/\/(.?)/) { "::" + $1.upcase }.gsub(/(^|_)(.)/) { $2.upcase }
   end
 end

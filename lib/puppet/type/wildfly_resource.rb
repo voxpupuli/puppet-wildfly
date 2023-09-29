@@ -46,7 +46,7 @@ Puppet::Type.newtype(:wildfly_resource) do
 
   newparam(:secure) do
     desc 'Use TLS to connect with the management API'
-    defaultto false 
+    defaultto false
   end
 
   newparam(:recursive) do

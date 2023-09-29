@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Treetop
-  module Compiler    
+  module Compiler
     class Nonterminal < AtomicExpression
       def compile(address, builder, parent_expression = nil)
         super

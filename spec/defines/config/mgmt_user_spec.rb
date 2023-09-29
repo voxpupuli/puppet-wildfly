@@ -23,6 +23,6 @@ describe 'wildfly::config::mgmt_user' do
   it do
     is_expected.to contain_wildfly__config__user('wildfly:ManagementRealm').
       with(:password => 'safepass',
-            :file_name => 'mgmt-users.properties')
+           :file_name => 'mgmt-users.properties')
   end
 end

@@ -36,7 +36,6 @@ module Treetop
       end
     end
 
-
     class ZeroOrMore < Repetition
       def compile(address, builder, parent_expression)
         super
@@ -67,7 +66,7 @@ module Treetop
       end
 
       def expected
-        parent_expression.atomic.expected && '"at least one "+'+parent_expression.atomic.expected
+        parent_expression.atomic.expected && '"at least one "+' + parent_expression.atomic.expected
       end
     end
 
@@ -97,15 +96,14 @@ module Treetop
       def clean_unsaturated
         if !max.empty? && max.text_value.to_i > 0
           builder.if_ "#{accumulator_var}.size < #{max.text_value}" do
-            builder << '@terminal_failures.pop'  # Ignore the last failure.
+            builder << '@terminal_failures.pop' # Ignore the last failure.
           end
         end
       end
 
       def expected
-        parent_expression.atomic.expected && "at least #{min.text_value} "+parent_expression.atomic.expected
+        parent_expression.atomic.expected && "at least #{min.text_value} " + parent_expression.atomic.expected
       end
     end
-
   end
 end

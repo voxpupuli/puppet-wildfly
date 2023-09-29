@@ -20,7 +20,7 @@ class IntervalSkipList
   def expire(range, length_change)
     expired_markers, first_node_after_range = overlapping(range)
     expired_markers.each { |marker| delete(marker) }
-    first_node_after_range.propagate_length_change(length_change)    
+    first_node_after_range.propagate_length_change(length_change)
   end
 
   def overlapping(range)
@@ -57,7 +57,7 @@ class IntervalSkipList
 
     while node_inside_range?(cur_node, range)
       while can_descend_from?(cur_level) && next_node_at_level_outside_range?(cur_node, cur_level, range)
-        cur_level -= 1 
+        cur_level -= 1
       end
       cur_node = mark_forward_path_at_level(cur_node, cur_level, marker)
     end
@@ -99,6 +99,7 @@ class IntervalSkipList
   end
 
   protected
+
   attr_reader :head, :ranges
 
   def insert_node(key)
@@ -109,7 +110,7 @@ class IntervalSkipList
     else
       return Node.new(key, next_node_height, path)
     end
-  end  
+  end
 
   def containing_with_node(n)
     containing = []
@@ -132,7 +133,7 @@ class IntervalSkipList
     found_node = find(key, path)
     found_node.delete(path) if found_node.key == key
   end
-  
+
   def find(key, path)
     cur_node = head
     (max_height - 1).downto(0) do |cur_level|
@@ -198,5 +199,5 @@ class IntervalSkipList
       cur_node = cur_node.forward[0]
     end
     nodes
-  end 
+  end
 end
