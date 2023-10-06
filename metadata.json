@@ -11,11 +11,11 @@
     }
   ],
   "license": "Apache-2.0",
-  "name": "biemond-wildfly",
-  "project_page": "https://github.com/biemond/biemond-wildfly",
-  "source": "https://github.com/biemond/biemond-wildfly",
-  "summary": "Install, configure and manage Wildfly (8/9/10/11), JBoss EAP (6.1+/7.0+) and some Wildfly based products like apiman, Keycloak and Infinispan.",
-  "version": "2.3.3",
+  "name": "voxpupuli-wildfly",
+  "project_page": "https://github.com/voxpupuli/puppet-wildfly",
+  "source": "https://github.com/voxpupuli/puppet-wildfly",
+  "summary": "Install, configure and manage Wildfly (8/9/10/11+), JBoss EAP (6.1+/7.0+) and some Wildfly based products like apiman, Keycloak and Infinispan.",
+  "version": "3.0.0",
   "tags": [
     "jboss",
     "wildfly",
@@ -24,73 +24,68 @@
     "infinispan",
     "EAP",
     "AS",
-    "jdk8",
-    "java",
-    "jdk7"
+    "jdk",
+    "java"
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
-        "7"
+        "7",
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6",
-        "7"
+        "7",
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6"
+        "7",
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Scientific",
       "operatingsystemrelease": [
-        "4",
-        "5",
-        "6"
+        "7"
       ]
     },
     {
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
-        "11 SP1"
+        "12 SP5",
+        "15 SP5"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "6",
-        "7",
-        "8"
+        "10",
+        "11",
+        "12"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "10.04",
-        "12.04",
-        "14.04",
-        "16.04"
+        "18.04",
+        "20.04",
+        "22.04"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">=4.4.2 < 6.0.0"
+      "version_requirement": ">7.0.0 < 9.0.0"
     }
   ]
 }
