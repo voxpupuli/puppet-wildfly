@@ -1,6 +1,7 @@
 # wildfly
 
 [![License](https://img.shields.io/github/license/voxpupuli/puppet-catalog-diff-viewer.svg)](https://github.com/voxpupuli/puppet-catalog-diff-viewer/blob/master/LICENSE)
+[![puppetmodule.info docs](https://www.puppetmodule.info/images/badge.png)](https://www.puppetmodule.info/m/puppet-wildfly)
 [![CI](https://github.com/voxpupuli/puppet-wildfly/actions/workflows/ci.yml/badge.svg)](https://github.com/voxpupuli/puppet-wildfly/actions/workflows/ci.yml)
 [![Donated by biemond](https://img.shields.io/badge/donated%20by-biemond-fb7047.svg)](#transfer-notice)
 
