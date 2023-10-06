@@ -11,5 +11,5 @@ function wildfly::objectify(Array[Variant[String, Hash]] $elements) {
     }
   }
 
-  hash($objectified)
+  Hash($objectified)
 }
