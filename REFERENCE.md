@@ -3284,21 +3284,21 @@ Wildfly version.
 
 ### <a name="wildfly--objectify"></a>`wildfly::objectify`
 
-Type: Puppet Language
+Type: Ruby 4.x API
 
 Converts a LIST of STRINGs and OBJECTs into an OBJECT of OBJECTs.
 
-#### `wildfly::objectify(Array[Variant[String, Hash]] $elements)`
+#### `wildfly::objectify(Array[Variant[String, Hash[String, Any]]] $input_list)`
 
 Converts a LIST of STRINGs and OBJECTs into an OBJECT of OBJECTs.
 
-Returns: `Hash[Hash, Hash]` returns a Hash of OBJECTs.
+Returns: `Any`
 
-##### `elements`
+##### `input_list`
 
-Data type: `Array[Variant[String, Hash]]`
+Data type: `Array[Variant[String, Hash[String, Any]]]`
 
-LIST of STRINGs or OBJECTS to be converted.
+
 
 ### <a name="wildfly--patch_args"></a>`wildfly::patch_args`
 

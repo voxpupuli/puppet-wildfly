@@ -1,5 +1,4 @@
-# Create a Puppet function named 'wildfly::objectify'
-# This function takes an array as an argument and converts it into a hash.
+# Converts a LIST of STRINGs and OBJECTs into an OBJECT of OBJECTs.
 Puppet::Functions.create_function(:'wildfly::objectify') do
   dispatch :objectify do
     param 'Array[Variant[String, Hash[String, Any]]]', :input_list
