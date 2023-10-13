@@ -2,6 +2,8 @@
 Puppet::Functions.create_function(:'wildfly::objectify') do
   dispatch :objectify do
     param 'Array[Variant[String, Hash[String, Any]]]', :input_list
+    # return_type 'Hash[String, Hash[String, Any]]'
+    return_type 'Hash'
   end
 
   def objectify(input_list)
