@@ -3292,7 +3292,7 @@ Converts a LIST of STRINGs and OBJECTs into an OBJECT of OBJECTs.
 
 Converts a LIST of STRINGs and OBJECTs into an OBJECT of OBJECTs.
 
-Returns: `Hash[Hash, Hash]`
+Returns: `Hash`
 
 ##### `input_list`
 
