@@ -2,9 +2,7 @@ fixtures:
   repositories:
       stdlib:
         repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
-        branch: "v9.4.0"
+        branch: "main"
       augeas_core:
         repo: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"
-        branch: "v1.4.1"
-  symlinks:
-    wildfly: "#{source_dir}"
+        branch: "main"
