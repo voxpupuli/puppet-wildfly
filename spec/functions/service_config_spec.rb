@@ -1,10 +1,14 @@
+# frozen_string_literal: true
+
+require 'spec_helper'
+
 describe 'wildfly::service_config' do
   context 'Wildfly 10' do
     let(:distribution) { 'wildfly' }
     let(:version) { '10.0' }
 
     let(:facts) do
-      { :osfamily => 'RedHat' }
+      { :os => { :family => 'RedHat' } }
     end
 
     it 'using sysvinit' do
@@ -21,7 +25,7 @@ describe 'wildfly::service_config' do
     let(:version) { '9.0.2' }
 
     let(:facts) do
-      { :osfamily => 'RedHat' }
+      { :os => { :family => 'RedHat' } }
     end
 
     it 'using sysvinit' do

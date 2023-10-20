@@ -18,7 +18,7 @@ function wildfly::service_config(
     'wildfly': {
       $conf_file = $facts['os']['family'] ? {
         'Debian' => '/etc/default/wildfly',
-        default  => '/etc/default/wildfly.conf'
+        default  => '/etc/default/wildfly.conf',
       }
 
       $service_file = "wildfly-init-${downcase($facts['os']['family'])}.sh"
