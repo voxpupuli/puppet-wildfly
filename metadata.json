@@ -1,9 +1,9 @@
 {
-  "author": "Edwin Biemond",
+  "author": "Vox Pupuli",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">=4.13.1 < 5.0.0"
+      "version_requirement": ">=4.13.1 < 9.0.0"
     },
     {
       "name": "jethrocarr/initfact",
@@ -11,7 +11,7 @@
     }
   ],
   "license": "Apache-2.0",
-  "name": "voxpupuli-wildfly",
+  "name": "puppet-wildfly",
   "project_page": "https://github.com/voxpupuli/puppet-wildfly",
   "source": "https://github.com/voxpupuli/puppet-wildfly",
   "summary": "Install, configure and manage Wildfly (8/9/10/11+), JBoss EAP (6.1+/7.0+) and some Wildfly based products like apiman, Keycloak and Infinispan.",
