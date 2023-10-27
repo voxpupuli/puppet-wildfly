@@ -16,16 +16,16 @@ These should not affect the functionality of the module.
 
 - Puppet unable to manage wildfly behind a secured connection [\#207](https://github.com/voxpupuli/puppet-wildfly/issues/207)
 - Initial install fails because /var/cache/wget does not exist. [\#191](https://github.com/voxpupuli/puppet-wildfly/issues/191)
+- \(\#288\) Add parameter to set JAVA\_OPTS option MaxMetaspaceSize [\#291](https://github.com/voxpupuli/puppet-wildfly/pull/291) ([EmersonPrado](https://github.com/EmersonPrado))
+- \(\#287\) Add parameters for \(PROCESS|HOST\)\_CONTROLLER\_JAVA\_OPTS in domain.conf [\#290](https://github.com/voxpupuli/puppet-wildfly/pull/290) ([EmersonPrado](https://github.com/EmersonPrado))
+- Allow domain management using wildfly::domain::server\_group and wildfly::host::server\_config [\#270](https://github.com/voxpupuli/puppet-wildfly/pull/270) ([thiagomarinho](https://github.com/thiagomarinho))
+- add StandardOutput to systemd [\#268](https://github.com/voxpupuli/puppet-wildfly/pull/268) ([bc-bjoern](https://github.com/bc-bjoern))
+- Add new `refreshonly` parameter to wildfly\_cli and wrapper [\#267](https://github.com/voxpupuli/puppet-wildfly/pull/267) ([alexjfisher](https://github.com/alexjfisher))
+- Setup and use HTTPS/TLS on the Management API [\#223](https://github.com/voxpupuli/puppet-wildfly/pull/223) ([frozen3](https://github.com/frozen3))
 
-**Closed issues:**
+**Fixed bugs:**
 
-- Replace MaxPermSize with MaxMetaspaceSize in domain.conf template [\#288](https://github.com/voxpupuli/puppet-wildfly/issues/288)
-- Add parameters to domain.conf variables PROCESS\_CONTROLLER\_JAVA\_OPTS and HOST\_CONTROLLER\_JAVA\_OPTS [\#287](https://github.com/voxpupuli/puppet-wildfly/issues/287)
-- where the log file is stored on Puppet Agent by this module [\#260](https://github.com/voxpupuli/puppet-wildfly/issues/260)
-- JBOSS-EAP with \*\*systemctl start jboss-eap\*\*  don't works from another machine just  locally [\#258](https://github.com/voxpupuli/puppet-wildfly/issues/258)
-- Error: Could not set 'file' on ensure: No such file or directory @ dir\_s\_mkdir  [\#257](https://github.com/voxpupuli/puppet-wildfly/issues/257)
-- Wildfly 8.2.0 creating new jgroup stack [\#245](https://github.com/voxpupuli/puppet-wildfly/issues/245)
-- Support for Wildlfy 11 [\#230](https://github.com/voxpupuli/puppet-wildfly/issues/230)
+- Fix wildfly\_cli.rb property `executed` [\#269](https://github.com/voxpupuli/puppet-wildfly/pull/269) ([thiagomarinho](https://github.com/thiagomarinho))
 
 **Merged pull requests:**
 
@@ -33,17 +33,10 @@ These should not affect the functionality of the module.
 - disable beaker acceptance testing [\#299](https://github.com/voxpupuli/puppet-wildfly/pull/299) ([rwaffen](https://github.com/rwaffen))
 - fix spec tests [\#297](https://github.com/voxpupuli/puppet-wildfly/pull/297) ([rwaffen](https://github.com/rwaffen))
 - Fix linter [\#295](https://github.com/voxpupuli/puppet-wildfly/pull/295) ([rwaffen](https://github.com/rwaffen))
-- Add parameter to set JAVA\_OPTS option MaxMetaspaceSize - Fix \#288 [\#291](https://github.com/voxpupuli/puppet-wildfly/pull/291) ([EmersonPrado](https://github.com/EmersonPrado))
-- Add parameters for \(PROCESS|HOST\)\_CONTROLLER\_JAVA\_OPTS in domain.conf - Fix \#287 [\#290](https://github.com/voxpupuli/puppet-wildfly/pull/290) ([EmersonPrado](https://github.com/EmersonPrado))
 - Use rvm and Ruby 2.7 in README test setup section [\#285](https://github.com/voxpupuli/puppet-wildfly/pull/285) ([EmersonPrado](https://github.com/EmersonPrado))
 - Update bundle install commands in README test setup section [\#282](https://github.com/voxpupuli/puppet-wildfly/pull/282) ([EmersonPrado](https://github.com/EmersonPrado))
 - Code content quality [\#281](https://github.com/voxpupuli/puppet-wildfly/pull/281) ([Joris29](https://github.com/Joris29))
 - Remove obsolete java parameter [\#280](https://github.com/voxpupuli/puppet-wildfly/pull/280) ([Joris29](https://github.com/Joris29))
-- Allow domain management using wildfly::domain::server\_group and wildfly::host::server\_config [\#270](https://github.com/voxpupuli/puppet-wildfly/pull/270) ([thiagomarinho](https://github.com/thiagomarinho))
-- Fix wildfly\_cli.rb property `executed` [\#269](https://github.com/voxpupuli/puppet-wildfly/pull/269) ([thiagomarinho](https://github.com/thiagomarinho))
-- add StandardOutput to systemd [\#268](https://github.com/voxpupuli/puppet-wildfly/pull/268) ([bc-bjoern](https://github.com/bc-bjoern))
-- Add new `refreshonly` parameter to wildfly\_cli and wrapper [\#267](https://github.com/voxpupuli/puppet-wildfly/pull/267) ([alexjfisher](https://github.com/alexjfisher))
-- Setup and use HTTPS/TLS on the Management API [\#223](https://github.com/voxpupuli/puppet-wildfly/pull/223) ([frozen3](https://github.com/frozen3))
 
 ## [v2.3.2](https://github.com/voxpupuli/puppet-wildfly/tree/v2.3.2) (2018-08-18)
 
