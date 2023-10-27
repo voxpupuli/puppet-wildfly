@@ -1,5 +1,3 @@
-# History
-
 ## [v2.3.2](https://github.com/voxpupuli/puppet-wildfly/tree/v2.3.2) (2018-08-18)
 
 - Fixes to CLI parser

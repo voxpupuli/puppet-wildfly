@@ -45,9 +45,7 @@ These should not affect the functionality of the module.
 - Add new `refreshonly` parameter to wildfly\_cli and wrapper [\#267](https://github.com/voxpupuli/puppet-wildfly/pull/267) ([alexjfisher](https://github.com/alexjfisher))
 - Setup and use HTTPS/TLS on the Management API [\#223](https://github.com/voxpupuli/puppet-wildfly/pull/223) ([frozen3](https://github.com/frozen3))
 
-# History
-
-## v2.3.2
+## [v2.3.2](https://github.com/voxpupuli/puppet-wildfly/tree/v2.3.2) (2018-08-18)
 
 - Fixes to CLI parser
 - Improve init paramters
