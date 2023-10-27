@@ -215,7 +215,7 @@
 
 - Service needs to restart if we change anything in the standalone.conf
 - Several fixes for domain mode
-- Support escaped slashes in resource names 
+- Support escaped slashes in resource names
 - Support ensure parameter in resource util
 - Support installing non-system modules
 - Update definitions optional parameters.
