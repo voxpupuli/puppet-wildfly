@@ -1,6 +1,6 @@
 # wildfly
 
-[![License](https://img.shields.io/github/license/voxpupuli/puppet-catalog-diff-viewer.svg)](https://github.com/voxpupuli/puppet-catalog-diff-viewer/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/voxpupuli/puppet-wildfly.svg)](https://github.com/voxpupuli/puppet-wildfly/blob/master/LICENSE)
 [![puppetmodule.info docs](https://www.puppetmodule.info/images/badge.png)](https://www.puppetmodule.info/m/puppet-wildfly)
 [![CI](https://github.com/voxpupuli/puppet-wildfly/actions/workflows/ci.yml/badge.svg)](https://github.com/voxpupuli/puppet-wildfly/actions/workflows/ci.yml)
 [![Donated by biemond](https://img.shields.io/badge/donated%20by-biemond-fb7047.svg)](#transfer-notice)
@@ -22,6 +22,7 @@
     * [to 2.0.0](#to-200)
     * [to 2.1.0](#to-210)
 5. [Usage - Configuration options and additional functionality](#usage)
+    * [Wildfly 23.0.2](#wildfly-2302)
     * [Wildfly 10.1.0](#wildfly-1010)
     * [Wildfly 9.0.2](#wildfly-902)
     * [Wildfly 8.2.1](#wildfly-821)
@@ -67,7 +68,7 @@ Should work on every Redhat or Debian family member, tested with Wildfly 10.1, 1
 
 ## Module Description
 
-The wildfly module can install, configure and manage - through its HTTP Management API - Wildfly (8/9/10) and JBoss EAP (6.1+/7.0+).
+The wildfly module can install, configure and manage - through its HTTP Management API - Wildfly (8/9/10+) and JBoss EAP (6.1+/7.0+).
 
 ## Setup
 
@@ -146,6 +147,18 @@ This version will no longer stringify values for `wildfly_resource`'s state or s
 
 ```puppet
 class { 'wildfly': }
+```
+
+### Wildfly 23.0.2
+
+```puppet
+class { 'wildfly':
+  version           => '23.0.2',
+  init_system       => 'systemd',
+  install_source    => 'https://download.jboss.org/wildfly/23.0.2.Final/wildfly-23.0.2.Final.tar.gz',
+  install_cache_dir => '/tmp',
+  java_home         => '/usr/lib/jvm/java-17-openjdk-amd64',
+}
 ```
 
 ### Wildfly 10.1.0
