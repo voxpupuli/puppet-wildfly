@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.1.0](https://github.com/voxpupuli/puppet-wildfly/tree/v3.1.0) (2023-11-03)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.0.0...v3.1.0)
+
+**Implemented enhancements:**
+
+- Update metadata.json: fix author name, fix project name and raise stdlib boundaries [\#306](https://github.com/voxpupuli/puppet-wildfly/pull/306) ([rwaffen](https://github.com/rwaffen))
+
 ## [v3.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v3.0.0) (2023-10-27)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v2.3.2...v3.0.0)
