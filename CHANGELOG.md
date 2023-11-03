@@ -10,7 +10,7 @@ These should not affect the functionality of the module.
 
 **Implemented enhancements:**
 
-- Update metadata.json [\#306](https://github.com/voxpupuli/puppet-wildfly/pull/306) ([rwaffen](https://github.com/rwaffen))
+- Update metadata.json: fix author name, fix project name and raise stdlib boundaries [\#306](https://github.com/voxpupuli/puppet-wildfly/pull/306) ([rwaffen](https://github.com/rwaffen))
 
 ## [v3.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v3.0.0) (2023-10-27)
 
