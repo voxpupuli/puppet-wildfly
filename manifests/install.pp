@@ -8,6 +8,9 @@ class wildfly::install {
     $install_source = $wildfly::install_source
     $install_file = basename($install_source)
 
+    file { $wildfly::install_cache_dir:
+      ensure => 'directory',
+    }
     file { "${wildfly::install_cache_dir}/${install_file}":
       source => $install_source,
     }
