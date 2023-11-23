@@ -11,6 +11,7 @@ class wildfly::install {
     file { $wildfly::install_cache_dir:
       ensure => 'directory',
     }
+
     file { "${wildfly::install_cache_dir}/${install_file}":
       source => $install_source,
     }

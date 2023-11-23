@@ -13,11 +13,7 @@ describe 'wildfly::install' do
         end
 
         it { is_expected.to contain_class('wildfly::install') }
-        it do
-          is_expected.to contain_file('/var/cache/wget').with(
-            'ensure' => 'directory'
-          )
-        end
+        it { is_expected.to contain_file('/var/cache/wget').with('ensure' => 'directory') }
         it do
           is_expected.to contain_file('/var/cache/wget/wildfly-9.0.2.Final.tar.gz').with(
             'source' => 'http://download.jboss.org/wildfly/9.0.2.Final/wildfly-9.0.2.Final.tar.gz'
