@@ -101,7 +101,7 @@ It should work on every operating system with the following init systems: sysvin
 The main changes in `wildfly` class are below:
 
 ```puppet
-class { '::wildfly':
+class { 'wildfly':
   distribution     => 'jboss-eap|wildfly',
   properties       => {
     'jboss.bind.address'            => $public_bind,
@@ -191,7 +191,7 @@ class { 'wildfly':
 ### JBoss EAP 6.x (with hiera)
 
 ```puppet
-include ::wildfly
+include wildfly
 ```
 
 ```yaml
@@ -371,7 +371,7 @@ Offline patching requires the server to be down, but don't leave the server in a
 ##### EAP/Offline example
 
 ```puppet
-class { '::wildfly':
+class { 'wildfly':
   distribution   => 'jboss-eap',
   version        => '6.4',
 }
@@ -393,7 +393,7 @@ Online patching requires the server to be up and requires a restart after being 
 ##### Wildfly/Online example
 
 ```puppet
-class { '::wildfly':
+class { 'wildfly':
   version        => '10.0.0',
   install_source => 'http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz',
 }
