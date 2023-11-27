@@ -81,6 +81,7 @@ describe 'wildfly::host::server_config' do
           it do
             is_expected.to contain_wildfly_cli("/host=appserver.localdomain/server-config=#{title}:stop(blocking=true)")
               .with({
+                  :skip_absent => true,
                   :onlyif => "(result != STOPPED) of /host=appserver.localdomain/server-config=#{title}:read-attribute(name=status)"
                 })
 
