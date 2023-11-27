@@ -2940,6 +2940,7 @@ The following parameters are available in the `wildfly_cli` type.
 * [`provider`](#-wildfly_cli--provider)
 * [`refreshonly`](#-wildfly_cli--refreshonly)
 * [`secure`](#-wildfly_cli--secure)
+* [`skip_absent`](#-wildfly_cli--skip_absent)
 * [`unless`](#-wildfly_cli--unless)
 * [`username`](#-wildfly_cli--username)
 
@@ -2983,6 +2984,14 @@ Default value: `false`
 ##### <a name="-wildfly_cli--secure"></a>`secure`
 
 Use TLS to connect with the management API
+
+Default value: `false`
+
+##### <a name="-wildfly_cli--skip_absent"></a>`skip_absent`
+
+Valid values: `true`, `false`, `yes`, `no`
+
+If this parameter is set, then CLI command will only run if resource is present
 
 Default value: `false`
 
