@@ -116,11 +116,12 @@ define wildfly::host::server_config (
       debug("Will connect to domain controller to remove server-config ${server_name}")
 
       wildfly_cli { "/host=${hostname}/server-config=${server_name}:stop(blocking=true)":
-        onlyif   => "(result != STOPPED) of /host=${hostname}/server-config=${server_name}:read-attribute(name=status)",
-        username => $username,
-        password => $password,
-        host     => $controller_address,
-        port     => $controller_mgmt_port,
+        skip_absent => true,
+        onlyif      => "(result != STOPPED) of /host=${hostname}/server-config=${server_name}:read-attribute(name=status)",
+        username    => $username,
+        password    => $password,
+        host        => $controller_address,
+        port        => $controller_mgmt_port,
       }
       -> wildfly_resource { "/host=${hostname}/server-config=${server_name}":
         ensure   => absent,

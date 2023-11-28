@@ -9,6 +9,11 @@ Puppet::Type.newtype(:wildfly_cli) do
     desc 'The actual commmand to execute'
   end
 
+  newparam(:skip_absent, :boolean => true, :parent => Puppet::Parameter::Boolean) do
+    desc 'If this parameter is set, then CLI command will only run if resource is present'
+    defaultto false
+  end
+
   newparam(:unless) do
     desc 'If this parameter is set, then CLI command will only run if this command returns true'
   end
