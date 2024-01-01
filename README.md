@@ -22,6 +22,7 @@
     * [to 2.0.0](#to-200)
     * [to 2.1.0](#to-210)
 5. [Usage - Configuration options and additional functionality](#usage)
+    * [Wildfly 25.0.0](#wildfly-2500)
     * [Wildfly 23.0.2](#wildfly-2302)
     * [Wildfly 10.1.0](#wildfly-1010)
     * [Wildfly 9.0.2](#wildfly-902)
@@ -147,6 +148,18 @@ This version will no longer stringify values for `wildfly_resource`'s state or s
 
 ```puppet
 class { 'wildfly': }
+```
+
+### Wildfly 25.0.0
+
+```puppet
+class { 'wildfly':
+  version           => '25.0.0',
+  init_system       => 'systemd',
+  install_source    => 'https://github.com/wildfly/wildfly/releases/download/25.0.0.Final/wildfly-25.0.0.Final.tar.gz',
+  install_cache_dir => '/tmp',
+  java_home         => '/usr/lib/jvm/java-17-openjdk-amd64',
+}
 ```
 
 ### Wildfly 23.0.2
