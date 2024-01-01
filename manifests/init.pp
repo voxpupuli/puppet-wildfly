@@ -61,8 +61,9 @@ class wildfly (
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/]           $version                      = '9.0.2',
   Variant[Pattern[/^file:\/\//],
     Pattern[/^puppet:\/\//],
-    Stdlib::Httpsurl, Stdlib::Httpurl
-  ]                                                  $install_source               = "http://download.jboss.org/wildfly/${version}.Final/wildfly-${version}.Final.tar.gz",
+    Stdlib::Httpsurl, Stdlib::Httpurl,
+    Undef
+  ]                                                  $install_source               = undef,
   Wildfly::Distribution                              $distribution                 = 'wildfly',
   Enum['sysvinit', 'systemd', 'upstart']             $init_system                  = $facts['initsystem'],
   Wildfly::Mode                                      $mode                         = 'standalone',
