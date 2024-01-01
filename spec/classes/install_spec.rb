@@ -7,7 +7,7 @@ describe 'wildfly::install' do
     context "on #{os}" do
       let(:facts) { os_facts }
 
-      context 'install wildfly' do
+      context 'install wildfly default version' do
         let :pre_condition do
           'class { "wildfly": }'
         end
@@ -22,6 +22,28 @@ describe 'wildfly::install' do
         it do
           is_expected.to contain_exec('untar wildfly-9.0.2.Final.tar.gz').with(
             'command' => 'tar --no-same-owner --no-same-permissions --strip-components=1 -C /opt/wildfly -zxvf /var/cache/wget/wildfly-9.0.2.Final.tar.gz',
+            'creates' => '/opt/wildfly/jboss-modules.jar'
+          )
+        end
+      end
+
+      context 'install wildfly 25' do
+        let :pre_condition do
+          "class { 'wildfly':
+            version => '25.0.0',
+          }"
+        end
+
+        it { is_expected.to contain_class('wildfly::install') }
+        it { is_expected.to contain_file('/var/cache/wget').with('ensure' => 'directory') }
+        it do
+          is_expected.to contain_file('/var/cache/wget/wildfly-25.0.0.Final.tar.gz').with(
+            'source' => 'https://github.com/wildfly/wildfly/releases/download/25.0.0.Final/wildfly-25.0.0.Final.tar.gz'
+          )
+        end
+        it do
+          is_expected.to contain_exec('untar wildfly-25.0.0.Final.tar.gz').with(
+            'command' => 'tar --no-same-owner --no-same-permissions --strip-components=1 -C /opt/wildfly -zxvf /var/cache/wget/wildfly-25.0.0.Final.tar.gz',
             'creates' => '/opt/wildfly/jboss-modules.jar'
           )
         end
