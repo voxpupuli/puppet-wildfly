@@ -17,7 +17,7 @@
 # @param install_cache_dir The directory to be used for wget cache.
 # @param deploy_cache_dir The directory to be used for deployment cache.
 # @param install_download_timeout Sets the timeout for installer download.
-# @param install_source Source of Wildfly tarball installer.
+# @param install_source Custom source of Wildfly tarball installer. Defaults to standard Wildfly repositories.
 # @param java_home Sets the `JAVA_HOME` for Wildfly.
 # @param java_opts Sets `JAVA_OPTS`, allowing to override several Java params, like `Xmx`, `Xms` and `MaxMetaspaceSize`,
 # @param java_xmx Sets Java's `-Xmx` parameter.

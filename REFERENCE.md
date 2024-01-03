@@ -288,7 +288,7 @@ Variant[Pattern[/^file:\/\//],
   ]
 ```
 
-Source of Wildfly tarball installer.
+Custom source of Wildfly tarball installer. Defaults to standard Wildfly repositories.
 
 Default value: `undef`
 
