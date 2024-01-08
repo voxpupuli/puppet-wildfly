@@ -5,8 +5,14 @@ class wildfly::install {
       ensure => $wildfly::package_version,
     }
   } else {
-    $install_source = $wildfly::install_source
-    $install_file = basename($install_source)
+    $install_file = "wildfly-${wildfly::version}.Final.tar.gz"
+    $install_source = $wildfly::install_source ? {
+      undef   => versioncmp($wildfly::version, '25.0.0') ? {
+        -1      => "http://download.jboss.org/wildfly/${wildfly::version}.Final/${install_file}",
+        default => "https://github.com/wildfly/wildfly/releases/download/${wildfly::version}.Final/${install_file}",
+      },
+      default => $wildfly::install_source,
+    }
 
     file { $wildfly::install_cache_dir:
       ensure => 'directory',

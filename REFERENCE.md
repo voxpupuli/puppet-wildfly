@@ -283,13 +283,14 @@ Data type:
 ```puppet
 Variant[Pattern[/^file:\/\//],
     Pattern[/^puppet:\/\//],
-    Stdlib::Httpsurl, Stdlib::Httpurl
+    Stdlib::Httpsurl, Stdlib::Httpurl,
+    Undef
   ]
 ```
 
-Source of Wildfly tarball installer.
+Custom source of Wildfly tarball installer. Defaults to standard Wildfly repositories.
 
-Default value: `"http://download.jboss.org/wildfly/${version}.Final/wildfly-${version}.Final.tar.gz"`
+Default value: `undef`
 
 ##### <a name="-wildfly--java_home"></a>`java_home`
 

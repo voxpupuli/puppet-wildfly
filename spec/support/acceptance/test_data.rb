@@ -10,7 +10,8 @@ case profile
 when /(wildfly):(\d{1,}\.\d{1,}\.\d{1,})/
   data['distribution']   = Regexp.last_match(1)
   data['version']        = Regexp.last_match(2)
-  data['install_source'] = "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
+  pkg_path = "wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
+  data['install_source'] = (data['version'].to_f < 25.0 ? "http://download.jboss.org/#{pkg_path}" : "https://github.com/wildfly/#{pkg_path}")
   data['service_name']   = 'wildfly'
 
 when /(jboss-eap):(\d{1,}\.\d{1,})/
