@@ -5,10 +5,10 @@
 [![CI](https://github.com/voxpupuli/puppet-wildfly/actions/workflows/ci.yml/badge.svg)](https://github.com/voxpupuli/puppet-wildfly/actions/workflows/ci.yml)
 [![Donated by biemond](https://img.shields.io/badge/donated%20by-biemond-fb7047.svg)](#transfer-notice)
 
-![Puppet Forge Endorsement](https://img.shields.io/puppetforge/e/voxpupuli/wildfly)
-![Puppet Forge Version](https://img.shields.io/puppetforge/v/voxpupuli/wildfly)
-![Puppet Forge Score](https://img.shields.io/puppetforge/f/voxpupuli/wildfly)
-![Puppet Forge Downloads](https://img.shields.io/puppetforge/dt/voxpupuli/wildfly)
+[![Puppet Forge Endorsement](https://img.shields.io/puppetforge/e/voxpupuli/wildfly.svg)](https://forge.puppetlabs.com/puppet/wildfly)
+[![Puppet Forge Version](https://img.shields.io/puppetforge/v/voxpupuli/wildfly.svg)](https://forge.puppetlabs.com/puppet/wildfly)
+[![Puppet Forge Score](https://img.shields.io/puppetforge/f/voxpupuli/wildfly.svg)](https://forge.puppetlabs.com/puppet/wildfly)
+[![Puppet Forge Downloads](https://img.shields.io/puppetforge/dt/voxpupuli/wildfly.svg)](https://forge.puppetlabs.com/puppet/wildfly)
 
 ## Table of Contents
 
