@@ -1,8 +1,5 @@
+---
 fixtures:
   repositories:
-      stdlib:
-        repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
-        branch: "main"
-      augeas_core:
-        repo: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"
-        branch: "main"
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    augeas_core: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"

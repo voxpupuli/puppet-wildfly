@@ -13,8 +13,6 @@
 * [`wildfly::secure_mgmt_api`](#wildfly--secure_mgmt_api): Manages secure management api
 * [`wildfly::service`](#wildfly--service): Manages Wildfly service.
 * [`wildfly::service::systemd`](#wildfly--service--systemd): Wildfly systemd configuration
-* [`wildfly::service::sysvinit`](#wildfly--service--sysvinit): Wildfly sysvinit configuration
-* [`wildfly::service::upstart`](#wildfly--service--upstart): Wildfly upstart configuration
 * [`wildfly::setup`](#wildfly--setup): Manages Wildfly configuration required to run in service mode.
 
 ### Defined types
@@ -102,7 +100,6 @@ The following parameters are available in the `wildfly` class:
 * [`gid`](#-wildfly--gid)
 * [`group`](#-wildfly--group)
 * [`host_config`](#-wildfly--host_config)
-* [`init_system`](#-wildfly--init_system)
 * [`install_cache_dir`](#-wildfly--install_cache_dir)
 * [`deploy_cache_dir`](#-wildfly--deploy_cache_dir)
 * [`install_download_timeout`](#-wildfly--install_download_timeout)
@@ -243,14 +240,6 @@ Data type: `Wildfly::Config_file`
 Sets Wildfly Host configuration file for initialization when you're using 'domain' mode.
 
 Default value: `'host.xml'`
-
-##### <a name="-wildfly--init_system"></a>`init_system`
-
-Data type: `Enum['sysvinit', 'systemd', 'upstart']`
-
-Sets initsystem for service configuration.
-
-Default value: `$facts['initsystem']`
 
 ##### <a name="-wildfly--install_cache_dir"></a>`install_cache_dir`
 
@@ -654,14 +643,6 @@ Manages Wildfly service.
 ### <a name="wildfly--service--systemd"></a>`wildfly::service::systemd`
 
 Wildfly systemd configuration
-
-### <a name="wildfly--service--sysvinit"></a>`wildfly::service::sysvinit`
-
-Wildfly sysvinit configuration
-
-### <a name="wildfly--service--upstart"></a>`wildfly::service::upstart`
-
-Wildfly upstart configuration
 
 ### <a name="wildfly--setup"></a>`wildfly::setup`
 
@@ -3371,7 +3352,7 @@ Type: Puppet Language
 Default service configuration for a specific distribution, version
   execution mode and initsystem.
 
-#### `wildfly::service_config(String $distribution, String $version, String $mode, Enum['sysvinit', 'systemd', 'upstart'] $init_system)`
+#### `wildfly::service_config(String $distribution, String $version, String $mode)`
 
 Default service configuration for a specific distribution, version
   execution mode and initsystem.
@@ -3395,12 +3376,6 @@ Wildfly version.
 Data type: `String`
 
 Wildfly execution mode will run, 'standalone' or 'domain'.
-
-##### `init_system`
-
-Data type: `Enum['sysvinit', 'systemd', 'upstart']`
-
-System's initsystem.
 
 ## Data types
 

@@ -13,7 +13,6 @@
 # @param gid Sets managed group ID.
 # @param group Group to own `JBOSS_HOME`. If `manage_user` is `true`, this group will be managed.
 # @param host_config Sets Wildfly Host configuration file for initialization when you're using 'domain' mode.
-# @param init_system Sets initsystem for service configuration.
 # @param install_cache_dir The directory to be used for wget cache.
 # @param deploy_cache_dir The directory to be used for deployment cache.
 # @param install_download_timeout Sets the timeout for installer download.
@@ -65,7 +64,6 @@ class wildfly (
     Undef
   ]                                                  $install_source               = undef,
   Wildfly::Distribution                              $distribution                 = 'wildfly',
-  Enum['sysvinit', 'systemd', 'upstart']             $init_system                  = $facts['initsystem'],
   Wildfly::Mode                                      $mode                         = 'standalone',
   Stdlib::Unixpath                                   $dirname                      = '/opt/wildfly',
   Stdlib::Unixpath                                   $java_home                    = '/usr/java/default',
