@@ -4,10 +4,6 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">=4.13.1 < 10.0.0"
-    },
-    {
-      "name": "jethrocarr/initfact",
-      "version_requirement": ">=1.0.1 < 2.0.0"
     }
   ],
   "license": "Apache-2.0",

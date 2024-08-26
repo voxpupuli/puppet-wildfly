@@ -89,9 +89,9 @@ Three gems are bundled with this module: `treetop` (parsing JBoss-CLI commands),
 
 Acceptance tests works with **puppetlabs/java** in both CentOS and Debian.
 
-This module requires `puppetlabs-stdlib` and `jethrocarr/initfact` (it uses `init_system` fact provided by this module by default, but it's overridable in `wildfly::initsystem` parameter)
+This module requires `puppetlabs-stdlib`.
 
-It should work on every operating system with the following init systems: sysvinit, systemd and upstart
+It should work on every modern Linux. TO see a list of all tested OSes, please check the metadata.json.
 
 ## Upgrade
 
@@ -155,7 +155,6 @@ class { 'wildfly': }
 ```puppet
 class { 'wildfly':
   version           => '25.0.0',
-  init_system       => 'systemd',
   install_source    => 'https://github.com/wildfly/wildfly/releases/download/25.0.0.Final/wildfly-25.0.0.Final.tar.gz',
   install_cache_dir => '/tmp',
   java_home         => '/usr/lib/jvm/java-17-openjdk-amd64',
@@ -167,7 +166,6 @@ class { 'wildfly':
 ```puppet
 class { 'wildfly':
   version           => '23.0.2',
-  init_system       => 'systemd',
   install_source    => 'https://download.jboss.org/wildfly/23.0.2.Final/wildfly-23.0.2.Final.tar.gz',
   install_cache_dir => '/tmp',
   java_home         => '/usr/lib/jvm/java-17-openjdk-amd64',
