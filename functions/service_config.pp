@@ -52,8 +52,8 @@ function wildfly::service_config(
       }
     }
     'jboss-eap': {
-      case versioncmp($version, '7') {
-        -1: {
+      case [versioncmp($version, '7'), $init_system] {
+        [-1, default]: {
           {
             'service_name'     => 'jboss-as',
             'conf_file'        => '/etc/jboss-as/jboss-as.conf',
@@ -61,7 +61,16 @@ function wildfly::service_config(
             'service_file'     => "bin/init.d/jboss-as-${mode}.sh",
           }
         }
-        default: {
+        [default, 'systemd']: {
+          {
+            'service_name'     => 'jboss-eap',
+            'conf_file'        => '/etc/default/jboss-eap.conf',
+            'conf_template'    => 'wildfly/wildfly.sysvinit.conf',
+            'service_file'     => 'bin/init.d/jboss-eap-rhel.sh',
+            'systemd_template' => 'jboss-eap/jboss-eap.systemd.service',
+          }
+        }
+        [default, default]: {
           {
             'service_name'     => 'jboss-eap',
             'conf_file'        => '/etc/default/jboss-eap.conf',
