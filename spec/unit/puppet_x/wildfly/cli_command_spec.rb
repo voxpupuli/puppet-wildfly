@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'puppet/provider/wildfly.rb'
+require 'puppet/provider/wildfly'
 require 'puppet_x/wildfly/cli_command'
 
 describe PuppetX::Wildfly::CLICommand do
