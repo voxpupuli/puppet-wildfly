@@ -21,7 +21,7 @@ describe 'wildfly::service_config' do
     let(:version) { '7.0' }
 
     it 'using systemd' do
-      is_expected.to run.with_params(distribution, version, 'standalone').and_return('service_file' => 'bin/init.d/jboss-eap-rhel.sh', 'conf_file' => '/etc/default/jboss-eap.conf', 'service_name' => 'jboss-eap', 'conf_template' => 'wildfly/wildfly.sysvinit.conf', 'systemd_template' => 'jboss-eap/jboss-eap.systemd.service')
+      is_expected.to run.with_params(distribution, version, 'standalone').and_return('service_file' => 'bin/init.d/jboss-eap-rhel.sh', 'conf_file' => '/etc/default/jboss-eap.conf', 'service_name' => 'jboss-eap', 'conf_template' => 'wildfly/wildfly.sysvinit.conf', 'systemd_template' => 'wildfly/jboss-eap.systemd.service')
     end
   end
 end
