@@ -15,7 +15,7 @@
   "project_page": "https://github.com/voxpupuli/puppet-wildfly",
   "source": "https://github.com/voxpupuli/puppet-wildfly",
   "summary": "Install, configure and manage Wildfly (8/9/10/11+), JBoss EAP (6.1+/7.0+) and some Wildfly based products like apiman, Keycloak and Infinispan.",
-  "version": "3.1.1-rc0",
+  "version": "3.2.0",
   "tags": [
     "jboss",
     "wildfly",

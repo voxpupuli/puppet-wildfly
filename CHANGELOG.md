@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.2.0](https://github.com/voxpupuli/puppet-wildfly/tree/v3.2.0) (2024-08-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.1.0...v3.2.0)
+
+**Implemented enhancements:**
+
+- feat: allow jboss to run with systemd [\#331](https://github.com/voxpupuli/puppet-wildfly/pull/331) ([tuxmea](https://github.com/tuxmea))
+- puppetlabs/stdlib: Allow 9.x [\#321](https://github.com/voxpupuli/puppet-wildfly/pull/321) ([zilchms](https://github.com/zilchms))
+
+**Fixed bugs:**
+
+- `wildfly::host::server_config` with `ensure => absent` in already absent server tries to stop it and fails with timeout [\#292](https://github.com/voxpupuli/puppet-wildfly/issues/292)
+- Use correct download URLs for Wildfly version \>= 25 [\#316](https://github.com/voxpupuli/puppet-wildfly/pull/316) ([EmersonPrado](https://github.com/EmersonPrado))
+- Don't try to stop absent servers in `wildfly::host::server_config` [\#313](https://github.com/voxpupuli/puppet-wildfly/pull/313) ([EmersonPrado](https://github.com/EmersonPrado))
+- Create missing `$wildfly::install_cache_dir` directory [\#310](https://github.com/voxpupuli/puppet-wildfly/pull/310) ([EmersonPrado](https://github.com/EmersonPrado))
+
+**Merged pull requests:**
+
+- README.md: fix badges [\#317](https://github.com/voxpupuli/puppet-wildfly/pull/317) ([zilchms](https://github.com/zilchms))
+- Remove legacy top-scope syntax [\#312](https://github.com/voxpupuli/puppet-wildfly/pull/312) ([smortex](https://github.com/smortex))
+
 ## [v3.1.0](https://github.com/voxpupuli/puppet-wildfly/tree/v3.1.0) (2023-11-03)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.0.0...v3.1.0)
