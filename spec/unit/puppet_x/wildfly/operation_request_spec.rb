@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'puppet/provider/wildfly.rb'
 require 'puppet_x/wildfly/operation_request'
 
 describe PuppetX::Wildfly::OperationRequest do
