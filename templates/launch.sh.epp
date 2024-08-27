@@ -1,4 +1,5 @@
 #!/bin/bash
+# THIS FILE IS MANAGED BY PUPPET
 
 if [ "x$WILDFLY_HOME" = "x" ]; then
     WILDFLY_HOME="<%= $wildfly::dirname %>"
