@@ -8,7 +8,7 @@ class wildfly::service::systemd {
     owner   => $wildfly::user,
     group   => $wildfly::group,
     # need to manage this until it's fixed in the upstream
-    content => file('wildfly/launch.sh'),
+    content => epp('wildfly/launch.sh.epp'),
     before  => File["/etc/systemd/system/${wildfly::service::service_name}.service"],
   }
 
