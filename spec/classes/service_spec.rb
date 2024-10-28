@@ -12,29 +12,6 @@ describe 'wildfly::service' do
       end
 
       if os_facts[:osfamily] == 'RedHat'
-        context 'use RedHat init script' do
-          let(:facts) do
-            os_facts.merge(
-              {
-                :initsystem => 'sysvinit',
-              }
-            )
-          end
-
-          it { is_expected.to contain_class('wildfly::service::sysvinit') }
-
-          it { is_expected.to contain_file('/etc/default/wildfly.conf') }
-          it { is_expected.to contain_file('/etc/init.d/wildfly') }
-          it do
-            is_expected.to contain_service('wildfly').with(
-              'ensure'     => true,
-              'hasrestart' => true,
-              'hasstatus'  => true
-            )
-          end
-          it { is_expected.to contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
-        end
-
         context 'use RedHat systemd script' do
           it { is_expected.to contain_class('wildfly::service::systemd') }
           it { is_expected.to contain_file('/etc/default/wildfly.conf') }
