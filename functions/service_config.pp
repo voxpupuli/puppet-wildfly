@@ -24,7 +24,7 @@ function wildfly::service_config(
       {
         'service_name'     => 'jboss-eap',
         'conf_file'        => '/etc/default/jboss-eap.conf',
-        'conf_template'    => 'wildfly/wildfly.sysvinit.conf',
+        'conf_template'    => 'wildfly/wildfly.systemd.conf',
         'service_file'     => 'bin/init.d/jboss-eap-rhel.sh',
         'systemd_template' => 'wildfly/jboss-eap.systemd.service',
       }
