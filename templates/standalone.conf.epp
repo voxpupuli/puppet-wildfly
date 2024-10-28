@@ -48,13 +48,13 @@ fi
 #
 if [ "x$JAVA_OPTS" = "x" ]; then
   JAVA_OPTS="$JAVA_OPTS"
-<%- if $wildfly::java_xms { -%>
+<%- unless $wildfly::java_xms == '' { -%>
    JAVA_OPTS="$JAVA_OPTS -Xms<%= $wildfly::java_xms %>"
 <%- } -%>
-<%- if $wildfly::java_xmx { -%>
+<%- unless $wildfly::java_xmx == '' { -%>
    JAVA_OPTS="$JAVA_OPTS -Xmx<%= $wildfly::java_xmx %>"
 <%- } -%>
-<%- if $wildfly::java_maxmetaspace_size { -%>
+<%- unless $wildfly::java_maxmetaspace_size == '' { -%>
    JAVA_OPTS="$JAVA_OPTS -XX:MaxMetaspaceSize=<%= $wildfly::java_maxmetaspace_size %>"
 <%- } -%>
    JAVA_OPTS="$JAVA_OPTS <% if $wildfly::java_opts =~ Array { -%>
