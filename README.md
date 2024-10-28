@@ -21,7 +21,6 @@
     * [to 1.2.0](#to-120)
     * [to 2.0.0](#to-200)
     * [to 2.1.0](#to-210)
-    * [to 4.0.0](#to-400)
 5. [Usage - Configuration options and additional functionality](#usage)
     * [Wildfly 25.0.0](#wildfly-2500)
     * [Wildfly 23.0.2](#wildfly-2302)
