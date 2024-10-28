@@ -299,27 +299,27 @@ Default value: `undef`
 
 ##### <a name="-wildfly--java_xmx"></a>`java_xmx`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Sets Java's `-Xmx` parameter.
 
-Default value: `'512m'`
+Default value: `undef`
 
 ##### <a name="-wildfly--java_xms"></a>`java_xms`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Sets Java's `-Xms` parameter.
 
-Default value: `'256m'`
+Default value: `undef`
 
 ##### <a name="-wildfly--java_maxmetaspace_size"></a>`java_maxmetaspace_size`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Sets Java's `-XX:MaxMetaspaceSize` parameter.
 
-Default value: `'128m'`
+Default value: `undef`
 
 ##### <a name="-wildfly--jboss_opts"></a>`jboss_opts`
 
