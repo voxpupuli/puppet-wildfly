@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.2.1](https://github.com/voxpupuli/puppet-wildfly/tree/v3.2.1) (2024-10-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.2.0...v3.2.1)
+
+**Breaking changes:**
+
+- Drop support for non-systemd [\#330](https://github.com/voxpupuli/puppet-wildfly/pull/330) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Ubuntu 18.04 support [\#329](https://github.com/voxpupuli/puppet-wildfly/pull/329) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Debian 10 support [\#328](https://github.com/voxpupuli/puppet-wildfly/pull/328) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL EL7/Scientific Linux support [\#327](https://github.com/voxpupuli/puppet-wildfly/pull/327) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix systemd templates [\#334](https://github.com/voxpupuli/puppet-wildfly/pull/334) ([tuxmea](https://github.com/tuxmea))
+
 ## [v3.2.0](https://github.com/voxpupuli/puppet-wildfly/tree/v3.2.0) (2024-08-26)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.1.0...v3.2.0)
