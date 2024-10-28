@@ -21,6 +21,7 @@
     * [to 1.2.0](#to-120)
     * [to 2.0.0](#to-200)
     * [to 2.1.0](#to-210)
+    * [to 4.0.0](#to-400)
 5. [Usage - Configuration options and additional functionality](#usage)
     * [Wildfly 25.0.0](#wildfly-2500)
     * [Wildfly 23.0.2](#wildfly-2302)
@@ -121,6 +122,40 @@ class { 'wildfly':
 `distribution` was introduced to provide out of the box support for JBoss EAP and `properties` to replace fine-grained parameters for address/port binding like `public_bind`, `mgmt_bind` and `public_http_port`. (*Reason*: It's easier - and more reliable - to manage a properties file than Wildfly's XML through augeas)
 
 `users_mgmt` was replaced by `mgmt_user`, and additional users should be managed by `wildfly::config::mgtm_user` defined type. The hash format and default value also changed.
+
+## to 4.0.0
+
+### wildfly class
+
+The parameters `java_xms`, `java_xmx` and `java_maxmetaspace_size` are now optional and default to udef.
+There are now two options to specify java_opts:
+
+1. specify each of the mentioned parameters or
+1. add all parameters to java_opts parameter
+
+Example using specific values for undef parameters:
+
+```puppet
+class { 'wildfly':
+  java_xms               => '2G',
+  java_xmx               => '2G',
+  java_maxmetaspace_size => '2G',
+  java_opts              => '-XX:Foo=4',
+}
+```
+
+Example using the `java_opts` parameter only:
+
+```puppet
+class { 'wildfly':
+  java_opts => [
+    '-Xms 2G',
+    '-Xmx 2G',
+    '-XX:MaxMetaspaceSize=2G',
+    '-XX:Foo=4',
+  ],
+}
+```
 
 ### New dependency
 
