@@ -127,11 +127,11 @@ class { 'wildfly':
 
 ### wildfly class
 
-The parameters `java_xms`, `java_xmx` and `java_maxmetaspace_size` are now optional and default to udef.
-There are now two options to specify java_opts:
+The parameters `java_xms`, `java_xmx` and `java_maxmetaspace_size` are now optional and default to `undef`.
+There are now two options to specify `java_opts`:
 
 1. specify each of the mentioned parameters or
-1. add all parameters to java_opts parameter
+1. add all parameters to java\_opts parameter
 
 Example using specific values for undef parameters:
 
