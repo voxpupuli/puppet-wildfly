@@ -18,9 +18,8 @@ The v3.2.1 release was done by accident. It contained breaking changes. v4.0.0 i
 
 - Allow setting java\_opts only [\#343](https://github.com/voxpupuli/puppet-wildfly/pull/343) ([tuxmea](https://github.com/tuxmea))
 
-**Closed issues:**
+**Fixed bugs:**
 
-- Allow using java\_opts only [\#342](https://github.com/voxpupuli/puppet-wildfly/issues/342)
 - Missing template when using jboss-eap as distribution [\#337](https://github.com/voxpupuli/puppet-wildfly/issues/337)
 
 **Merged pull requests:**
