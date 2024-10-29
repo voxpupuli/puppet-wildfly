@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v4.0.0) (2024-10-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.2.1...v4.0.0)
+
+The v3.2.1 release was done by accident. It contained breaking changes. v4.0.0 is a relrelease . We deleted the v3.2.1 release from the forge.
+
+**Breaking changes:**
+
+- Drop EoL CentOS 8 support [\#335](https://github.com/voxpupuli/puppet-wildfly/pull/335) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Allow setting java\_opts only [\#343](https://github.com/voxpupuli/puppet-wildfly/pull/343) ([tuxmea](https://github.com/tuxmea))
+
+**Fixed bugs:**
+
+- Missing template when using jboss-eap as distribution [\#337](https://github.com/voxpupuli/puppet-wildfly/issues/337)
+
+**Merged pull requests:**
+
+- Remove artefact from sysvinit [\#341](https://github.com/voxpupuli/puppet-wildfly/pull/341) ([tuxmea](https://github.com/tuxmea))
+
 ## [v3.2.1](https://github.com/voxpupuli/puppet-wildfly/tree/v3.2.1) (2024-10-28)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.2.0...v3.2.1)
