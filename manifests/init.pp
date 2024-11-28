@@ -23,6 +23,7 @@
 # @param java_xms Sets Java's `-Xms` parameter.
 # @param java_maxmetaspace_size Sets Java's `-XX:MaxMetaspaceSize` parameter.
 # @param jboss_opts Sets `JBOSS_OPTS`, allowing to override several JBoss properties. It only works with Wildfly 8.2+.
+# @param module_opts Sets `MODULE_OPTS`, In JBoss EAP 7.4, MODULE_OPTS was introduced where one can set a java agent.
 # @param manage_user Whether this module should manage wildfly user and group.
 # @param mgmt_user Hash containing a Wildfly's management user to be used internally.
 # @param mgmt_create_keystores Enables or disables the creation of keystores for TLS enabled ManagementRealm.
@@ -128,6 +129,7 @@ class wildfly (
   Optional[String]                                   $overlay_class                = undef,
   Optional[Stdlib::Unixpath]                         $mgmt_ssl_cert                = undef,
   Optional[Stdlib::Unixpath]                         $mgmt_ssl_key                 = undef,
+  Optional[String]                                   $module_opts                  = undef,
 ) {
   contain wildfly::prepare
   contain wildfly::install
