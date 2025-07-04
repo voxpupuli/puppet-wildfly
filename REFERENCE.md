@@ -110,6 +110,7 @@ The following parameters are available in the `wildfly` class:
 * [`java_xms`](#-wildfly--java_xms)
 * [`java_maxmetaspace_size`](#-wildfly--java_maxmetaspace_size)
 * [`jboss_opts`](#-wildfly--jboss_opts)
+* [`module_opts`](#-wildfly--module_opts)
 * [`manage_user`](#-wildfly--manage_user)
 * [`mgmt_user`](#-wildfly--mgmt_user)
 * [`mgmt_create_keystores`](#-wildfly--mgmt_create_keystores)
@@ -326,6 +327,14 @@ Default value: `'128m'`
 Data type: `Optional[String]`
 
 Sets `JBOSS_OPTS`, allowing to override several JBoss properties. It only works with Wildfly 8.2+.
+
+Default value: `undef`
+
+##### <a name="-wildfly--module_opts"></a>`module_opts`
+
+Data type: `Optional[String]`
+
+Sets `MODULE_OPTS`, In JBoss EAP 7.4, MODULE_OPTS was introduced where one can set a java agent.
 
 Default value: `undef`
 
