@@ -25,6 +25,8 @@ define wildfly::config::module (
 
   if $system {
     $module_dir = 'system/layers/base'
+  } else {
+    $module_dir = ''
   }
 
   File {
