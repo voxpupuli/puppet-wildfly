@@ -59,11 +59,10 @@
 #
 class wildfly (
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/]           $version                      = '9.0.2',
-  Variant[Pattern[/^file:\/\//],
+  Optional[Variant[Pattern[/^file:\/\//],
     Pattern[/^puppet:\/\//],
-    Stdlib::Httpsurl, Stdlib::Httpurl,
-    Undef
-  ]                                                  $install_source               = undef,
+    Stdlib::Httpsurl, Stdlib::Httpurl
+  ]]                                                 $install_source               = undef,
   Wildfly::Distribution                              $distribution                 = 'wildfly',
   Wildfly::Mode                                      $mode                         = 'standalone',
   Stdlib::Unixpath                                   $dirname                      = '/opt/wildfly',
@@ -122,9 +121,9 @@ class wildfly (
   Optional[String]                                   $remote_username              = undef,
   Optional[String]                                   $package_name                 = undef,
   Optional[String]                                   $package_version              = undef,
-  Variant[Undef, String, Array]                      $java_opts                    = undef,
-  Variant[Undef, String, Array]                      $process_controller_java_opts = undef,
-  Variant[Undef, String, Array]                      $host_controller_java_opts    = undef,
+  Optional[Variant[String, Array]]                   $java_opts                    = undef,
+  Optional[Variant[String, Array]]                   $process_controller_java_opts = undef,
+  Optional[Variant[String, Array]]                   $host_controller_java_opts    = undef,
   Optional[String]                                   $jboss_opts                   = undef,
   Optional[String]                                   $overlay_class                = undef,
   Optional[Stdlib::Unixpath]                         $mgmt_ssl_cert                = undef,
