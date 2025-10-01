@@ -271,11 +271,10 @@ Default value: `500`
 Data type:
 
 ```puppet
-Variant[Pattern[/^file:\/\//],
+Optional[Variant[Pattern[/^file:\/\//],
     Pattern[/^puppet:\/\//],
-    Stdlib::Httpsurl, Stdlib::Httpurl,
-    Undef
-  ]
+    Stdlib::Httpsurl, Stdlib::Httpurl
+  ]]
 ```
 
 Custom source of Wildfly tarball installer. Defaults to standard Wildfly repositories.
@@ -292,7 +291,7 @@ Default value: `'/usr/java/default'`
 
 ##### <a name="-wildfly--java_opts"></a>`java_opts`
 
-Data type: `Variant[Undef, String, Array]`
+Data type: `Optional[Variant[String, Array]]`
 
 Sets `JAVA_OPTS`, allowing to override several Java params, like `Xmx`, `Xms` and `MaxMetaspaceSize`,
 
@@ -615,7 +614,7 @@ Default value: `'9.0.2'`
 
 ##### <a name="-wildfly--process_controller_java_opts"></a>`process_controller_java_opts`
 
-Data type: `Variant[Undef, String, Array]`
+Data type: `Optional[Variant[String, Array]]`
 
 
 
@@ -623,7 +622,7 @@ Default value: `undef`
 
 ##### <a name="-wildfly--host_controller_java_opts"></a>`host_controller_java_opts`
 
-Data type: `Variant[Undef, String, Array]`
+Data type: `Optional[Variant[String, Array]]`
 
 
 
