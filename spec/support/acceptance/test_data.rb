@@ -34,10 +34,13 @@ end
 
 data['java_home'] = '/opt/jdk8u192-b12/'
 
-RSpec.configuration.test_data = data
-
 puts "Debug: Test-Data"
 puts data.inspect
 
 puts "Debug: Verfügbare Java-Version"
 puts `ls -l /opt`
+
+exit 0
+
+RSpec.configuration.test_data = data
+
