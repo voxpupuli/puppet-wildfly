@@ -45,6 +45,8 @@ def test_data
   puts `java --version`
   puts "Debug: Java Home"
   puts `ls -l #{data['java_home']}`
+  puts "Debug: which java"
+  puts `which java`
 
   # RSpec.configuration.test_data = data # das ist kaputt  undefined method `test_data= for #<RSpec::Core::Configuration:0x00007fe97ad8f020 
   data
