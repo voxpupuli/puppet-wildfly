@@ -40,6 +40,3 @@ def test_data
 # RSpec.configuration.test_data = data # das ist kaputt  undefined method `test_data= for #<RSpec::Core::Configuration:0x00007fe97ad8f020 
   return data
 end
-
-
-
