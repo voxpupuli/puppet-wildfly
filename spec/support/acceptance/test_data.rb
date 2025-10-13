@@ -1,6 +1,4 @@
 def test_data
-  RSpec.configuration.test_data
-end
 
 # profile = ENV['TEST_profile'] || 'wildfly:9.0.2' # letzte funktionierend bekannte Version
 profile = ENV['TEST_profile'] || 'wildfly:37.0.1'
@@ -40,7 +38,9 @@ puts data.inspect
 puts "Debug: Verfügbare Java-Version"
 puts `ls -l /opt`
 
-exit 0
+# RSpec.configuration.test_data = data # das ist kaputt  undefined method `test_data= for #<RSpec::Core::Configuration:0x00007fe97ad8f020 
+return data
+end
 
-RSpec.configuration.test_data = data
+
 
