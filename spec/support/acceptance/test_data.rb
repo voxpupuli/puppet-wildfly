@@ -34,7 +34,7 @@ def test_data
     data['service_name']   = ENV.fetch('TEST_service_name', 'wildfly')
   end
 
-  data['java_home'] = '/usr/lib/jvm/jre-17-openjdk'
+  data['java_home'] = `readlink /etc/alternatives/java`.gsub(%r{bin/java$}, '')
 
   puts "Debug: Test-Data"
   puts data.inspect
