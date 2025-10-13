@@ -2,7 +2,8 @@ def test_data
   RSpec.configuration.test_data
 end
 
-profile = ENV['TEST_profile'] || 'wildfly:9.0.2'
+#profile = ENV['TEST_profile'] || 'wildfly:9.0.2' # letzte funktionierend bekannte Version
+profile = ENV['TEST_profile'] || 'wildfly:37.0.1'
 
 puts "Marcus war hier"
 puts "Debug: Profile"
