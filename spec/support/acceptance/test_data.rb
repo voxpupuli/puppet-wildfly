@@ -4,6 +4,10 @@ end
 
 profile = ENV['TEST_profile'] || 'wildfly:9.0.2'
 
+puts "Marcus war hier"
+puts "Debug: Profile"
+puts profile.inspect
+
 data = {}
 
 case profile
@@ -30,3 +34,6 @@ end
 data['java_home'] = '/opt/jdk8u192-b12/'
 
 RSpec.configuration.test_data = data
+
+puts "Debug: Test-Data"
+puts data.inspect
