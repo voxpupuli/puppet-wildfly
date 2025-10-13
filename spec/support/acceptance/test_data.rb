@@ -13,8 +13,10 @@ def test_data
     data['distribution']   = Regexp.last_match(1)
     data['version']        = Regexp.last_match(2)
     data['install_source'] = if data['version'].to_f < 25.0
+                               puts "weniger als 25"
                                "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
                              else
+                               puts "neuer als 25"
                                "https://github.com/wildfly/wildfly/releases/download/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
                              end
     data['service_name']   = 'wildfly'
