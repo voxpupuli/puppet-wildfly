@@ -34,7 +34,7 @@ def test_data
     data['service_name']   = ENV.fetch('TEST_service_name', 'wildfly')
   end
 
-  data['java_home'] = '/opt/jdk8u192-b12/'
+  data['java_home'] = '/usr/lib/jvm/jre-17-openjdk'
 
   puts "Debug: Test-Data"
   puts data.inspect
@@ -43,6 +43,8 @@ def test_data
   puts `ls -l /opt`
   puts "Debug: Default Java Version"
   puts `java --version`
+  puts "Debug: Java Home"
+  puts `ls -l #{data['java_home']}`
 
   # RSpec.configuration.test_data = data # das ist kaputt  undefined method `test_data= for #<RSpec::Core::Configuration:0x00007fe97ad8f020 
   data
