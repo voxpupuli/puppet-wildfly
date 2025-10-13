@@ -40,4 +40,4 @@ puts "Debug: Test-Data"
 puts data.inspect
 
 puts "Debug: Verfügbare Java-Version"
-puts %x{ls -l /opt}
+puts `ls -l /opt`
