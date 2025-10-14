@@ -32,6 +32,7 @@ def test_data
     data['version']        = ENV.fetch('TEST_version', '9.0.2')
     data['install_source'] = ENV.fetch('TEST_install_source', "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz")
     data['service_name']   = ENV.fetch('TEST_service_name', 'wildfly')
+    data['postgres_jar_source'] = "https://repo1.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc41/postgresql-9.3-1103-jdbc41.jar"
   end
 
   data['java_home'] = `readlink /etc/alternatives/java`.gsub(%r{bin/java$}, '').strip
