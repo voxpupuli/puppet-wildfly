@@ -14,11 +14,11 @@ describe "Deployment on standalone mode with #{test_data['distribution']}:#{test
           }
 
           wildfly::deployment { 'hawtio.war':
-            source => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war'
+            source => '#{test_data['sample_war_simple']}'
           }
 
           wildfly::deployment { 'sample.war':
-            source => 'http://central.maven.org/maven2/org/codehaus/cargo/simple-war/1.6.2/simple-war-1.6.2.war'
+            source => '#{test_data['sample_war_simple']}'
           }
       EOS
 
