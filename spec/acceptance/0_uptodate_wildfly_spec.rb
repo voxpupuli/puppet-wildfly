@@ -23,7 +23,13 @@ pp = <<-EOP
   $_user = 'wildfly'
   $link_name = '/home/wildfly/'
   
-  package {'java-17-openjdk.x86_64':
+  if $facter['os']['family'] == 'Debian' {
+    $javapkg = 'openjdk-17-jdk'
+  } else {
+    $javapkg = java-17-openjdk.x86_64'
+  }
+
+  package { $javapkg:
     ensure => present,
   }
   ->
