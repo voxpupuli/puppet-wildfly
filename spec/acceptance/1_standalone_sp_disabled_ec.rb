@@ -58,6 +58,8 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
           }
       EOS
 
+      puts "Debug: Applying this Manifest from #{__FILE__}"
+      puts pp
       apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
       expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 25')
