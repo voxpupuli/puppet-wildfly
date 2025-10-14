@@ -32,12 +32,12 @@ def test_data
     data['version']        = ENV.fetch('TEST_version', '9.0.2')
     data['install_source'] = ENV.fetch('TEST_install_source', "http://download.jboss.org/wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz")
     data['service_name']   = ENV.fetch('TEST_service_name', 'wildfly')
-    data['postgres_jar_source'] = "https://repo1.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc41/postgresql-9.3-1103-jdbc41.jar"
-    data['sample_war_simple'] = "https://repo1.maven.org/maven2/org/codehaus/cargo/simple-war/1.6.2/simple-war-1.6.2.war"
-    data['sample_war_hawtio'] = "https://repo1.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war"
   end
 
   data['java_home'] = `readlink /etc/alternatives/java`.gsub(%r{bin/java$}, '').strip
+  data['postgres_jar_source'] = "https://repo1.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc41/postgresql-9.3-1103-jdbc41.jar"
+  data['sample_war_simple'] = "https://repo1.maven.org/maven2/org/codehaus/cargo/simple-war/1.6.2/simple-war-1.6.2.war"
+  data['sample_war_hawtio'] = "https://repo1.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war"
 
   puts "Debug: Test-Data"
   puts data.inspect
