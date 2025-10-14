@@ -26,7 +26,7 @@ pp = <<-EOP
   if $facter['os']['family'] == 'Debian' {
     $javapkg = 'openjdk-17-jdk'
   } else {
-    $javapkg = java-17-openjdk.x86_64'
+    $javapkg = 'java-17-openjdk.x86_64'
   }
 
   package { $javapkg:
