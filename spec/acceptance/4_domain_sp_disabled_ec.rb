@@ -57,12 +57,13 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
       end
     end
 
-    it 'ExampleDS does not exists in full profile' do
-      shell("#{jboss_cli} '/profile=full-ha/subsystem=datasources/data-source=ExampleDS:read-resource'",
-            :acceptable_exit_codes => 1) do |r|
-        expect(r.stdout).to include 'not found'
-      end
-    end
+    # Dont repeat examples within a group
+    #    it 'ExampleDS does not exists in full profile' do
+    #      shell("#{jboss_cli} '/profile=full-ha/subsystem=datasources/data-source=ExampleDS:read-resource'",
+    #            :acceptable_exit_codes => 1) do |r|
+    #        expect(r.stdout).to include 'not found'
+    #      end
+    #    end
 
     it 'is a Domain Controller' do
       shell("#{jboss_cli} 'ls'",

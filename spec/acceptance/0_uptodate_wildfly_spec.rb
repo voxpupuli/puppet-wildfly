@@ -66,11 +66,11 @@ pp = <<-EOP
   }    
 EOP
 
-describe "up to date wildfly without any frills" do
+describe 'up to date wildfly without any frills' do
   context 'it installs at least once' do
     it 'applies the manfest without error, idempotently' do
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0])
+      apply_manifest(pp, catch_failures: true, acceptable_exit_codes: [0, 2])
+      apply_manifest(pp, catch_failures: true, catch_changes: true, acceptable_exit_codes: [0])
     end
   end
 end
