@@ -23,7 +23,7 @@ pp = <<-EOP
   $_user = 'wildfly'
   $link_name = '/home/wildfly/'
   
-  if $facter['os']['family'] == 'Debian' {
+  if $facts['os']['family'] == 'Debian' {
     $javapkg = 'openjdk-17-jdk'
   } else {
     $javapkg = 'java-17-openjdk.x86_64'
