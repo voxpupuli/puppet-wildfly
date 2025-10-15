@@ -38,6 +38,7 @@ def test_data
   data['postgres_jar_source'] = "https://repo1.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc41/postgresql-9.3-1103-jdbc41.jar"
   data['sample_war_simple'] = "https://repo1.maven.org/maven2/org/codehaus/cargo/simple-war/1.6.2/simple-war-1.6.2.war"
   data['sample_war_hawtio'] = "https://repo1.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war"
+  data['beaker_autoconfigure'] = "true"
 
   puts "Debug: Test-Data"
   puts data.inspect
