@@ -25,8 +25,10 @@ pp = <<-EOP
   
   if $facts['os']['family'] == 'Debian' {
     $javapkg = 'openjdk-17-jdk'
+    $javahome = '/usr/lib/jvm/java-17-openjdk-amd64/'
   } else {
     $javapkg = 'java-17-openjdk.x86_64'
+    $javahome = '/usr/lib/jvm/java-17-openjdk-17.0.16.0.8-2.el9.x86_64/'
   }
 
   package { $javapkg:
@@ -56,7 +58,7 @@ pp = <<-EOP
         group                  => $_user, 
         install_cache_dir      => '/tmp/wildfly/',
         install_source         => $_install_source_gitlab_issue_355, 
-        java_home              => '/usr/lib/jvm/jre-17-openjdk',
+        java_home              => $java_home,
         java_opts              => undef, 
         java_maxmetaspace_size => '2048m',
         java_xms               => '128M',
