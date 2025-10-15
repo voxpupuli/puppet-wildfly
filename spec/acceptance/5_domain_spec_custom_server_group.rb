@@ -20,14 +20,14 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']} 
           }
 
           wildfly::deployment { 'hawtio.war':
-            source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war',
+            source       => '#{test_data['sample_war_hawtio']}',
             server_group => 'app-server-group',
           }
 
       EOS
 
-      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 25')
     end
 

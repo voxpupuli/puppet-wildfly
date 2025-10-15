@@ -13,7 +13,9 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
           }
 
           wildfly::config::module { 'org.postgresql':
-            source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+          # TODO
+          # Error: /Stage[main]/Main/Wildfly::Deployment[hawtio.war]/File[/opt/hawtio-web-1.4.66.war]: Could not evaluate: Could not retrieve file metadata for http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war: Request to http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war failed after 0.02 seconds: Failed to open TCP connection to central.maven.org:80 (getaddrinfo: Name or service not known)
+            source       => '#{test_data['postgres_jar_source']}',
             dependencies => ['javax.api', 'javax.transaction.api']
           }
           ->
@@ -56,8 +58,10 @@ describe "Standalone mode with #{test_data['distribution']}:#{test_data['version
           }
       EOS
 
-      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      puts "Debug: Applying this Manifest from #{__FILE__}"
+      puts pp
+      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 25')
     end
 

@@ -24,14 +24,14 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
           }
 
           wildfly::deployment { 'hawtio.war':
-            source       => 'http://central.maven.org/maven2/io/hawt/hawtio-web/1.4.66/hawtio-web-1.4.66.war',
+            source       => '#{test_data['sample_war_hawtio']}',
             server_group => 'main-server-group',
           }
 
       EOS
 
-      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 25')
     end
 
@@ -57,12 +57,13 @@ describe "Domain mode with #{test_data['distribution']}:#{test_data['version']}"
       end
     end
 
-    it 'ExampleDS does not exists in full profile' do
-      shell("#{jboss_cli} '/profile=full-ha/subsystem=datasources/data-source=ExampleDS:read-resource'",
-            :acceptable_exit_codes => 1) do |r|
-        expect(r.stdout).to include 'not found'
-      end
-    end
+    # Dont repeat examples within a group
+    #    it 'ExampleDS does not exists in full profile' do
+    #      shell("#{jboss_cli} '/profile=full-ha/subsystem=datasources/data-source=ExampleDS:read-resource'",
+    #            :acceptable_exit_codes => 1) do |r|
+    #        expect(r.stdout).to include 'not found'
+    #      end
+    #    end
 
     it 'is a Domain Controller' do
       shell("#{jboss_cli} 'ls'",

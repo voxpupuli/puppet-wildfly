@@ -13,7 +13,7 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
           }
 
           wildfly::config::module { 'org.postgresql':
-            source       => 'http://central.maven.org/maven2/org/postgresql/postgresql/9.3-1103-jdbc4/postgresql-9.3-1103-jdbc4.jar',
+            source       => '#{test_data['postgres_jar_source']}',
             dependencies => ['javax.api', 'javax.transaction.api'],
           }
           ->
@@ -37,8 +37,8 @@ describe "Standalone mode with complex/recursive resources and #{test_data['dist
 
       EOS
 
-      execute_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
-      expect(execute_manifest(pp, :catch_failures => true).exit_code).to be_zero
+      apply_manifest(pp, :catch_failures => true, :acceptable_exit_codes => [0, 2])
+      expect(apply_manifest(pp, :catch_failures => true).exit_code).to be_zero
       shell('sleep 25')
     end
 
