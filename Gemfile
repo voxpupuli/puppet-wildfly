@@ -25,4 +25,6 @@ gem 'rake', :require => false
 
 gem 'openvox', ENV.fetch('OPENVOX_GEM_VERSION', [">= 7", "< 9"]), :require => false, :groups => [:test]
 
+gem "activesupport", ">= 6.1.7.3", :require => false
+
 # vim: syntax=ruby
