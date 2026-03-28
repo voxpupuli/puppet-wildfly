@@ -51,7 +51,7 @@ describe PuppetX::Wildfly::OperationBuilder do
       operation_builder = described_class.new
       operation = operation_builder.add_content('hawtio.war', '/tmp/hawtio.war').build
 
-      expect(operation).to eq(:operation => :add, :content => [:url => 'file:/tmp/hawtio.war'], :address => [{ :deployment => 'hawtio.war' }])
+      expect(operation).to eq(:operation => :add, :content => [{ :url => 'file:/tmp/hawtio.war' }], :address => [{ :deployment => 'hawtio.war' }])
     end
 
     it 'creates a remove content request' do
@@ -65,7 +65,7 @@ describe PuppetX::Wildfly::OperationBuilder do
       operation_builder = described_class.new
       operation = operation_builder.deploy('myapp.ear').build
 
-      expect(operation).to eq(:operation => :deploy, :address => [:deployment => 'myapp.ear'])
+      expect(operation).to eq(:operation => :deploy, :address => [{ :deployment => 'myapp.ear' }])
     end
 
     it 'creates a deploy request for a server group' do
@@ -79,7 +79,7 @@ describe PuppetX::Wildfly::OperationBuilder do
       operation_builder = described_class.new
       operation = operation_builder.undeploy('myapp.ear').build
 
-      expect(operation).to eq(:operation => :undeploy, :address => [:deployment => 'myapp.ear'])
+      expect(operation).to eq(:operation => :undeploy, :address => [{ :deployment => 'myapp.ear' }])
     end
 
     it 'creates an undeploy request for a server group' do
@@ -93,7 +93,7 @@ describe PuppetX::Wildfly::OperationBuilder do
       operation_builder = described_class.new
       operation = operation_builder.target('main-server-group').build
 
-      expect(operation).to eq(:address => ['server-group' => 'main-server-group'])
+      expect(operation).to eq(:address => [{ 'server-group' => 'main-server-group' }])
     end
 
     it 'creates a composite request' do

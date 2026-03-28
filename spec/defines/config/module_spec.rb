@@ -12,7 +12,7 @@ describe 'wildfly::config::module' do
       context 'with default template' do
         let(:params) do
           { :source => 'http://maven.repo.local/postgresql-9.3-1103-jdbc4.jar',
-            :dependencies => ['javax.api', 'javax.transaction.api'] }
+            :dependencies => ['javax.api', 'javax.transaction.api'], }
         end
 
         it do
@@ -51,7 +51,7 @@ describe 'wildfly::config::module' do
         let(:params) do
           { :source => 'http://maven.repo.local/postgresql-9.3-1103-jdbc4.jar',
             :dependencies => ['javax.api', 'javax.transaction.api'],
-            :custom_file => 'wildfly/launch.sh' }
+            :custom_file => 'wildfly/launch.sh', }
         end
 
         it do

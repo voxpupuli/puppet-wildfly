@@ -11,7 +11,7 @@ module Treetop
           else
             assign_lazily_instantiated_node
           end
-          builder << "@index += 1"  # Always one character
+          builder << "@index += 1" # Always one character
         end
         builder.else_ do
           builder << "terminal_parse_failure(#{expected})"
@@ -29,7 +29,7 @@ module Treetop
 
       def grounded_regexp(string)
         # Double any backslashes, then backslash any single-quotes:
-        "'\\A#{string.gsub(/\\/) { '\\\\' }.gsub(/'/) { "\\'"}}'"
+        "'\\A#{string.gsub('\\') { '\\\\' }.gsub('\'') { "\\'"}}'"
       end
     end
   end

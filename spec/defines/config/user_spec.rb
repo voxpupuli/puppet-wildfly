@@ -10,7 +10,7 @@ describe 'wildfly::config::user' do
       let(:title) { 'wildfly:ManagementRealm' }
       let(:params) do
         { :password  => 'safepass',
-          :file_name => 'mgmt-users.properties' }
+          :file_name => 'mgmt-users.properties', }
       end
 
       it do
