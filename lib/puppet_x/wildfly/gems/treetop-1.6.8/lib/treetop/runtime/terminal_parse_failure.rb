@@ -10,7 +10,7 @@ module Treetop
       end
 
       def to_s
-        "String matching #{expected_string} #{@unexpected ? 'not ' : ''}expected."
+        "String matching #{expected_string} #{'not ' if @unexpected}expected."
       end
     end
   end

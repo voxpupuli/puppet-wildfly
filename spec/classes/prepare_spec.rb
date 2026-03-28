@@ -20,7 +20,7 @@ describe 'wildfly::prepare' do
             'ensure' => 'directory',
             'owner' => 'wildfly',
             'group' => 'wildfly',
-            'mode' => '0755'
+            'mode' => '0755',
           )
         end
       end

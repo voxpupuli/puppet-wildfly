@@ -120,7 +120,7 @@ class Net::HTTP::DigestAuth
     ha2 = algorithm.hexdigest "#{method}:#{uri.request_uri}"
 
     request_digest = [ha1, params['nonce']]
-    request_digest.push(('%08x' % nonce_count), cnonce, qop) if qop
+    request_digest.push('%08x' % nonce_count, cnonce, qop) if qop
     request_digest << ha2
     request_digest = request_digest.join ':'
 
@@ -145,7 +145,7 @@ class Net::HTTP::DigestAuth
       "response=\"#{algorithm.hexdigest(request_digest)[0, 32]}\"",
       if params.key? 'opaque' then
         "opaque=\"#{params['opaque']}\""
-      end
+      end,
     ].compact
 
     header.join ', '

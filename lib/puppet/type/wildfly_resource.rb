@@ -68,22 +68,22 @@ Puppet::Type.newtype(:wildfly_resource) do
         [
           [:path],
           [:host],
-          [:port]
-        ]
+          [:port],
+        ],
       ],
       [
         /^(.*):(.*)$/,
         [
           [:path],
-          [:host]
-        ]
+          [:host],
+        ],
       ],
       [
         /^([^:]+)$/,
         [
-          [:path]
-        ]
-      ]
+          [:path],
+        ],
+      ],
     ]
   end
 

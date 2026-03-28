@@ -5,6 +5,7 @@ require 'beaker/testmode_switcher/dsl'
 
 module JBossCLI 
   extend RSpec::Core::SharedContext
+
   let(:jboss_cli) { "JAVA_HOME=#{test_data['java_home']} /opt/wildfly/bin/jboss-cli.sh --connect" }
 end
 
@@ -51,8 +52,8 @@ RSpec.configure do |c|
 
         config = {
           'main' => {
-            'server' => puppet_server_fqdn.to_s
-          }
+            'server' => puppet_server_fqdn.to_s,
+          },
         }
 
         configure_puppet(config)
@@ -75,13 +76,13 @@ when /(wildfly):(\d{1,}\.\d{1,}\.\d{1,})/
   data['distribution'] = Regexp.last_match(1)
   data['version'] = Regexp.last_match(2)
   pkg_path = "wildfly/#{data['version']}.Final/wildfly-#{data['version']}.Final.tar.gz"
-  data['install_source'] = (data['version'].to_f < 25.0 ? "http://download.jboss.org/#{pkg_path}" : "https://github.com/wildfly/#{pkg_path}")
+  data['install_source'] = ((data['version'].to_f < 25.0) ? "http://download.jboss.org/#{pkg_path}" : "https://github.com/wildfly/#{pkg_path}")
   data['service_name'] = 'wildfly'
 when /(jboss-eap):(\d{1,}\.\d{1,})/
   data['distribution'] = Regexp.last_match(1)
   data['version'] = Regexp.last_match(2)
   data['install_source'] = "http://10.0.2.2:9090/jboss-eap-#{data['version']}.tar.gz"
-  data['service_name'] = (data['version'].to_f < 7.0 ? 'jboss-as' : 'jboss-eap')
+  data['service_name'] = ((data['version'].to_f < 7.0) ? 'jboss-as' : 'jboss-eap')
 when 'custom'
   data['distribution'] = ENV.fetch('TEST_distribution', nil)
   data['version'] = ENV.fetch('TEST_version', nil)

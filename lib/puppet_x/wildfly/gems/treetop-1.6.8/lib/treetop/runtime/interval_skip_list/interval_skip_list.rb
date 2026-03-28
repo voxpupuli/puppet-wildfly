@@ -171,7 +171,7 @@ class IntervalSkipList
   end
 
   def next_node_at_level_outside_range?(node, level, range)
-    (node.forward[level].nil? || node.forward[level].key > range.last)
+    node.forward[level].nil? || node.forward[level].key > range.last
   end
 
   def mark_forward_path_at_level(node, level, marker)
