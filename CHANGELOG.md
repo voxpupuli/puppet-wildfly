@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v5.0.0) (2026-05-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v4.0.0...v5.0.0)
+
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#353](https://github.com/voxpupuli/puppet-wildfly/pull/353) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- metadata.json: Add OpenVox [\#348](https://github.com/voxpupuli/puppet-wildfly/pull/348) ([jstraw](https://github.com/jstraw))
+- Add MODULE\_OPTS parameter to support java agent options on EAP7.4 [\#284](https://github.com/voxpupuli/puppet-wildfly/pull/284) ([bdeferme](https://github.com/bdeferme))
+
+**Fixed bugs:**
+
+- Fix SystemD invocation of WildFlies launch.sh [\#359](https://github.com/voxpupuli/puppet-wildfly/pull/359) ([marcusdots](https://github.com/marcusdots))
+
+**Closed issues:**
+
+- Wildfly 32.0.1 Support [\#355](https://github.com/voxpupuli/puppet-wildfly/issues/355)
+
 ## [v4.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v4.0.0) (2024-10-29)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.2.1...v4.0.0)
@@ -85,7 +106,7 @@ The v3.2.1 release was done by accident. It contained breaking changes. v4.0.0 i
 - \(\#288\) Add parameter to set JAVA\_OPTS option MaxMetaspaceSize [\#291](https://github.com/voxpupuli/puppet-wildfly/pull/291) ([EmersonPrado](https://github.com/EmersonPrado))
 - \(\#287\) Add parameters for \(PROCESS|HOST\)\_CONTROLLER\_JAVA\_OPTS in domain.conf [\#290](https://github.com/voxpupuli/puppet-wildfly/pull/290) ([EmersonPrado](https://github.com/EmersonPrado))
 - Allow domain management using wildfly::domain::server\_group and wildfly::host::server\_config [\#270](https://github.com/voxpupuli/puppet-wildfly/pull/270) ([thiagomarinho](https://github.com/thiagomarinho))
-- add StandardOutput to systemd [\#268](https://github.com/voxpupuli/puppet-wildfly/pull/268) ([bc-bjoern](https://github.com/bc-bjoern))
+- add StandardOutput to systemd [\#268](https://github.com/voxpupuli/puppet-wildfly/pull/268) ([epik0r](https://github.com/epik0r))
 - Add new `refreshonly` parameter to wildfly\_cli and wrapper [\#267](https://github.com/voxpupuli/puppet-wildfly/pull/267) ([alexjfisher](https://github.com/alexjfisher))
 - Setup and use HTTPS/TLS on the Management API [\#223](https://github.com/voxpupuli/puppet-wildfly/pull/223) ([frozen3](https://github.com/frozen3))
 
