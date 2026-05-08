@@ -71,7 +71,7 @@ describe 'wildfly::install' do
           end
 
           it { is_expected.to contain_class('wildfly::install') }
-          it { is_expected.to contain_yum__group('jboss-eap7').with('timeout' => 600) }
+          it { is_expected.to contain_yum__group('jboss-eap7').with('timeout' => 600).with('install_options' => []) }
         end
       end
     end

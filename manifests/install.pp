@@ -2,10 +2,15 @@
 class wildfly::install {
   if $wildfly::package_name {
     if $wildfly::dnf_group_install {
+      if $wildfly::dnf_group_install_eap_home {
+        $install_options = ["EAP_HOME=${wildfly::dnf_group_install_eap_home}"]
+      } else {
+        $install_options = []
+      }
       yum::group { $wildfly::package_name:
         ensure          => 'present',
         timeout         => $wildfly::dnf_group_install_timeout,
-        install_options => ["EAP_HOME=${wildfly::dnf_group_install_eap_home}"],
+        install_options => $install_options,
       }
     } else {
       package { $wildfly::package_name :
