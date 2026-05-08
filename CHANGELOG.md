@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v5.0.0) (2025-10-10)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v4.0.0...v5.0.0)
+
+**Breaking changes:**
+
+- Drop puppet, update openvox minimum version to 8.19 [\#353](https://github.com/voxpupuli/puppet-wildfly/pull/353) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- metadata.json: Add OpenVox [\#348](https://github.com/voxpupuli/puppet-wildfly/pull/348) ([jstraw](https://github.com/jstraw))
+- Add MODULE\_OPTS parameter to support java agent options on EAP7.4 [\#284](https://github.com/voxpupuli/puppet-wildfly/pull/284) ([bdeferme](https://github.com/bdeferme))
+
+**Fixed bugs:**
+
+- Fix SystemD invocation of WildFlies launch.sh [\#359](https://github.com/voxpupuli/puppet-wildfly/pull/359) ([marcusdots](https://github.com/marcusdots))
+
+**Closed issues:**
+
+- Wildfly 32.0.1 Support [\#355](https://github.com/voxpupuli/puppet-wildfly/issues/355)
+
 ## [v4.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v4.0.0) (2024-10-29)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v3.2.1...v4.0.0)
