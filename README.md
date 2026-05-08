@@ -260,6 +260,10 @@ class { 'wildfly':
 
 ### JBoss EAP from RHEL Subscriptions
 
+Please note that RedHat recommends to run `yum groupinstall`.
+
+Therefore the [puppet-yum](https://github.com/voxpupuli/puppet-yum) Module is needed to make use of this installation method.
+
 ```puppet
 class { 'wildfly':
   package_name      => 'jboss-eap7',
