@@ -633,11 +633,12 @@ Default value: `600`
 
 ##### <a name="-wildfly--dnf_group_install_eap_home"></a>`dnf_group_install_eap_home`
 
-Data type: `Stdlib::Unixpath`
+Data type: `Optional[Stdlib::Unixpath]`
 
 The EAP_HOME to be used for dnf group install.
+see https://docs.redhat.com/de/documentation/red_hat_jboss_enterprise_application_platform/7.0/html/installation_guide/installing_jboss_eap#installing_jboss_eap_rpm_installation
 
-Default value: `'/opt/rh/eap7/root/usr/share/wildfly'`
+Default value: `undef`
 
 ##### <a name="-wildfly--process_controller_java_opts"></a>`process_controller_java_opts`
 

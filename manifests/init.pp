@@ -59,6 +59,7 @@
 # @param dnf_group_install Whether to use dnf group install for installing EAP. Only needed for RHEL jboss-eap distribution
 # @param dnf_group_install_timeout Timeout for dnf group install. Only needed for RHEL jboss-eap distribution
 # @param dnf_group_install_eap_home The EAP_HOME to be used for dnf group install.
+#   see https://docs.redhat.com/de/documentation/red_hat_jboss_enterprise_application_platform/7.0/html/installation_guide/installing_jboss_eap#installing_jboss_eap_rpm_installation
 #
 class wildfly (
   Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/]           $version                      = '9.0.2',
@@ -114,8 +115,7 @@ class wildfly (
   },
   Boolean                                            $dnf_group_install            = false,
   Integer                                            $dnf_group_install_timeout    = 600,
-  # https://docs.redhat.com/de/documentation/red_hat_jboss_enterprise_application_platform/7.0/html/installation_guide/installing_jboss_eap#installing_jboss_eap_rpm_installation
-  Stdlib::Unixpath                                   $dnf_group_install_eap_home   = '/opt/rh/eap7/root/usr/share/wildfly',
+  Optional[Stdlib::Unixpath]                         $dnf_group_install_eap_home   = undef,
   Optional[Stdlib::Unixpath]                         $conf_file                    = undef,
   Optional[String]                                   $conf_template                = undef,
   Optional[Stdlib::Unixpath]                         $service_file                 = undef,
