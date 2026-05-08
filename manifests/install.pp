@@ -1,8 +1,21 @@
 # Downloads and installs Wildfly from a remote source or a system package.
 class wildfly::install {
   if $wildfly::package_name {
-    package { $wildfly::package_name :
-      ensure => $wildfly::package_version,
+    if $wildfly::dnf_group_install {
+      if $wildfly::dnf_group_install_eap_home {
+        $install_options = ["EAP_HOME=${wildfly::dnf_group_install_eap_home}"]
+      } else {
+        $install_options = []
+      }
+      yum::group { $wildfly::package_name:
+        ensure          => 'present',
+        timeout         => $wildfly::dnf_group_install_timeout,
+        install_options => $install_options,
+      }
+    } else {
+      package { $wildfly::package_name :
+        ensure => $wildfly::package_version,
+      }
     }
   } else {
     $install_file = "wildfly-${wildfly::version}.Final.tar.gz"

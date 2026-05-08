@@ -12,45 +12,74 @@
 
 ## Table of Contents
 
-1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with wildfly](#setup)
-    * [What wildfly affects](#what-wildfly-affects)
-    * [Setup requirements](#setup-requirements)
-4. [Upgrade](#upgrade)
-    * [to 1.2.0](#to-120)
-    * [to 2.0.0](#to-200)
-    * [to 2.1.0](#to-210)
-5. [Usage - Configuration options and additional functionality](#usage)
-    * [Wildfly 25.0.0](#wildfly-2500)
-    * [Wildfly 23.0.2](#wildfly-2302)
-    * [Wildfly 10.1.0](#wildfly-1010)
-    * [Wildfly 9.0.2](#wildfly-902)
-    * [Wildfly 8.2.1](#wildfly-821)
-    * [JBoss EAP 6.x (with hiera)](#jboss-eap-6x-with-hiera)
-    * [JBoss EAP 7.0](#jboss-eap-70)
-    * [Keycloak](#keycloak)
-    * [apiman](#apiman)
-    * [Infinispan Server](#infinispan-server)
-    * [Wildfly's Configuration Management](#wildflys-configuration-management)
-    * [Patch management](#patch-management)
-    * [Unmanaged installation](#unmanaged-installation)
-    * [Domain Mode](#domain-mode)
-    * [Java Virtual Machine options](#java-virtual-machine-options)
-    * [Deployment](#deployment)
-    * [User management](#user-management)
-    * [Module installation](#module-installation)
-    * [Datasources](#datasources)
-    * [HTTPS/SSL](#httpsssl)
-    * [Management over HTTPS/SSL](#mgmtssl)
-    * [Server reload](#server-reload)
-    * [Messaging](#messaging)
-    * [Logging](#logging)
-    * [Modcluster](#modcluster)
-    * [JGroups](#jgroups)
-6. [Limitations - OS compatibility, etc.](#limitations)
-7. [Development - Guide for contributing to the module](#development)
-8. [Documentation](#documentation)
+- [wildfly](#wildfly)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Module Description](#module-description)
+  - [Setup](#setup)
+    - [What wildfly affects](#what-wildfly-affects)
+    - [Setup Requirements](#setup-requirements)
+  - [Upgrade](#upgrade)
+  - [to 1.2.0](#to-120)
+    - [wildfly class](#wildfly-class)
+    - [New dependency](#new-dependency)
+    - [Defined types](#defined-types)
+  - [to 2.0.0](#to-200)
+  - [to 2.1.0](#to-210)
+  - [Usage](#usage)
+    - [Wildfly 25.0.0](#wildfly-2500)
+    - [Wildfly 23.0.2](#wildfly-2302)
+    - [Wildfly 10.1.0](#wildfly-1010)
+    - [Wildfly 9.0.2](#wildfly-902)
+    - [Wildfly 8.2.1](#wildfly-821)
+    - [JBoss EAP 6.x (with hiera)](#jboss-eap-6x-with-hiera)
+    - [JBoss EAP 7.0](#jboss-eap-70)
+    - [JBoss EAP from RHEL Subscriptions](#jboss-eap-from-rhel-subscriptions)
+    - [Keycloak](#keycloak)
+    - [apiman](#apiman)
+      - [Example](#example)
+    - [Infinispan Server](#infinispan-server)
+    - [Wildfly's Configuration Management](#wildflys-configuration-management)
+    - [Patch management](#patch-management)
+      - [Offline](#offline)
+        - [EAP/Offline example](#eapoffline-example)
+      - [Online](#online)
+        - [Wildfly/Online example](#wildflyonline-example)
+    - [Unmanaged installation](#unmanaged-installation)
+    - [Domain Mode](#domain-mode)
+      - [Master (Domain Controller)](#master-domain-controller)
+      - [Slave (Host Controller)](#slave-host-controller)
+      - [Domain Management](#domain-management)
+      - [Custom Java options](#custom-java-options)
+    - [Java Virtual Machine options](#java-virtual-machine-options)
+    - [Deployment](#deployment)
+      - [From a local or remote source](#from-a-local-or-remote-source)
+      - [To a target server-group (domain mode)](#to-a-target-server-group-domain-mode)
+      - [From nexus](#from-nexus)
+    - [User management](#user-management)
+    - [Module installation](#module-installation)
+    - [Datasources](#datasources)
+    - [HTTPS/SSL](#httpsssl)
+      - [Wildfly 8+](#wildfly-8)
+      - [JBoss AS7/EAP 6](#jboss-as7eap-6)
+      - [Sample identity store configuration with `puppetlabs-java_ks`](#sample-identity-store-configuration-with-puppetlabs-java_ks)
+    - [Management over HTTPS/SSL](#management-over-httpsssl)
+      - [Basic use with a self signed certificate](#basic-use-with-a-self-signed-certificate)
+      - [Providing your own certificate](#providing-your-own-certificate)
+      - [Unmanaged keystores](#unmanaged-keystores)
+    - [Server Reload](#server-reload)
+    - [Messaging](#messaging)
+    - [Logging](#logging)
+    - [System Property](#system-property)
+    - [Modcluster](#modcluster)
+    - [JGroups](#jgroups)
+  - [Limitations](#limitations)
+  - [Development](#development)
+    - [Testing](#testing)
+    - [New features](#new-features)
+  - [Author/Contributors](#authorcontributors)
+  - [Documentation](#documentation)
+  - [Transfer Notice](#transfer-notice)
 
 ## Overview
 
@@ -229,6 +258,19 @@ class { 'wildfly':
 }
 ```
 
+### JBoss EAP from RHEL Subscriptions
+
+Please note that RedHat recommends to run `yum groupinstall`.
+
+Therefore the [puppet-yum](https://github.com/voxpupuli/puppet-yum) Module is needed to make use of this installation method.
+
+```puppet
+class { 'wildfly':
+  package_name      => 'jboss-eap7',
+  dnf_group_install => true,
+  timeout           => 4500, # default: 600
+}
+```
 
 ### Keycloak
 
