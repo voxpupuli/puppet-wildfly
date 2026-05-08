@@ -143,6 +143,9 @@ The following parameters are available in the `wildfly` class:
 * [`user`](#-wildfly--user)
 * [`user_home`](#-wildfly--user_home)
 * [`version`](#-wildfly--version)
+* [`dnf_group_install`](#-wildfly--dnf_group_install)
+* [`dnf_group_install_timeout`](#-wildfly--dnf_group_install_timeout)
+* [`dnf_group_install_eap_home`](#-wildfly--dnf_group_install_eap_home)
 * [`process_controller_java_opts`](#-wildfly--process_controller_java_opts)
 * [`host_controller_java_opts`](#-wildfly--host_controller_java_opts)
 
@@ -611,6 +614,30 @@ Data type: `Pattern[/^(\d{1,}\.\d{1,}(\.\d{1,})?$)/]`
 Sets the Wildfly version managed in order to handle small differences among versions.
 
 Default value: `'9.0.2'`
+
+##### <a name="-wildfly--dnf_group_install"></a>`dnf_group_install`
+
+Data type: `Boolean`
+
+Whether to use dnf group install for installing EAP. Only needed for RHEL jboss-eap distribution
+
+Default value: `false`
+
+##### <a name="-wildfly--dnf_group_install_timeout"></a>`dnf_group_install_timeout`
+
+Data type: `Integer`
+
+Timeout for dnf group install. Only needed for RHEL jboss-eap distribution
+
+Default value: `600`
+
+##### <a name="-wildfly--dnf_group_install_eap_home"></a>`dnf_group_install_eap_home`
+
+Data type: `Stdlib::Unixpath`
+
+The EAP_HOME to be used for dnf group install.
+
+Default value: `'/opt/rh/eap7/root/usr/share/wildfly'`
 
 ##### <a name="-wildfly--process_controller_java_opts"></a>`process_controller_java_opts`
 
