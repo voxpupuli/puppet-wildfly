@@ -60,6 +60,20 @@ describe 'wildfly::install' do
         it { is_expected.to contain_class('wildfly::install') }
         it { is_expected.to contain_package('wildfly').with('ensure' => '10.1.0') }
       end
+
+      context 'install wildfly from RHEL subscription' do
+        if os_facts[:os]['name'] == 'RedHat'
+          let :pre_condition do
+            "class { 'wildfly':
+              package_name    => 'jboss-eap7',
+              dnf_group_install => true,
+            }"
+          end
+
+          it { is_expected.to contain_class('wildfly::install') }
+          it { is_expected.to contain_yum__group('jboss-eap7').with('timeout' => 600) }
+        end
+      end
     end
   end
 end
