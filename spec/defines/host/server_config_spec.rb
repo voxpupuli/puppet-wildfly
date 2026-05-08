@@ -20,7 +20,7 @@ describe 'wildfly::host::server_config' do
           {
             :fqdn => 'appserver.localdomain',
             :wildfly_is_running => true,
-          }
+          },
         )
       end
       let(:pre_condition) { 'include wildfly' }
@@ -51,7 +51,7 @@ describe 'wildfly::host::server_config' do
             it do
               is_expected.to contain_wildfly_cli("/host=appserver.localdomain/server-config=#{title}:start(blocking=true)")
                 .with({
-                  :onlyif => "(result != STARTED) of /host=appserver.localdomain/server-config=#{title}:read-attribute(name=status)"
+                  :onlyif => "(result != STARTED) of /host=appserver.localdomain/server-config=#{title}:read-attribute(name=status)",
                 })
             end
           end
@@ -82,7 +82,7 @@ describe 'wildfly::host::server_config' do
             is_expected.to contain_wildfly_cli("/host=appserver.localdomain/server-config=#{title}:stop(blocking=true)")
               .with({
                   :skip_absent => true,
-                  :onlyif => "(result != STOPPED) of /host=appserver.localdomain/server-config=#{title}:read-attribute(name=status)"
+                  :onlyif => "(result != STOPPED) of /host=appserver.localdomain/server-config=#{title}:read-attribute(name=status)",
                 })
 
             is_expected.to contain_wildfly_resource("/host=appserver.localdomain/server-config=#{title}")

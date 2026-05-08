@@ -5,7 +5,7 @@ module PuppetX
     class OperationBuilder
       def initialize
         @detyped_request = {
-          :address => []
+          :address => [],
         }
       end
 
@@ -50,7 +50,7 @@ module PuppetX
 
       def add_content(name, source)
         @detyped_request[:operation] = :add
-        @detyped_request[:content] = [:url => "file:#{source}"]
+        @detyped_request[:content] = [{ :url => "file:#{source}" }]
         @detyped_request[:address] << { :deployment => name }
         self
       end

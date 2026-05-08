@@ -1096,7 +1096,7 @@ module Treetop
 	  end
 
         def inline_modules
-          (alternatives.map {|alt| alt.inline_modules }).flatten
+          alternatives.map {|alt| alt.inline_modules }.flatten
         end
 
         def inline_module
@@ -1211,7 +1211,7 @@ module Treetop
 	  end
 
         def inline_modules
-          (sequence_elements.map {|elt| elt.inline_modules}).flatten +
+          sequence_elements.map {|elt| elt.inline_modules}.flatten +
           [sequence_element_accessor_module] +
           parent_modules
         end

@@ -20,7 +20,7 @@ describe 'wildfly::service' do
             is_expected.to contain_service('wildfly').with(
               'ensure'     => true,
               'hasrestart' => true,
-              'hasstatus'  => true
+              'hasstatus'  => true,
             )
           end
           it { is_expected.to contain_file('/etc/init.d/wildfly').with_source('/opt/wildfly/bin/init.d/wildfly-init-redhat.sh') }
@@ -38,7 +38,7 @@ describe 'wildfly::service' do
               'ensure'     => true,
               'enable'     => true,
               'hasrestart' => true,
-              'hasstatus'  => true
+              'hasstatus'  => true,
             )
           end
 

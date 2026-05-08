@@ -30,7 +30,7 @@ module PuppetX
       end
 
       def should
-        _deep_transform_values_in_object(super) { |value| value == :undef ? nil : value }
+        _deep_transform_values_in_object(super) { |value| (value == :undef) ? nil : value }
       end
 
       def insync?(is)
@@ -44,7 +44,7 @@ module PuppetX
         current_value = current_value.delete_if { |key, _| !changed_keys.include? key }.inspect
         new_value = new_value.delete_if { |key, _| !changed_keys.include? key }.inspect
 
-        super(current_value, new_value)
+        super
       end
     end
   end

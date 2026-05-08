@@ -63,7 +63,7 @@ module Treetop
       def inspect_self(indent="")
         em = extension_modules
         interesting_methods = methods-[em.last ? em.last.methods : nil]-self.class.instance_methods
-        im = interesting_methods.size > 0 ? " (#{interesting_methods.join(",")})" : ""
+        im = (interesting_methods.size > 0) ? " (#{interesting_methods.join(",")})" : ""
         tv = text_value
         tv = "...#{tv[-20..-1]}" if tv.size > 20
 
@@ -84,8 +84,8 @@ module Treetop
             rescue  # Defend against inspect not taking a parameter
               "\n"+indent+" "+e.inspect
             end
-          end.
-          join("")
+          end
+          .join("")
       end
 
       def inspect(indent="")

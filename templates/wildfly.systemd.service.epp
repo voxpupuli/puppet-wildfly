@@ -9,7 +9,7 @@ User=<%= $wildfly::user %>
 Group=<%= $wildfly::group %>
 EnvironmentFile=/etc/wildfly/wildfly.conf
 LimitNOFILE=102642
-ExecStart=<%= $wildfly::dirname %>/bin/launch.sh ${WILDFLY_MODE} ${WILDFLY_CONFIG}
+ExecStart=<%= $wildfly::dirname %>/bin/launch.sh ${WILDFLY_MODE} ${WILDFLY_CONFIG} -P ${WILDFLY_PROPERTIES}
 Restart=always
 RestartSec=20
 StandardOutput=null
