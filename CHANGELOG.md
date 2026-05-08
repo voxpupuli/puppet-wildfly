@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.1.0](https://github.com/voxpupuli/puppet-wildfly/tree/v5.1.0) (2026-05-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v5.0.0...v5.1.0)
+
+**Implemented enhancements:**
+
+- Allow installation from RHEL jboss-eap subscription [\#372](https://github.com/voxpupuli/puppet-wildfly/pull/372) ([tuxmea](https://github.com/tuxmea))
+
+**Closed issues:**
+
+- On RHEL systems dnf groupinstall should be used [\#371](https://github.com/voxpupuli/puppet-wildfly/issues/371)
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-wildfly/tree/v5.0.0) (2026-05-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v4.0.0...v5.0.0)
