@@ -14,7 +14,7 @@ Puppet::Type.newtype(:wildfly_resource) do
     isnamevar
 
     validate do |value|
-      raise("Invalid resource path #{value}") unless value =~ %r{(\/[\w\-]+=[\w\-]+)}
+      raise("Invalid resource path #{value}") unless value =~ %r{\A(?:/[\w.-]+=(?:[\w.:/-]+|"[^"\\]*(?:\\.[^"\\]*)*"))+\z}
     end
   end
 
@@ -44,7 +44,7 @@ Puppet::Type.newtype(:wildfly_resource) do
 
   newparam(:secure) do
     desc 'Use TLS to connect with the management API'
-    defaultto false 
+    defaultto false
   end
 
   newparam(:recursive) do
