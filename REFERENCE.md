@@ -359,7 +359,7 @@ Default value:
 ```puppet
 {
     username => 'puppet',
-    password => fqdn_rand_string(30),
+    password => stdlib::fqdn_rand_string(30),
   }
 ```
 

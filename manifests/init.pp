@@ -111,7 +111,7 @@ class wildfly (
   },
   Struct[{ username => String, password => String }] $mgmt_user                    = {
     username => 'puppet',
-    password => fqdn_rand_string(30),
+    password => stdlib::fqdn_rand_string(30),
   },
   Boolean                                            $dnf_group_install            = false,
   Integer                                            $dnf_group_install_timeout    = 600,
