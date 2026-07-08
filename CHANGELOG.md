@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.1.2](https://github.com/voxpupuli/puppet-wildfly/tree/v5.1.2) (2026-07-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v5.1.1...v5.1.2)
+
+**Merged pull requests:**
+
+- chore: switch to namespaced function [\#377](https://github.com/voxpupuli/puppet-wildfly/pull/377) ([tuxmea](https://github.com/tuxmea))
+
 ## [v5.1.1](https://github.com/voxpupuli/puppet-wildfly/tree/v5.1.1) (2026-07-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v5.1.0...v5.1.1)
