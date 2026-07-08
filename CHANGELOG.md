@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.1.3](https://github.com/voxpupuli/puppet-wildfly/tree/v5.1.3) (2026-07-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v5.1.2...v5.1.3)
+
+**Fixed bugs:**
+
+- Fix wildfly\_resource path validation regex [\#374](https://github.com/voxpupuli/puppet-wildfly/pull/374) ([g42-dev](https://github.com/g42-dev))
+
 ## [v5.1.2](https://github.com/voxpupuli/puppet-wildfly/tree/v5.1.2) (2026-07-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-wildfly/compare/v5.1.1...v5.1.2)
