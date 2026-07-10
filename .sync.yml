@@ -1,2 +1,3 @@
-.github/workflows/ci.yml:
-  acceptance_tests: false
+---
+spec/spec_helper_acceptance.rb:
+  unmanaged: false
