@@ -3432,4 +3432,3 @@ Alias of `Enum['wildfly', 'jboss-eap']`
 The Wildfly::Mode data type.
 
 Alias of `Enum['standalone', 'domain']`
-
